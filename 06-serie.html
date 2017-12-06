@@ -1,0 +1,2257 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<link rel="stylesheet" HREF="red_cz.css">
+<title>Chapter 6 - Series</title>
+
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="05-skripty.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="07-bloky.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+</head>
+
+<body bgcolor="beige">
+
+<center>
+<table width="660" cellpadding="4" cellspacing="0" border="0">
+<tr><td>
+<h1>Kapitola 6 - Řady</h1>
+
+
+
+<h2>Obsah:</h2>
+<a href="#section-1">1. Přehled řad</a><br>
+<a href="#section-1.1">1.1 Základní rozdělení</a><br>
+<a href="#section-1.2">1.2 Blokové typy</a><br>
+<a href="#section-1.3">1.3 Řetězcové typy</a><br>
+
+<a href="#section-2">2. Organizace řady</a><br>
+<a href="#section-2.1">2.1 Délka</a><br>
+<a href="#section-2.2">2.2 Čelo</a><br>
+<a href="#section-2.3">2.3 Chvost</a><br>
+<a href="#section-2.4">2.4 Index</a><br>
+<a href="#section-2.5">2.5 Odsazení</a><br>
+
+<a href="#section-3">3. Manipulace s řadami</a><br>
+<a href="#section-3.1">3.1 Procházení řadami</a><br>
+<a href="#section-3.2">3.2 Přeskakování</a><br>
+<a href="#section-3.3">3.3 Vyjímání hodnot</a><br>
+<a href="#section-3.4">3.4 Vyjímání sub-řad</a><br>
+<a href="#section-3.5">3.5 Vkládání a připojování</a><br>
+<a href="#section-3.6">3.6 Odebírání hodnot</a><br>
+<a href="#section-3.7">3.7 Změna hodnot</a><br>
+
+<a href="#section-4">4. Funkce řad</a><br>
+<a href="#section-4.1">4.1 Tvořící funkce</a><br>
+<a href="#section-4.2">4.2 Navigační funkce</a><br>
+<a href="#section-4.3">4.3 Informační funkce</a><br>
+<a href="#section-4.4">4.4 Extrakční funkce</a><br>
+<a href="#section-4.5">4.5 Modifikační funkce</a><br>
+<a href="#section-4.6">4.6 Vyhledávací funkce</a><br>
+<a href="#section-4.7">4.7 Pořadné funkce</a><br>
+<a href="#section-4.8">4.8 Množinové funkce</a><br>
+<a href="#section-4.9">4.9 Ověřovací funkce</a><br>
+
+<a href="#section-5">5. Vytvoření a kopírování řad</a><br>
+<a href="#section-5.1">5.1 Prostá kopie</a><br>
+<a href="#section-5.2">5.2 Mělká kopie</a><br>
+<a href="#section-5.3">5.3 Hluboká kopie</a><br>
+<a href="#section-5.4">5.4 Částečná kopie</a><br>
+<a href="#section-5.5">5.5 Počáteční kopie</a><br>
+
+<a href="#section-6">6. Iterace řad</a><br>
+<a href="#section-6.1">6.1 Smyčka foreach</a><br>
+<a href="#section-6.2">6.2 Smyčka while</a><br>
+<a href="#section-6.3">6.3 Smyčka forall</a><br>
+<a href="#section-6.5">6.5 Funkce break</a><br>
+
+<a href="#section-7">7. Prohledávání řad</a><br>
+<a href="#section-7.1">7.1 Funkce find</a><br>
+<a href="#section-7.2">7.2 Upřesnění funkce find</a><br>
+<a href="#section-7.3">7.3 Upřesnění part</a><br>
+<a href="#section-7.4">7.4 Upřesnění tail</a><br>
+<a href="#section-7.5">7.5 Zpětné hledání</a><br>
+<a href="#section-7.6">7.6 Upřesnění match</a><br>
+<a href="#section-7.7">7.7 Hledání s žolíkem</a><br>
+<a href="#section-7.8">7.8 Opakované hledání</a><br>
+<a href="#section-7.9">7.9 Funkce select</a><br>
+<a href="#section-7.10">7.10 Hledání a výměna</a><br>
+
+<a href="#section-8">8. Třídění řad</a><br>
+<a href="#section-8.1">8.1 Jednoduché třídění</a><br>
+<a href="#section-8.2">8.2 Skupinové třídění</a><br>
+<a href="#section-8.3">8.3 Relační funkce</a><br>
+
+<a href="#section-9">9. Řady a množiny</a><br>
+<a href="#section-9.1">9.1 Funkce unique</a><br>
+<a href="#section-9.2">9.2 Funkce intersect</a><br>
+<a href="#section-9.3">9.3 Funkce union</a><br>
+<a href="#section-9.4">9.4 Funkce exclude</a><br>
+<a href="#section-9.5">9.5 Funkce difference</a><br>
+
+<a href="#section-10">10. Vícečetné proměnné</a><br>
+
+<a href="#section-11">11. Modifikační upřesnění</a><br>
+<a  href="#section-11.1">11.1 Part</a><br>
+<a  href="#section-11.2">11.2 Only</a><br>
+<a  href="#section-11.3">11.3 Dup</a><br>
+
+<h2 id="section-1">1. Přehled řad</h2>
+<blockquote>
+
+<p>Koncept řad (series) je používaný téměř ve všech útvarech Redu. Abychom pochopili Red, je nutné pochopit vytváření řad a manipulaci s nimi.</p>
+
+<p>Slovo <tt>series!</tt> je označení supertypu, zahrnujícího tyto základní datové typy: <tt> binary! block! file! hash! image! <!--issue!--> paren! path! string! url! vector! tag!</tt> (plus <tt>get-path! lit-path! set-path!</tt>).</p>
+<p>Všechny tyto datové typy lze rozdělit do několika mezilehlých nadřazených 'pseudotypů': any-blok (zahrnuje any-path) a any-string.</p>
+</blockquote>
+
+<h3 id="section-1.1">1.1 Základní rozdělení</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+<tr bgcolor="silver">
+<th align="left"><p>Pseudo-typ</p></th>
+<th align="left"><p>Popis</p></td></tr>
+
+<tr><td valign="top" bgcolor="white"><p><b>Series!</b></p></td><>
+<td valign="top" bgcolor="white"><p>Zahrnuje pseudotypy any-block! a any-string!</p></td></tr>
+
+<tr><td valign="top" bgcolor="white"><p><b>Any-path!</b></p></td>
+<td valign="top" bgcolor="white">
+<p>Zahrnuje typy path!, get-path!, lit-path! a get-path!.</p></td></tr>
+<tr><td valign="top" bgcolor="white">
+<p><b>Any-block!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Zahrnuje typy: block!, hash!, paren!, vector! a pseudotyp any-path!</p>
+</td></tr>
+<tr><td valign="top" bgcolor="white">
+<p><b>Any-string!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Zahrnuje typy: binary!, email!, file!, image!, tag!,string!, url!</p>
+</td></tr>
+</table>
+</blockquote>
+<h3 id="section-1.2">1.2 Blokové typy</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+        <tr bgcolor="silver"><th align="left">
+<p>Typ bloku</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>Block!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Bloky hodnot</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>Paren!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Bloky hodnot v kulatých závorkách</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>Path!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Cesty hodnot</p>
+</td>
+</tr>
+<tr><td valign="top" bgcolor="white">
+<p><b>Hash!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Associative arrays</p>
+</td></tr>
+<tr><td valign="top" bgcolor="white">
+<p><b>Vector!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Blok se stejným typem hodnot</p>
+</td>
+</tr>
+</table>
+</blockquote>
+<h3 id="section-1.3">1.3 Řetězcové typy</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+        <tr bgcolor="silver"><th align="left">
+<p>Typ řetězce</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>String!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Řetězce znaků</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>Binary!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Řetězce bajtů</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>Tag!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Tagy HTML a XML</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>File!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Názvy souborů</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>URL!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Internetové (uniform resource locators) adresy</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>Email!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Emailové adresy</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>Image!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Data zobrazení</p>
+</td>
+</tr><!--
+<tr><td valign="top" bgcolor="white">
+<p><b>Issue!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Sekvenční kódy <ii>dosud nezařazeno</ii></p>
+</td></tr>-->
+</table>
+</blockquote>
+
+<h2 id="section-2">2. Organizace řady</h2>
+<blockquote>
+<p>Řada je indexovaná množina hodnot. Číslování položek začíná číslicí 1 na první pozici, označované jako <b>head</b> (čelo).<br>Poslední (nečíslovanou) pozicí je prázdné pole, zvané <b>tail</b> (chvost). Číslování končí před chvostem.</p>
+<p>Kromě tohoto statického uspořádání existuje v mechanizmu řady interní útvar (někdy zvaný <tt>iterátor</tt>), jehož součástí je takzvané <tt>ukazovátko</tt> neboli <b>index</b>, které se může libovolně posouvat pomocí navigačních funkcí (viz) od čela až po chvost včetně. Implicitní postavení ukazovátka je v 1. pozici v čele.
+</p>
+</blockquote>
+<h3 id="section-2.1">2.1 Délka</h3>
+<blockquote>
+<p>Délka (length) řady je počet položek (hodnot u bloku a znaků u řetězce) od <tt>aktuální</tt> pozice ukazovátka až po chvost (<tt>tail</tt>) řady. Je-li ukazovátko v čele (<tt>head</tt>) řady, potom je délkou počet všech členů řady.</p>
+</p>
+<p>Funkce <b><tt>length?</tt></b> vrací počet položek od <b>aktuální</b> pozice ukazovátka (inklusivně) až po chvost (exklusivně).</p>
+<pre>
+colors: [blue red green]
+length? colors
+<span class="put">3</span>
+</pre>
+
+<p align="center"><img src="images/rebolcore-36.gif"></p>
+<p>Je-li pozice <tt>indexu</tt> nastavena (redefinicí) na další hodnotu:</p>
+<pre>
+colors: next colors            <ii>redefinice - nová deklarace stávající proměnné</ii>
+length? colors
+<span class="put">== 2</span>
+</pre>
+<p>změní se délka na dvě: </p>
+<p align="center"><img src="images/rebolcore-37.gif"></p>
+<p>ale zůstává povědomí o původním čele:</p>
+<pre>
+head? colors
+<span class="put">== false</span>
+</pre>
+</p><br>
+<b>Důležitá poznámka:</b><br>
+<p><tt>Ukazovátko lze přemístit pouze u pojmenované řady a to redeklarací jejího názvu, přičemž lze ponechat původní název nebo zvolit nový.<br>
+Obě takto vytvořené proměnné jsou schopny reflektovat úplnou hodnotu původní proměnné.</tt></p>
+<p>Ukážeme si to na příkladě:</p>
+<pre>
+head colors
+<span class="put">== [blue red green]</span>       <ii>původní hodnotu máme v záloze</ii>
+colors
+<span class="put">== [red green]</span>            <ii>ale index máme na dvojce</ii>
+colors: head colors
+<span class="put">== [blue red green]</span>       <ii>čelo nám vrátí nová deklarace</ii>     
+</pre>
+
+<!--
+<p>Další příklady pro funkci length?:</p>
+<pre>
+print length? "Ukiah"
+<span class="put">5</span>
+print length? []
+<span class="put">0</span>
+print length? ""
+<span class="put">0</span>
+data: [1 2 3 4 5 6 7 8]
+print length? data
+<span class="put">8</span>
+data: next data
+print length? data
+<span class="put">7</span>
+data: skip data 5
+print length? data
+<span class="put">2</span>
+</pre>-->
+</blockquote>
+<h3 id="section-2.2">2.2 Čelo</h3>
+<blockquote>
+<p>Čelo (head) řady je pozice její první hodnoty. 
+Je-li ukazovátko nastaveno na čelo (imlicitní postavení), vrátí funkce <tt>head?</tt> hodnotu "true":</p>
+<pre>
+data: [1 2 3 4 5]
+head? data
+<span class="put">true</span>
+data: next data
+head? data
+<span class="put">false</span>
+</pre>
+</blockquote>
+<h3 id="section-2.3">2.3 Chvost</h3>
+<blockquote>
+<p>Chvost (tail) řady je pozice prázdného pole bezprostředně za poslední hodnotou řady. Je-li ukazovátko nastaveno na chvost, vrátí funkce <tt>tail?</tt> hodnotu "true":</p>
+<pre>
+data: [1 2 3 4 5]       <ii>deklarace pojmenované řady</ii>
+tail? data
+<span class="put">== false</span>                <ii>index je implicitně na počátku</ii>
+pata: tail data         <ii>nová deklarace řady</ii>
+<span class="put">== []</span>
+head pata
+<span class="put">== [1 2 3 4 5]</span>          <ii>pata zná všechna svá data</ii>         
+pata                     
+<span class="put">== []</span>                   <ii>ale má index ve chvostu</ii>
+</pre>
+<p>Funkce <tt>empty?</tt> je ekvivalentní funkci
+<tt>tail?</tt>.</p>
+<pre>
+empty? data
+<span class="put">true</span>
+</pre>
+<p>Vrací-li funkce <tt>empty?</tt> hodnotu <tt>true</tt>, znamená to, že mezi aktuální pozicí ukazovátka a chvostem nejsou žádné hodnoty, což ovšem neznamená, že nejsou žádné hodoty před ukazovátkem. Potřebujem-li zjistit, zda je řada prázdná od čela ke chvostu, použijeme:</p>
+<pre>
+empty? head data
+<span class="put">false</span>                   <ii>což znamená, že prázdná není</ii>
+</pre>
+</blockquote>
+<h3 id="section-2.4">2.4 Index</h3>
+<blockquote>
+<p>Index je pozice položky od čela řady. Chceme-li určit aktuální polohu ukazovátka, použijeme funkci <tt>index?</tt>:</p>
+<pre>
+data: [1 2 3 4 5]
+index? data
+<span class="put">1</span>
+data: next data         <ii>ukazovátko posunuto o 1 místo vpravo</ii>
+index? data
+<span class="put">2</span>
+data: tail data         <ii>ukazovátko posunuto na chvost</ii>
+index? data
+<span class="put">6</span>
+</pre>
+<p>Všimáme si, že trvalou změnu indexu zařídíme redefinicí proměnné, která na předmětnou řadu  ukazuje.</p>
+</blockquote>
+<h3 id="section-2.5">2.5 Odsazení</h3>
+<blockquote>
+<p>Vzdálenost mezi dvěmi pozicemi řady (offset) lze zjistit pomocí funkce <tt>offset?</tt>.</p>
+<pre>
+data: [1 2 3 4]
+data1: next data
+data2: back tail data
+offset? data1 data2
+<span class="put">== 2</span>
+</pre>
+<p>Offsetem v tomto případě je rozdíl mezi pozicí 2 a pozicí 4:</p>
+<p align="center"><img src="images/rebolcore-38.gif"></p>
+<p>Právě prezentované zkoumání lze také provést jednodušeji:</p>
+<pre>
+offset? (next data) (back tail data)
+<span class="put">== 2</span>
+</pre>
+</blockquote>
+<br>
+<h2 id="section-3">3. Manipulace s řadami</h2>
+<blockquote>
+<p>Na příkladu některých typů vidíme, že jejich společným rysem je výčet kompozitních hodnot s pevným umístěním v řadě:</p>
+<pre>
+bnr: #{3A189256}           ; binary
+blk: [bim bam bum]         ; block 
+prn: (5 "osel" [] true)    ; paren
+pth: %src/proj/bin         ; path
+str: "phantom"             ; string
+url:  http://www.rebol.com/reboldoc.html
+</pre>
+<p>Manipulace s řadami bude předvedena na útvaru typu <tt>block!</tt>. Nutno vzít v úvahu, že každý z uvedených typů může mít svá specifika.</p>
+</blockquote>
+<h3 id="section-3.1">3.1 Procházení řadami</h3>
+<blockquote>
+<p>Protože je řada uspořádaná množina hodnot, lze přecházet od jedné pozice k druhé. Jako příklad si vezměme řadu tří barev, definovanou v následujícím bloku:</p>
+<pre>
+colors: [red green blue]
+</pre>
+<p>První pozice v bloku se nazývá <tt>head</tt> (čelo). Poslední pozice bloku se nazývá <tt>tail</tt> (chvost). Tato pozice zaujímá místo za posledním definovaným slovem bloku. Grafické zobrazení bloku může vypadat takto:</p>
+<p align="center"><img src="images/rebolcore-11.gif"></p>
+<p>Vidíme, že chvost je až za koncem bloku. Důležitost tohoto uspořádání se ozřejmí později.</p>
+<p>Proměnná <tt>colors</tt> odkazuje vždy na konkretní místo v bloku, implicitně na čelo bloku:</p>
+<p align="center"><img src="images/rebolcore-12.gif"></p>
+<p>Zda je ukazovátko na začátku bloku zjistíme dotazovací funkcí:</p> 
+
+<pre>
+head? colors
+<span class="put">true</span>
+</pre>
+<p>Proměnná <tt>colors</tt> tedy odkazuje na první pozici bloku, což lze také ověřit jinou dotazovací funkcí:</p>
+<pre>
+index? colors
+<span class="put">1</span>
+</pre>
+<p>Délka bloku je tři:</p>
+<pre>
+length? colors
+<span class="put">3</span>
+</pre>
+<p>První položkou bloku je:</p>
+<pre>
+first colors
+<span class="put">red</span>
+</pre>
+<p>Druhou položkou bloku je:</p>
+<pre>
+second colors
+<span class="put">green</span>
+</pre>
+<p>Všimněte si rozdílu mezi příkazy:
+<pre>
+next colors
+<span class="put">[green blue]</span>      <ii> zobrazení řady začíná na označené pozici</ii>
+
+print next colors
+<span class="put">0.255.0 0.0.255</span>   <ii>; příkaz <tt>print</tt> zobrazí některá slova jako literály</ii>
+</pre>
+</p>
+<p>Přesun na další pozici bloku zajistí redefinice proměnné <tt>colors</tt>:</p>
+<pre>
+colors: next colors
+<span class="put">[green blue]</span>
+</pre>
+<p>Nyní ukazovátko ukazuje na druhou pozici bloku:</p>
+<p align="center"><img src="images/rebolcore-13.gif"></p>
+<p>Jak již víme, původní definici bloku si prostředí Redu pamatuje a stále zůstává ve hře.
+Ukazovátko proměnné <tt>colors</tt> již ale neukazuje na čelo bloku:</p>
+<pre>
+head? colors
+<span class="put">false</span>
+</pre>
+<p>nýbrž na druhou pozici,</p>
+<pre>
+index? colors
+<span class="put">2</span>
+</pre>
+<p>která je pro nově deklarovanou proměnnou vedena jako první:</p>
+<pre>
+first colors
+<span class="put">green</span>               
+</pre>
+<p>Upravená řada nemá čelo (head? colors --&gt; == false) ale to stále exisuje pro původní definici</p>
+<pre>
+head colors
+<span class="put">== [red green blue]</span>
+</pre>
+<p>Délka bloku bloku <tt>colors</tt> je nyní:</p>
+<pre>
+length? colors
+<span class="put">2</span>
+</pre>
+<p>Hodnotu další barvy vydolujeme příkazem</p>
+<pre>
+second colors
+<span class="put">blue</span>
+</pre>
+<p>Můžeme se posunout na další pozici a získat podobné výsledky:</p>
+<pre>
+colors: next colors
+<span class="put">== blue</span>
+index? colors
+<span class="put">3</span>
+first colors
+<span class="put">blue</span>
+length? colors
+<span class="put">1</span>
+</pre>
+<p>Schéma bloku nyní vypadá takto:</p>
+<p align="center"><img src="images/rebolcore-14.gif"></p>
+<p>Proměnná <tt>colors</tt> nyní odkazuje na poslední barvu bloku ale dosud ne na chvostovou pozici.</p>
+<pre>
+tail? colors
+<span class="put">false</span>
+</pre>
+<p>Abychom se dostali na chvost, musíme se ještě posunout:
+</p>
+<pre>
+colors: next colors
+<span class="put">[]</span>
+</pre>
+<p>Nyní ukazuje proměnná <tt>colors</tt> přímo do chvostu bloku.</p>
+<p align="center"><img src="images/rebolcore-15.gif"></p>
+<p>Aplikací známých funkcí dostáváme:</p>
+<pre>
+tail? colors
+<span class="put">true</span>
+index? colors
+<span class="put">4</span>
+length? Colors
+<span class="put">0</span>
+first colors
+<span class="put">== none</span>
+</pre>
+<p>Má-li blok nulovou délku, nemá žádný první (druhý, ...) člen.</p>
+<p>Je také možné, vracet se v bloku zpátky. Napíšeme-li:</p>
+<pre>
+colors: back colors               <ii>redefinice!</ii>
+</pre>
+<p>přesuneme ukazovátko proměnné <tt>colors</tt> o jednu pozici zpět:</p>
+<p align="center"><img src="images/rebolcore-16.gif"></p>
+<p>Stejný kód bude pracovat jako předtím:</p>
+<pre>
+index? colors
+<span class="put">3</span>
+first colors
+<span class="put">blue</span>
+</pre>
+</blockquote>
+
+<h3 id="section-3.2">3.2 Přeskakování</h3>
+<blockquote>
+<p>V předcházejících příkladech jsme posouvali ukazovátko o jedno místo vpřed či vzad. Někdy je však zapotřebí vyvolat výraznější posun. K tomu se používá funkce <tt>skip</tt>. Předpokládejme, že proměnná <tt>colors</tt> ukazuje na čelo bloku:</p>
+<p align="center"><img src="images/rebolcore-17.gif"></p>
+<p>Přesun o dvě místa vpřed způsobíme novou deklarací proměnné:</p>
+<pre>
+colors: skip colors 2
+</pre>
+<p></p>
+<p align="center"><img src="images/rebolcore-18.gif"></p>
+<p>Novou pozici potvrzují tyto kódy:</p>
+<pre>
+index? colors
+<span class="put">3</span>
+first colors
+<span class="put">blue</span>
+</pre>
+<p>Posun zpět o jednu pozici způsobíme deklarací:</p>
+<pre>
+colors: back colors
+<ii>případně</ii>
+colors: skip colors -1
+</pre>
+<p align="center"><img src="images/rebolcore-19.gif"></p>
+<pre>
+first colors
+<span class="put">green</span>
+</pre>
+<p>Příkaz ke skoku před čelo nebo za chvost není respektován a místo něj se provede přesud do čela nebo chvostu:</p>
+<pre>
+colors: skip colors 20
+<span class="put">[]</span>
+tail? colors
+<span class="put">true</span>
+</pre>
+<pre>
+colors: skip colors -100
+<span class="put">[red green blue]</span>
+head? colors
+<span class="put">true</span>
+</pre>
+<p>Pro skok přímo do čela řady použijeme deklaraci:</p>
+<pre>
+colors: head colors
+
+head? colors
+<span class="put">true</span>
+first colors
+<span class="put">red</span>
+</pre>
+<p>Podobně lze adresovat přímo chvost řady:</p>
+<pre>
+colors: tail colors
+
+tail? colors
+<span class="put">true</span>
+</pre>
+</blockquote>
+
+<h3 id="section-3.3">3.3 Vyjímání hodnot</h3>
+<blockquote>
+<p>V některých předchozích příkladech byly použity <tt>ordinální (pořadové)</tt> funkce <tt>first</tt> a <tt>second</tt> k výpisu určitých hodnot v řadě. Úplný výčet těchto funkcí je tento:</p>
+<pre>
+first
+second
+third
+fourth
+fifth
+last
+</pre>
+<p>Ordinální funkce se používají při výběru z nejobvyklejších pozic v řadě. Zde je několik příkladů:</p>
+<pre>
+colors: [red green blue gold indigo teal]
+
+first colors
+<span class="put">red</span>
+third colors
+<span class="put">blue</span>
+fifth colors
+<span class="put">indigo</span>
+last colors
+<span class="put">teal</span>
+</pre>
+<p>Při uvedení číselné pozice se použije funkce <tt>pick</tt>:</p>
+<pre>
+pick colors 3
+<span class="put">blue</span>
+pick colors 5
+<span class="put">indigo</span>
+</pre>
+<p>Zkrácený zápis používá formu <tt>path</tt>:</p>
+<pre>
+colors/3
+<span class="put">blue</span>
+colors/5
+<span class="put">indigo</span>
+</pre>
+<p>Je třeba si pamatovat, že výběr se provádí relativně k aktuálně platné pozici ukazovátka.</p>
+<p>Vyjímání hodnoty mimo pole řady generuje chybu u ordinálních funkcí a vrací hodnotu <tt>none</tt> v případě funkce <tt>pick</tt> nebo formy <tt>path</tt>:</p>
+<pre>
+pick colors 10
+<span class="put">none</span>
+colors/10
+<span class="put">none</span>
+</pre>
+</blockquote>
+
+<h3 id="section-3.4">3.4 Vyjímání sub-řad</h3>
+<blockquote>
+<p>Je možné vyjmout více hodnot z řady najednou s použitím idiomu <tt>copy/part</tt>, kde část <tt>/part</tt> je upřesnění (<tt>refinement</tt>) funkce <tt>copy</tt>:</p>
+<pre>
+colors: [red green blue]
+
+sub-colors: copy/part colors 2     <ii>chceme první dva prvky řady</ii>
+<span class="put">[red green]</span>
+</pre>
+<p>Graficky by to mohlo vypadat takto:</p>
+<p align="center"><img src="images/rebolcore-20.gif"></p>
+<p>Číslice udává počet kopírovaných prvků. Nemá-li výběr začínat v čele, je nutné to uvést:</p>
+<pre>
+sub-colors: copy/part next colors 2   <ii> výchozí pozicí je green</ii>
+<span class="put">[green blue]</span>
+</pre>
+<p>Což lze ilustrovat takto:</p>
+<p align="center"><img src="images/rebolcore-21.gif"></p>
+<p>Délka kopírované sub-řady může být také definovaná její konečnou pozicí. Kopírování končí před určenou pozicí.</p>
+<pre>
+copy/part colors (next colors)        <ii>závorky lze nepoužít</ii>
+<span class="put">[red]</span>
+copy/part colors (back tail colors)   <ii>dtto</ii>  
+<span class="put">[red green]</span>
+copy/part next colors back tail colors
+<span class="put">[green]</span>
+</pre>
+<p>To může být užitečné, když konečná pozice je nalezena jako vratná hodnota funkce <tt>find</tt>:</p>
+<pre>
+file: %image.jpg
+
+copy/part file find file "."
+<span class="put">image</span>
+</pre>
+</blockquote>
+
+<h3 id="section-3.5">3.5 Vkládání a připojování</h3>
+<blockquote>
+<p>Funkcemi <tt>insert</tt> a <tt>append</tt> vkládáme do řady nové elementy  a zároveň měníme její parametry.</p>
+Mějme například proměnnou:
+<pre>
+colors: [red green]
+<span class="put">[red green]</span>
+</pre>
+<p>se schematickým zobrazením:</p>
+<p align="center"><img src="images/rebolcore-22.gif"></p>
+<p>Novou hodnotu do čela řady vložíme příkazem:</p>
+<pre>
+insert colors 'blue
+<ii>nebo</ii>
+insert colors [blue]
+</pre>
+<p>Apostrof (') u hodnoty <tt>blue</tt> brání vyhodnocení této hodnoty, stejně jako hranaté závorky.<br> 
+Bez tohoto opatření bychom vložili číselnou hodnotu slova "blue" (0.0.255), které je standardním názvem barvy v Redu.</p>
+
+<p align="center"><img src="images/rebolcore-23.gif"></p>
+<p>U proměnné <tt>colors</tt> se změnila hodnota i parametry řady:</p>
+<pre>
+colors
+<span class="put">[blue red green]</span>
+</pre>
+<p>Pokud změnu proměnné provedeme její explicitní redefinicí:</p>
+<pre>
+colors: insert colors 'blue
+<span class="put">[red green]</span>
+</pre>
+<p>dostaneme blok, jehož ukazovátko odkazuje na původní čelo a jehož délka se nezměnila:
+<pre>
+colors
+<span class="put">[red green]</span>
+length? colors
+<span class="put">2</span>
+<ii>ale</ii>
+head? colors
+<span class="put">false</span>
+head colors
+<span class="put">[blue red green]</span>
+
+<ii>Avšak:</ii>
+index? colors
+<span class="put">2</span>    
+<ii>Na počátek se dostaneme redefinicí:</ii>
+colors: head colors
+<span class="put">[blue red green]</span>
+</pre>
+</p>
+<p align="center"><img src="images/rebolcore-24.gif"></p>
+
+<p>Vložení hodnoty lze provést ve kterémkoli místě řady včetně chvostu. Vložení do chvostu je adekvátní připojení (appending).</p>
+<pre>
+colors: tail colors
+<span class="put">[]</span>
+insert colors 'gold
+<span class="put">[]</span>
+colors
+<span class="put">[gold]</span>
+</pre>
+<p>Před vložením:</p>
+<p align="center"><img src="images/rebolcore-25.gif"></p>
+<p>Po vložení:</p>
+<p align="center"><img src="images/rebolcore-26.gif"></p>
+<p>Slovo <tt>gold</tt> bylo vloženo před posunutý chvost řady.</p>
+<p>Jiný způsob vkládání na konec řady je pomocí funkce <tt>append</tt>. Předchozí příklad bychom zapsali:</p>
+<pre>
+append colors 'gold
+<span class="put">[blue red green gold]</span>
+</pre>
+<p>Změnila se hodnota i parametry řady.</p>
+<p>Funkce ><tt>insert</tt> a <tt>append</tt> také pro vložení přijímají blok argumentů:</p>
+<pre>
+colors: [red green]
+<span class="put">[red green]</span>
+
+insert colors [blue yellow orange]
+<span class="put">[red green]</span>
+
+colors
+<span class="put">[blue yellow orange red green]</span>
+</pre>
+<p>Chceme-li nové hodnoty vložit mezi slova <tt>red</tt> a
+<tt>green</tt>, ukážeme na 'green':</p>
+<pre>
+colors: [red green]
+<span class="put">[red green]</span>
+
+insert next colors [blue yellow orange]
+<span class="put">[green]</span>   
+colors
+<span class="put">[red blue yellow orange green]</span>
+</pre>
+</blockquote>
+
+<h3 id="section-3.6">3.6 Odebrání hodnot</h3>
+<blockquote>
+<p>Je možné odebrat jednu či více hodnot z libovolného místa řady použitím funkce <tt>remove</tt>.</p>
+<p>Začněme například blokem:</p>
+<pre>
+colors: [red green blue gold]
+</pre>
+<p>s tímto schematem:</p>
+<p align="center"><img src="images/rebolcore-27.gif"></p>
+<p>První hodnotu bloku lze odebrat bez explicitního označení místa:</p>
+<pre>
+remove colors
+<span class="put">[green blue gold]</span>
+</pre>
+<p>Schema se změní:</p>
+<p align="center"><img src="images/rebolcore-28.gif"></p>
+<pre>
+colors
+<span class="put">[green blue gold]</span>
+</pre>
+<p>Funkce <tt>remove</tt> odebere hodnotu z označeného místa:</p>
+<pre>
+remove next colors
+<span class="put">[gold]</span>                 <ii>odebírá se</ii>  
+
+colors
+<span class="put">== [green gold]</span>        <ii>zůstává</ii>
+</pre>
+<p>Blok už vypadá takto:</p>
+<p align="center"><img src="images/rebolcore-29.gif"></p>
+<p>Více hodnot lze odebrat doplněním o upřesnění <tt>/part</tt>.</p>
+<pre>
+remove/part colors 2
+<span class="put">[]</span>
+</pre>
+<p>Tímto jsme odebrali zbývající hodnoty, ponechávaje prázdný blok:</p>
+<p align="center"><img src="images/rebolcore-30.gif"></p>
+<p>Podobně jako u <tt>insert/part</tt>, může být pro <tt>remove/part</tt> argumentem pozice uvnitř bloku.</p>
+<p>Odebrání všech zbývajících hodnot je častá operace.
+Funkce <tt>clear</tt></b> odebere všechny hodnoty od aktuální pozice ukazovátka až po chvost.
+Na příklad:</p>
+<pre>
+colors: [blue red green gold]
+</pre>
+<p>Schematicky:</p>
+<p align="center"><img src="images/rebolcore-31.gif"></p>
+<p>Všechno po "blue" lze odebrat příkazem:</p>
+<pre>
+clear next colors
+<span class="put">[]</span>
+colors
+<span class="put">[blue]</span>
+</pre>
+<p>Schema ukazuje:</p>
+<p align="center"><img src="images/rebolcore-32.gif"></p>
+<p>Celý blok lze snadno smazat příkazem:</p>
+<pre>
+clear colors
+<span class="put">[]</span>
+</pre>
+</blockquote>
+
+<h3 id="section-3.7">3.7 Změna hodot</h3>
+<blockquote>
+<p>Změnu hodnot je možné provést několikerým způsobem: funkcí <tt>change</tt>, <tt>poke</tt> nebo <tt>redefinicí</tt> elementu.</p>
+<p>Výchozí blok:</p>
+<pre>
+colors: [blue red green gold]
+</pre>
+<p align="center"><img src="images/rebolcore-33.gif"></p>
+
+<p>Funkcí <b>change</b> změníme druhou položku:</p>
+<pre>
+change next colors 'yellow
+<span class="put">== [green gold]</span>                 <ii>informativní odezva</ii>
+colors
+<span class="put">== [blue yellow green gold]</span>
+</pre>
+<p align="center"><img src="images/rebolcore-34.gif"></p>
+<!--
+<p>Funkce <tt>poke</tt> umožňuje určit místo změny relativně vzhledem k poloze ukazovátka. Tato funkce je podobná funkce <tt>pick</tt>, popsané dříve.</p>-->
+<p>Funkcí <b>poke</b> změníme třetí položku:</p>
+<pre>
+poke colors 3 'red
+<span class="put">== [red]</span>                        <ii>rovněž informativní odezva</ii>
+colors
+<span class="put">== [blue yellow red gold]</span>
+</pre>
+<p align="center"><img src="images/rebolcore-35.gif"></p>
+
+<p><b>Redefinicí</b> změníme první hodnotu:</p>
+<pre>
+colors/1: 'brown
+<span class="put">== brown</span>
+colors
+<span class="put">== [brown yellow red gold]</span>
+</pre>
+</blockquote>
+<br>
+<h2 id="section-4">4. Funkce řad</h2>
+<blockquote>
+<p>Zde je přehled funkcí, které manipulují s řadami. Většina již byla podrobně popsána v předchozím textu. Ostatní budou popsány podrobněji v tomto odstavci.</p>
+</blockquote>
+
+<h3 id="section-4.1">4.1 Tvořící funkce</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+        <tr bgcolor="silver"><th align="left">
+<p>Funkce</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>make</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vytvoří novou řadu zadaného typu.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>copy</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Kopíruje řadu.</p>
+</td></tr></table>
+</blockquote>
+<h3 id="section-4.2">4.2 Navigační funkce</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+        <tr bgcolor="silver"><th align="left">
+<p>Funkce</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>next</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vrací další pozici v řadě.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>back</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vrací předchozí pozici v řadě.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>head</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vrací čelní pozici v řadě.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>tail</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vrací chvostovou pozici v řadě.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>skip n</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vrací skokovou pozici na plus či minus N (= celé číslo).</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>at n</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vrací pozici plus či minus N ale používá stejné indexování jao fce <tt>pick</tt>.</p>
+</td></tr></table>
+</blockquote>
+
+<h3 id="section-4.3">4.3 Informační funkce</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+        <tr bgcolor="silver"><th align="left">
+<p>Funkce</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>head?</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vrací <tt>true</tt>, je-li ukazovátko v čele řady.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>tail?</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vrací <tt>true</tt>, je-li ukazovátko ve chvostu řady.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>index?</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vrací odstup od čela řady.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>length?</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vrací délku řady od aktuální pozice ukazovátka.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>offset?</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vrací vzdálenost mezi dvěmi pozicemi řady.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>empty?</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vrací <tt>true</tt>, je-li řada prázdná (od aktuální pozice ke chvostu).</p>
+</td></tr></table>
+</blockquote>
+<h3 id="section-4.4">4.4 Extrakční funkce</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+        <tr bgcolor="silver"><th align="left">
+<p>Funkce</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>pick</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vyjme jedinou hodnotu z pozice v řadě.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>copy/part</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vyjme sub-řadu z řady.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>first</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vyjme první hodnotu z řady.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>second</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vyjme druhou hodnotu z řady.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>third</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vyjme třetí hodnotu z řady.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>fourth</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vyjme čtvrtou hodnotu z řady.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>fifth</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vyjme pátou hodnotu z řady.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>last</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vyjme poslední hodnotu z řady.</p>
+</td></tr></table>
+</blockquote>
+<h3 id="section-4.5">4.5 Modifikační funkce</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+        <tr bgcolor="silver"><th align="left">
+<p>Funkce</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>insert</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vloží hodnotu do řady.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>append</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Připojí hodnotu před chvost řady.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>remove</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Odebere hodnotu z řady.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>clear</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Smaže hodnoty ke chvostu řady.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>change</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Změní hodnoty v řadě.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>poke</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Změní hodnoty na zadané pozici v řadě.</p>
+</td></tr></table>
+</blockquote>
+
+<h3 id="section-4.6">4.6 Vyhledávací funkce</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+        <tr bgcolor="silver"><th align="left">
+<p>Funkce</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>find</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vyhledá hodnotu v řadě.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>select</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vyhledá přidruženou hodnotu v řadě.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>replace</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vyhledá a nahradí hodnoty v řadě.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>parse</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Porovná hodnoty v řadě.</p>
+</td></tr></table>
+</blockquote>
+
+<h3 id="section-4.7">4.7 Pořadné funkce</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+        <tr bgcolor="silver"><th align="left">
+<p>Funkce</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>sort</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Uspořádá hodnoty v řadě podle pořadí.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>reverse</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Převrátí pořadí hodnot v řadě</p>
+</td></tr></table>
+</blockquote>
+<h3 id="section-4.8">4.8 Množinové funkce</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+        <tr bgcolor="silver"><th align="left">
+<p>Funkce</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>unique</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vrátí jedinečnou množinu hodnot, bez duplikátů.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>intersect</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vrátí pouze ty hodnoty, které se nacházejí v obou řadách.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>union</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Returns the combined values from two series.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>exclude</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vrátí rozdíl mezi řadami.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>difference</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Vráti ty hodnoty, které se nenacházejí v žádné řadě.</p>
+</td></tr></table>
+</blockquote>
+
+<h3 id="section-4.9">4.9 Ověřovací funkce</h3>
+<blockquote>
+<p>Ověření typu bloku:</p>
+<pre>
+Block? Paren? Path? List? Hash?
+</pre>
+<p>Ověření typu řetězce:</p>
+<pre>
+String? Binary? Tag? File? URL?
+
+Email? Image? Issue?
+</pre>
+<p>Jiná ověření typu řad:</p>
+<pre>
+Series? Any-block? Any-string?
+</pre>
+</blockquote>
+<br>
+
+<h2 id="section-5">5. Vytvoření a kopírování řad</h2>
+<blockquote>
+<p>Nové řady se vytvářejí funkcemi <tt>make</tt> a
+<tt>copy</tt>.</p>
+<p>Funkci <tt>make</tt></b> použijeme k vytvoření (prázdné) řady z datového typu řady a z odhadnuté počáteční velikosti. Ukáže-li se, že je odhadnutá velikost příliš malá, je automaticky rozšířena, avšak lehce na úkor výkonu.</p>
+<!--list: make list! 128-->
+<pre>
+block: make block! 50
+<span class="put">== []</span>
+string: make string! 10000
+<span class="put">== ""</span>
+file: make file! 64
+<span class="put">== %""</span>
+</pre>
+<p>Funkce <b><tt>copy</tt></b> vytvoří novou řadu kopírováním existující:</p>
+<pre>
+string: "Message in a bottle"
+
+new-string: copy string
+
+block: copy []                    <ii>prázdný blok</ii>
+
+string: copy copy ""              <ii>prázdný string</ii>
+</pre>
+<!--
+<p>Kopírovaní je také důležité při použití s funkcemi, které upravují obsah řady. Chceme-li například změnit velikost písma řetězce bez změny originálu, použijeme funkci <tt>copy:</tt></p>
+<pre>
+string: uppercase copy "Message in a bottle"
+</pre>-->
+</blockquote>
+<h3 id="section-5.1">5.1 Prostá kopie</h3>
+<blockquote>
+<p>Prostá kopie pojmenované řady se vytvoří jako její duplikát:</p>
+<pre>
+days: ["sun" ["mon" "tue"] "wed"]
+<span class="put">== ["sun" ["mon" "tue"] "wed"]</span>
+dny: days
+<span class="put">== ["sun" ["mon" "tue"] "wed"]</span>
+</pre>
+<p>Obě proměnné odkazují na stejnou řadu a je zcela zřejmé, že změna u jedné proměnné se projeví u druhé proměnné a vice versa.</p></blockquote>
+
+
+<h3 id="section-5.2">5.2 Mělká kopie</h3>
+<blockquote>
+<p>Takzvanou mělkou (shallow) kopii vytvoříme příkazem <b>copy</b>. Mělká kopie je však "nezávislá" pouze pro singletony bloku. Prvky vnořených objektů jsou sdíleny originálem i kopií, což má za následek, že dodatečná úprava jednoho vnořeného objektu se projeví i u druhého objektu:</p>
+<pre>
+blk-one: ["abc" [1 2 3] 12]
+<span class="put">["abc" [1 2 3] 12]</span>
+
+blk-two: copy blk-one            <ii>shallow copy</ii>
+<span class="put">["abc" [1 2 3] 12]</span>
+</pre>
+<p>Zadaný blok se skládá ze dvou řad a jednoho singletonu. Vnořené řady (typu string! a  block!) se skládají pouze ze singletonů.</p>
+<p>Explicitní kopírování singletonů (i vnořených) vytváří jejich nezávislou kopii, zatímco kopírování složených elementů vytváří jejich závislou kopii.</p>
+<!--<p>Změníme-li blok nebo řetězec v <tt>blk-two</tt>, jsou modifikovány hodnoty řad také v <tt>blk-one</tt> (a vice versa).</p>
+<pre>
+append blk-two/1 "DEF"
+append blk-two/2 [4 5 6]
+blk-two
+<span class="put">["abcDEF" [1 2 3 4 5 6]]</span>
+blk-one
+<span class="put">["abcDEF" [1 2 3 4 5 6]]</span>
+</pre>-->
+<pre>
+blk-one/2: [4 5 6]
+blk-one
+<span class="put">== ["abc" [4 5 6] 12]</span>
+blk-two
+<span class="put">==  ["abc" [1 2 3] 12]</span>          <ii>změna celého bloku je nezávislá</ii>
+
+blk-one/1/2: #"f"
+blk-one
+<span class="put">== ["afc" [4 5 6] 12]</span>
+blk-two
+<span class="put">==  ["abc" [1 2 3] 12]</span>          <ii>změna singletonu (zde vnořeného) rovněž</ii>
+
+</blockquote>
+<h3 id="section-5.2">5.2 Hluboká kopie</h3>
+<blockquote>
+<p>Nezávislou (autonomní, "hlubokou") kopii objektu s vloženými objekty vytvoříme pomocí funkce s upřesněním <tt>copy/deep</tt>:</p>
+<pre>
+days: ["sun" ["mon" "tue"] "wed"]     <ii>stringy jsou složené objekty!</ii>
+<span class="put">== ["sun" ["mon" "tue"] "wed"]</span>
+dny: copy/deep days
+<span class="put">== ["sun" ["mon" "tue"] "wed"]</span>
+
+days/2/1: "pon"                       <ii>změna celého objektu je nezávislá</ii>
+days
+<span class="put">== ["sun" ["pon" "tue"] "wed"]</span>
+dny
+<span class="put">== ["sun" ["mon" "tue"] "wed"]</span>        <ii>u mělké kopie by dny měly také "pon"</ii>
+</pre>
+<p>Trochu se to plete. Mohlo by pomoci vysvětlení, že u singletonů se kopírují přímo hodnoty, zatímco u složených objektů se kopírují odkazy na tyto hodnoty.<br>
+Když u složeného objektu ukážeme přímo na vnořený singleton, kopíruje se hodota tohoto singletonu.</p>
+</blockquote>
+
+<h3 id="section-5.3">5.3 Částečné kopie</h3>
+<blockquote>
+<p>Upřesnění <tt>/part</tt> funkce <tt>copy</tt> přijímá jediný argument, jímž je buď <b>celé číslo</b>, určující počet kopírovaných položek nebo <b>pozice v řadě</b>, určující poslední kopírovanou položku.</p>
+<pre>
+str: "Message in a bottle"
+<span class="put">== Message in a bottle</span>
+
+copy/part str 4                <ii> počet kopírovaných položek</ii>
+<span class="put">== "Mess"</span>
+
+copy/part str (find str " ")   <ii> označení horní meze</ii>
+<span class="put">== "Message"</span>
+
+new-str: copy/part (find str "in") (find str "bottle")     
+                               <ii> meze inklusive a exclusive</ii>
+<span class="put">== "in a"</span>
+            
+blk: [ages [10 12 32] sizes [100 20 30]]  
+<span class="put">[ages [10 12 32] sizes [100 20 30]] </span>     <ii> blok s vnořenými bloky</ii>
+
+new-blk: copy/part blk 2
+<span class="put">[ages [10 12 32]]</span>
+</pre>
+</blockquote>
+<h3 id="section-5.4">5.4 Počáteční kopie</h3>
+<blockquote>
+<p>Vytvoření počáteční kopie si ukážeme na ilustračním příkladě. Mějme funkci <b>print-it</b>, která při každém volání vytiskne slabiku "ha":</p>
+<pre>
+print-it: func [/local str] [
+    str: ""                    <ii> počáteční hodnota proměnné</ii>
+    insert str "ha"
+    print str
+]
+
+print-it
+<span class="put">ha</span>
+print-it
+<span class="put">haha</span>
+print-it
+<span class="put">hahaha</span>
+</pre>
+<!--
+<p>Protože nebyla použita počáteční kopie, je řetězec <tt>"ha"</tt> vložen do proměnné <tt>str</tt> při každém volání funkce <tt>print-it</tt>.</p>
+<p>Potvrdí nám to výstup z funkce <tt>source</tt>:</p>
+<pre>
+source print-it
+<span class="put">print-it: func [/local str] [
+    str: "hahaha"
+    insert str "ha"
+    print str
+]</span>
+</pre>-->
+<p>Jak vidíme na výstupech, vkládá funkce <tt>insert</tt> nové a nové slabiky "ha" do proměnné <b>str</b>, což nebyl náš záměr. Abychom se tomu vyhnuli, musí funkce <b>print-it</b> kopírovat prázdný řetězec nebo použít funkci <tt>make</tt>.</p>
+<pre>
+print-it: func [/local str] [
+    str: copy ""       
+    insert str "ha"
+    print str
+]
+
+print-it
+<span class="put">ha</span>
+print-it
+<span class="put">ha</span>
+print-it
+<span class="put">ha</span>
+</pre>
+</blockquote>
+<br>
+<h2 id="section-6">6. Iterace řad</h2>
+<blockquote>
+<p>K procházení řadou lze použít <b>iterační smyčku</b>. Existuje několik funkcí, které tento iterační proces automatizují: foreach, while a forall.</p>
+</blockquote>
+
+<h3 id="section-6.1">6.1 Smyčka "foreach"</h3>
+<blockquote>
+<p>Smyčka <b>foreach</b> prochází řadou a pro každý prvek řady provede předepsaný úkon.</p>
+<p>Funkce <tt>foreach</tt> přijímá dva argumenty: libovolně zvolený název prvku řady a název řady. Tělo funkce obsahuje příkaz, který se má pro každý prvek řady provést.</p>
+<pre>
+colors: [red green blue yellow orange gold]
+foreach barva colors [print barva]
+<span class="put">red
+green
+blue
+yellow
+orange
+gold</span>
+foreach [c1 c2] colors [print [c1 c2]]          <ii> pattern matching!</ii>
+<span class="put">red green
+blue yellow
+orange gold</span>
+foreach [c1 c2 c3] colors [print [c1 c2 c3]]    <ii> pattern matching!</ii>
+<span class="put">red green blue
+yellow orange gold</span>
+</pre>
+<p>Schopnost provádět "pattern matching" je velmi užitečná u bloků se souvisejícími hodnotami:</p>
+<pre>
+people: [
+    "Bob" bob@example.com 12
+    "Tom" tom@example.net 40
+    "Sam" sam@example.org 22
+]
+foreach [name email age] people [
+    print [name email age]
+]
+<span class="put">Bob bob@example.com 12
+Tom tom@example.net 40
+Sam sam@example.org 22</span>
+</pre>
+<p><b>Poznámka</b>: Smyčka <tt>foreach</tt> neposouvá ukazovátko (index), tudíž není zapotřebí resetovat parametry proměnné 'colors' - viz smyčka 'while'.</p>
+</blockquote>
+<h3 id="section-6.2">6.2 Smyčka "while"</h3>
+<blockquote>
+<p>Smyčka <tb>while</b> provádí opakovaný výpočet pro každý prvek řady, pokud je splněna předem stanovená podmínka.</p>
+<p>Funkce <tt>while</tt> přijímá dva argumenty: podmínku a název řady. Tělo funkce obsahuje příkaz, který se má provést pro každý vyhovující prvek řady plus příkaz, který postupuje řadou.</p>
+<pre>
+colors: [red green blue yellow orange]
+
+while [not tail? colors] [    <ii> : pokud není ukazovátku ve chvostu</ii>
+    print first colors        <ii> : proveď úkon</ii>
+    colors: next colors       <ii> : a posuň ukazovátko</ii>
+]
+<span class="put">red
+green
+blue
+yellow
+orange</span>
+
+index? colors
+<span class="put">== 6</span>
+
+</pre>
+<p>Následující skript vloží slovo 'blue' před slovo 'yellow' při splnění podmínky uvnitř těla funkce:</p>
+<pre>
+colors: head colors            <ii>pro jistotu: ukazovátko do čela řady</ii>
+
+while [not tail? colors] [
+    if colors/1 = 'yellow [    
+        colors: insert colors 'blue
+    ]
+    colors: next colors        
+]
+<ii>; ukazovátko je ve chvostu, proto reset:</ii>
+head colors
+<span class="put">== [red green blue yellow orange gold]</span>
+</pre>
+<p><ii>Funkce <tt>insert</tt> vkládá slovo na pozici před ukazovátkem!</ii></p>
+
+<p>Následující skript bezpečně odebere slovo 'blue' z řady:</p>
+<pre>
+colors: head colors
+
+while [not tail? colors] [
+    either colors/1 = 'blue [    <ii> 'either' provede jeden z bloků</ii>
+        remove colors
+    ][
+        colors: next colors
+    ]
+]
+</pre>
+<p>Dosažením chvostu končí běh smyčky.</p>
+</blockquote>
+
+<h3 id="section-6.3">6.3 Smyčka "forall"</h3>
+<blockquote>
+<p>Smyčka <tt>forall</tt> je stručnější obdoba smyčky  <tt>while</tt>. Provede příkaz z bloku pro všechny prvky řady, počínaje aktuálně prvním.</p>
+<pre>
+colors: [red green blue yellow orange]
+
+forall colors [print first colors]
+<span class="put">
+red
+green
+blue
+yellow
+orange</span>
+</pre>
+<p>Po ukončení iterace je ukazovátko na pozici <b>head</b>:</p>
+<pre>
+head? colors
+<span class="put">true</span>
+</pre>
+<p>Před dalším použitím není nutné proměnnou 'resetovat':</p>
+<pre>
+colors: head colors
+<span class="put">[red green blue yellow orange]</span>
+</pre>
+<p>Funkce <b>forall</b> prochází všemi prvky řady a přitom neposouvá ukazovátko ale posouvá si počátek číslování.</p>
+<pre>
+forall colors [
+    if colors/1 = 'blue [remove colors]
+    print first colors
+]
+<span class="put">red 
+green
+yellow
+orange</span>
+
+colors
+<span class="put">[red green yellow orange]</span>
+</pre>
+</blockquote>
+<!--
+<h3 id="section-6.4">6.4 Smyčka "forskip"</h3>
+<ii>NECHODÍ !</ii>
+<blockquote>
+<p>Podobně jako u smyčky <tt>forall</tt>, prochází funkce <tt>forskip</tt> řadou, počínaje aktuální pozicí ukazovátka ale pokaždé přeskočí určený počet hodnot.</p>
+<p>Funkce <tt>forskip</tt></b> přijímá dva argumenty: název řady a skokovou délku posunu. Následuje blok s opakovaně prováděnou akcí.</p>
+<pre>
+colors: [red green blue yellow orange]
+
+forskip colors 2 [print first colors]
+<span class="put">red
+blue
+orange</span>
+</pre>
+<p>Smyčka <b>forskip</b> končí svou iteraci ve chvostu řady, takže je nutne ji resetovat.</p>
+<pre>
+tail? colors
+<span class="put">true</span>
+colors: head colors
+</pre>
+</blockquote>-->
+
+<h3 id="section-6.5">6.5 Funkce "break"</h3>
+<blockquote>
+<p>Iteraci lze u všech smyček kdykoli ukončit při konfrontaci s vloženou funkcí <tt>break</tt>, umístěnou ve vyhodnocovacím bloku:</p> 
+<pre>
+foreach number [1 2 4 8 16] [
+    if number > 4 [break]
+    print number
+]
+<span class="put">
+1
+2
+4</span>
+</pre>
+<p>Podrobněji viz <a href="http://www.rebol.com/docs/core23/rebolcore-4.html"
+>Expressions Chapter</a></p>
+</blockquote>
+<br>
+<h2 id="section-7">7. Prohledávání řad</h2>
+<blockquote>
+<p>Funkce <b><tt>find</tt></b> vyhledává zadanou hodnotu nebo vzorek v blokových či řetězcových řadách. Tato funkce má mnohá upřesnění, která umožňují širokou škálu zadávacích parametrů.</p>
+</blockquote>
+<h3 id="section-7.1">7.1 Funkce "find"</h3>
+<blockquote>
+<p>Nejjednodušší a nejobvyklejší <tt>vyhledávací</tt> úlohou je nalezení hodnoty v bloku nebo řetězci. V tomto případě přijímá funkce <tt>find</tt> pouze dva argumenty: název prohledávané řady a hledanou hodnotu:</p>
+<pre>
+colors: [red green blue yellow orange]
+<span class="put">[red green blue yellow orange</span>
+
+where: find colors 'blue
+<span class="put">[blue yellow orange]</span>
+</pre>
+<p>Nalezené místo se stává čelem nové řady.</p>
+<p>Pokud se hledání nezdaří, vrací se hodnota <tt>none</tt>.</p>
+<pre>
+colors: [red green blue yellow orange]
+find colors 'indigo
+<span class="put">none</span>
+</pre>
+<p>Funkce <b><tt>find</tt></b> může vyhledávat hodnoty také podle jejich typu.</p>
+<pre>
+items: [10:30 #256-15-752 Cindy "United"] 
+where: find items issue!
+<span class="put">[#256-15-752 Cindy "United"]</span>
+where: find items string!
+<span class="put">["United"]</span>
+</pre>
+</blockquote>
+
+<h3 id="section-7.2">7.2 Upřesnění funkce find</h3>
+<blockquote>
+<p>Funkci find lze doplnit mnohým upřesněním (refinements), které upřesňují způsob provedení funkce:</p>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+        <tr bgcolor="silver"><th align="left">
+<p>Refinement</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>/<b>part</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Omezí prohledávání řady určením délky nebo konečné pozice.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>/<b>only</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Treats a series value as a single value.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>/<b>case</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Při vyhledávání se rozlišuje velikost písma.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>/<b>any</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Dovoluje vyhledávání porovnáváním s univerzálními symboly. Hvězdička (*) se shoduje s každým řetězcem, otazník (?) se shoduje s každým znakem.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>/<b>with</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Dovoluje vyhledávání porovnáváním s jinými symboly než (*) a (?). To umožňuje přítomnost těchto symbolů ve vyhledávacím vzorci.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>/<b>match</b></p>
+</td><td valign="top" bgcolor="white">
+<p>
+Matches a pattern beginning at the current series position, rather than
+finding the first occurrence of a value or string. Returns the tail
+position if the match is found.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>/<b>tail</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Při úspěšném hledání vrací chvostovou pozici shody (spíše než místo nálezu shody).</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>/<b>last</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Hledání shody začíná od chvostu řady směrem k čelu.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>/<b>reverse</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Hledání shody začíná od aktuální pozice ukazovátka směrem k čelu./p>
+</td></tr><tr><td valign="top" bgcolor="white">
+<p>/<b>dup</b></p>
+</td><td valign="top" bgcolor="white">
+<p>Hledání shody začíná od aktuální pozice ukazovátka směrem k čelu./p>
+</td></tr>
+</table>
+</blockquote>
+
+<h3 id="section-7.3">7.3 Upřesnění "part"</h3>
+<blockquote>
+<p>Upřesnění <tt>/part</tt> omezí vyhledávání na určitou část řady. Můžeme například omezit vyhledávání na zadaný řádek nebo část textu.</p>
+<p>Podobně jako u <tt>insert/part</tt> a <tt>remove/part</tt>, přijímá <tt>find/part</tt> jako argument buď délku sub-řady nebo její konečnou pozici.
+Následující příklad omezuje délku sub-řady na 3:</p>
+<pre>
+colors: [red green blue yellow blue orange gold]
+probe find/part colors 'blue 3
+<span class="put">== [blue yellow blue orange gold]</span>   <ii>== none pro n &lt; 3</ii>
+</pre> 
+<p>Následující hledání je omezeno na prvních 15 znaků:</p>
+<pre>
+text: "Keep things as simple as you can."
+find/part text "as" 15
+<span class="put">as simple as you can.</span>
+</pre>
+<p>Jest rozuměti tomu tak, že nalezne-li <tt>find/part</tt> zadané slovo v zadaném úseku, vrátí celý zbytek řady. Nenalezne-li, vrací <tt>none</tt>. </p>
+<p>Následující příklad používá koncovou pozici. Hledání je omezeno na jediný řádek textu:</p>
+<pre>
+text: {
+    This is line one.
+    This is line two.
+}
+
+start: find text "this"
+end: find start newline
+item: find/part start "line" end
+print item
+<span class="put">line one.</span>
+</pre>
+</blockquote>
+
+<h3 id="section-7.4">7.4 Upřesnění "tail"</h3>
+<blockquote>
+<p>Funkce <b><tt>find</tt></b> vrací sub-řadu od místa, kde byla hledaná položka nalezena. Upřesnění <tt>/tail</tt> vrací sub-řadu od místa, které následuje za nalezenou položkou. Zde je příklad:</p>
+<pre>
+filename: %script.txt
+
+find filename "."
+<span class="put">.txt</span>
+find/tail filename "."
+<span class="put">txt</span>
+clear change find/tail filename "." "r"
+filename
+<span class="put">script.r</span>
+</pre>
+<p>Příkaz <b><tt>clear</tt></b> je zde potřebný k odebrání <tt>xt</tt>, které následuje za <tt>t</tt>.</p>
+</blockquote>
+<h3 id="section-7.5">7.5 Zpětné hledání</h3>
+<blockquote>
+<p>Poslední příklad v předchozím odstavci by nemusel vrátit správný výsledek, kdyby měl název souboru více než jednu tečku. Na příklad:</p>
+<pre>
+filename: %new.script.txt
+find filename "."
+<span class="put">.script.txt</span>
+</pre>
+<p>Zaměření na poslední tečku zajistí upřesnění <tt>/last</tt>, které prohledává řadu pozpátku.</p>
+<pre>
+find/last filename "."
+<span class="put">.txt</span>
+</pre>
+<p>Upřesnění <tt>/last</tt> lze kombinovat s upřesněním <tt>/tail</tt>:</p>
+<pre>
+find/tail/last filename "."
+<span class="put">txt</span>
+</pre>
+<p>Chceme-li pokračovat ve zpětném hledání až k čelu řetězce, použijeme upřesnění <tt>/reverse</tt>. Toto upřesnění provádí hledání od aktuální pozice směrem k čelu a vrací sub-řadu od nalezeného místa až ke chvostu.</p>
+<pre>
+where: find/last filename "."
+where
+<span class="put">.txt</span>
+find/reverse where "."
+<span class="put">.script.txt</span>
+</pre>
+<p>Povšimneme si, že <tt>/reverse</tt> pokračuje v hledání až na následující (směrem k čelu) pozici po předchozí shodě.</p>
+</blockquote>
+
+<h3 id="section-7.6">7.6 Upřesnění "match"</h3>
+<blockquote>
+<p>Upřesnění <tt>/match</tt> upravuje chování funkce <tt>find</tt> tak, že provádí "pattern matching" pro aktuální polohu ukazovátka řady. Toto upřesnění umožňuje provádět párovací (parsing) operace porovnáním další části řady s očekávaným vzorkem.</p> 
+<!--
+perform pattern matching on the current position of a series.
+This refinement allows parsing operations to be performed by
+matching the next part of a series with expected patterns. See
+the chapter on <A href="rebolcore-15.html">Parsing</A> for
+another way to match series.</p> -->
+<p>Při nalezené shodě se vrací zbytek řady:</p>
+<pre>
+blk: [1342 "Franklin" 12,52 "Circle"]
+probe find/match blk integer!
+<span class="put">["Franklin" 12,52 "Circle"]</span>
+blk: next blk
+<span class="put">["Franklin" 12,52 "Circle"]</span>
+probe find/match blk string!
+<span class="put">[12,52 "Circle"]</span>
+probe find/match blk "test"
+<span class="put">none</span>
+str: "Keep things simple."
+probe find/match str "keep"
+<span class="put">" things simple."</span>
+print find/match str "things"
+<span class="put">none</span>
+</pre>
+<p>V právě uvedeném příkladu se nic nevyhledává. Počátek řady se buď shoduje nebo neshoduje. Pokud se shoduje, nabídne funkce zbytek řady, na jejímž počátku lze hledat další shodu.</p>
+<p>Zde je jednoduchý parser s funkcí <tt>find/match:</tt></p>
+<pre>
+grammar: [
+    ["keep" "make" "trust"]
+    ["things" "life" "ideas"]
+    ["simple" "smart" "happy"]
+]
+
+parse-it: func [str /local new] [
+    foreach words grammar [
+        foreach word words [
+            if new: find/match str word [break]
+        ]
+       if none? new [return false]
+       str: next new  ;skip space
+   ]
+   true
+]
+
+parse-it "Keep things simple"
+<span class="put">true</span>
+parse-it "Make things smart"
+<span class="put">true</span>
+parse-it "Trust life well"
+<span class="put">false</span>
+</pre>
+<p>Porovnávání (matching) je citlivé na velikost písma s upřesněním <tt>/case</tt>.</p>
+<p>Schopnost <tt>/match</tt> lze značně rozšířit přidáním upřesnění <tt>/any</tt>, jak probíráno dále.</p>
+</blockquote>
+
+<h3 id="section-7.7">7.7 Hledání s žolíkem</h3>
+<blockquote>
+<p>Upřesnění <tt>/any</tt> umožňuje tak zvané "wildcard pattern matching". Otazník (?) a hvězdička (*) působí jako žolíky při vyhledávání jednoho či více znaků. Upřesnění <tt>/any</tt> může být použito ve spojení s funkcí <tt>find</tt> s  upřesněním <tt>/match</tt> nebo bez něho.</p>
+<p>Příklady:</p>
+<pre>
+str: "abcdefg"
+find/any str "c*f"
+<span class="put">cdefg</span>
+find/any str "??d"
+<span class="put">bcdefg</span>
+email-list: [                               
+    mack@rebol.dom
+    judy@somesite.dom
+    jack@rebol.dom
+    biff@rebol.dom
+    jenn@somesite.dom
+]
+foreach email email-list [
+    if find/any email *@rebol.dom [print email]
+]
+<span class="put">mack@rebol.dom jack@rebol.dombiff@rebol.dom</span>
+</pre>
+<p>Následující příklad používá upřesnění ><tt>/match</tt> při pokusu o porovnání vzorku s další částí řady:</p>
+<pre>
+file-list: [
+    %rebol.exe
+    %notes.html
+    %setup.html
+    %feedback.r
+    %nntp.r
+    %rebdoc.r
+    %rebol.r
+    %user.r
+]
+
+foreach file file-list [
+    if find/match/any file %reb*.r [print file]
+]
+<span class="put">rebdoc.rrebol.r</span>
+</pre>
+<p>Pokud některý z žolíkových znaků je obsažen ve srovnávaném vzorku, lze použít náhradních žolíkových znaků ve spojení s upřesněním <tt>/with</tt>.</p>
+</blockquote>
+
+<h3 id="section-7.8">7.8 Opakované hledání</h3>
+<blockquote>
+<p>Funkci <tt>find</tt> lze použít opakovaně za účelem hledání vícerých výskytů hodnoty nebo řetězce. V tomto příkladě se vytisknou všechny řetězce, nalezené v bloku:</p>
+<pre>
+blk: load %script.red
+while [blk: find blk string!] [
+    print first blk
+    blk: next blk
+]
+</pre>
+<p>Další příklad počítá výskyt nových řádků ve skriptu. Používá upřesnění <tt>/tail</tt> aby se předešlo nekonečné smyčce a vrací pozici bezprostředně za shodou.</p>
+<pre>
+text: read %script.red
+count: 0
+while [text: find/tail text newline] [count: count + 1]
+count                <ii>;; vrátí výsledek</ii>           
+</pre>
+<p>Opakované hledání v opačném směru provedeme pomocí upřesnění <tt>/reverse</tt>. Následující příklad tiskne všechny indexované pozice v obráceném pořadí.</p>
+<pre>
+while [text: find/reverse tail text newline] [
+    print index? text
+]              <ii>;; POZOR !! běží v nekonečné smyčce !!</tt> 
+</pre>
+</blockquote>
+
+
+
+
+
+<h3 id="section-7.9">7.9 Funkce "select"</h3>
+<blockquote>
+<p>Užitečnou variantou funkce <tt>find</tt> je funkce <tt>select</tt>, která vrací hodnotu, jež následuje za hodnotou vyhledanou. Funkce <tt>select</tt> se často používá pro vyhledání hodnoty v označených blocích dat. Funkce <tt>select</tt> přijímá tytéž argumenty jako funkce <tt>find</tt>: název řady a označení hodnoty.<br>
+Tato funkce však vrací pouze následující hodnotu, na rozdíl od funkce <tt>find</tt>, která vrací celý zbytek řady.</p>
+<pre>
+colors: [red green blue yellow orange]
+select colors 'green
+<span class="put">blue</span>
+</pre>
+<p>Funkci <tt>select</tt></b> lze použít pro vyhledání hodnoty z jednoduché databáze:</p>
+<pre>
+email-book: [                   
+    "George" harrison@guru.org
+    "Paul" lefty@bass.edu
+    "Ringo" richard@starkey.dom
+    "Robert" service@yukon.dom
+]
+</pre>
+<p>Konkretní emailovou adresu lokalizuje tento kód:</p>
+<pre>
+select email-book "Paul"
+<span class="put">lefty@bass.edu</span>
+</pre>
+<p>Funkci <tt>select</tt></b> lze použít při hledání bloku s vyhodnotitelnými výrazy. Například, u následujících dat:</p>
+<pre>
+cases: [
+    10 [print "ten"]
+    20 [print "twenty"]
+    30 [print "thirty"]
+]
+</pre>
+<p>lze bloky vyhodnotit s použitím selektoru:</p>
+<pre>
+do select cases 10
+<span class="put">ten</span>
+do select cases 30
+<span class="put">thirty</span>
+</pre>
+</blockquote>
+
+<h3 id="section-7.10">7.10 Hledání a výměna</h3>
+<blockquote>
+<p>K náhradě hodnot v řadě lze použít funkci <tt>replace</tt>.
+Tato funkce vyhledá zadanou hodnotu v řadě a nahradí ji novou hodnotou.</p>
+<p>Tato funkce přijímá tři argumenty: název řady, nahrazovanou hodnotu a novou hodnotu.</p>
+<pre>
+str: "hello world hello"
+probe replace str "hello" "aloha"
+<span class="put">"aloha world hello"</span>
+data: [1 2 8 4 5]
+probe replace data 8 3
+<span class="put">[1 2 3 4 5]</span>
+probe replace data 4 `four
+<span class="put">[1 2 3 four 5]</span>
+probe replace data integer! 0
+<span class="put">[0 2 3 four 5]</span>
+</pre>
+<p>Upřesnění <tt>/all</tt> použijeme k náhradě všech výskytů hodnoty v řadě, od aktuální pozice až po chvost.</p>
+<pre>
+probe replace/all data integer! 0
+<span class="put">[0 0 0 four 0]</span>
+code: [print "hello" print "world"]
+replace/all code 'print 'probe
+probe code
+<span class="put">[probe "hello" probe "world"]</span>
+do code
+<span class="put">helloworld</span>
+str: "hello world hello"
+probe replace/all str "hello" "aloha"
+<span class="put">"aloha world aloha"</span>
+</pre>
+</blockquote>
+<br>
+<h2 id="section-8">8. Třídění řad</h2>
+<blockquote>
+<p>Funkce <b><tt>sort</tt></b> poskytuje jednoduchou a rychlou metodu třídění řad. Nejužitečnější je u bloků dat, lze ji také použít pro řetězce znaků. </p>
+</blockquote>
+
+<h3 id="section-8.1">8.1 Jednoduché třídění</h3>
+<blockquote>
+<p>Nejjednoduššími příklady funkce <b><tt>sort</tt></b> jsou:</p>
+<pre>
+names: [Eve Luke Zaphod Adam Matt Betty]
+probe sort names
+<span class="put">[Adam Betty Eve Luke Matt Zaphod]</span>
+sort [321.3 78 321 42 321.8 12 98]
+<span class="put">12 42 78 98 321 321.3 321.8</span>
+sort "plosabelm"
+<span class="put">abellmops</span>
+</pre>
+<p>Nutno vzít na vědomí, že funkce <tt>sort</tt> je desktruktivní k upravovaným řadám, neboť přeskupí jejich prvky. Abychom tomu zabránili, používáme funkci <tt>copy</tt> jako v následujícím příkladu:</p>
+<pre>
+probe sort copy names
+</pre>
+<p>Pořádání je implicitně necitlivé na velikost písma:</p>
+<pre>
+sort ["Fred" "fred" "FRED"]
+<span class="put">Fred fred FRED</span>
+sort "G4C28f9I15Ed3bA076h"
+<span class="put">0123456789AbCdEfGhI</span>
+</pre>
+<p>To se změní s použitím upřesnění <tt>/case</tt>:</p>
+<pre>
+sort/case "gCcAHfiEGeBIdbFaDh"
+<span class="put">ABCDEFGHIabcdefghi</span>
+sort/case ["Fred" "fred" "FRED"]
+<span class="put">FRED Fred fred</span>
+sort/case "g4Dc2BI8fCF9i15eAd3bGaE07H6h"
+<span class="put">0123456789ABCDEFGHIabcdefghi</span>
+</pre>
+<p>Pořádat lze mnoho dalších datových typů:</p>
+<pre>
+sort [1.3.3.4 1.2.3.5 2.2.3.4 1.2.3.4]
+<span class="put">1.2.3.4 1.2.3.5 1.3.3.4 2.2.3.4</span>
+sort [$4.23 $23.45 $62.03 $23.23 $4.22]
+<span class="put">$4.22 $4.23 $23.23 $23.45 $62.03</span>                          <ii>;; nechodí!</ii>
+sort [11:11:43 4:12:53 4:14:53 11:11:42]
+<span class="put">4:12:53 4:14:53 11:11:42 11:11:43</span>
+sort [11-11-1999 10-11-9999 11-4-1999 11-11-1998]
+<span class="put">11-Nov-1998 11-Apr-1999 11-Nov-1999 10-Nov-9999</span>           <ii>;; nechodí!</ii>
+sort [john@doe.dom jane@doe.dom jack@jill.dom]
+<span class="put">jack@jill.dom jane@doe.dom john@doe.dom</span>                   <ii>;; nechodí!</ii>
+sort [%user.r %rebol.r %history.r %notes.html]
+<span class="put">history.r notes.html rebol.r user.r</span>
+</pre>
+</blockquote>
+
+<h3 id="section-8.2">8.2 Skupinové třídění</h3>
+<blockquote>
+<p>Často je potřebné uspořádat sadu dat s více než jednou hodnotou v záznamu. Toto podporuje upřesnění <tt>/skip</tt> pro záznamy s pevnou délkou, jež je dalším zadávaným argumentem.</p>
+<p>Zde je příklad, který utřídí blok se záznamy: křestní jméno, příjmení, věk a emailové adresy. Blok je tříděn podle prvního sloupce, to jest podle křestního jména.</p>
+<pre>
+names: [
+    "Evie" "Jordan" 43 eve@jordan.dom
+    "Matt" "Harrison" 87 matt@harrison.dom
+    "Luke" "Skywader" 32 luke@skywader.dom
+    "Beth" "Landwalker" 104 beth@landwalker.dom
+    "Adam" "Beachcomber" 29 adam@bc.dom
+]
+sort/skip names 4
+foreach [first-name last-name age email] names [
+    print [first-name last-name age email]
+]
+<span class="put">Adam Beachcomber 29 adam@bc.dom
+Beth Landwalker 104 beth@landwalker.dom
+Evie Jordan 43 eve@jordan.dom
+Luke Skywader 32 luke@skywader.dom
+Matt Harrison 87 matt@harrison.dom</span>
+</pre>
+</blockquote>
+<h3 id="section-8.3">8.3 Relační funkce</h3>
+<blockquote>
+<p>Upřesnění <tt>/compare</tt> umožňuje provádět porovnávání tříděných dat. Používá další argument, jímž je relační funkce pro porovnání dat.</p>
+<p>Relační uživatelská funkce se píše jako obyčejná funkce pro dva porovnávané argumenty. Relační funkce vrací <tt>true</tt>, má-li být první hodnota umístěna před druhou hodnotu a <tt>false</tt>, má-li být první hodnota umístěna za druhou.</p>
+<p>Normální porovnávání umisťuje data ve vzestupném pořadí:</p>
+<pre>
+ascend: func [a b] [a &lt; b]
+</pre>
+<p>Je-li první hodnota menší než druhá, vrací se <tt>true</tt>a první hodnota je umístěna před druhou.</p>
+<pre>
+data: [100 101 -20 37 42 -4]
+probe sort/compare data :ascend
+<span class="put">[-20 -4 37 42 100 101]</span>
+</pre>
+<p>Podobně pro sestupné pořadí:</p>
+<pre>
+descend: func [a b] [a &gt; b]
+</pre>
+<p>Je-li první hodnota větší než druhá, vrací se <tt>true</tt> a data jsou řazena v sestupném pořadí.</p>
+<pre>
+probe sort/compare data :descend
+<span class="put">[101 100 42 37 -4 -20]</span>
+</pre>
+<p>Je důležité si všimnout, že v obou případech je relační funkce volána jménem, stojícím za dvojtečkou. Tato forma brání předčasnému vyhodnocení funkce před jejím použitím jako argument funkce <tt>sort</tt>.<br> 
+Relační funkci lze zadat také přímo beze jména:</p>
+<pre>
+probe sort/compare data func [a b] [a &gt; b]
+<span class="put">[101 100 42 37 -4 -20]</span>
+</pre>
+</blockquote>
+<br>
+<h2 id="section-9">9. Řady a množiny</h2>
+<blockquote>
+<p>Je několik funkcí, které pracují s řadami jako s množinami. Tyto funkce umožňují provádět množinové operace jako je sjednocení (union) či průnik (intersection) dvou řad.</p>
+</blockquote>
+<h3 id="section-9.1">9.1 Funkce "unique"</h3>
+<blockquote>
+<p>Funkce <tt>unique</tt> vrací množinu s jedinečným (neopakovaným) výskytem prvků.</p>
+<p>Příklady:</p>
+<pre>
+data: [Bill Betty Bob Benny Bart Bob Bill Bob]
+probe unique data
+<span class="put">[Bill Betty Bob Benny Bart]</span>
+unique "abracadabra"
+<span class="put">abrcd</span>
+</pre>
+</blockquote>
+<h3 id="section-9.2">9.2 Funkce "intersect"</h3>
+<blockquote>
+<p>Funkce <tt>intersect</tt> (průnik) přijímá dvě řady a vrací řadu, obsahující prvky společné oběma řadám.</p>
+<p>Příklady:</p>
+<pre>
+probe intersect [Bill Bob Bart] [Bob Ted Fred]
+<span class="put">[Bob]</span>
+lunch: [ham cheese bread carrot]
+dinner: [ham salad carrot rice]
+probe intersect lunch dinner
+<span class="put">[ham carrot]</span>
+intersect [1 3 2 4] [3 5 4 6]
+<span class="put">3 4</span>
+string1: "CBAD"    ; A B C D scrambled
+string2: "EDCF"    ; C D E F scrambled
+sort intersect string1 string2
+<span class="put">CD</span>
+</pre>
+<p>
+Průnik lze také nalézt mezi bitsety:</p>
+<pre>
+all-chars: "ABCDEFGHI"
+charset1: charset "ABCDEF"
+charset2: charset "DEFGHI"
+charset3: intersect charset1 charset2
+
+find charset3 "E"
+<span class="put">true</span>
+find charset3 "B"
+<span class="put">false</span>
+</pre>
+<p>Upřesnění <b><tt>/case</tt></b> umožňuje průnik vnímavý na velikost písma (case sensitive):</p>
+<pre>
+probe intersect/case [Bill bill Bob bob] [Bart bill Bob]
+<span class="put">[bill Bob]</span>
+</pre>
+</blockquote>
+<h3 id="section-9.3">9.3 Funkce "union"</h3>
+<blockquote>
+<p>Funkce <tt>union</tt> (sjednocení) přijímá dvě řady a vrací řadu, která obsahuje hodnoty obou řad, avšak bez duplikátů.</p>
+<p>Příklady:</p>
+<pre>
+probe union [Bill Bob Bart] [Bob Ted Fred]
+<span class="put">[Bill Bob Bart Ted Fred]</span>
+lunch: [ham cheese bread carrot]
+dinner: [ham salad carrot rice]
+probe union lunch dinner
+<span class="put">[ham cheese bread carrot salad rice]</span>
+union [1 3 2 4] [3 5 4 6]
+<span class="put">1 3 2 4 5 6</span>
+string1: "CBDA"    ; A B C D scrambled
+string2: "EDCF"    ; C D E F scrambled
+sort union string1 string2
+<span class="put">ABCDEF</span>
+</pre>
+<p>Funkce <tt>union</tt> může být rovněž použita pro bitsety:</p>
+<pre>
+charset1: charset "ABCDEF"
+charset2: charset "DEFGHI"
+charset3: union charset1 charset2
+
+find charset3 "C"
+<span class="put">true</span>
+find charset3 "G"
+<span class="put">true</span>
+</pre>
+<p>Upřesnění <tt>/case</tt> umožňuje sjednocení, citlivé na velikost písma:</p>
+<pre>
+probe union/case [Bill bill Bob bob] [bill Bob]
+<span class="put">[Bill bill Bob bob]</span>
+</pre>
+</blockquote>
+
+<h3 id="section-9.4">9.4 Funkce "exclude"</h3>
+<blockquote>
+<p>Funkce <tt>exclude</tt> (vyloučení) přijímá dvě řady a vrací řadu, jež obsahuje hodnoty první řady bez společných hodnot s druhou řadou.</p>
+<pre>
+probe exclude [1 2 3 4] [1 2 3 5]
+<span class="put">[4]</span>
+probe exclude [Bill Bob Bart] [Bob Ted Fred]
+<span class="put">[Bill Bart]</span>
+lunch: [ham cheese bread carrot]
+dinner: [ham salad carrot rice]
+probe exclude lunch dinner
+<span class="put">[cheese bread]</span>
+</pre>
+<p>Upřesnění <tt>/case</tt></b> umožňuje "case-sensitive" exkluzi:</p>
+<pre>
+probe exclude/case [Bill bill Bob bob] [Bart bart bill Bob]
+<span class="put">[Bill bob]</span>
+</pre>
+</blockquote>
+<h3 id="section-9.5">9.5 Funkce "difference"</h3>
+<blockquote>
+<p>Funkce <tt>difference</tt></b> (rozdíl) přijímá dvě řady a vrací řadu, která obsahuje hodnoty, jež nejsou společné oběma řadám
+and returns a
+series that contains all of the values not in common with both series.</p>
+<p>Příklady:</p>
+<pre>
+probe difference [1 2 3 4] [1 2 3 5]
+<span class="put">[4 5]</span>
+probe difference [Bill Bob Bart] [Bob Ted Fred]
+<span class="put">[Bill Bart Ted Fred]</span>
+lunch: [ham cheese bread carrot]
+dinner: [ham salad carrot rice]
+probe difference lunch dinner
+<span class="put">[cheese bread salad rice]</span>
+string1: "CBAD"    ; A B C D scrambled
+string2: "EDCF"    ; C D E F scrambled
+print sort difference string1 string2
+<span class="put">ABEF</span>
+</pre>
+<p>Upřesnění <tt>/case</tt> umožňuje "case-sensitive" rozdíly.</p>
+<pre>
+probe difference/case [Bill bill Bob bob] [Bart bart bill Bob]
+<span class="put">[Bill bob Bart bart]</span>
+</pre>
+</blockquote>
+<br>
+<h2 id="section-10">10. Vícečetné proměnné řad</h2>
+<blockquote>
+<p>Na různá místa jedné řady může odkazovat více proměnných. Na příklad:
+</p>
+<pre>
+data: [1 2 3 4 5]
+start: find data 3
+<span class="put">[3 4 5]</span>
+end: find start 4
+<span class="put">[4 5]</span>
+first start
+<span class="put">3</span>
+first end
+<span class="put">4</span>
+</pre>
+<p>Proměnné <tt>start</tt> a <tt>end</tt> odkazují na různé pozice téže řady.</p>
+<p align="center"><img src="images/rebolcore-39.gif"></p>
+<p>Použijeme-li u řady funkci <tt>insert</tt> nebo <tt>remove</tt>, posunou se hodnoty v řadě a proměnné <tt>start</tt> a <tt>end</tt> již neukazují na stejné hodnoty jako předtím. Je-li například z řady "odebrána" proměnná <tt>start</tt>, dojde k odebrání pouze jejího prvního členu:</p>
+<pre>
+remove start
+<span class="put">[4 5]</span>
+first start
+<span class="put">4</span>
+first end
+<span class="put">5</span>
+</pre>
+<p>Řada se posunula doleva a proměnné nyní odkazují na odlišné hodnoty.</p>
+<p align="center"><img src="images/rebolcore-40.gif"></p>
+<p>Nebudiž přehlédnuto, že na rozdíl od hodnot se vzdálenost proměnných od čela řady nezměnila i když posléze ukazují na jiné indexy. K podobné situaci dojde při použití funkce <tt>insert</tt>.</p>
+<p>Tento vedlejší účinek úpravy řady může být někdy výhodný, někdy nevýhodný a je nutné jej vhodným způsobem korigovat.</p>
+</blockquote>
+<br>
+<h2 id="section-11">11. Modifikační upřesnění</h2>
+<blockquote>
+<p>Funkce <tt>change</tt>, <tt>insert</tt> a <tt>remove</tt> lze doplnit různým upřesněním.</p>
+</blockquote>
+<h3 id="section-11.1">11.1 Part</h3>
+<blockquote>
+<p>Upřesnění <tt>/part</tt> přijímá číselné označení pozice v řadě a použije jej k omezení účinku funkce.</p>
+<p>Například, pro následující řady:</p>
+<pre>
+str: "abcdef"
+blk: [1 2 3 4 5 6]
+</pre>
+<p>lze změnit část objektu <tt>str</tt> a <tt>blk</tt> s použitím funkce <tt>change/part:</tt></p>
+<pre>
+change/part str [1 2 3 4] 3
+probe str
+<span class="put">1234def</span>
+change/part blk "abcd" 3
+probe blk
+<span class="put">["abcd" 4 5 6]</span>
+</pre>
+<p>Lze vložit část řady před chvost objektů <tt>str</tt> a
+<tt>blk</tt> funkcí <tt>insert/part</tt>.</p>
+<pre>
+insert/part tail str "-ghijkl" 4
+probe str
+<span class="put">1234def-ghi</span>
+insert/part tail blk ["--" 7 8 9 10 11 12] 4
+probe blk
+<span class="put">["abcd" 4 5 6 "--" 7 8 9]</span>
+</pre>
+<p>K odebrání části řad <tt>str</tt> a <tt>blk</tt> použijeme funkci <tt>remove/part</tt>. Nepřehlédněmež použití funkce <tt>find</tt> k získání pozice řady:</p>
+<pre>
+remove/part (find str "d") (find str "-")
+probe str
+<span class="put">1234-ghi</span>
+remove/part (find blk 4) (find blk "--")
+probe blk
+<span class="put">["abcd" "--" 7 8 9]</span>
+</pre>
+</blockquote>
+
+<h3 id="section-11.2">11.2 Only</h3>
+<blockquote>
+<p>Upřesnění <tt>/only</tt> změní nebo vloží blok jako blok, nikoliv jeho individuální hodnoty.</p>
+<p>Příklady:</p>
+<pre>
+blk: [1 2 3 4 5 6]
+</pre>
+<p>Nahradíme <tt>2</tt> v <tt>blk</tt> blokem <tt>[a</tt>
+<tt>b</tt> <tt>c</tt>] a vložíme <tt>[$1</tt> <tt>$2</tt>
+<tt>$3</tt>] na pozici <tt>5</tt>.</p>
+<pre>
+change/only (find blk 2) [a b c]
+probe blk
+<span class="put">[1 [a b c] 3 4 5 6]</span>
+insert/only (find blk 5) [$1 $2 $3]
+probe blk
+<span class="put">[1 [a b c] 3 4 [$1.00 $2.00 $3.00] 5 6]</span>
+</pre>
+</blockquote>
+
+<h3 id="section-11.3">11.3 Dup</h3>
+<blockquote>
+<p>Upřesnění <b><tt>/dup</tt></b> vícekrát změní nebo vloží hodnotu.</p>
+<p>Příklady:</p>
+<pre>
+str: "abcdefghi"
+blk: [1 2 3 4 5 6]
+</pre>
+<p>Nahradíme první čtyři hodnoty v řetězci nebo bloku hvězdičkou:</p>
+<pre>
+change/dup str "*" 4
+probe str
+<span class="put">****efghi</span>
+change/dup blk "*" 4
+probe blk
+<span class="put">["*" "*" "*" "*" 5 6]</span>
+</pre>
+<p>Vložíme pomlčku (-) čtyřikrát před poslední hodnotu v řetězci nebo bloku:</p>
+<pre>
+insert/dup (back tail str) #"-" 4
+probe str
+<span class="put">****efgh----i</span>
+insert/dup (back tail blk) #"-" 4
+probe blk
+<span class="put">["*" "*" "*" "*" 5 #"-" #"-" #"-" #"-" 6]</span>
+</pre>
+</blockquote>
+</td></tr>
+<tr><td align=center>
+<hr>
+<span class="tail">
+Updated 8-Apr-2005 -
+<a href="http://www.rebol.com">Copyright REBOL Technologies</a>
+- Formatted with MakeDoc2
+</span>
+</td></tr></table>
+</center>
+<map name="bar-map">
+<area shape="rect" coords="0,0,150,28"   href="http://www.rebol.com" alt="REBOL.com">
+<area shape="rect" coords="175,0,275,28" href="http://www.rebol.com/docs.html" alt="Documents">
+<area shape="rect" coords="285,0,365,28" href="http://www.rebol.com/docs/core23/rebolcore.html" alt="Manual">
+<area shape="rect" coords="375,0,445,28" href="http://www.rebol.com/docs/dictionary.html" alt="Dictionary">
+<area shape="rect" coords="452,0,500,28" href="http://www.rebol.com/library.html" alt="Library">
+<area shape="rect" coords="510,0,575,28" href="http://www.rebol.com/feedback.html" alt="Feedback">
+</map>
+</body></html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Chapter 10 - Objects</title>
+<link rel="stylesheet" HREF="red_cz.css">
+</head>
+
+<body bgcolor="beige">
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="09-funkce.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="11-math.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<table width="660" cellpadding="4" cellspacing="0" border="0">
+<!--<tr><td><a href="http://www.rebol.com/docs.html"><img src="http://www.rebol.com/graphics/doc-bar.gif" width="680" height="28" align="bottom" alt="rebol document" border="0" usemap="#bar-map" ismap></a></td></tr>-->
+<tr><td height="24"> </td></tr>
+<tr><td><h1>Kapitola 10 - Objekty</h1>
+
+<h2>Obsah:</h2>
+<a class="toc1" href="#section-1">1. Úvod</a><br>
+<a class="toc1" href="#section-2">2. Vytváření objektů</a><br>
+<a class="toc1" href="#section-3">3. Klonování objektů</a><br>
+<a class="toc1" href="#section-4">4. Přístup k objektům</a><br>
+<a class="toc1" href="#section-5">5. Funkce v objektech</a><br>
+<a class="toc1" href="#section-6">6. Prototypy objektů</a><br>
+<a class="toc1" href="#section-7">7. Odkazování na self</a><br>
+<a class="toc1" href="#section-8">8. Zapouzdření</a><br>
+<a class="toc1" href="#section-9">9. Zkoumání objektu</a><br>
+
+<h2 id="section-1">1. Úvod</h2>
+<blockquote>
+<p>Objekt je seskupení hodnot pro nějaký společný účel. Může obsahovat skalární hodnoty, řady, funkce a jiné objekty. Objekty jsou užitečné při zacházení se složitějšími strukturami, neboť umožňují seskupovat (zapouzdřit, encapsulate) související data a předávat je jako jedinou hodnotu funkcím.</p>
+</blockquote>
+<h2 id="section-2">2. Vytváření objektů</h2>
+<blockquote>
+<p>Nové objekty se vytvářejí funkcí <tt>make</tt>. Funkce 
+<tt>make</tt> přijímá dva argumenty a vrací nový objekt.
+Skladba funkce <tt>make</tt> je tato:</p>
+<pre>
+new-object: make parent-object new-values
+</pre>
+<p>První argument (<tt>parent-object</tt>) je výchozí objekt, z něhož je vytvářen nový objekt. Není-li k disposici výchozí objekt, použije se datový typ <tt>object!</tt>, jak ukázáno níže:</p>
+<pre>
+new-object: make object! new-values
+</pre>
+<p>Druhý argument (<tt>new-values</tt>) je blok, který definuje další proměnné a počáteční hodnoty nového objektu. Každá proměnná, definovaná uvnitř bloku, je interní proměnná objektu:</p>
+<pre>
+example: make object! [
+    var1: 10
+    var2: 20
+]
+</pre>
+<p>Objekt <tt>example</tt> má dvě proměnné, které odkazují na celočíselné hodnoty.</p>
+<p>Blok objektu je vyhodnocován a může tedy obsahovat libovolný výraz pro výpočet hodnoty proměnné:</p>
+<pre>
+example: make object! [
+    var1: 10
+    var2: var1 + 10
+    var3: now/time
+]
+<span class="put">== make object! [
+    var1: 10
+    var2: 20
+    var3: 15:22:12 ]
+</span>
+</pre>
+<p>Výstup v REPL nám ukazuje, že výrazy proměnných byly vyhonoceny a tam, kde to bylo potřebné, byly nahrazeny literály.
+</p>
+<p>Jednou vytvořený objekt může sloužit jako prototyp pro vytváření nových objektů:</p>
+<pre>
+example2: make example []
+
+</pre>
+<p>Uvedený příklad vytváří druhou instanci objektu <tt>example</tt>. Nový objekt je klonem prvního objektu, který obsahuje své proměnné s přiřazenými literály.</p>
+
+<p>Při klonování objektu můžeme rozšířit prototypový objekt o nové proměnné:</p>
+<pre>
+example2: make example [
+    var4: now/time
+    var5: "example"
+]
+</pre>
+<p>Výsledkem je objekt, který má pět proměnných. Tři z původního objektu <tt>example</tt> a dvě nově přidané. Všimněte si hodnot u vyhodnocených funkcí now/time.</p>
+<p>Rozšíření deklarace objektu lze provádět vícekrát za sebou.
+</p>
+<p>Je také možné vytvořit objekt, jehož proměnné jsou inicializovány na nějakou společnou hodnotu. Případně s použitím kaskádové deklarace:</p>
+<pre>
+example3: make object! [
+    var1: var2: var3: var4: none
+]
+<span class="put">== make object! [
+    var1: none
+    var2: none
+    var3: none
+    var4: none
+]</span>
+</pre>
+
+<p>Proces vytváření objektu lze shrnout do těchto kroků:</p>
+<ul>
+<li>Funkce <tt>make</tt> vytvoří nový objekt vycházející z existujícího objektu nebo datového typu <tt>objekt!</tt>.</li>
+<li>Definiční blok obsahuje proměnné nového objektu.</li>
+<li>Nový objekt přebírá proměnné původního objektu s literálovými hodnotami.</li>
+</ul>
+</blockquote>
+
+<h2 id="section-3">3. Klonování objektů</h2>
+<blockquote>
+<p>Při vytváření nového objektu z existujícího objektu (prototypu), je tento objekt spíše klonován, než přenesen děděním. Což se projevuje tím, že změna prototypu nemá žádný vliv na již vytvořený nový objekt.</p>
+<p>Jako příklad si uvedeme kód, který vytváří objekt bankovního účtu, jehož proměnné jsou prázdné:</p>
+<pre>
+bank-account: make object! [
+    first-name:
+    last-name:
+    account:
+    balance: none
+]
+</pre>
+<p>Při použití tohoto objektu lze proměnným poskytnout příslušné hodnoty pro konkretního uživatele:</p>
+<pre>
+luke: make bank-account [
+    first-name: "Luke"
+    last-name: "Lakeswimmer"
+    account: 89431
+    balance: $1204.52
+]
+</pre>
+<p>Protože se nové účty vytvářejí často, vyplatí se pro tento účel použít funkci s několika globálními proměnnými:</p>
+<pre>
+last-account: 89431
+bank-bonus: $10.00
+
+make-account: func [
+    "Returns a new account object"
+    f-name [string!] "First name"
+    l-name [string!] "Last name"
+    start-balance [money!] "Starting balance"
+][
+    last-account: last-account + 1
+    make bank-account [
+        first-name: f-name
+        last-name: l-name
+        account: last-account
+        balance: start-balance + bank-bonus
+    ]
+]
+</pre>
+<p>K vytvoření nového účtu pro <tt>Freda</tt> nyní postačí:</p>
+<pre>
+fred: make-account "Fred" "Smith" $500.00
+</pre>
+</blockquote>
+
+<h2 id="section-4">4. Přístup k objektům</h2>
+<blockquote>
+<p>Proměnné uvnitř objektů jsou přístupné pomocí cest. Cesta (path) se skládá z názvu objektu, následovaným názvem proměnné. Následující kód například přistupuje k proměnným objektu <tt>example</tt>:</p>
+<pre>
+example/var1
+
+example/var2
+</pre>
+<p>Zde jsou příklady, používající objekt <tt>bank-account</tt> :</p>
+<pre>
+print luke/last-name
+<span class="put">Lakeswimmer</span>
+print fred/balance
+<span class="put">$510.00</span>
+</pre>
+<p>S použitím cesty lze rovněž měnit hodnoty proměnných v objektu:</p>
+<pre>
+fred/balance: $1000.00
+print fred/balance
+<span class="put">$1000.00</span>
+</pre>
+<p>Pro přístup k proměnné v objektu použijeme také funkci <tt>in</tt>:</p>
+<pre>
+print in fred 'balance
+<span class="put">balance</span>
+</pre>
+<p>Vrácené slovo <tt>balance</tt> je v kontextu se slovem <tt>fred</tt>. Hodnotu slova nám zpřístupní funkce <tt><b>get</b></tt>:</p>
+<pre>
+print get in fred 'balance
+<span class="put">$1000.00</span>
+</pre>
+<p>Druhý argument funkce <tt>in</tt> má formu literálu. Protože slova uvnitř bloku mají rovněž formu literálů, můžeme jejich hodnotu měnit dynamicky podle potřeby:</p>
+<pre>
+words: [first-name last-name balance]
+foreach word words [print get in fred word]
+<span class="put">FredSmith
+$1000.00</span>
+</pre>
+<p>Funkci <tt>in</tt> lze rovněž použit pro přiřazení hodnoty proměnné:</p>
+<pre>
+set in fred 'balance $20.00
+print fred/balance
+<span class="put">$20.00</span>
+</pre>
+<p>Není-li slovo v objektu definováno, vrátí funkce <tt>in</tt> hodnotu <tt>none</tt> . To je užitečné při zjišťování, zda proměnná v objektu existuje.</p>
+<pre>
+if get in fred 'bank [print fred/bank]
+</pre>
+</blockquote>
+
+<h2 id="section-5">5. Funkce v objektech</h2>
+<blockquote>
+<p>Objekt může obsahovat proměnné, které odkazují na funkce, definované uvnitř objektu. </p>
+<p>Objekt <tt>example</tt> v následující ukázce například obsahuje funkci <tt>calculate</tt>:</p>
+<pre>
+example: make object! [
+    var1: 10
+    var2: var1 + 10
+    var 3: now/time
+    set-time: does [var3: now/time]
+    calculate: func [value] [
+        var1: value
+        var2: value + 10
+    ] ]
+</pre>
+<p>Proměnné funkce se mohou odkazovat na jiné proměnné objektu bez použití cesty a to proto, že sdílejí stejný jmenný prostor.</p>
+<p>K zadání nového času nicméně cestu použijeme:</p>
+<pre>
+example/set-time
+</pre>
+<p>Nové hodnoty proměnných <tt>var1</tt> a <tt>var2</tt> určíme funkcí:</p>
+<pre>
+example/calculate 100
+print example/var2
+<span class="put">110</span>
+</pre>
+<p>V případě objektu <tt>bank-account</tt> můžeme ke stávající definici přidat funkce pro 
+<tt>deposit</tt> a <tt>withdraw</tt>:</p>
+<pre>
+bank-account: make bank-account [
+    deposit: func [amount [money!]] [
+        balance: balance + amount
+    ]
+    withdraw: func [amount [money!]] [
+        either negative? balance [
+            print ["Denied. Account overdrawn by"
+                absolute balance]
+        ][balance: balance - amount]
+    ]
+]
+</pre>
+<p>Opět si všimneme toho, že funkce odkazují na proměnnou 
+<tt>balance</tt> přímo, bez cesty.</p>
+<p>Když nyní vytvoříme nový účet, bude obsahovat funkce pro vkládání a vybírání peněz. Na příklad:</p>
+<pre>
+lily: make-account "Lily" "Lakeswimmer" $1000
+
+print lily/balance
+<span class="put">$1010.00</span>
+lily/deposit $100
+
+print lily/balance
+<span class="put">$1110.00</span>
+lily/withdraw $2000
+
+print lily/balance
+<span class="put">-$890.00</span>
+lily/withdraw $2.10
+<span class="put">Denied. Account overdrawn by $890.00</span>
+</pre>
+</blockquote>
+
+<h2 id="section-6">6. Prototypy objektů</h2>
+<blockquote>
+<p>Každý objekt může sloužit jako prototyp pro vytváření nových objektů. Například, dříve definovaný objekt účtu <tt>lily</tt> může být použit pro vytvoření nového objektu (instance objektu) prostým příkazem:</p>
+<pre>
+maya: make lily []
+</pre>
+<p>Instance je kopií prototypu a má identické hodnoty:</p>
+<pre>
+print lily/balance
+<span class="put">-$890.00</span>
+print maya/balance
+<span class="put">-$890.00</span>
+</pre>
+<p>Nově vytvářený objekt lze zároveň upravit zadáním nových hodot uvnitř definičního bloku:</p>
+<pre>
+maya: make lily [
+    first-name: "Maya"
+    balance: $10000
+]
+
+print maya/balance
+<span class="put">$10000.00</span>
+maya/deposit $500
+
+print maya/balance
+<span class="put">$10500.00</span>
+print maya/first-name
+<span class="put">Maya</span>
+</pre>
+<p>Objekt <tt>lily</tt> slouží jako prototyp pro vytvoření nového objektu. Nezměněná slova si ponechávají původní hodnoty:</p>
+<pre>
+print maya/last-name
+<span class="put">Lakeswimmer</span>
+</pre>
+<p>Nová slova se přidávají známým způsobem:</p>
+<pre>
+maya: make lily [
+    email: maya@example.com
+    birthdate: 4-July-1977
+]
+</pre>
+</blockquote>
+
+<h2 id="section-7">7. Odkazování na self</h2>
+<blockquote>
+<p>Každý objekt obsahuje předdefinovanou proměnnou, zvanou <tt>self</tt>. Tato proměnná odkazuje na samotný objekt. Lze ji použít pro zadání objektu jako argument jiným funkcím nebo jako vratnou hodnotu funkce.</p>
+<p>Parametrem funkce <tt>show-time</tt> v následujícím příkladu je slovo <tt>obj</tt>, prezentujcí objekt. Při volání této funkce uvnitř dále definovaného objektu je jako argument použito slovo <tt>self</tt>:</p>
+<pre>
+show-time: func [obj] [print obj/time] 
+     <ii>; víme, že argument bude mít atribut <tt>time</tt> </ii>
+
+example: make object! [
+    time: now/time               <ii>; zde ho máme</ii>    
+    show: does [show-time self]]
+     <ii>; místo "self" lze dosadit i "example"</ii>
+
+example/show
+<span class="put">20:49:09</span>
+</pre>
+<p>Jiným příkladem použití proměnné <tt>self</tt> je funkce, která klonuje samu sebe:</p>
+<pre>
+person: make object! [
+    name: days-old: none
+    new: func [name' birthday] [
+        make self [
+            name: name'
+            days-old: now/date - birthday
+        ]
+    ]
+]
+
+lulu: person/new "Lulu Ulu" 17-May-1980
+
+print lulu/days-old
+<span class="put">7366</span>
+</pre>
+</blockquote>
+
+<h2 id="section-8">8. Zapouzdření</h2>
+<blockquote>
+<p>Objekt poskytuje dobrý způsob zapouzdření (encapsulation) proměnných, které by se neměly vyskytovat volně v globálním prostoru. Jsou-li proměnné funkce definovány jako globální, mohou být bezděky změněny jinými funkcemi.</p>
+<p>Řešení tohoto problému spočívá v zapouzdření proměnných i funkce do jednoho objektu. V tomto uspořádání má funkce volný přístup k proměnným, které jsou globálně přístupné jen prostřednictvím cesty:</p>
+<pre>
+Bank: make object! [
+
+    last-account: 89431
+    bank-bonus: $10.00
+
+    set 'make-account func [
+        "Returns a new account object"
+        f-name [string!] "First name"
+        l-name [string!] "Last name"
+        start-balance [money!] "Starting balance"
+    ][
+        last-account: last-account + 1
+        make bank-account [
+            first-name: f-name
+            last-name: l-name
+            account: last-account
+            balance: start-balance + bank-bonus
+        ]
+    ]
+]
+</pre>
+<p>Všimněte si, že funkce <tt>make-account</tt> je deklarovaná pomocí funkce <tt>set</tt>. To z ní činí globální funkci. Přístup k této funkci nevyžaduje formát cesty:</p>
+<pre>
+bob: make-account "Bob" "Baker" $4000
+</pre>
+</blockquote>
+
+<h2 id="section-9">9. Zkoumání objektu</h2>
+<blockquote>
+<p>Užitečným nástrojem při zkoumání objektu může být funkce, která vrací názvy proměnných a jejich případné hodnoty.</p>
+<p>Základním formátem každého objektu je blok a lze jej tedy zkoumat navigačními funkcemi bloku <tt>first</tt> a <tt>second</tt>. V tomto případě vrací funkce <tt>first</tt> název proměnné a funkce <tt>second</tt> vrací její hodnotu:</p>
+
+<p align="center"><img src="images/rebolcore-47.gif"></p>
+
+<p>Procedurou <tt>first</tt> lze získat seznam slov funkce: <br>  
+<ii>Nelze, protože luke (deklarovaný v odstavci 3) není typ block! ale object!</ii></p> 
+<pre>
+probe first luke
+<span class="put">[self first-name last-name account balance]</span>   <ii>; by se mělo vrátit</ii>
+<ii>; ale vrací se:</ii>
+<span class="put">Script Error: next does not allow word! for its series argument</span>
+</pre>
+<p>Vidíme, že seznam obsahuje také obligátní proměnnou <tt>self</tt>, jíž lehce ze seznamu vyloučíme s použitím funkce <tt>next:</tt></p>
+<pre>
+probe next first luke
+<span class="put">[first-name last-name account balance]</span>
+</pre>
+<p>Nyní můžeme napsat funkci, která prozkoumá obsah objektu:</p>
+<pre>
+probe-object: func [object][
+    foreach word next first object [
+        print rejoin [word ":" tab get in object word]
+    ]
+]
+
+probe-object fred
+<span class="put">first-name: Luke
+last-name: Lakeswimmer
+account: 89431
+balance: $1204.52</span>
+</pre>
+<p>Při používání této funkce je potřebná jistá ostražitost aby nedošlo k nekonečné smyčce. Může k tomu dojít, odkazuje-li objekt sám na sebe, což je časté u <tt>systémových</tt> objektů.</p>
+</blockquote>
+</td></tr>
+<tr><td align=center>
+
+</td></tr></table>
+</center>
+<!--<map name="bar-map">
+<area shape="rect" coords="0,0,150,28"   href="http://www.rebol.com" alt="REBOL.com">
+<area shape="rect" coords="175,0,275,28" href="http://www.rebol.com/docs.html" alt="Documents">
+<area shape="rect" coords="285,0,365,28" href="http://www.rebol.com/docs/core23/rebolcore.html" alt="Manual">
+<area shape="rect" coords="375,0,445,28" href="http://www.rebol.com/docs/dictionary.html" alt="Dictionary">
+<area shape="rect" coords="452,0,500,28" href="http://www.rebol.com/library.html" alt="Library">
+<area shape="rect" coords="510,0,575,28" href="http://www.rebol.com/feedback.html" alt="Feedback">
+</map>-->
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="09-funkce.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="11-math.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<span class="tail">
+Perpetrated 25-May-2017 -
+<!--<a href="http://www.rebol.com">Copyright REBOL Technologies</a>-->
+- Hosted with BitBucket Cloud
+</span></center>
+</body>
+</html>

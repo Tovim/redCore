@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>Chapter 12 - Files</title>
+<link rel="stylesheet" HREF="red_cz.css">
+</head>
+<body bgcolor="beige">
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="11-math.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="13-network.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<table width="660" cellpadding="4" cellspacing="0" border="0">
+<!--<tr><td><a href="http://www.rebol.com/docs.html"><img src="http://www.rebol.com/graphics/doc-bar.gif" width="680" height="28" align="bottom" alt="rebol document" border="0" usemap="#bar-map" ismap></a></td></tr>-->
+<tr><td height="24"> </td></tr>
+<tr><td><h1>Kapitola 12 - Soubory</h1>
+
+
+<h2>Obsah:</h2>
+<a class="toc1" href="#section-1">1. Úvod</a><br>
+<a class="toc1" href="#section-2">2. Jména a cesty</a><br>
+<a class="toc2" href="#section-2.1">2.1 Názvy souborů</a><br>
+<a class="toc2" href="#section-2.2">2.2 Zápis cesty</a><br>
+<a class="toc2" href="#section-2.3">2.3 Velikost písmen</a><br>
+<a class="toc2" href="#section-2.4">2.4 Pomocné funkce</a><br>
+<a class="toc1" href="#section-3">3. Čtení souborů</a><br>
+<a class="toc2" href="#section-3.1">3.1 Čtení textových souborů</a><br>
+<a class="toc2" href="#section-3.2">3.2 Čtení binárních souborů</a><br>
+<a class="toc2" href="#section-3.3">3.3 Načítání souborů ze sítě</a><br>
+<a class="toc1" href="#section-4">4. Zápis souborů</a><br>
+<a class="toc2" href="#section-4.1">4.1 Zápis textových souborů</a><br>
+<a class="toc2" href="#section-4.2">4.2 Zápis binárních souborů</a><br>
+<a class="toc2" href="#section-4.3">4.3 Zápis souboru do sítě</a><br>
+<a class="toc1" href="#section-5">5. Konverze řádků</a><br>
+<a class="toc1" href="#section-6">6. Bloky řádků</a><br>
+<a class="toc1" href="#section-7">7. Informace o souborech a složkách</a><br>
+<a class="toc2" href="#section-7.1">7.1 Existence adresáře</a><br>
+<a class="toc2" href="#section-7.2">7.2 Existence souboru</a><br><!--
+<a class="toc2" href="#section-7.3">7.3 File Size</a><br>
+<a class="toc2" href="#section-7.4">7.4 File Modification Date</a><br>
+<a class="toc2" href="#section-7.5">7.5 Informace o složkách</a><br>-->
+<a class="toc1" href="#section-8">8. Adresáře</a><br>
+<a class="toc2" href="#section-8.1">8.1 Čtení adresáře</a><br>
+<a class="toc2" href="#section-8.2">8.2 Vytvoření adresáře</a><br><!--
+<a class="toc2" href="#section-8.3">8.3 Renaming Directories and Files</a><br>
+<a class="toc2" href="#section-8.4">8.4 Deleting Directories and Files</a><br>-->
+<a class="toc2" href="#section-8.5">8.5 Aktuální adresář</a><br>
+<a class="toc2" href="#section-8.6">8.6 Změna adresáře</a><br>
+<a class="toc2" href="#section-8.7">8.7 Výpis z adresáře</a><br>
+<h2 id="section-1">1. Úvod</h2>
+<blockquote>
+<p>Důležitým aspektem všestrannosti programového jazyka Red je jeho schopnost manipulovat se soubory a adresáři. Red poskytuje širokou škálu funkcí od prostého načtení souboru až k přímému přístupu k souborům a adresářům.<!-- For more
+information on direct access to files and directories, see the
+<A href="rebolcore-14.html#_Toc487519750">Ports Chapter</A>.--></p>
+</blockquote>
+<h2 id="section-2">2. Jména a cesty</h2>
+<blockquote>
+<!--<p>
+REBOL provides a standard, machine independent file and path naming
+convention.</p>-->
+</blockquote>
+<h3 id="section-2.1">2.1 Názvy souborů</h3>
+<blockquote>
+<p>Názvy souborů včetně cesty se ve skriptech uvádějí označením procenta (%), následovaným sekvencí znaků:</p>
+<pre>
+%examples.r
+%big-image.jpg
+%graphics/amiga.jpg
+%/c/plug-in/video.r
+%//sound/goldfinger.mp3
+</pre><!--
+<p>The percent sign is necessary to prevent file names from being interpreted as
+words within the language.</p>-->
+<p>I když to není dobrý způsob, jméno souboru může obsahovat i mezery, pokud je obklopeno dvojitými uvozovkami (" "). Dvojité závorky zabraňují interpretaci jména souboru jako vícerá slova:</p>
+<pre>
+%"this file.txt"
+%"cool movie clip.mpg"
+</pre>
+<p>Pro zápis mezer lze rovněž použít internetovou konvenci o používání procentního znaku spolu s hexadecimálním číslem; v tom případě se uvozovky nepožadují. Výše uvedená jména souborů lze rovněž zapsat jako:</p>
+<pre>
+%this%20file.txt
+%cool%20movie%20clip.mpg
+</pre><!--
+<p>Note that the standard file suffix for REBOL scripts is ".r". On
+systems where this convention collides with another file type, a
+".reb" suffix can be used instead.</p>-->
+</blockquote>
+<h3 id="section-2.2">2.2 Zápis cesty</h3>
+<blockquote>
+<p>Cesta k souboru se uvádí procentním znakem (%) s následným výpisem adresářů, oddělených lomítkem (/).</p>
+<pre>
+%dir/file.txt
+%/file.txt
+%dir/
+%/dir/
+%/dir/subdir/
+%../dir/file.txt
+</pre>
+<p>Pokud se ve výpisu objeví zpětné lomítko(\), je převedeno na normální lomítko:</p>
+<pre>
+probe %\some\cool\movie.mpg
+<span class="put">%/some/cool/movie.mpg</span>
+</pre>
+<p>Red poskytuje vlastní, na operativním systému nezávislou metodu určování adresářových cest. Cesty mohou být relativní vzhledem k aktuálnímu adresáři nebo absolutní vzhledem k nejvyšší úrovni souborové struktury operačního systému.</p>
+<p>Cesty, které nezačínají lomítkem (/), jsou relativní.</p>
+<pre>
+%docs/intro.txt
+%docs/new/notes.txt
+%"new mail/inbox.mbx"
+</pre>
+<p>Podporována je rovněž konvence používání dvou teček (..) k označení rodičovského adresáře nebo jedné tečky k označení aktuálního adresáře. Například:</p>
+<pre>
+%.
+%./
+%./file.txt
+%..
+%../
+%../script.red
+%../../plans/schedule.red
+</pre>
+<p>Cesty k souborům používají standardní internetový úzus pro označování absolutních cest dopředným lomítkem. Toto lomítko indikuje, že cesta začíná na nejvyšší úrovni souborového systému. Tento způsob by se neměl používat tam, kde je snaha o nezávislost implementace kódu na platformě. <br>Příkladmo:</p>
+<pre>
+%/home/file.txt
+</pre>
+<p>odkazuje na diskovou jednotku nebo oddíl s názvem <tt>home</tt>.  Další příklady jsou:</p>
+<pre>
+%/ram/temp/test.red
+%/cd0/scripts/test/files.red
+</pre>
+<p>Zápis odkazu na jednotku <tt>C</tt>, často používaný ve Windows:</p>
+<pre>
+%/C/docs/file.txt
+%"/c/program files/qualcomm/eudora mail/out.mbx"
+</pre>
+<p>Pamatujte si, že velké písmeno <tt>C</tt> v prvním odkazu ukázky je nezbytné.
+<p>Začíná-li cesta dvojitým lomítkem, potom je relativní k aktuální diskové jednotce:</p>
+<pre>
+%//docs/notes
+</pre>
+</blockquote>
+<h3 id="section-2.3">2.3 Rozlišování velkých a malých písmen</h3>
+<blockquote>
+<p>Jména souborů nejsou imlicitně <b><i> case-sensitivní</i></b> ale zachovávají si velikost písmen, jimiž byla zapsána:</p>
+<pre>
+write %Script-File.red "Běží liška k Táboru"
+</pre>
+<p>V aktuálním adresáři je uložen soubor <b><i>Script-File.red</i></b>.  Tento soubor lze načíst příkazem:</p>
+<pre>
+print read %script-file.red
+<span class="put">Běží liška k Táboru</span>
+</pre>
+<p>U case-sensitivních systémů, jako je  UNIX, nalezne Red nejbližší možnou shodu s daným zápisem jména souboru. Požaduje-li například skript aby se četl soubor <tt>%test.red</tt> ale k nalezení je pouze <tt>%TEST.red</tt>, načte se soubor <tt>%TEST.red</tt>. Toto chování je nezbytné pro existenci na platformě nezávislých skriptů.</p>
+</blockquote>
+<h3 id="section-2.4">2.4 Pomocné funkce</h3>
+<blockquote>
+<p>Pro práci se jmény souborů a s cestami k nim existuje několik funkcí:</p>
+<table cellspacing="6" border="0" width="95%">
+<h3>to-file</h3>
+<p>Konvertuje řetězce a bloky na formát názvu či cesty</p>
+<pre>
+to-file "docs/pes.txt"
+<span class="put">%docs/pes.txt</span>
+</pre>
+<h3>split-path</h3>
+<p>Rozdělí cestu na jednotlivé části</p>
+<pre>
+split-path %docs/pes.txt
+<span class="put">[%docs/ %pes.txt]</span>
+</pre>
+<h3>clean-path</h3>
+<p>Vrací absolutní cestu. Zde k zadané cestě doplní cestu k aktuálnímu adresáři spuštěné konzoly.</p>
+<pre>
+clean-path %folder1/file.txt
+<span class="put">%/F/Codetest/Red/folder1/file.txt</span>
+</pre>
+<p>Případně zjednoduší zápis</p>
+<pre>
+clean-path %/folder1/folder2/folder3/../../file.txt
+<span class="put">%/folder1/file.txt</span>
+clean-path http://www/./google.com
+<span class="put">%/www/google.com</span>
+</pre>
+<h3>what-dir</h3>
+<p>Vrací absolutní cestu k aktuálnímu adresáři</p>
+<pre>
+what-dir
+<span class="put">%/F/Codetest/Red/</span>
+</pre>
+</blockquote><br>
+<h2 id="section-3">3. Čtení souborů</h2>
+<blockquote>
+<p>Soubory jsou čteny jako řady textových znaků nebo jako bajty binárů. 
+Čteným souborem je buď lokální soubor v počítači nebo soubor ze sítě.</p>
+</blockquote>
+<h3 id="section-3.1">3.1 Čtení textových souborů</h3>
+<blockquote>
+<p>Ke čtení lokálního textového souboru slouží funkce <b><tt>read</tt></b>:</p>
+<pre>
+rext: read %file.txt
+<span class="put">== "Honzíku máš namále, ^/posbírej ty korále."
+</pre>
+<p>Funkce <b><tt>read</tt></b> vrací řetězec, který obsahuje text celého souboru. V naší ukázce byl tento text přiřazen poměnné <tt>rext</tt>.</p>
+<p>Uvnitř řetězce, vráceného funkcí <b><tt>read</tt></b>, se terminátory řádků přemění na znaky (^/) <tt>newline</tt> , bez ohledu na styl řádkových terminátorů, používaný ve vašem operačním systému. To umožňuje psát skripty, vyhledávající <tt>newline</tt> bez starosti o to, jaký znak nebo znaky představují ukončení řádku.</p>
+<pre>
+next-line: next find rext newline    <ii>; newline is a char! of value: #"^/"</ii>
+<span class="put">== "posbírej ty korále."</span>
+</pre>
+
+<p>Soubor může být rovněž načten s oddělenými řádky, uloženými v bloku:</p>
+<pre>
+lines: read/lines %file.txt
+<span class="put">== ["Honzíku, máš namále," "posbírej ty korále."]</span>
+</pre><!--
+<p>See the <A href="rebolcore-12.html#_Toc487519846">Line
+Conversion section</A> for more information about <tt>newline</tt> and
+reading lines.</p>
+<p>To read a file a piece at a time, use the <b><tt>open</tt></b> function as
+described in the <A
+href="rebolcore-14.html#_Toc487519750">Ports
+Chapter</A>.</p>-->
+<p>Funkce <b><tt>print read</tt></b> vrátí načtený text v úpravě, uložené v souboru</p>
+<pre>
+print read %file.txt
+
+<span class="put">Honzíku, máš namále,<br>posbírej ty korále.</span>
+</pre>
+</blockquote>
+<h3 id="section-3.2">3.2 Čtení binárních souborů</h3>
+<blockquote>
+<p>Ke čtení binárního souboru, jako je obraz, program nebo zvuk, slouží funkce s upřesněním <b><tt>read/binary:</tt></b></p>
+<pre>
+data: read/binary %file.bin
+</pre>
+<p>Funkce <b><tt>read/binary</tt></b> vrací binářní řadu, která obsahuje celý obsah souboru. V ukázce byla binářní řada přiřazena proměnné <tt>data</tt>. Soubor není žádným způsobem konvertován na jiný typ.</p><!--
+<p>To read a binary file a piece at a time, use the <b><tt>open</tt></b>
+function as described in the <A
+href="rebolcore-14.html#_Toc487519750">Ports
+Chapter</A>.</p>-->
+</blockquote>
+<h3 id="section-3.3">3.3 Načítání souborů ze sítě</h3>
+<blockquote>
+<p>Soubory mohou být čteny ze sítě. Například, pro zobrazení textového souboru s použitím HTTP protokolu zadáme:</p>
+<pre>
+print read http://www.rebol.com/test.txt
+<span class="put">Soubor není dostupný, zobrazí se nám tedy<br> HTML text webové stránky "404 Not Found"</span>
+</pre>
+<p>Načtený vzdálený text je možné lokálně zapsat příkazem:
+</p>
+<pre>
+write %test.txt read http:/www.rebol.com/test.txt
+</pre>
+<p>Při zápisu jsou konce řádků načítaného souboru konvertovány na způsob, používaný lokálním operačním systémem.</p>
+<p>Pro načtení a uložení binárního souboru (jako třeba obrázku) se použije následující (jeden) řádek:</p>
+<pre>
+write %image.jpg read/binary http:/www.rebol.com/image.jpg
+</pre> 
+<p>O přístupu k souborům přes síť více v  <a
+href="13-network.html">Síťových protokolech</a>.</p>
+</blockquote>
+<br>
+<h2 id="section-4">4. Zápis souborů</h2>
+<blockquote>
+<p>Soubor lze psát jako řadu textových znaků nebo binárních bajtů. Umístění souboru může být lokální nebo na síti.</p>
+<p>Pro psaní souborů část po částech použijeme funkci <b><tt>open</tt> (<ii>jenž však zatím nechodí</ii>)</b> podle pokynů v kapitole <a href="14-porty.html">Porty
+</a>.</p>
+</blockquote>
+<h3 id="section-4.1">4.1 Zápis textových souborů</h3>
+<blockquote>
+<p>Pro zápis lokálního textového souboru použijeme následující řádek kódu:</p>
+<ii>Soubor se uloží do stejného adresáře, ve kterém běží REPL Redu</ii>
+<pre>
+write %filek.txt "spodek, svršek, král, eso"
+</pre>
+<p>Zadaný text se vloží do souboru a uloži do aktuální složky, v níž operuje konzola Redu.</p>
+<p>Obsahuje-li soubor znaky <tt>newline</tt>, jsou tyto konvertovány na znaky, používané lokálním systémem souborů.</p>
+<p>Následující řádek například konvertuje jakýkoli formát ukončení řádku (UNIX, Macintosh, PC, Amiga) na formát používaný vaším lokálním systémem:</p>
+<pre>
+write %newfile.txt read %filek.txt
+</pre>
+<p>Výše uvedený řádek načte celý soubor, přičemž konvertuje jeho konce řádků na standard Redu, načež soubor zapíše, konvertujíc jej do standardu lokálního operačního systému.</p>
+<p>K přidání textu na konec souboru použijeme upřesnění <b><tt>/append</tt></b>:</p>
+<pre>
+write/append %filek.txt "^/Darda s Belou"    <ii>; připojí na nový řádek</ii>
+</pre>
+<p>Pro zápis do souboru po řádcích použijeme upřesnění <b><tt>/lines</tt></b>. Obsahy jednotlivých řádků tvoří samostatné řetězce:
+</p>
+<pre>
+write/append/lines %filek.txt ["^/Držte si kloboučky," "jedeme s kopce"]
+</pre><!--
+<p>To write a file a piece at a time, use the <b><tt>open</tt></b> function as
+described in the <A
+href="rebolcore-14.html#_Toc487519750">Ports
+Chapter</A>.</p>-->
+</blockquote>
+<h3 id="section-4.2">4.2 Zápis binárních souborů</h3>
+<blockquote>
+<p>K zapsání binárního souboru, jeko je obraz, program a zvuk, použijeme upřesnění <b><tt>write/binary</tt></b>:</p>
+<pre>
+write/binary %file.bin data
+</pre>
+<p>Funkce <b><tt>write/binary</tt></b> vytvoří soubor, pokud neexistuje nebo přepíše existující. Žádná konverze souboru se neprovádí.</p>
+<!--
+<p>To write a binary file a piece at a time, use the <b><tt>open</tt></b>
+function as described in the <A
+href="rebolcore-14.html#_Toc487519750">Ports
+Chapter</A>.</p>-->
+</blockquote>
+<h3 id="section-4.3">4.3 Zápis souboru do sítě</h3>
+<blockquote>
+<p>Pro zápis textového souboru do sítě s použitím protokolu FTP použijeme sekvenci:</p>
+<pre>
+write ftp://ftp.domain.com/file.txt "save this text"
+</pre>
+<p>Soubor je možné lokálně načíst a zapsat do sítě následujícím způsobem:</p>
+<pre>
+write ftp://ftp.domain.com/file.txt read %file.txt
+</pre>
+<p>V průběhu načítání jsou konce řádků souboru konvertovány do formátu CRLF.</p>
+<p>Pro zápis binárního souboru do sítě se použije následující řádek kódu:</p>
+<pre>
+write/binary ftp://ftp.domain.com/file.txt/image.jpg
+    read/binary %image.jpg
+</pre>
+<p>Více informací o přístupu k souborům na síti viz kapitola <a
+href="13-network.html">Síťové protokoly</a>.</p>
+</pre>
+</blockquote><br>
+<h2 id="section-5">5. Konverze řádků</h2>
+<blockquote>
+<p>Je-li soubor čten jako text, jsou všechna ukončení řádků přetvořena na <tt>newline</tt> (line feed) znaky. Line feeds (užité jako ukončení řádků v systémech Amiga, Linux a UNIX), návraty vozíků (užité jako ukončení řádků v Macintosh) a kombinace CR/LF (PC a Internet) jsou všechna konvertována na ekvivalentí znaky <tt>newline</tt>.</p>
+<p>Použití standardního ukončení řádku ve skriptu umožňuje na stroji nezávislé zpracování. Například, pro vyhledání a spočítání všech znaků <tt>newline</tt> v textovém souboru zadáme:</p>
+<pre>
+text: read %file.txt
+count: 0
+while [spot: find text newline][
+    count: count + 1
+    text: next spot
+]
+</pre>
+<p>Tato konverze řádků je rovněž užitečná při čtení souborů ze sítě:</p>
+<pre>
+text: read ftp://ftp.rebol.com/test.txt
+</pre>
+<p>Při zápisu souboru je znak <tt>newline</tt> konvertován do formátu, používaného operačním systémem. Na příklad, znak  <tt>newline</tt> je konvertován na CRLF na PC, na LF v systému UNIX nebo Amiga nebo na CR u systému Macintosh. Soubory na síti se píší s CRLF.</p>
+<p>Následující funkce konvertuje libovolný textový soubor s jakýmkoli stylem zakončení řádků na styl, používaný v lokálním operačním systému:</p>
+<pre>
+convert-lines: func [file] [write file read file]
+</pre>
+<p>Soubor je čten a všechna zakončení řádků jsou konvertována. Poté je soubor psán a znaky <tt>newline</tt> jsou konvertovány na styl lokálního operačního systému.</p>
+<p>Konverzi zakončení řádků lze vypnout načítáním souboru jako bináru. Například, následující řádek:</p>
+<pre>
+write/binary %newfile.txt read/binary %oldfile.txt
+</pre>
+<p>způsobí zachování řádkových terminátorů v textovém souboru.</p>
+</blockquote><br>
+<h2 id="section-6">6. Bloky řádků</h2>
+<blockquote>
+<p>Textové soubory jsou snadno přístupné a manipulovatelné jako individuální řádky textu, spíše než jednotlivé řady znaků. Načtení souboru jako bloku řádků způsobí příkaz:</p>
+<pre>
+lines: read/lines %service.txt
+</pre>
+<p>Výše uvedený příklad vrací blok, obsahující řadu stringů (jeden pro každý řádek) bez ukončení řádků. Prázdné řádky jsou zastoupeny prázdnými řetězci.</p>
+<p>K vytištění konkrétního řádku použijeme následující kód:</p>
+<pre>
+print first lines
+print last lines
+print pick lines 100
+print lines/500
+</pre>
+<p>Všechny řádky souboru vytiskneme následujícím příkazem:</p>
+<pre>
+foreach line lines [print line]
+<span class="put">I wanted the gold, and I sought it,
+I scrabbled and mucked like a slave.
+Was it famine or scurvy -- I fought it;
+I hurled my youth into a grave.
+I wanted the gold, and I got it --
+Came out with a fortune last fall, --
+Yet somehow life's not what I thought it,
+And somehow the gold isn't all.</span>
+</pre>
+<p>K vytištění všech řádků, které obsahují řetězec  <tt>gold</tt>, použijeme následující sekvenci:</p>
+<pre>
+foreach line lines [
+   if find line "gold" [print line]
+]
+<span class="put">I wanted the gold, and I sought it,
+I wanted the gold, and I got it --
+And somehow the gold isn't all.</span>
+</pre>
+<p>S upřesněním <b><tt>write/lines</tt></b> lze psát každou položku bloku jako separátní řádek:
+</p>
+<pre>
+write/lines %put.txt lines
+</pre>
+<p>Výpis specifických řádků z bloku zajistí sekvence:</p>
+<pre>
+write/lines %put.txt [
+    "line one"
+    "line two"
+    "line three"
+]
+</pre>
+<p>Funkce <b><tt>read/lines</tt></b> a
+<b><tt>write/lines</tt></b> lze kombinovat při zpracování řádku po řádku. Následující kód například odstraní všechny komentáře ze skriptu:</p>
+<pre>
+script: read/lines %script.r
+foreach line script [
+    where: find line ";"
+    if where [clear where]
+]
+write/lines %script1.red script
+</pre>
+<p><I>Ukázka výše uvedeného skriptu slouží pouze k demonstračním účelům. Kromě komentářů tento skript také odstraní platné středníky v citovaných řetězcích.</I></p>
+<p>Soubory lze číst jako řádky rovněž ze sítě:</p>
+<pre>
+data: read/lines http://www.rebol.com
+
+print pick (read/lines ftp://ftp.rebol.com/test.txt) 3
+<span class="put">new</span>
+</pre>
+<!--
+<p>The <b><tt>/lines</tt></b> refinement can be used with the <b><tt>open</tt></b> function
+to read a line at a time from console input. See the chapter on
+<A href="rebolcore-14.html#_Toc487519750">Ports</A> for more
+information.</p>-->
+<p>Upřesnění <b><tt>/lines</tt></b> lze použít s upřesněním <b><tt>/append</tt></b> pro připojení řádků z bloku k souboru.</p>
+</blockquote>
+<br>
+<h2 id="section-7">7. Informace o souboru</h2>
+<blockquote>
+<p>Existuje řada funkcí, které poskytují užitečné informace o souboru - zda existuje, jeho velikost v bajtech, kdy byl naposledy měněn a zda se nalézá v adresáři</p>
+</blockquote>
+<h3 id="section-7.1">7.1 Ověření adresáře</h3>
+<blockquote>
+<p>Ke zjištění, zda se soubor nalézá v určitém adresáři, použijeme funkci <b><tt>dir?</tt></b>:</p>
+<pre>
+dir? %file.txt
+<span class="put">false</span>
+dir? %.
+<span class="put">false</span>
+dir? %/
+<span class="put">true</span>
+</pre>
+<p>Funkce <b><tt>dir?</tt></b> pracuje rovněž s některými síťovými protokoly:</p>
+<pre>
+print dir? ftp://www.rebol.com/pub/
+<span class="put">true</span>
+</pre>
+</blockquote>
+<h3 id="section-7.2">7.2 Existence souboru</h3>
+<blockquote>
+<p>Ke zjištění, zda soubor existuje (v aktuálním adresáři), použijeme funkci <b><tt>exists?</tt></b>:</p>
+<pre>
+print exists? %file.txt
+</pre>
+<p>Prověření existence souboru před jeho načtením:
+</p>
+<pre>
+if exists? file [text: read file]
+</pre>
+<p>Abychom se vyhnuli přepsání souboru, můžeme provést kontrolu:</p>
+<pre>
+if not exists? file [write file data]
+</pre>
+<p>Funkce <b><tt>exists?</tt></b> zatím nepracuje s argumenty typu url!:</p>
+<pre>
+print exists? ftp://www.rebol.com/file.txt
+<span class="put">Script Error: exists? does not allow url! for ...</span>
+</pre>
+<h3 id="section-7.3">7.3 Velikost souboru</h3>
+
+<p>Ke zjištění velikosti souboru použijeme funkci <b><tt>size?</tt></b>:</p>
+<pre>
+size? %filek.txt
+<span class="put">== 86</span>
+</pre>
+
+<!--
+<p>The <b><tt>size?</tt></b> function also works with some network
+protocols:</p>
+<pre>
+print size? ftp://www.rebol.com/file.txt
+</pre>
+</blockquote>
+<h3 id="section-7.4">7.4 Datum změny souboru</h3>
+<blockquote>
+<p>To obtain the last modification date of a file, use the
+<b><tt>modified?</tt></b> function:</p>
+<pre>
+print modified? %file.txt
+<span class="put">30-Jun-2000/14:41:55-7:00</span>
+</pre>
+<p>Not all operating systems keep track of the creation date of a
+file, so to keep REBOL scripts operating system independent only
+the last modification date is accessible.</p>
+<p>The <b><tt>modified?</tt></b> function also works with some network
+protocols:</p>
+<pre>
+print modified? ftp://www.rebol.com/file.txt
+</pre>
+</blockquote>
+<h3 id="section-7.5">7.5 Directory Information</h3>
+<blockquote>
+<p>The <b><tt>info?</tt></b> function obtains all file directory information at
+the same time. The information is returned as an object:</p>
+<pre>
+probe info? %file.txt
+<span class="put">make object! [
+    size: 306
+    date: 30-Jun-2000/14:41:55-7:00
+    type: 'file
+]</span>
+</pre>
+<p>To print information about all files in the current directory, use:</p>
+<pre>
+foreach file read %. [
+    info: info? file
+    print [file info/size info/date info/type]
+]
+<span class="put">build-guide.r 22334 30-Jun-2000/14:24:43-7:00 file
+code/ 11 11-Oct-1999/18:37:04-7:00 directory
+data.r 41 30-Jun-2000/14:41:36-7:00 file
+file.txt 306 30-Jun-2000/14:41:55-7:00 file</span>
+</pre>
+<p>The <b><tt>info?</tt></b> function also works with some network
+protocols:</p>
+<pre>
+probe info? ftp://www.rebol.com/file.txt
+</pre>-->
+</blockquote><br>
+<h2 id="section-8">8. Adresáře</h2>
+<blockquote>
+<p>Existuje několik snadno použitelných funkcí pro čtení adresářů a vytváření nových adresářů, pro manipulaci se subadresáři, pro přejmenování a mazání souborů. Navíc existují standardní funkce pro přístup k aktuálnímu adresáři a pro jeho prohlížení a měnění. Více informací o přímém přístupu k adresářům viz kapitolu <a href="14-porty.html">Porty</a>.</p>
+</blockquote>
+<h3 id="section-8.1">8.1 Čtení adresáře</h3>
+<blockquote>
+<p>Adresáře se čtou stejným způsobem jako soubory. Funkce <b><tt>read</tt></b> však místo textu nebo binárních dat vrací blok se jmény souborů a složek.</p>
+<p>Všechna jména souborů a složek aktuálního adresáře vrátí pořadí funkcí:
+</p>
+<pre>
+print read %.
+</pre>
+<p>Výpis všech oddílů na HD vrátí příkaz :
+</p>
+<pre>
+print read %/
+<span class="put">C/ D/ E/ F/ G/ H/ Z/</span>
+</pre>
+<!--
+<p>To print the names of all files in a directory, use the following line of
+code:</p>
+<pre>
+print read %intro/
+<span class="put">CVS/ history.t intro.t overview.t quick.t</span>
+</pre> 
+<p>Within the returned block, names of directories are indicated with a trailing
+forward slash. To print each file name on a separate line, use:</p>
+<pre>
+foreach file read %intro/ [print file]
+<span class="put">CVS/
+history.t
+intro.t
+overview.t
+quick.t</span>
+</pre>
+<p>Here is an easy way to print just the directories that were found:</p>
+<pre>
+foreach file read %intro/ [
+    if #"/" = last file [print file]
+]
+<span class="put">CVS/</span>
+</pre>-->
+<p>Chcete-li číst adresář ze sítě, nezapomeňte přípojit lomítko na konci URL jako indikaci, že se odkazujete na adresář:</p>
+<pre>
+print read ftp://ftp.rebol.com/
+</pre>
+</blockquote>
+<h3 id="section-8.2">8.2 Vytvoření adresáře</h3>
+<blockquote>
+<p>Funkce <b><tt>make-dir</tt></b> vytvoří nový adresář. Jméno tohoto adresáře může být relativní buď k aktuálnímu adresáři nebo k zadanému adresáři.
+</p>
+<pre>
+make-dir %new-dir
+make-dir %../../local-dir/
+make-dir %/work/docs/old-docs/
+</pre>
+<p>Poslední lomítko zde není povinné.</p>
+<!--
+<p>Internally, the <b><tt>make-dir</tt></b> function calls
+<b><tt>open</tt></b> with the <b><tt>/new</tt></b> refinement. The line:</p>
+<pre>
+close open/new %local-dir/
+</pre>
+<p>also creates a new directory. The trailing slash is important in this
+example, indicating that a directory is to be created rather than a file.</p> -->
+<p>Pokus o vytvoření existujícího adresáře funkcí <b><tt>make-dir</tt></b> je mlčky ignorován.</p>
+<p>Existenci adresáře lze ověřit funkcí <b><tt>exists?</tt></b>.</p>
+
+<!--
+<h3 id="section-8.3">8.3 Renaming Directories and Files</h3>
+<blockquote>
+<p>To rename a file, use the <b><tt>rename</tt></b> function:</p>
+<pre>
+rename %old-file %new-file
+</pre>
+<p>The old file name may include a complete path to the file, but the new file
+name must not include a path. This is because the <b><tt>rename</tt></b>
+function is not intended to move files between directories (various operating
+systems do not provide this function).</p>
+<pre>
+rename %../docs/intro.txt %conclusion.txt
+</pre>
+<p>If the old file name is a directory (indicated by a trailing slash), the
+<b><tt>rename</tt></b> function renames the directory:</p>
+<pre>
+rename %../docs/ %manual/
+</pre>
+<p>If the file cannot be renamed, an error will occur. The error can be caught
+with the <b><tt>try</tt></b> function.</p>
+</blockquote>
+<h3 id="section-8.4">8.4 Deleting Directories and Files</h3>
+<blockquote>
+<p>Files can be deleted using the <b><tt>delete</tt></b> function:</p>
+<pre>
+delete %file
+</pre>
+<p>The file to delete can include a path:</p>
+<pre>
+delete %source/docs/file.txt
+</pre>
+<p>A block of files within the same directory can also be deleted:</p>
+<pre>
+delete [%file1 %file2 %file3]
+</pre>
+<p>A group of files can be deleted using a wildcard character and the
+<b><tt>/any</tt></b> refinement:</p>
+<pre>
+delete/any %file*
+delete/any %secret.?
+</pre>
+<p>The asterisk (*) wildcard character matches all characters, and the question
+mark (?) wildcard character matches a single character.</p>
+<p>To delete a directory, provide a trailing forward slash:</p>
+<pre>
+delete %dir/
+delete %../docs/old/
+</pre>
+<p>If the file cannot be deleted, an error will occur. The error can be caught
+with the <b><tt>try</tt></b> function.</p>-->
+</blockquote>
+<h3 id="section-8.3">8.3 Aktuální adresář</h3>
+<blockquote>
+<p>Název aktuálního adresáře zjistíme funkcí <b><tt>what-dir</tt></b>:</p>
+<pre>
+what-dir
+<span class="put">== %/F/Codest/Red/</span>
+</pre>
+<!--<p>The <b><tt>what-dir</tt></b> function refers to the current script's
+directory path, as found in <tt>system/script/path</tt>.</p>-->
+</blockquote>
+<h3 id="section-8.4">8.4 Změna aktuálního adresáře</h3>
+<blockquote>
+<p>Jiný adresář nastavíme jako aktuální příkazem:</p>
+<pre>
+change-dir %../gbup/
+<span class="put">== %/F/Codest/gbup/</span>
+</pre>
+<p>Záverečné lomítko není povinné, funkce si jej připojí sama.</p>
+</blockquote>
+<h3 id="section-8.5">8.5 Výpis z adresáře</h3>
+<blockquote>
+<p>Obsah aktuálního adresáře vrací příkaz:</p>
+<pre>
+list-dir %.
+<span class="put"> avg.red       BuyRed/      ColorConsole.exe
+...</span>
+</pre>
+<p>Počet vytvořených sloupců závisí na velikosti okna konzoly a na délkách názvů položek.</p>
+</blockquote>
+</td></tr>
+<tr><td align=center>
+
+</td></tr></table>
+</center>
+<!--<map name="bar-map">
+<area shape="rect" coords="0,0,150,28"   href="http://www.rebol.com" alt="REBOL.com">
+<area shape="rect" coords="175,0,275,28" href="http://www.rebol.com/docs.html" alt="Documents">
+<area shape="rect" coords="285,0,365,28" href="http://www.rebol.com/docs/core23/rebolcore.html" alt="Manual">
+<area shape="rect" coords="375,0,445,28" href="http://www.rebol.com/docs/dictionary.html" alt="Dictionary">
+<area shape="rect" coords="452,0,500,28" href="http://www.rebol.com/library.html" alt="Library">
+<area shape="rect" coords="510,0,575,28" href="http://www.rebol.com/feedback.html" alt="Feedback">
+</map>-->
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="11-math.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="13-network.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<span class="tail">
+Perpetrated 25-May-2017 -
+<!--<a href="http://www.rebol.com">Copyright REBOL Technologies</a>-->
+- Hosted with BitBucket Cloud
+</span></center>
+</body></html>

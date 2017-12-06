@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" lang="cs">
+
+<title>Chapter 4 - Expressions</title>
+<link rel="stylesheet" HREF="red_cz.css">
+</head>
+<body bgcolor="beige">
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="03-prehled.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="05-skripty.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+ <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<table  width="660" cellpadding="4" cellspacing="0" border="0">
+<!--<tr><td><a href="http://www.rebol.com/docs.html"><img src="http://www.rebol.com/graphics/doc-bar.gif" width="680" height="28" align="bottom" alt="rebol document" border="0" usemap="#bar-map" ismap></a></td></tr>-->
+<tr><td height="24"> </td></tr>
+<tr><td><h1>Kapitola 4 - Výrazy</h1>
+
+
+<h2>Obsah:</h2>
+<a class="toc1" href="#section-1">1. Přehled</a><br>
+<a class="toc1" href="#section-2">2. Hodnoty</a><br>
+<a class="toc2" href="#section-2.1">2.1 Hodnoty přímé a nepřímé</a><br>
+<a class="toc2" href="#section-2.2">2.2 Typy hodnot</a><br>
+<a class="toc1" href="#section-3">3. Slova</a><br>
+<a class="toc2" href="#section-3.1">3.1 Složení slov</a><br>
+<a class="toc2" href="#section-3.2">3.2 Použití slov</a><br>
+<a class="toc2" href="#section-3.3">3.3 Zadávání slov</a><br>
+<a class="toc2" href="#section-3.4">3.4 Využití slov</a><br>
+<a class="toc2" href="#section-3.5">3.5 Doslovná slova</a><br>
+<a class="toc2" href="#section-3.6">3.6 Neurčená slova</a><br>
+<a class="toc2" href="#section-3.7">3.7 Zabezpečení slov</a><br>
+<a class="toc1" href="#section-4">4. Vyhodnocení výrazů</a><br>
+<a class="toc2" href="#section-4.1">4.1 Vyhodnocení vstupu v konzole</a><br>
+<a class="toc2" href="#section-4.2">4.2 Vyhodnocení jednoduchých hodnot</a><br>
+<a class="toc2" href="#section-4.3">4.3 Vyhodnocení bloků</a><br>
+<a class="toc2" href="#section-4.4">4.4 Redukování bloků</a><br>
+<a class="toc2" href="#section-4.5">4.5 Zkoušení bloků</a><br>
+<a class="toc2" href="#section-4.6">4.6 Vyhodnocení skriptů</a><br>
+<a class="toc2" href="#section-4.7">4.7 Vyhodnocení řetězců</a><br>
+<a class="toc2" href="#section-4.8">4.8 Vyhodnocení chyb</a><br>
+<a class="toc2" href="#section-4.9">4.9 Zastavení evaluace</a><br>
+<a class="toc1" href="#section-5">5. Podmíněné vyhodnocení</a><br>
+<a class="toc2" href="#section-5.1">5.1 Podmíněné bloky</a><br>
+<a class="toc2" href="#section-5.2">5.2 Funkce ANY a All</a><br>
+<a class="toc2" href="#section-5.3">5.3 Podmíněné smyčky</a><br>
+<a class="toc2" href="#section-5.4">5.4 Obvyklé chyby</a><br>
+<a class="toc1" href="#section-6">6. Opakované vyhodnocení</a><br>
+<a class="toc2" href="#section-6.1">6.1 Loop</a><br>
+<a class="toc2" href="#section-6.2">6.2 Repeat</a><br><!--
+<a class="toc2" href="#section-6.3">6.3 Funkce For</a><br>-->
+<a class="toc2" href="#section-6.3">6.3 Foreach</a><br>
+<a class="toc2" href="#section-6.4">6.4 Forall</a><br>
+<a class="toc2" href="#section-6.5">6.5 Forever</a><br>
+<a class="toc2" href="#section-6.6">6.6 Break</a><br>
+
+<a class="toc1" href="#section-7">7. Selektivní vyhodnocení</a><br>
+<a class="toc2" href="#section-7.1">7.1 Funkce Select</a><br>
+<a class="toc2" href="#section-7.2">7.2 Funkce Switch</a><br>
+<br>
+<h2 id="section-1">1. Přehled</h2>
+<blockquote>
+<p>Red umožňuje jednoduchý způsob vyjádření libovolné informace s optimální flexibilitou a minimální syntaxí. Důležitým cílem Redu je vytvořit standardní způsob komunikace, použitelný pro všechny počítačové systémy. <p>
+<p>Rozhodující je nikoliv to, zda je informace kódem nebo datem ale jak je zpracovaná. Jedinečný přístup Redu spočívá v tom, že informace je tlumočená <tt>přímo</tt> interpretem Redu, či <tt>nepřímo</tt> prostřednictvím skriptu. </p> 
+<!--
+Posuďte například následující řádek:</p>
+<pre>Sell 100 shares of "Acme" at $47.97 per share
+</pre>
+<p>The line looks a lot like English making it easy to compose if
+you are sending it and easy to understand if you are receiving
+it. However, this line is actually a valid expression in REBOL,
+so your computer could also understand and act on it. (Note that
+the line is a "dialect" of REBOL. It can be in-directly evaluated. More on this concept below.)</p>
+<p>REBOL provides a common language between you and your computer. In
+addition, if your computer sends this expression to your stock
+broker's computer, which is also running REBOL, your stock
+broker's computer can understand the expression and act on it.
+So, REBOL provides a common language between computers. And, the line
+could be sent to millions of other computer systems that could
+also act on it.</p>
+<p>The following line is another example of a REBOL expression:</p>
+<pre>Reschedule exam for 2-January-1999 at 10:30
+</pre>
+<p>The expression shown in the above example (written in another dialect) may have come from
+your doctor typing it, or perhaps it originated from an
+application that was run by your doctor. It does not matter.
+What is important is that the expression can be acted upon
+regardless of the type of computer, hand-held device, kiosk, or
+television console you are using.</p>
+
+<p>The data values (numbers, strings, prices, dates, and times) in
+all of the expressions shown in the previous examples are
+standardized valid REBOL formats. The words, however, depend on
+a specific context of interpretation to convey their meaning.
+Words such as <tt>sell</tt>, <tt>at</tt>, and <tt>read</tt> have different
+meanings in different contexts. The words are relative
+expressions -- their meaning is context dependent.</p>
+-->
+<!--
+Výraz zpracovaný nepřímo se nazývá  <tt>dialekt</tt>.--> Následující ukázka je přímou instrukcí pro interpret Redu:</p>
+<pre>
+<tt>send</tt> master@red.com <tt>read</tt> http://www.red.com
+</pre>
+<p>V ukázce jsou slova <tt>send</tt>  a <tt>read</tt> názvy funkcí zpracovaných přímo interpretem.</p>
+<p> V Redu je kód často považován za data a data jsou často zpracována jako kód. Říkáme, že Red je jazyk <tt>homoikonický</tt> <!--Tradiční rozlišení mezi daty a kódem se zde rozplývá, nicméně způsob zpracování informace je určen druhem informace. --></p>
+</blockquote><br>
+<!--
+<h2 id="section-2">2. Bloky</h2>
+<blockquote>
+<p>Výrazy Redu jsou kombinací 
+<tt>hodnot</tt></b>  a <tt>slov</tt></b>  v <tt>blocích</tt></b> .</p>
+<p>Ve skriptech je blok normálně ohraničen hranatými závorkami [ ]. Všechno, co je uvnitř hranatých závorek je součástí bloku. Obsah bloku může zabírat více řádků a nemá předepsanou formu. Následující příklady ukazují různé způsoby blokových obsahů:</p>
+<pre>[white red green blue yellow orange black]
+
+["Spielberg" "Back to the Future" 1:56:20 MCA]
+
+[
+    "Bill"  billg@ms.dom  #315-555-1234
+    "Steve" jobs@apl.dom  #408-555-4321
+    "Ted"   ted@gw2.dom   #213-555-1010
+]
+
+sites: [
+    http://www.rebol.com [save %reb.html data]
+    http://www.cnn.com   [print data]
+    ftp://www.amiga.com  [send cs@org.foo data]
+]
+</pre>
+<p>Některé bloky jsou však apriori předpokládané a nepotřebují hranaté závorky. Obsah skriptu je například blokem, i když není vyznačen závorkami. Totéž platí pro výrazy, zadávané v příkazovém řádku nebo pro informace, sdílené mezi počítači.</p>
+<p>Jiným důležitým aspektem bloků je to, že v sobě zahrnují dodatečné informace. Bloky seskupují sadu hodnot v určitém pořadí a mohou být použity jako kolekce dat stejně jako sekvence. Podrobněji to je popsané v kapitole <a href="http://www.rebol.com/docs/core23/rebolcore-6.html#_Toc487519750">Series</a>.</p>
+</blockquote>  -->
+
+<h2 id="section-2">2. Hodnoty</h2>
+<blockquote>
+<!--
+<p>Red poskytuje vestavěnou množinu hodnot, které lze vyjádřit ve všech (operačních) systémech. Hodnoty jsou primárními prvky pro sestavování všech výrazů v Redu.</p>
+-->
+
+<p>Výrazy Redu jsou kombinací 
+<tt>hodnot</tt>  a <tt>slov</tt>  v <tt>blocích</tt> .</p>
+
+<h3 id="section-2.1">2.1 Přímé a nepřímé hodnoty</h3>
+<p>Hodnoty mohou být vyjádřeny <tt>přímo</tt>  nebo <tt>nepřímo</tt>.</p>
+<p><tt>Přímo</tt> vyjádřená hodnota je daná pouhým aktem lexikálního neboli doslovného (literal) zápisu. Na příklad, číslo 10 nebo čas 10:30 jsou přímo vyjádřené hodnoty.</p>
+<p><tt>Nepřímo</tt> vyjádřená hodnota není známá, dokud není určená vyhodnocením zápisu. Hodnoty <tt>none</tt>, <tt>true</tt>  a <tt>false</tt> jsou všechny nepřímo vyjádřené slovním označením, jehož skutečný význam zjistí interpret při  vyhodnocení. To platí i pro jiné hodnoty, jako jsou seznamy (lists, hashes), funkce, objekty, atd.</p>
+
+<h3 id="section-2.2">2.2 Typy hodnot</h3>
+
+<p>Každá hodnota Redu má svůj specifický 
+<tt>datový typ</tt> . Datový typ hodnoty určuje:</p>
+<ol>
+<li>Rozsah přípustných hodnot - například datový typ <tt>logic</tt>  může mít hodnotu <tt>true</tt> nebo <tt>false</tt>.</li>
+<li>Přípustné operace.  Lze například sečíst dvě celá čísla ale nelze sečíst dvě logické hodnoty.</li>
+<li>Způsob  uložení hodnot v paměti. Některé datové typy mohou být uloženy přímo (například čísla), jiné nepřímo (například řetězce).</li>
+</ol>
+<p>Slova, označující datový typ jsou pro zdůraznění doplněna vykřičníkem (!). Například:</p>
+<pre>integer!
+char!
+word!
+string!
+</pre>
+
+
+<p>Přehled datových typů viz <a href="16-hodnoty.html">Datové typy</a>
+ <!--<a href="http://www.rebol.com/docs/core23/rebolcore-16.html#_Toc487519750">Appendix 1 - Values</a>-->
+.</p>
+</blockquote><br>
+
+<h2 id="section-3">3. Slova</h2>
+<blockquote>
+<p>Výrazy se sestavují z hodnot a slov. Slova vyjadřují účel, mohou ale zastupovat i konkretní hodnotu.</p>
+<p>Když například zapíšeme slovo:
+<pre>red                         <ii>podobnost s názvem jazyka je náhodná</ii>
+<span class="put">== 255.0.0</span>
+</pre>
+<p>vrací se literálová hodnota názvu barvy. Tato hodnota je slovu <tt>red</tt>  implicitně přiřazena.</p>
+<p>V předcházejících příkladech byla použita řada slov - <tt>do</tt>, <tt>reduce</tt>, <tt>try</tt>  a <tt>print</tt>.</p>
+<p>Takováto slova se vyhodnocují poněkud odlišně od přímo vyjádřených hodnot. Jsou-li hledána, zjistí se, že to jsou funkce, které jsou nejprve vyhodnoceny a poté se vrací jejich hodoty.</p>
+</blockquote>
+<h3 id="section-3.1">3.1 Složení slov</h3>
+<blockquote>
+<p>Slova se skládají z písmen abecedy, číslic a z těchto znaků:</p>
+<pre>? ! . ' + - * &amp; | = _ ~
+</pre>
+<p>Slovo nemůže začínat číslicí. </p>
+<p>Konec slova se označuje mezerou, novým řádkem nebo některým z následných znaků:</p>
+<pre>[ ] ( ) { } " : ; /
+</pre>
+<p>Hranaté závorky tedy nejsou součástí slova. Následující blok obsahuje například slovo  <tt>test</tt> :</p>
+<pre>[test]
+</pre>
+<p>Následující znaky nejsou ve slovech povoleny:</p>
+<pre>@ # $ % ^ ,
+</pre>
+<p>Slova mohou mít libovolnou délku ale končí s koncem řádku:</p>
+<pre>this-is-a-very-long-word-used-as-an-example
+</pre>
+<p>Následující řádky poskytují příklady platných slov:</p>
+<pre>Copy print test
+number?  time?  date!
+image-files  l'image
+++ -- == +-
+***** *new-line*
+left&amp;right left|right
+</pre>
+<p>Red není sensitivní na velikost písmen. Následující slova mají stejný význam:</p>
+<pre>blue
+Blue
+BLUE
+</pre>
+<p>Velikost písmen je zachována při tisku.</p>
+<p>Slova lze opakovaně použít. Význam slova souvisí s jeho kontextem, tudíž slova mohou být opakovaně použita v různých kontextech.</p>
+<p> Red nemá klíčová slova. Je dovoleno používat i předdefinovaná slova. Lze například ve vlastním kódu použít slovo <tt>if</tt> ve odlišném smyslu od významu, definovaném Redem.</p>
+<div class="note">
+<p>Slova mají co nejlépe připomínat jejich účel. Dobrý výběr slov napomáhá lepšímu chápání skriptů.</p>
+</div>
+</blockquote>
+<h3 id="section-3.2">3.2 Použití slov</h3>
+<blockquote>
+<p>Slova se používají dvojím způsobem: jako <tt>symboly</tt> nebo jako <tt>proměnné</tt>. V následujícím bloku jsou slova použita jako symboly barev:</p>
+<pre>[red green blue]
+</pre>
+<p>V následujícím řádku:</p>
+<pre>print second [red green blue]
+<span class="put">green</span>
+</pre>
+<p>nemají slova jiný význam, než slovní označení barev; v tomto případě jsou prvky seznamu. Slova uvnitř bloku poslouží jako symboly až po svém vyhodnocení.</p>
+<p>Vyhodnocené slovo je použito jako proměnná. V předešlé ukázce jsou slova <tt>print</tt> a <tt>second</tt> proměnnými, které obsahují nativní funkce, provádějící potřebné procedury.</p>
+<p>Čtverý formát zápisu slova indikuje způsob, jakým je se slovem zacházeno:</p>
+<table bgcolor="#505050" border="0" cellpadding="4" cellspacing="1">
+<tr bgcolor="silver"><th align="left">
+<p>Formát</p>
+</th><th align="left">
+<p>Co to dělá</p>
+
+</th></tr><tr><td bgcolor="white" valign="top">
+<p>word</p>
+</td><td bgcolor="white" valign="top">
+<p>Vyhodnocuje slovo. Toto je nejběžnější způsob použití slova. Pokud slovo zastupuje funkci, je tato vyhodnocena. Jinak se vrací hodnota slova.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p>word:</p>
+</td><td bgcolor="white" valign="top">
+<p>Definuje či zadává hodnotu slova. Hodnotou může být cokoliv, včetně funkce.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p>:word</p>
+</td><td bgcolor="white" valign="top">
+<p>Představuje hodnotu slova. Používá se při odkazování na funkce a jiná data bez jejich vyhodnocení.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p>'word</p>
+</td><td bgcolor="white" valign="top">
+<p>Zachází se slovem jako se symbolem, bez vyhodnocení. Slovo samotné je hodnotou.
+</p>
+</td></tr></table>
+</blockquote>
+<h3 id="section-3.3">3.3 Zadávání slov</h3>
+<blockquote>
+<p>Slovo doplněné dvojtečkou (:) se používá pro definování nebo přiřazení hodnoty:</p>
+<pre>age: 42
+lunch-time: 12:32
+birthday: 20-March-1990       
+town: "Dodge City"
+test: %stuff.r
+</pre>
+<p>Slovu lze přiřadit hodnotu libovolného typu. Nositelem typu slova je jemu přiřazená hodnota. V předchozích příkladech jsme se setkali se slovy typu <i>integer, time, date, string</i>, a <i>file</i>. Slovu lze přiřadit i složitější typ hodnot. Následující slova mají hodnotu bloků a funkce:</p>
+<pre>towns: ["Ukiah" "Willits" "Mendocino"]
+code: [if age &gt; 32 [print town]]
+say: func [item] [print item]
+</pre>
+<div class="note">
+<p>V mnoha jazycích se slovům přiřazuje hodnota pomocí rovnítka:</p>
+<pre>age = 42
+</pre>
+<p>V Redu se tak děje prostřednictvím dvojtečky. To má svůj důležitý význam. Připojená dvojtečka činí ze slova jedinou lexikální hodnotou pro operaci přiřazení. Reprezentace této operace je 
+<tt>atomická</tt>.</p>
+<p>Rozdíl mezi oběma přístupy lze vidět v tomto příkladě:</p>
+<pre>print length? [age: 42]
+<span class="put">2</span>
+print length? [age = 42]
+<span class="put">3</span>
+</pre>
+<p>Red je <tt>reflektivní</tt> jazyk, který je schopen manipulovat se svým vlastním kódem. Tento způsob přiřazování hodnot umožňuje psát kód, který snadno provádí <tt>set-word</tt> operace jako jedinou procedurální jednotku.</p>
+<p>Dalším důvodem je zajisté okolnost, že rovnítko (=) se používá jako relační operátor.</p>
+</div>
+<p>Vícero slov lze najednou opatřit hodnotou kaskádováním definic. Každé z následujících slov například je nastaveno na hodnotu <tt>42:</tt></p>
+<pre>age: number: size: 42
+</pre>
+<p>Slova lze také určit pomocí funkce  <tt>set</tt><:</p>
+<pre>set 'time 10:30
+</pre>
+<p>Slovo <tt>time</tt> je nastaveno na hodnotu 10:30. Slovo <tt>time</tt> je psáno jako  literál (s použitím jednoduchého apostrofu), jenž není vyhodnocován.</p>
+<p>Funkce <tt>set</tt> může zadat hodnotu vícero slovům:</p>
+<pre>set [number num ten] 10
+
+print [number num ten]
+<span class="put">10 10 10</span>
+</pre>
+<p>V právě uvedeném příkladě si  povšimněte toho, že slova uvnitř nevyhodnocovaného bloku nemusí být uváděna v uvozovkách. Použití funkce <tt>print</tt> demonstruje, že každému slovu je přiřazena hodnota  <tt>10</tt>.</p>
+<p>Je-li argument funkce <tt>set</tt> doplněn blokem hodnot, je každá hodnota přiřazena jednomu slovu argumentu. V této ukázce jsou slovům one, two a three přiřazeny hodnoty 1, 2 a 3:</p>
+<pre>set [one two three] [1 2 3]
+
+print three
+<span class="put">3</span>
+print [one two three]
+<span class="put">1 2 3</span>
+</pre><!--
+<p>Viz také sekci <b>Words</b> v příloze <a href="http://www.rebol.com/docs/core23/rebolcore-16.html#_Toc487519750">
+Values Appendix</a>.</p>-->
+</blockquote>
+
+<h3 id="section-3.4">3.4 Využití slov</h3>
+<blockquote>
+<p>Za účelem přístupu k hodnotě slova s určenou (set) hodnotou, připojíme na jeho začátek dvojtečku (<b>:</b>). Takto dekorované slovo vydá hodnotu bez vyhodnocení. Následující řádek například:</p>
+<pre>drucken: :print
+</pre>
+<p>definuje nové slovo <tt>drucken</tt> (německý ekvivalent pro print), které odkazuje na stejnou funkci jako slovo  <tt>print</tt>. Je to možné proto, že 
+<tt>:print</tt> vrací funkci pro <tt>print</tt> ale nevyhodnocuje ji.</p>
+<p>Slovo <tt>drucken</tt> provádí tutéž funkci jako <tt>print</tt> :</p>
+<pre>drucken "test"
+<span class="put">test</span>
+</pre>
+<p>Jak <tt>print</tt> tak <tt>drucken</tt> jsou nastaveny na stejnou hodnotu, jíž je funkce provádějící tisknutí.</p>
+<p>Téhož lze rovněž dosíci pomocí funkce <tt>get</tt>. Pro argument typu <tt>lit-word!</tt> (literál) vrací <tt>get</tt> jeho hodnotu ale nevyhodnocuje ji:</p>
+<pre>stampa: get 'print
+
+stampa "test"
+<span class="put">test</span>
+</pre>
+<p>Schopnost zjistit hodnotu slova bez jeho vyhodnocení je velmi užitečná. Když například chcete zjistit, zda je slovo nativní funkcí, použijete následující sekvenci:</p>
+<pre>print native? :if
+<span class="put">true</span>
+</pre>
+<p>Funkce <tt>if</tt> je prověřena bez vyhodnocení s použitím funkce <tt>get</tt>. Obslužná funkce <tt>native?</tt> ověří, zda je <tt>if</tt> nativní funkcí. Bez signální dvojtečky by došlo k neúspěšnému pokusu o vyhodnocení funkce <tt>if</tt>. </p>
+</blockquote>
+<h3 id="section-3.5">3.5 Doslovná slova</h3>
+<blockquote>
+<p>Schopnost zacházet se slovem jako s literálem je užitečná. Funkce 
+<tt>set</tt> a <tt>get</tt>, stejně jako další funkce jako <tt>value?</tt>, <tt>unset</tt>, <tt>protect</tt>, a <tt>unprotect</tt> očekávají literálový argument.</p>
+<p>Literálová slova lze psát jedním ze dvou způsobů: předsazením jednoduchého apostrofu (<tt>'</tt>) řečeného tick nebo vložením slova do bloku.</p>
+<p>Použitím ticku změníme význam slova:</p>
+<pre>word: 'this
+</pre>
+<p>Z neurčeného (unset - viz 3.6) a tudíž neakceptovatelného slova <tt>this</tt> vytváříme akceptovatelný literál, který se stává hodnotou proměnné <tt>word</tt>: </p>
+<pre>print word
+<span class="put">this</span>
+</pre>
+<p>Literálová slova lze také získat z nevyhodnoceného bloku. V následující ukázce vybere funkce <tt>first</tt> první slovo z bloku, jež se následně stane hodnotou proměnné <tt>word</tt>:</p>
+<pre>word: first [this and that]
+<span class="put">== this</span>
+</pre>
+<p>Každé slovo může být použito jako literál. Může nebo nemusí odkazovat na hodnotu. V následujícím příkladu nemá slovo <tt>word</tt> přiřazenou žádnou hodnotu. Slovo <tt>print</tt> odkazuje na funkci ale přesto může být použito jako nevyhodnocovaný literál:</p>
+<pre>word: 'here
+print word
+<span class="put">here</span>
+word: 'print
+print word
+<span class="put">print</span>
+</pre>
+<p>Další příklad ilustruje důležitost literálových hodnot:</p>
+<pre>video: [
+    title "Independence Day"
+    length 2:25:24
+    date   4/july/1996         
+]
+print select video 'title
+<span class="put">Independence Day</span>
+</pre>
+<p>Jméno <tt>title</tt> nemá status proměnné, pouze v bloku tvoří pár s řetězcem "Independence Day". Bez použití ticku při jeho evokaci by došlo k chybové události.</p>
+<!--
+<p>Viz sekce <b>Words</b>
+v příloze <a href="http://www.rebol.com/docs/core23/rebolcore-16.html#_Toc487519750">Values</a>.</p>-->
+</blockquote>
+
+<h3 id="section-3.6">3.6 Neurčená slova</h3>
+<blockquote>
+<p>Slovo, které nemá hodnotu, je neurčené  (<tt>unset)</tt>. Pokus o vyhodnocení neurčeného slova je chybovou událostí:</p>
+<pre>&gt;&gt; outlook
+<span class="put">** Script Error: outlook has no value.
+** Where: outlook</span>
+</pre>
+<p>Neurčeným slovem není slovo, jemuž byla přiřazena hodnota <tt>none</tt>.</p>
+<p>Určené slovo lze kdykoliv "odurčit" funkcí
+<tt>unset</tt>:</p>
+<pre>unset 'word
+</pre>
+<p>Zneurčené slovo ztrácí svoji hodnotu.</p>
+<p>Ke zjištění zda bylo slovo určeno, použijeme funkci <tt>value?</tt>, jejímž argumentem je literálová forma slova:</p>
+<pre>if not value? 'word [print "word is not set"]
+<span class="put">word is not set</span>
+</pre>
+<p>Zjišťování určenosti slova může být užitečné ve skriptech, v nichž jsou volány další skripty. Skript může například určit dosud neurčený implicitní parametr:</p>
+<pre>if not value? 'test-mode [test-mode: on]
+</pre>
+</blockquote>
+<h3 id="section-3.7">3.7 Zabezpečení slov</h3>
+<blockquote>
+<p>Slovo lze zabezpečit proti určení funkcí <tt>protect</tt>:</p>
+<pre>protect 'word
+</pre>
+<p>Pokus o redefinování zabezpečeného slova způsobí chybu:</p>
+<pre>word: "here"
+<span class="put">** Script Error: Word word is protected, cannot modify.
+** Where: word: "here"</span>
+</pre>
+<p>Zabezpečení slova může být uvolněno funkcí <tt>unprotect</tt> :</p>
+<pre>unprotect 'word
+word: "here"
+</pre>
+<p>Funkce <tt>protect</tt> a <tt>unprotect</tt> rovněž přijímají bloky slov:</p>
+<pre>protect [this that other]
+</pre>
+<p>Důležité funkce a systémová slova mohou být zabezpečena použitím funkce <tt>protect-system</tt>. Zabezpečení funkcí a systémových slov je zejména vhodné pro začátečníky, jež se mohou náhodně dopustit určení důležitých slov.
+Je-li název <tt>protect-system</tt> vložen do skriptu, jsou všechna předdefinovaná slova zabezpečena proti náhodnému přepsání.</p>
+</blockquote><br>
+
+<h2 id="section-4">4. Vyhodnocování výrazů</h2>
+<blockquote>
+<p>  <tt>Vyhodnotit</tt>  (evaluate) výraz v Redu znamená spočítat jeho hodnotu. Red pracuje tak, že vyhodnocuje výrazy, obsažené ve skriptu a posléze vrací výsledek. Vyhodnocování je alternativně označováno jako běh (running), zpracování či provedení skriptu.
+</p>
+<p>Vyhodnocování probíhá po blocích. Bloky lze zapsat v konzole nebo načíst ze zdrojového souboru. V obou případech je průběh provedení stejný.</p>
+</blockquote>
+
+<h3 id="section-4.1">4.1 Vyhodnocení vstupu v konzole</h3>
+<blockquote>
+<p>Každý vyhodnotitelný výraz skriptu lze rovněž vyhodnotit po zadání v konzole. To poskytuje výtečnou možnost jednoduchého ověřování jednotlivých výrazů ze skriptu.</p>
+<p>Zadáme-li v konzole například:</p>
+<pre>&gt;&gt; 1 + 2
+<span class="put">== 3 </span>
+</pre>
+<p>je výraz vyhodnocen a vrácen výsledek.</p>
+</blockquote>
+<!--
+<div class="note"><p>About The Code Examples...</p>
+<p>In the example above, the console prompt (&gt;&gt;) and result
+indicator (==) are shown to give you an idea of how they appear
+in the console. For the examples that follow, the prompt and
+result strings are not shown. However, you can assume that these
+examples can be typed into the console to verify their results.</p>
+</div> -->
+
+<h3 id="section-4.2">4.2 Vyhodnocení jednoduchých hodnot</h3>
+<blockquote>
+<p>Protože přímo vyjádřené hodnoty jsou zřejmé, mohou být přímo použity, případně vráceny. Když například zadáme:</p>
+<pre>10:30
+</pre>
+<p>vrací se nám 10:30. To je vlastnost všech přímo vyjádřených hodnot. Jde o tyto hodnoty:</p>
+<pre>integer    1234
+decimal    12.34
+string     "REBOL world!"
+time       13:47:02
+date       30-June-1957          
+tuple      199.4.80.1
+money      $12.49                 <ii>; zatím nechodí</ii>
+pair       100x200
+char       #"A"
+binary     #{ab82408b}
+email      info@rebol.com         
+issue      #707-467-8000
+tag        &lt;IMG SRC="xray.jpg"&gt;  
+file       %xray.jpg
+url        http://www.rebol.com/
+block      [milk bread butter]
+</pre>
+</blockquote>
+<h3 id="section-4.3">4.3 Vyhodnocení bloků</h3>
+<blockquote>
+<p>Bloky se normálně nevyhodnocují.  Při zápisu např. následujícího bloku:</p>
+<pre>[1 + 2]
+</pre>
+<p>se vrátí tentýž blok:</p>
+<pre><span class="put">[1 + 2]</span>
+</pre>
+<p>Tento blok není vyhodnocován, je reflektován jako neutrální datový údaj .</p>
+<p>Pro vyhodnocení bloku použijeme funkci <tt>do</tt> , jak uvedeno v následující ukázce:</p>
+<pre>do [1 + 2]
+<span class="put">3</span>
+</pre>
+<p>Funkce <tt>do</tt>  vrací výsledek vyhodnocení. </p>
+<p>Obsahuje-li blok více výrazů, vrací se výsledek toho posledního:</p>
+<pre>do [
+    1 + 2
+    3 + 4
+]
+<span class="put">7</span>
+</pre>
+<p>Při provádění uvedené funkce se vyhodnocují postupně všechny výrazy ale výsledek dostáváme jenom z výrazu 3 + 4. 
+</p>
+<p>Pro vyhodnocení bloků se často používají funkce  <tt>if</tt>, <tt>loop</tt>,
+<tt>while</tt> a <tt>foreach</tt> . Tyto funkce budeme probírat podrobně pozdějí; zatím si uvedeme dva příklady:</p>
+<pre>if now/time &gt; 12:30 [print "past noon"]  
+<span class="put">past noon</span>
+loop 4 [print "looping"]
+<span class="put">looping
+looping
+looping
+looping</span>
+</pre>
+<p>Budeme si tedy pamatovat: bloky jsou považovány za data, dokud nejsou explicitně vyhodnoceny nějakou funkcí.</p>
+</blockquote>
+<h3 id="section-4.4">4.4 Redukování bloků</h3>
+<blockquote>
+<p>Při vyhodnocení bloku funkcí <tt>do</tt>,  dostáváme výsledek pouze z posledního výrazu. Chceme-li znát výsledky všech výrazů, použijeme funkci <tt>reduce</tt>:</p>
+<pre>reduce [
+    1 + 2
+    3 + 4
+]
+<span class="put">[3 7]</span>
+</pre>
+<p>Výrazy v bloku byly redukovány na své výsledky.</p>
+<p>Funkce <tt>reduce</tt>  postupně vyhodnocuje každý výraz v bloku a výsledky vkládá do nového bloku, který vrací jako výsledek</p>
+<p>Některé funkce jako <tt>print</tt>, používají <tt>reduce</tt> jako součást své procedury, jak vidno z následujícího příkladu:</p>
+<pre>print [1 + 2  3 + 4]
+<span class="put">3 7</span>
+</pre>
+
+<p>Funkce <tt>rejoin</tt>, <tt>reform</tt>  a <tt>remold</tt> rovněž používají <tt>reduce</tt>  jako součást své vlastní operace, jako vidno v následujících příkladech:</p>
+<pre>print rejoin [1 + 2  3 + 4]
+<span class="put">37</span>
+print reform [1 + 2  3 + 4]             <ii>V Redu nechodí:</ii>
+<span class="put">3 7</span>           
+print remold [1 + 2  3 + 4]             <ii>V Redu nechodí:</ii>
+<span class="put">[3 7]</span>         
+</pre>
+<p>Funkce <tt>rejoin</tt> , <tt>reform</tt> a
+<tt>remold</tt> jsou založeny na funkcích <tt>join</tt>,
+<tt>form</tt> a <tt>mold</tt> ale nejprve redukují své bloky.</p>
+</blockquote>
+<h3 id="section-4.5">4.5. Zkoušení bloků</h3>
+<blockquote>
+<p>Stává se, že chceme vyhodnotit nějaký blok ale nechceme zastavit vyhodnocování celého skriptu v případě, že by se při vyhodnocení zmíněného bloku vyskytla chyba.</p>
+<p>Provádíme například operaci dělení a nechceme zastavit provádění skriptu, vyskytne-li se dělení nulou.</p>
+<p>Funkce <tt>try</tt> nám umožní odchytit chybu při vyhodnocování bloku. Tento příkaz je téměř identický s příkazem <tt>do</tt>. Funkce  <tt>try</tt> normálně vrátí výsledek bloku avšak při výskytu chyby vrací slovo <tt>error</tt>:</p>
+
+<pre>for num 5 0 -1 [
+    if error? try [print 10 / num] [print "error"]
+]
+<span class="put">2
+2.5
+3.33333333333333
+5
+10
+error</span>
+</pre>
+<p>Více o ošetřování chyb viz příloha <a href="http://www.rebol.com/docs/core23/rebolcore-17.html#_Toc487519750">Errors </a>.</p>
+</blockquote>
+<h3 id="section-4.6">4.6 Vyhodnocení skriptů</h3>
+<blockquote>
+<p>Pro vyhodnocení celého skriptu lze použít funkci  <tt>do</tt>.
+O funkci <tt>do</tt>  už víme, že vyhodnocuje bloky:</p>
+<pre>do [print "Hello!"]
+<span class="put">Hello!</span>
+</pre>
+<p>Vyhodnocovaný zdrojový soubor je nejprve načten do interpreta jako blok a jako takový následně vyhodocen:</p>
+<pre>do %script.r
+</pre>
+</blockquote>
+
+<h3 id="section-4.7">4.7 Vyhodnocení řetězců</h3>
+<blockquote>
+<p>Funkci <tt>do</tt>  lze použít pro vyhodnocení výrazů, nacházejících se uvnitř textových řetězců.
+Následující výraz:</p>
+<pre>do "1 + 2"
+<span class="put">3</span>
+</pre>
+<p>vrací výsledek <tt>3</tt> . Nejprve je řetězec přeměněn na blok, jenž je následně vyhodnocen.
+</p>
+<p>To se může někdy hodit ale mělo by se to používat jen v nezbytných případech.</p>
+<!--
+Evaluating strings can be handy at times, but it should be done only when
+necessary. For example, to create a REBOL console line processor, type the
+following expression:</p>
+<pre>forever [probe do ask "=&gt; "]
+</pre>
+<p>The above expression would prompt you with <tt>=&gt;</tt> and wait for you to
+type a line of text. The text would then be evaluated, and its result would be
+printed. (Of course, it's not really quite this simple, because the script could
+have produced an error.)</p>
+<p>Unless it is necessary, evaluating strings is not generally a good practice. -->
+<p>Vyhodnocování řetězců je méně efektivní než vyhodnocnování bloků (kontext slov v řetězcích není vždy zřejmý). Následující výraz:
+</p>
+<pre>do form ["1" "+" "2"]
+</pre>
+<p>je mnohem méně efektivní než prostý zápis:</p>
+<pre>do [1 + 2]
+</pre>
+<p>Řetězce se sestavují stejně snadno jako bloky ale bloky jsou vhodnější pro výrazy, které mají být vyhodnoceny.</p>
+</blockquote>
+
+<h3 id="section-4.8">4.8 Vyhodnocení chyb</h3>
+<blockquote>
+<p>Během vyhodnocení se mohou vyskytnout chyby z nejrůznějších příčin. Dělíme-li například nulou, vyhodnocování se zastaví a zobrazí se chybové hlášení:
+</p>
+<pre>100 / 0
+<span class="put">** Math Error: Attempt to divide by zero.
+** Where: 100 / 0</span>
+</pre>
+<p>Častou chybou je použití slova bez předchozího uvedení:</p>
+<pre>size + 10
+<span class="put">** Script Error: size has no value.
+** Where: size + 10</span>
+</pre>
+<p>Jinou častou chybou je neposkytnutí řádné hodnoty funkci (+ je funkce) ve výrazu:</p>
+<pre>10 + [size]
+<span class="put">** Script Error: Cannot use add on block! value.
+** Where: 10 + [size]</span>
+</pre>
+<p>Často nejsou příčiny chyb zřejmé a je zapotřebí experimentovat při hledání jejich původu.</p>
+</blockquote>
+<h3 id="section-4.9">4.9 Zastavení evaluace</h3>
+<blockquote>
+<p>Vyhodnocení (evaluace) skriptu lze kdykoli ukončit stiskem klávesy ESC na klávesnici nebo příkazem <tt>halt</tt> či
+<tt>quit</tt> z příkazového řádku.</p>
+<p>Funkce <tt>halt</tt> zastaví vyhodnocování skriptu a vrací aktivitu k promptu konzoly Red:</p>
+<pre>if time &gt; 12:00 [halt]
+</pre>
+<p>Funkce <tt>quit</tt> zastaví vyhodnocení a zavře konzolu Red:</p>
+<pre>if error? try [print test] [quit]
+</pre>
+</blockquote><br>
+
+<h2 id="section-5">5. Podmíněné vyhodnocení</h2>
+<blockquote>
+<p>Jak již uvedeno, bloky se normálně nevydnocují. K jejich vyhodnocení je zapotřebí funkce <tt>do</tt>. Někdy může být potřebné vyhodnotit blok při splnění jisté podmínky. </p>
+</blockquote>
+<h3 id="section-5.1">5.1 Podmíněné bloky</h3>
+<blockquote>
+<p>Funkce <tt>if</tt> přijímá dva argumenty. Prvním argumentem je podmínka, druhým je blok. Je-li podmínka <tt>true</tt>, blok se vyhodnotí, v opačném případě nikoliv.</p>
+<pre>if now/time &gt; 12:00 [print "past noon"]
+<span class="put">past noon</span>
+</pre> 
+Podmínkou je normálně výraz, jehož výsledkem je  
+<tt>true</tt> nebo <tt>false</tt>; lze ovšem předložit i jiné hodnoty. Vyhodnocení bloku brání pouze hodnoty <tt>false</tt> nebo <tt>none</tt>.
+Všechny ostatní hodnoty (včetně nuly) jsou považovány za <tt>true</tt> a připustí vyhodnocení bloku. To může být užitečné při zkoumání výsledků procesů <tt>find</tt>, <tt>select</tt>, <tt>next</tt> a jiných funkcí, které vracejí <tt>none</tt>:</p>
+<pre>string: "let's talk about RED"
+if find string "talk" [print "found"]
+<span class="put">found</span>
+</pre>
+<p>Funkce <tt>either</tt> rozšiřuje podmínku <tt>if</tt> i pro třetí argument, jímž je blok, vyhodnocovaný při nesplnění podmínky:</p>
+<pre>either now/time &gt; 12:00 [
+    print "after lunch"
+][
+    print "before lunch"
+]
+<span class="put">after lunch</span>
+</pre>
+<p>Funkce <tt>either</tt> rovněž interpretuje hodnotu <tt>none</tt> jako <tt>false</tt>.</p>
+<p>Při záporném vyhodnocení podmínky <tt>if</tt> 
+se vrací hodnota <tt>none</tt>. Funkce <tt>if</tt> je užitečná při podmínečné inicializaci proměnných:</p>
+<pre>flag: if time &gt; 13:00 ["lunch eaten"]
+
+print flag
+<span class="put">lunch eaten</span>
+</pre>
+<p>S použitím funkce <tt>either</tt> lze předchozí příklad přepsat následovně:</p>
+<pre>print either now/time &gt; 12:00 [
+    "after lunch"
+][
+    "before lunch"
+]
+<span class="put">after lunch</span>
+</pre>
+<p>Argumentem funkcí <tt>if</tt> a <tt>either</tt> může být místo bloků výrazy, které na bloky odkazují. V následujících výrazech jsou bloky reprezentovány slovy.</p>
+<pre>notice: [print "Wake up!"]
+if now/time &gt; 7:00 notice
+<span class="put">Wake up!</span>
+notices: [
+    [print "It's past sunrise!"]
+    [print "It's past noon!"]
+    [print "It's past sunset!"]
+]
+if now/time &gt; 12:00 second notices
+<span class="put">It's past noon!</span>
+sleep: [print "Keep sleeping"]
+either now/time &gt; 7:00 notice sleep
+<span class="put">Wake up!</span>
+</pre>
+<p>Podmínečné výrazy prvního argumentu funkcí <tt>if</tt> a <tt>either</tt> mohou být složeny z široké řady srovnávacích a logických funkcí. Podrobněji viz kapitola <a href="11-math.html">Math</a>.</p>
+<div class="note">
+<p>Často se stává, že se opomene uvést druhý blok u funkce <tt>either</tt> nebo že se přidá druhý blok při funkci <tt>if</tt>.  Oba tyto příklady způsobí těžko odhalitelnou chybu:</p>
+<pre>either age &gt; 10 [print "Older"]
+
+if age &gt; 10 [print "Older"] [print "Younger"]
+</pre>
+</div>
+</blockquote>
+
+<h3 id="section-5.2">5.2 Any a All</h3>
+<blockquote>
+<p>Funkce  <tt>any</tt> (cokoliv)  <tt>all</tt> (vše) poskytují zkratku při vyhodnocování některých typů výrazů. Mohou být použity různými způsoby: buď ve spojení s <tt>if</tt>,
+<tt>either</tt> a jinými podmínkovými funkcemi nebo odděleně.</p>
+<p>Jak <tt>any</tt> tak <tt>all</tt> přijímají blok postupně vyhodnocovaných výrazů. Funkce <tt>any</tt> vrací výsledek u prvního pravdivého výrazu zatímco funkce <tt>all</tt> vrací výsledek u prvního nepravdivého výrazu. Mějte na paměti, že nepravdivým výrazem může být také hodnota <tt>none</tt> a že pravdivým výrazem může být jakýkoliv výraz s jinou hodnotou než <tt>false</tt> nebo <tt>none</tt>.</p>
+<p>Funkce <tt>any</tt> vrací první hodnotu, která není <tt>false</tt>, jinak vrací <tt>none</tt>. Funce <tt>all</tt> vrací poslední hodnotu, pokud nejsou všechny výrazy <tt>false</tt>, jinak vrací <tt>none</tt>.</p>
+<p>Jak funkce <tt>any</tt> tak funkce <tt>all</tt> vyhodnocují jenom tolik výrazů, kolik je nezbytně třeba. Jakmile například nalezne funkce <tt>any</tt> pravdivý výraz, žádný ze zbývajících se už nevyhodnocuje. Zde je příklad použití funkce  <tt>any</tt>:</p>
+<pre>size: 50
+if any [size &lt; 10 size &gt; 90] [
+    print "Size is out of range."
+]
+</pre>
+<p>Chování funkce <tt>any</tt> je rovněž užitečné při zadávání implicitních hodnot. V následující ukázce se zadává slovu <tt>number</tt> hodnota <tt>100</tt>, avšak pouze v tom případě, je-li jeho aktuální hodnota <tt>none</tt>:</p>
+<pre>number: none
+print number: any [number 100]
+<span class="put">100</span>
+</pre>
+
+<p>Podobně lze z různých potenciálních hodnot vybrat první, která má skutečně hodnotu (není <tt>none</tt> ):</p>
+<pre>num1: num2: none
+num3: 80
+print number: any [num1 num2 num3]
+<span class="put">80</span>
+</pre>
+<p>Kombinace <tt>any</tt> s funkcemi jako <tt>find</tt> vždy vrací platný výsledek:</p>
+<pre>data: [123 456 789]
+print any [find data 432 999]
+<span class="put">999</span>     ; proč nevím
+</pre>
+
+<p>Podobně lze použít <tt>all</tt> pro podmínky, které vyžadují aby byly všechny výrazy <tt>true</tt>:</p>
+<pre>if all [size &gt; 10 size &lt; 90] [print "Size is in range"]
+<span class="put">Size is in range</span>
+</pre>
+<p>Je možné ověřit, zda byly hodnoty přiřazeny ke slovům před vyhodnocením funkce:
+</p>
+<pre>a: "RED/"
+b: none
+probe all [string? a string? b append a b]
+<span class="put">none</span>
+b: "Core"
+probe all [string? a string? b append a b]
+<span class="put">REBOL/Core</span>
+</pre>
+</blockquote>
+<h3 id="section-5.3">5.3 Podmíněné smyčky</h3>
+<blockquote>
+<p>Funkce <tt>until</tt> a <tt>while</tt> opakují vyhodnocení bloku dokud není podmínka splněna.</p>
+<p>Funkce <tt>until</tt> opakuje provádění bloku dokud nenarazí na vratno u hodnotu <tt>true</tt> (to jest, ne <tt>false</tt> nebo <tt>none</tt> ).
+Předmětný blok je vyhodnocen alespoň jednou. Funkce <tt>until</tt> vrací hodnotu bloku.</p>
+<p>V následující ukázce se postupně vytiskne každé slovo bloku s barvami. Funkce <tt>tail?</tt> zjišťuje, zda není následující barva slovem posledním. Pokud ano, vrací interní <tt>true</tt>, které je pro funkci <tt>until</tt> podnětem k ukončení procedury.</p>
+<pre>color: [red green blue]
+until [
+    print first color
+    tail? color: next color
+]
+<span class="put">red
+green
+blue</span>
+</pre>
+<p>K úniku ze smyčky <tt>until</tt> slouží funkce <tt>break</tt>.</p>
+<p>Funkce <tt>while</tt> opakuje zadaný cyklus smyčky dokud první blok nevrátí hodnotu <tt>true</tt>. První blok je podmínkový, druhý blok je prováděcí (evaluation). Vrátí-li podmínkový blok <tt>false</tt> nebo <tt>none</tt>, prováděcí blok se nevyhodnocuje a smyčka končí.</p>
+<p>Zde je podobný příklad jako ukázka nahoře. Smyčka <tt>while</tt>
+bude postupně tisknout název barvy, dokud bude mít co tisknout.</p>
+<pre>color: [red green blue]
+while [not tail? color] [
+    print first color
+    color: next color
+]
+<span class="put">red
+green
+blue</span>
+</pre>
+<p>Podmínkový blok může obsahovat libovolné množství výrazů, pokud je poslední výraz podmínkový. V následné ukázce je první výraz nepodmínkový, druhý výraz obsahuje podmínku. Funkce <tt>index?</tt> vrací index položky seznamu.</p>
+<pre>color: [red green blue]
+while [
+    print index? color
+    not tail? color
+][
+    print first color
+    color: next color
+]
+<span class="put">1
+red
+2
+green
+3
+blue
+4
+red</span>
+</pre>
+<span class="ale"> Toť podivné, zdá se mi:</span> <p> Blok Redu je zřejmě interně vyzbrojen tak zvaným <tt>iterátorem</tt>, který postrkuje interní počítadlo a na konci seznamu už zkrátka ukazuje mimo mísu.
+(The last value of the block is returned from the <tt>while</tt>
+function.)</p>
+<p>Pro únik ze smyčky lze kdykoliv použít  <tt>break</tt>.</p>
+</blockquote>
+<h3 id="section-5.4">5.4 Obvyklé chyby</h3>
+<blockquote>
+<p>Nepravdivý výsledek podmínkového výrazu je prezentován hodnotou <tt>false</tt> nebo <tt>none</tt>, pravdivý výsledek je prezentován hodnotou <tt>true</tt> nebo čímkoliv pravdivým. Všechny podmínkové výrazy v následujících ukázkách vracejí <tt>true</tt>:</p>
+<pre>if true [print "yep"]
+<span class="put">yep</span>
+if 1 [print "yep"]
+<span class="put">yep</span>
+if 0 [print "yep"]
+<span class="put">yep</span>
+if [] [print "yep"]
+<span class="put">yep</span>
+</pre>
+<p>Následující podmínkové výrazy vracejí  <tt>none</tt>:</p>
+<pre>if false [print "yep"]
+
+if none [print "yep"]
+</pre>
+<p>Podmínkové výrazy, vložené do bloku, vždy vracejí výsledek <tt>true</tt>:</p>
+<pre>if [false] [print "yep"]
+<span class="put">yep</span>
+if [2 < 0] [print "yep"]
+<span class="put">yep</span>
+</pre>
+<p>Nezaměňujte <tt>either</tt> za <tt>if</tt>. Chcete-li například psát:</p>
+<pre>either some-condition [a: 1] [b: 2]
+</pre>
+<p>a místo toho napíšete:</p>
+<pre>if some-condition [a: 1] [b: 2]
+</pre>
+<p>bude funkce <tt>if</tt> ignorovat druhý blok. Korektně vrátí nezamýšlený výsledek.</p>
+<p>Opak je rovněž pravdou. Když napíšete následující řádek bez druhého bloku:</p>
+<pre>either some-condition [a: 1]
+</pre>
+<p>postrádá funkce <tt>either</tt> další argument a může vrátit chybný výsledek.</p>
+</blockquote><br>
+
+<h2 id="section-6">6. Opakované vyhodnocení</h2>
+<blockquote>
+<p>Ukázali jsme si použití funkcí  <tt>while</tt> a <tt>until</tt> k opakovanému provádění výrazů až do splnění zadané podmínky. Existuje také několik funkcí, které umožňují procházet smyčkou zadaným počtem cyklů.
+</p>
+</blockquote>
+<h3 id="section-6.1">6.1 Loop</h3>
+<blockquote>
+<p>Funkce <tt>loop</tt> vyhodnotí blok (vytiskne pomlčku) čtyřicetkrát:</p>
+<pre>loop 40 [prin "-"]
+<span class="put">----------------------------------------</span>
+</pre>
+<p>Funkce <tt>prin</tt> tiskne svůj argument bez ukončení řádku.</p>
+<p>Funkce <tt>loop</tt> vrací hodnotu posledního vyhodnocení bloku:</p>
+<pre>i: 0
+print loop 40 [i: i + 10]
+<span class="put">400</span>
+</pre>
+</blockquote>
+<h3 id="section-6.2">6.2 Repeat</h3>
+<blockquote>
+<p>Funkce <tt>repeat</tt> je rozšířením funkce <tt>loop</tt> v tom smyslu, že umožňuje  sledovat počítadlo smyčky. Jejím prvním argumentem je název  proměnné pro uložení stavu počítadla:</p>
+<pre>repeat sčot 3 [print ["count:" sčot]]
+<span class="put">count: 1
+count: 2
+count: 3</span>
+</pre>
+<p>
+Někdy se hodí i další proměnná:</p>
+<pre>i: 0
+repeat index 10 [i: i + index]
+<span class="put">55</span>
+index
+<span class="put">10</span>
+i
+<span class="put">55</span>
+
+</pre>
+<p>Proměnná, která je prvním argumentem funkce <tt>repeat</tt> není kupodivu pro tuto funkci lokální. Název této proměnné není předepsaný.</p>
+</blockquote>
+<!--
+<h3 id="section-6.3">6.3 For</h3>
+<blockquote>
+<ii>V Redu (zatím) nechodí:</ii>
+<p>Funkce <tt>for</tt> je obdobou funkce <tt>repeat</tt> s tím rozdílem, že umožňuje zadat počáteční a koncovou hodnotu případně určit velikost přírůstku. Kterákoliv z hodnot může být negativní.</p>
+<p>V následující ukázce se počítá po deseti od nuly do padesáti včetně.</p>
+<pre>for count 0 50 10 [print count]
+<span class="put">0
+10
+20
+30
+40
+50</span>
+</pre>
+<p> 
+Pokud skokové počítání překročí horní hranici, použije se poslední násobek přírůstku:</p>
+<pre>for count 0 55 10 [prin [count " "]]
+<span class="put">0 10 20 30 40 50</span>
+</pre>
+<p>V následujícím příkladě vidíme počítání od čtyř po jedné do nuly:</p>
+<pre>for count 4 0 -1 [print count]
+<span class="put">4
+3
+2
+1
+0</span>
+</pre>
+<p>Funkce <tt>for</tt> chodí také pro desetinná čísla, peníze, čas, datum, řady a znaky. Počáteční a koncové hodnoty musejí být téhož datového typu:</p>
+<pre>for count 10.5 0.0 -1 [prin [count " "]]
+<span class="put">10.5 9.5 8.5 7.5 6.5 5.5 4.5 3.5 2.5 1.5 0.5</span>
+for money $0.00 $1.00 $0.25 [prin [money " "]]
+<span class="put">$0.00 $0.25 $0.50 $0.75 $1.00</span>
+for time 10:00 12:00 0:20 [prin [time " "]]
+<span class="put">10:00 10:20 10:40 11:00 11:20 11:40 12:00</span>
+for date 1-jan-2000 4-jan-2000 1 [prin [date " "]]
+<span class="put">1-Jan-2000 2-Jan-2000 3-Jan-2000 4-Jan-2000</span>
+for char #"a" #"z" 1 [prin char]
+<span class="put">abcdefghijklmnopqrstuvwxyz</span>
+</pre>
+<p>Funkce <tt>for</tt> pracuje také se řadami. Následující příklad používá <tt>for</tt> pro řetězec. Slovo <tt>end</tt> je definováno jako sub-řetězec řetězce <tt>str</tt>, začínající písmenem <tt>d</tt>.<br>
+The <tt>for</tt> function moves through the string series one character at a
+time and stops when it reaches the character position defined to <tt>end:</tt>  <ii>Jenže to nechodí !</ii></p>
+<pre>str: "abcdef"
+end: find str "d"
+for s str end 1 [print s]
+<span class="put">abcdef
+bcdef
+cdef
+def</span>
+</pre>
+</blockquote>
+-->
+<h3 id="section-6.3">6.3 Foreach</h3>
+<blockquote>
+<p>Funkce <tt>foreach</tt> poskytuje vhodný způsob opakovaného výpočtu pro každý element řady (series). Chodí pro všechny typy bloků a řetězcových řad:</p>
+<pre>colors: [red green blue]
+foreach color colors [print color]
+<span class="put">red
+green
+blue</span>
+</pre>
+
+<pre>string: "Red"
+foreach char string [print char]
+<span class="put">R
+e
+d
+</span></pre>
+<p>V následné ukázce se vytisknou názvy všech souborů aktuálního adresáře, jejichž přípony začínají písmenem 't':</p>
+<pre>files: read %.           <ii>vrátí výpis souborů aktuálního adresáře</ii>
+foreach file files [
+    if find file ".t" [print file]
+]
+<span class="put">file.txt
+file2.txt
+newfile.txt
+output.txt</span>
+</pre>
+<p>Obsahuje-li blok skupiny souvisejících hodnot, umí <tt>foreach</tt> z těchto skupin jednotlivě vybírat. V následující ukázce jsou členové skupiny obecně označeny jako 'time', 'title' a 'price'. 
+</p>
+<pre>movies: [
+     8:30 "Contact"      "4.95 Kč"
+    10:15 "Ghostbusters" "3.25 Kč"
+    12:45 "Matrix"       "4.25 Kč"
+]
+
+foreach [time title price] movies [
+    print ["watch" title "at" time "for" price]
+]
+<span class="put">watch Contact at 8:30 for 4.95 Kč
+watch Ghostbusters at 10:15 for 3.25 Kč
+watch Matrix at 12:45 for 4.25 Kč</span>
+</pre>
+<p>V realizačním bloku funkce <tt>foreach</tt> bylo pořadí skupin [<tt>time</tt> <tt>title</tt> <tt>price</tt>] pozměněno.</p>
+</blockquote>
+<h3 id="section-6.4">6.4 Forall <!--and Forskip--></h3>
+<blockquote>
+<p>Funkce <tt>forall</tt> vyhodnotí všechny členy argumentačního bloku podobně jako funkce <tt>foreach</tt>.
+Zatímco <tt>foreach</tt> příjímá argumentační blok se jmény skupin a teprve na druhém místě název kolektoru (viz 'movies') přijímá funkce <tt>forall</tt> jako jediný argument název kolektoru (viz 'colors').</p>
+<p></p>
+<pre>colors: [red green blue]
+forall colors [print first colors]
+<span class="put">red
+green
+blue</span>
+</pre>
+<p>Po projití řadou <tt>colors</tt>, se ukázovátko vrátí na čelo řady:</p>
+<pre>head? colors
+<span class="put">== true</span>
+</pre><!--
+<p>Což naopak svým způsobem umožňuje funkce <tt>forskip</tt>, <ii> která však v Redu nechodí:</ii></p>
+<p>The <tt>forskip</tt> function evaluates a block for groups of values
+in a series. The second argument to <tt>forskip</tt> is the count of how
+many elements to move forward after each cycle of the loop.</p>
+<p>Like <tt>forall</tt>, <tt>forskip</tt> is handed the series
+with the series index set to where it is to begin. Then,
+<tt>forskip</tt> modifies the index position as it continues the loop.
+After each evaluation of the body block, the series index is advanced by the
+skip amount to its next index position. The following example demonstrates
+<tt>forskip</tt>:</p>
+<pre>movies: [
+     8:30 "Contact"      $4.95
+    10:15 "Ghostbusters" $3.25
+    12:45 "Matrix"       $4.25
+]
+
+forskip movies 3 [print second movies]
+<span class="put">Contact
+Ghostbusters
+Matrix</span>
+</pre>
+<p>In the above example, <tt>forskip</tt> returns with the
+<tt>movies</tt> series at its tail position. You will need to use the
+<tt>head</tt> function to return the series back to its head
+position.</p>-->
+</blockquote>
+<h3 id="section-6.5">6.5 Forever</h3>
+<blockquote>
+<p>Funkce <tt>forever</tt> vyhodnocuje blok do nekonečna nebo dokud nenarazí na funkci <tt>break</tt>.</p>
+<pre>
+forever [
+   r: random 10
+   print r
+   if r > 5 [break]
+]
+<span class="put">2
+6</span>
+</pre>
+<p>Následující příklad používá <tt>forever</tt> k ověřování existence souboru každých deset minut.</p>
+<pre>
+forever [
+    if exists? %datafile [break]
+    wait 0:10
+]                                <ii>lépe nezkoušet!</ii>
+</pre>
+</blockquote>
+
+<h3 id="section-6.6">6.6 Break</h3>
+<blockquote>
+<p>Opakované provádění bloku lze zastavit funkcí <tt>break</tt>. Tato funkce je užitečná v kombinaci s výskytem specifické podmínky, vyžadující zastavení smyčky. Funkce <tt>break</tt> pracuje se všemi typy smyček.</p>
+<p>V následné ukázce dojde k přerušení smyčky při dosažení čísla většího než 5.</p>
+<pre>repeat count 10 [
+    if (random count) &gt; 5 [break]
+    print "testing"
+]
+<span class="put">testing
+testing
+testing</span>
+</pre>
+<p>Funkce <tt>break</tt> nevrací hodnotu smyčky pokud se nepoužije zjemnění <tt>/return</tt> :</p>
+<pre>print repeat count 10 [
+    if (random count) &gt; 5 [break/return "stop here"]
+    print "testing"
+    "normal exit"
+]
+<span class="put">testing
+testing
+testing
+stop here</span>
+</pre>
+<p>Nedojde-li k naplnění podmínky, vrátí blok řetězec <tt>normal exit</tt>. V opačném případě vrací <tt>stop here</tt> .</p>
+</blockquote>
+<br>
+
+<h2 id="section-7">7. Selektivní vyhodnocení</h2>
+<blockquote>
+<p>Pro selektivní vyhodnocování výrazů existuje v Redu několik metod. Tyto metody umožňují větvit vyhodnocení různým způsobem, v závislosti na klíčové hodnotě.</p>
+</blockquote>
+<h3 id="section-7.1">7.1 Select</h3>
+<blockquote>
+<p>Funkce <tt>select</tt> se často používá k získání určité hodnoty či bloku, v závislosti na cílové hodnotě. 
+Definujeme-li blok hodnot a akcí, použijeme funkci <tt>select</tt> k vyhledání akce, která koresponduje zadané hodnotě. </p>
+<pre>cases: [
+    center [print "center"]
+    right  [print "right"]
+    left   [print "left"]
+]
+action: select cases 'right
+if action [do action]
+<span class="put">right</span>
+</pre>
+<p>Funkce <tt>select</tt> nalezne slovo 
+<tt>right</tt> a vrátí blok, který za ním následuje (Pokud by z nějakých důvodů nebyl příslušný blok nalezen, vrací se slovo <tt>none</tt>.) Blok je následně vyhodnocen. Hodnoty, použité v příkladu jsou slova ale mohou to být jakékoliv hodnoty:</p>
+<pre>cases: [
+     5:00 [print "everywhere"]
+    10:30 [print "here"]
+    18:45 [print "there"]
+]
+action: select cases 10:30
+if action [do action]
+<span class="put">here</span>
+</pre>
+</blockquote>
+<h3 id="section-7.2">7.2 Switch</h3>
+<blockquote>
+<p>Funkce <tt>select</tt> se používá tak často, že existuje specielní verze zvaná <tt>switch</tt>, která zahrnuje vyhodnocení vybraného bloku. Tato funkce umožňuje provádění selektivního výběru za pochodu:</p>
+<pre>switch 22 [
+    11 [print "here"]
+    22 [print "there"]
+]
+<span class="put">there</span>
+</pre>
+<p>Případně:</p>
+<pre>str: copy "right "
+
+print switch 22 [
+    11 [append str "here"]
+    22 [append str "there"]
+]
+<span class="put">right there</span>
+</pre>
+<p>nebo:</p>
+<pre>car: pick [Ford Chevy Dodge] random 3
+print switch car [
+    Ford  [351 * 1.4]
+    Chevy [454 * 5.3]
+    Dodge [154 * 3.5]
+]
+<span class="put">2406.2</span>
+</pre>
+<p>Případem (case) může být jakýkoliv platný datový typ včetně čísel, řetězců, slov, datumů, časů, souborů a adres URL. Zde je několik příkladů:</p>
+<p>Řetězce:</p>
+<pre>person: "kid"
+switch person [
+    "dad" [print "here"]
+    "mom" [print "there"]
+    "kid" [print "everywhere"]
+]
+<span class="put">everywhere</span>
+</pre>
+<p>Slova:</p>
+<pre>person: 'kid
+switch person [
+    dad [print "here"]
+    mom [print "there"]
+    kid [print "everywhere"]
+]
+<span class="put">everywhere</span>
+</pre>
+<p>Datové typy:</p>
+<pre>person: 123
+switch type?/word person [
+    string! [print "a string"]
+    binary! [print "a binary"]
+    integer! [print "an integer number"]
+    decimal! [print "a decimal number"]
+]
+<span class="put">an integer number</span>
+</pre>
+<p>Soubory:</p>
+<pre>file: %redbol.r
+switch file [
+    %user.r [print "here"]
+    %rebol.r [print "everywhere"]
+    %file.r [print "there"]
+]
+<span class="put">everywhere</span>
+</pre>
+<p>URL:</p>
+<pre>url: ftp://ftp.rebol.org
+switch url [
+    http://www.rebol.com [print "here"]
+    http://www.cnet.com [print "there"]
+    ftp://ftp.rebol.org [print "everywhere"]
+]
+<span class="put">everywhere</span>
+</pre>
+<p>Tagy:</p>
+<pre>tag: &lt;LI&gt;
+print switch tag [
+    &lt;PRE&gt;   ["Preformatted text"]
+    &lt;TITLE&gt; ["Page title"]
+    &lt;LI&gt;    ["Bulleted list item"]
+]
+<span class="put">Bulleted list item</span>
+</pre>
+<p>Časy:  <span class="ale">(potíže s odchozím mailem)</span></p>
+<pre>time: 12:30
+switch time [
+     8:00 [send wendy@domain.dom "Hey, get up"]
+    12:30 [send cindy@rebol.dom "Join me for lunch."]
+    16:00 [send group@every.dom "Dinner anyone?"]
+]
+<span class="ale">*** Script Error: send has no value</span> 
+</pre>
+<h4 id="section-7.2.1">7.2.1 Implicitní případ</h4>
+<p>Implicitní případ lze zadat pro situaci, kdy se žádný z daných případů nehodí a to použitím zjemnění <tt>/default</tt>:</p>
+<pre>time: 7:00
+switch/default time [
+     5:00 [print "everywhere"]
+    10:30 [print "here"]
+    18:45 [print "there"]
+] [print "nowhere"]
+<span class="put">nowhere</span>
+</pre>
+<h4 id="section-7.2.2">7.2.2 Obecné případy</h4>
+
+<p>Pro obecné případy, kde by výsledek byl stejný pro několik hodnot, lze definovat slovo, obsahující obecný blok kódu:</p>
+<pre>case1: [print length? url]   <ii>; obecný blok</ii>
+<span class="put">== [print length? url]</span>
+url: http://www.rebol.com
+<span class="put">== http://www.rebol.com</span>
+switch url [
+    http://www.rebol.com case1
+    http://www.cnet.com [print "there"]
+    ftp://ftp.rebol.org case1
+]
+<span class="put">== there</span>     <ii>; což je poněkud divné; jeden by čekal 20 nebo 19</ii>
+</pre>
+<h4 id="section-7.2.3">7.2.3 Jiné případy</h4>
+<p>Jednotlivými případy mohou být nejenom bloky. Tento příklad vyhodnotí soubor, který koresponduje se dnem týdnu:</p>
+<pre>
+switch now/weekday [                <ii>; now/weekday zatím nechodí:</ii>
+    1 %monday.r
+    5 %friday.r
+    6 %saturday.r
+]
+</pre>
+<p>Takže, je-li pátek, vyhodnotí se soubor <tt>friday.r</tt> a vrátí se jeho výsledek. Tento typ vyhodnocení chodí  také pro URL:</p>
+<pre>switch time [
+     8:30 ftp://ftp.rebol.org/wakeup.r
+    10:30 http://www.rebol.com/break.r
+    18:45 ftp://ftp.rebol.org/sleep.r
+]
+<span class="put">== none</span>
+</pre>
+<p>Případy pro <tt>switch</tt>
+jsou uzavřeny do bloku a mohou být tedy definovány mimo těla funkce <tt>switch</tt>:</p>
+<pre>schedule: [
+     8:00 [send wendy@domain.dom "Hey, get up"]
+    12:30 [send cindy@dom.dom "Join me for lunch."]
+    16:00 [send group@every.dom "Dinner anyone?"]
+]
+switch 8:00 schedule
+<span class="ale">*** Script Error: send has no value</span> 
+</pre>
+</blockquote>
+
+</td></tr>
+<tr><td align="center">
+</td></tr></table>
+</center>
+<!--
+<map name="bar-map">
+<area shape="rect" coords="0,0,150,28" href="http://www.rebol.com/" alt="REBOL.com">
+<area shape="rect" coords="175,0,275,28" href="http://www.rebol.com/docs.html" alt="Documents">
+<area shape="rect" coords="285,0,365,28" href="http://www.rebol.com/docs/core23/rebolcore.html" alt="Manual">
+<area shape="rect" coords="375,0,445,28" href="http://www.rebol.com/docs/dictionary.html" alt="Dictionary">
+<area shape="rect" coords="452,0,500,28" href="http://www.rebol.com/library.html" alt="Library">
+<area shape="rect" coords="510,0,575,28" href="http://www.rebol.com/feedback.html" alt="Feedback">
+</map>--> 
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="03-prehled.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="05-skripty.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+</tr>
+</table>
+<center>
+<span class="tail">
+Perpetrated 25-May-2017 -
+<!--<a href="http://www.rebol.com">Copyright REBOL Technologies</a>-->
+- Hosted with BitBucket Cloud
+</span></center>
+</body></html>

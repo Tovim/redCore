@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>Kapitola 7 - Block series</title>
+<link rel="stylesheet" HREF="red_cz.css">
+</head>
+
+<body bgcolor="beige">
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="06-serie.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="08-strings.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<table width="660" cellpadding="4" cellspacing="0" border="0">
+<!--<tr><td><a href="http://www.rebol.com/docs.html"><img src="http://www.rebol.com/graphics/doc-bar.gif" width="680" height="28" align="bottom" alt="rebol document" border="0" usemap="#bar-map" ismap></a></td></tr>-->
+<tr><td><h1>Kapitola 7 - Bloky</h1>
+
+<h2>Obsah:</h2>
+<a class="toc1" href="#section-1">1. Vnořené bloky</a><br>
+<a class="toc1" href="#section-2">2. Cesty k vnořeným blokům</a><br>
+<a class="toc1" href="#section-3">3. Skládání bloků</a><br>
+<!--
+<a class="toc2" href="#section-3.1">3.1 Vytváření polí</a><br>
+<a class="toc2" href="#section-3.2">3.2 Počáteční hodnoty</a><br>-->
+<a class="toc1" href="#section-4">4. Pole</a><br>
+<a class="toc1" href="#section-5">5. Vektory</a><br>
+<br>
+<h2 id="section-0"> Úvod</h2>
+<blockquote>
+<p>Tato kapitola je doplňkem odstavce <b>2.2 Bloky</b> z kapitoly <a href="16-hodnoty.html">16 - Datové typy</a>.
+</p>
+<p>Datové typy <tt>block!, hash!, paren! path</tt> a <tt>{get, lit, set}-path</tt> se řadí mezi <b>blokové typy řad</b> (series!).</p> 
+</blockquote>
+<br>
+<h2 id="section-1">1. Vnořené bloky</h2>
+<blockquote>
+<p>Vyskytne-li se blok jako položka uvnitř jiného bloku, počítá se jako jedna hodnota, bez ohledu na to, kolik hodnot tento vložený blok obsahuje. Na příklad:</p>
+<pre>
+values: [
+    "new" [1 2]
+    %file1.txt ["one" ["two" %file2.txt]]
+]
+<span class="put">== [
+    "new" [1 2] 
+    %file1.txt ["one" ["two" %file2.txt]]
+]</span>
+</pre>
+<p>Délka (<tt>length</tt>) bloku <tt>values</tt> je čtyři. Druhá a čtvrtá položka jsou počítány jako jediné hodnoty:</p>
+<pre>
+length? values
+<span class="put">== 4</span>
+</pre>
+<p><A name=pgfId-539453></A>
+Položky bloků uvnitř bloku <tt>values</tt> jsou přístupné pomocí idiomu s vybraným slovem (zde) <tt>second</tt> a <tt>fourth</tt>:</p>
+<pre>
+second values
+<span class="put">== [1 2]</span>
+fourth values
+<span class="put">== ["one" ["two" %file2.txt]]</span>
+</pre>
+<p>Délku druhé položky bloku získáme:</p>
+<pre>
+length? second values
+<span class="put">== 2</span>
+</pre>
+<p>Typ pložky bloku získáme:</p>
+<pre>
+type? first values
+<span class="put">== string!</span>
+type? fourth values
+<span class="put">== block!</span>
+</pre>
+<p>
+Přístup k libovolné položce řady poskytuje funkce <tt>pick</tt>:</p>
+<pre>
+pick values 3
+<span class="put">== %file1.txt</span>
+</pre>
+<p>Délku položky 3 zjistíme:</p>
+<pre>
+length? pick values 3
+<span class="put">== 9</span>
+</pre>
+<p><A name=pgfId-539470></A>
+a její typ:</p>
+<pre>
+type? pick values 3
+<span class="put">== file!</span>
+</pre>
+</blockquote>
+<br>
+<h2 id="section-2">2. Cesty k vnořeným blokům</h2>
+<blockquote>
+<p>Pro přístup k vnořeným blokům se používá formát cesty.Čtvrtá položka naší proměnné <tt>values</tt> je blok, který obsahuje další blok. Její vnořenou hodnotu získáme zápisem:</p>
+<pre>
+values/4
+<span class="put">== ["one" ["two" %file2.txt]]</span>
+values/4/2
+<span class="put">== ["two" %file2.txt]</span>
+</pre>
+<p>Délky těchto bloků zjistíme:</p>
+<pre>
+length? values/4
+<span class="put">== 2</span>
+length? values/4/2
+<span class="put">== 2</span>
+</pre>
+<p>Typy vnořených bloků zjistíme:</p>
+<pre>
+type? values/4
+<span class="put">== block!</span>
+type? values/4/2
+<span class="put">== block!</span>
+</pre>
+<p>Jednotlivé hodnoty vložených bloků zjistíme:</p>
+<pre>
+values/4/2/1
+<span class="put">== two</span>
+values/4/2/2
+<span class="put">== %file2.txt</span>
+</pre>
+<p>Jakož i jejich délky:</p>
+<pre>
+length? values/4/2/1
+<span class="put">== 3</span>
+length? values/4/2/2
+<span class="put">== 9</span>
+</pre>
+<p>Rovněž tak i jejich typy:</p>
+<pre>
+type? values/4/2/1
+<span class="put">== string!</span>
+type? values/4/2/2
+<span class="put">== file!</span>
+</pre>
+<p>Hodnoty lze změnit:</p>
+<pre>
+change (next values/4/2/1) "o"   <ii>;; next: další za 1. pozicí</ii> 
+values/4/2/1
+<span class="put">== too</span>
+change/part (next find values/4/2/2 ".") "r" 3
+values/4/2/2
+<span class="put">== %file2.r</span>
+</pre>
+<p>Právě uvedené příklady ilustrují schopnost Redu pracovat s hodnotami i v zanořených blocích. Aktuální obsah proměnné <tt>values</tt> je nyní:</p>
+<pre>
+values
+<span class="put">== ["new" [1 2] %file1.txt ["one" ["too" %file2.r]]]</span>
+</pre>
+</blockquote>
+<br>
+<h2 id="section-3">3. Skládání bloků</h2>
+<blockquote>
+<!--<p>Funkce <b><tt>compose</tt></b> je vhodná pro vytváření bloků z dynamických hodnot. Lze ji použít pro data i pro kód.</p>-->
+<p><A name=pgfId-539566></A>Funkce <b><tt>compose</tt></b> přijímá jako argument blok, jehož jednou hodnotou je výraz v kulatých závorkách (parens). Vrací se tentýž blok ale s vyhodnoceným výrazem:</p>
+<pre>
+compose [1 2 (3 + 4)]
+<span class="put">== [1 2 7]</span>
+compose ["The time is" (now/time)]
+<span class="put">== ["The time is" 10:32:45]</span>
+</pre>
+<p>Je-li v kulatých závorkách blok, použijí se jeho individuální hodnoty:</p>
+<pre>
+compose [a b ([c d])]
+<span class="put">== [a b c d]</span>
+</pre>
+<p>Aby se zabránilo vyhodnocení vnitřního bloku, uvede se tento v dalším bloku:</p>
+<pre>
+compose [a b ([[c d]])]
+<span class="put">== [a b [c d]]</span>
+</pre>
+<p>Prázdný blok nevkládá nic:</p>
+<pre>
+compose [a b ([]) c d]
+<span class="put">== [a b c d]</span>
+</pre>
+<p>Sub-blok argumentačního bloku není vyhodnocen, ani když obsahuje kulaté závorky:</p>
+<pre>
+compose [a b [c (d e)]]
+<span class="put">== [a b [c (d e)]]</span>
+</pre>
+<p>Chceme-li aby byl sub-blok vyhodnocen, použijeme upřesnění <tt>/deep</tt>. Toto upřesnění způsobí, že jsou vyhodnoceny všechny závorky, bez ohledu na jejich umístění:</p>
+<pre>
+compose/deep [a b [c (d e)]]
+<span class="put">[a b [c d e]]</span>                  <ii>; chodí jinak</ii>
+</pre>
+</blockquote>
+<br>
+<h2 id="section-4">4. Pole</h2>
+<blockquote>
+<p>Pole (array) je kolekce indexovaných hodnot stejného typu. Jednorozměrné pole se označuje jako <b>řádková matice</b>, dvojrozměrné pole je <b>matice</b>.<br>
+V jazyce Red je řádková matice vytvořena jednoduchým blokem, matici tvoří blok řádkových matic. Hodnoty jednotlivých matic jsou <b>stejného</b> typu!. Pole (arrays) netvoří zavedený datový typ.</p>
+<p>Příklad staticky definovaného dvojrozměrného pole:</p>
+<pre>
+arr: [
+     [1   2   3  ]
+     [a   b   c  ]
+     [2x3 5x2 6x4]
+]
+</pre>
+<p>Hodnoty matice (pole) získáme extrakčními funkcemi řad:</p>
+<pre>
+first arr
+<span class="put">== [1 2 3]</span>
+pick arr 3
+<span class="put">== [2x3 5x2 6x4]</span>
+first first arr
+<span class="put">== 1</span>
+</pre>
+<p>K získání hodnot lze také použít cest:</p>
+<pre>
+probe arr/1
+<span class="put">== [1 2 3]</span>
+probe arr/3
+<span class="put">== [2x3 5x2 6x4]</span>
+probe arr/3/2
+<span class="put">== 5x2</span>
+</pre>
+<p>Cesty také použijeme ke změně hodnot:</p>
+<pre>
+arr/1/2: 20
+<span class="put">== 20</span>
+arr/1
+<span class="put">== [1 20 3]</span>
+</pre>
+<pre>
+arr/3/2: arr/3/1 + arr/3/3
+<span class="put">== 8x7</span>
+</pre>
+</blockquote>
+<br>
+<h2 id="section-5">5. Vektory</h2>
+<blockquote>
+<p>Vektor je blok s elementy stejného typu. Povoleným typem elementů je: integer!, float!, char! a percent!. Typ vector! patří mezi typy supertypu series!. <br>
+</p>
+<p>Objekt typu vektor se vytvoří pomocí funkce <tt>make</tt>:</p>
+<pre>
+arr: make vector! [3,2 5,4 2,8] 
+<span class="put">== make vector! [3.2 5.4 2.8]</span>
+</pre>
+<p>Hodnoty vektoru získáme extrakčními funkcemi řad:</p>
+<pre>
+first arr
+<span class="put">== 3.2</span>
+pick arr 3
+<span class="put">== 2.8</span>
+</pre>
+<p>K získání hodnot lze také použít cest:</p>
+<pre>
+arr/2
+<span class="put">== 5.4</span>
+</pre>
+<p>Cesty také použijeme ke změně hodnot:</p>
+<pre>
+arr/2: 20,0
+<span class="put">== 20.0</span>
+</pre>
+<p>Případně lze vytvořit vektor dané velikosti s implicitně nulovými hodnotami:</p>
+<pre>
+vrr: make vector! 3 
+<span class="put">== make vector! [0 0 0]</span>
+</pre>
+<p>Takto vytvořenému vektoru lze přiřadit pouze celá čísla:</p>
+<pre>
+vrr/2: 27
+vrr 
+<span class="put">== make vector! [0 27 0]</span>
+</pre>
+
+<p>Vektor podporuje běžné matematické a 'bitwise' operace, jakož i funkce <tt>clear, copy, poke, append, remove, reverse, take, sort, find, select, add, subtract, multiply, divide, remainder, and, or, xor.</tt> plus informační funkce <tt>length?, head?, tail?, index? ...</tt>.</p>
+</blockquote>
+  
+<!--
+<h3 id="section-3.1">3.1 Vytváření polí</h3>
+<blockquote>
+<ii>Dynamické vytváření polí zatím Red neumí; nezná funkci array</ii>
+<p><A name=pgfId-539540></A>Funkce <tt>array</tt> vytváří pole dynamicky. Funkce přijímá argument, jímž je buď celé číslo nebo blok celých čísel a vrací blok, jenž je typu <b>array!</b>. Buňky pole jsou implicitně nastaveny na hodnotu 
+<tt>none</tt>. Pro nastavení jiných hodnot použijeme upřesnění <tt>/initial</tt> - viz další odstavec.</p>
+<p>Jediné celé číslo jako argument definuje délku jednorozměrového pole:</p>
+<pre>
+arr: array 5
+arr
+<span class="put">[none none none none none]</span>
+</pre>
+<p>Je-li jako argument zadán blok celých čísel, má pole více rozměrů. Každé číslo udává velikost příslušného rozměru.</p>
+<p>Zde je příklad dvojrozměrného pole, který má šest buněk ve dvou řadách a třech sloupcích:</p>
+<pre>
+arr: array [2 3]
+arr
+<span class="put">[[none none none] [none none none]]</span>
+</pre>
+<p>Přidáním čísla do bloku vytvoříme třírozměrné pole:</p>
+<pre>
+arr: array [2 3 2]
+foreach lst arr [probe lst]
+<span class="put">[[none none] [none none] [none none]]
+[[none none] [none none] [none none]]</span>
+</pre>
+<p>Blok celých čísel, zadaných jako parametr <tt>pole</tt> (array) má svou velikost omezenou kapacitou paměti počítače.</p>
+</blockquote>
+
+<h3 id="section-3.2">3.2 Počáteční hodnoty</h3>
+<blockquote>
+<ii>Počáteční hodnoty zatím Red neumí (nezná funkci array).</ii>
+<p>Nastavení jiných počátečních hodnot pole než <tt>none</tt> umožňuje upřesnění <tt>/initial</tt>. Toto upřesnění přijímá jeden argument: počáteční hodnotu:</p>
+<pre>
+arr: array/initial 5 0
+probe arr
+<span class="put">[0 0 0 0 0]</span>
+arr: array/initial [2 3] 0
+probe arr
+<span class="put">[[0 0 0] [0 0 0]]</span>
+arr: array/initial 3 "a"
+probe arr
+<span class="put">["a" "a" "a"]</span>
+arr: array/initial [3 2] 'word
+probe arr
+<span class="put">[[word word] [word word] [word word]]</span>
+arr: array/initial [3 2 1] 11:11
+probe arr
+<span class="put">[[[11:11] [11:11]] [[11:11] [11:11]] [[11:11] [11:11]]]</span>
+</pre>
+</blockquote>
+-->
+
+
+<tr><td align=center>
+
+</td></tr>
+</table>
+</center>
+<!--<map name="bar-map">
+<area shape="rect" coords="0,0,150,28"   href="http://www.rebol.com" alt="REBOL.com">
+<area shape="rect" coords="175,0,275,28" href="http://www.rebol.com/docs.html" alt="Documents">
+<area shape="rect" coords="285,0,365,28" href="http://www.rebol.com/docs/core23/rebolcore.html" alt="Manual">
+<area shape="rect" coords="375,0,445,28" href="http://www.rebol.com/docs/dictionary.html" alt="Dictionary">
+<area shape="rect" coords="452,0,500,28" href="http://www.rebol.com/library.html" alt="Library">
+<area shape="rect" coords="510,0,575,28" href="http://www.rebol.com/feedback.html" alt="Feedback">
+</map>-->
+<table align="center" width="600" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="06-serie.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="08-strings.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<span class="tail">
+Perpetrated 25-May-2017 -
+<!--<a href="http://www.rebol.com">Copyright REBOL Technologies</a>-->
+- Hosted with BitBucket Cloud
+</span></center>
+</body></html>

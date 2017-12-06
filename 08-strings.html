@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>Chapter 8 - String Series</title>
+<link rel="stylesheet" HREF="red_cz.css">
+</head>
+
+<body bgcolor="beige">
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="07-bloky.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="09-funkce.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<table width="660" cellpadding="4" cellspacing="0" border="0">
+<!--<tr><td><a href="http://www.rebol.com/docs.html"><img src="http://www.rebol.com/graphics/doc-bar.gif" width="680" height="28" align="bottom" alt="rebol document" border="0" usemap="#bar-map" ismap></a></td></tr>-->
+<tr><td height="24"> </td></tr>
+<tr><td><h1>Kapitola 8 - Řetězcové typy řad</h1>
+
+<h2>Obsah:</h2>
+<a class="toc1" href="#section-1">1. Funkce pro řetězcové typy</a><br>
+<a class="toc1" href="#section-2">2. Konverze hodnot na řetězce</a><br>
+<!--<a class="toc2" href="#section-2.1">2.1 Join</a><br>-->
+<a class="toc2" href="#section-2.1">2.1 Rejoin</a><br>
+<a class="toc2" href="#section-2.2">2.2 Form</a><br>
+<!--<a class="toc2" href="#section-2.4">2.4 Reform</a><br>-->
+<a class="toc2" href="#section-2.3">2.3 Mold</a><br>
+<!--<a class="toc2" href="#section-2.6">2.6 Remold</a><br>-->
+<a class="toc2" href="#section-2.4">2.4 Mezery v řetězci</a><br>
+<a class="toc2" href="#section-2.5">2.5 Verzálky a minusky</a><br>
+<a class="toc2" href="#section-2.6">2.6 Checksum</a><br>
+<!--<a class="toc2" href="#section-2.10">2.10 Komprese a dekomprese</a><br>-->
+<a class="toc2" href="#section-2.7">2.7 Enbase a debase</a><br>
+<a class="toc2" href="#section-2.8">2.8 Hexadecimální dekódování v internetu</a><br><br>
+
+<h2 id="section-1">1. Funkce pro řetězcové typy řad</h2>
+<blockquote>
+<p>Mezi takzvané řetězcové typy řad patří typy <tt>string!</tt>, <tt>binary!</tt>, <tt>tag!</tt>, <tt>file!</tt>, <tt>URL!</tt>, <tt>email!</tt> a <tt>image!</tt>.</p>
+<p>Pro řetězcové typy řad se používají funkce, definované pro pseudotyp <tt>series!</tt>. Specifické pro řetězcové typy řad (řetězce) jsou funkce  <tt>pad</tt>, <tt>split</tt>, <tt>trim</tt>, <tt>uppercase</tt> a <tt>lowercase</tt>.</p>
+</blockquote>
+<!--
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>copy</b></td><td valign="top">kopírovat celý nebo jen část řetězce
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>make</b></td><td valign="top">alokovat uložiště pro řetězec
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>insert</b></td><td valign="top">vložit znak nebo substring do jiného řetězce
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>remove</b></td><td valign="top">odebrat jeden či více znaků z řetězce
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>change</b></td><td valign="top">změnit jeden či více znaků v řetězci
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>append</b></td><td valign="top">připojit znak nebo substring na konec řetězce
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>find</b></td><td valign="top">vyhledat shodu se znakem či řetězcem v jiném řetězci  
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>replace</b></td><td valign="top">nalézt řetězec a nahradit jej jiným
+</td></tr>
+</table>
+<p>V této kapitole byly také popsány traverzovací funkce <tt>next</tt>, <tt>back</tt>, <tt>head</tt> a <tt>tail</tt>, které se používají ke změně pozice v řetězci. Potvrzení pozice v řetězci umožňují také testovací funkce.</p>-->
+<!--
+<p>Tato kapitola uvádí funkce, které převádějí hodnoty Redu na řetězce. Tyto funkce se používají často spolu s funkcemi <tt>print</tt> a <tt>probe</tt>. Jsou to funkce:</p>
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>form</b></td><td valign="top">mění hodnoty na řetězce v čitelné formě pro člověka
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>mold</b></td><td valign="top">mění hodnoty na řetězce v čitelné formě pro Red
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>join</b></td><td valign="top">mění hodnoty bez mezer &nbsp;        <ii>není zavedeno</ii>
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>reform</b></td><td valign="top">redukuje hodnoty před jejich úpravou "form" &nbsp;     <ii>není zavedeno</ii>
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>remold</b></td><td valign="top">redukuje hodnoty před jejich úpravou "mold"  &nbsp;    <ii>není zavedeno</ii>
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>rejoin</b></td><td valign="top">redukuje hodnoty před jejich spojením "join"
+</td></tr>
+</table>
+<p>V této kapitole jsou rovněž popsány tyto řetězcové funkce:</p>
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>detab</b></td><td valign="top">nahradí tabulátor mezerami &nbsp; <ii>není zavedeno</ii>
+</td></tr>     
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>entab</b></td><td valign="top">nahradí mezery tabulátorem &nbsp;   <ii>není zavedeno</ii>
+</td></tr> 
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>trim</b></td><td valign="top">odebere mezery nebo řádky kolem řetězců
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>uppercase</b></td><td valign="top">upraví písmo řetězce na uppercase
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>lowercase</b></td><td valign="top">upraví písmo řetězce na lowercase
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>checksum</b></td><td valign="top">spočítá checksum řetězce
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>compress</b></td><td valign="top">komprimuje řetězec &nbsp; <ii>není zavedeno</ii>
+</td></tr>  
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>decompress</b></td><td valign="top">dekomprimuje řetězec &nbsp; <ii>není zavedeno</ii>
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>enbase</b></td><td valign="top">konvertuje řetězec na bázovou (base) hodnotu
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>debase</b></td><td valign="top">konvertuje "enbased" řetězec na řetězec
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>dehex</b></td><td valign="top">konvertuje hexadecimální hodnoty ASCII na znaky
+</td></tr>
+</table></blockquote>-->
+<br>
+<h2 id="section-2">2. Konverze hodnot na řetězce</h2>
+<blockquote>
+</blockquote>
+<!--
+<h3 id="section-2.1">2.1 Join <ii>- nechodí</ii> </h3>  
+<blockquote>
+<p>Funkce <tt>join</tt> přijímá dva řetězce a spojí je do jednoho.  </p>
+<p>The data type of series returned is based on the value of the
+first argument. When the first argument is a series value, that
+series type is returned.</p>
+<pre>
+str: "abc"
+file: %file
+url: http://www.rebol.com/
+
+probe join str [1 2 3]
+<span class="put">abc123</span>
+probe join file ".txt"
+<span class="put">%file.txt</span>
+probe join url %index.html
+<span class="put">http://www.rebol.com/index.html</span>
+</pre>
+<p>When the first argument is not a series, the <b><tt>join</tt></b> converts
+it to a string first, then performs the append:</p>
+<pre>
+print join $11 " dollars"
+<span class="put">$11.00 dollars</span>
+print join 9:11:01 " elapsed"
+<span class="put">9:11:01 elapsed</span>
+print join now/date " -- today"
+<span class="put">30-Jun-2000 -- today</span>
+print join 255.255.255.0 " netmask"
+<span class="put">255.255.255.0 netmask</span>
+print join 412.452 " light-years away"
+<span class="put">412.452 light-years away</span>
+</pre>
+<p>When the second argument to <b><tt>join</tt></b> is a block, the values of
+that block are evaluated and appended to the series returned.</p>
+<pre>
+print join "a" ["b" "c" 1 2]
+<span class="put">abc12</span>
+print join %/ [%dir1/ %sub-dir/ %filename ".txt"]
+<span class="put">%/dir1/sub-dir/filename.txt</span>
+print join 11:09:11 ["AM" " on " now/date]
+<span class="put">11:09:11AM on 30-Jun-2000</span>
+print join 312.423 [123 987 234]
+<span class="put">312.423123987234</span>
+</pre>
+</blockquote>-->
+
+<h3 id="section-2.1">2.1 Rejoin </h3>
+<blockquote>
+<p>Funkce <b><tt>rejoin</tt></b> redukuje blok vypuštěním mezer a konvertuje jej na řetězec.</p>
+<pre>
+rejoin ["try" 1 2 3]
+<span class="put">"try123"</span>
+rejoin ["h" 'e #"l" (to-char 108) "o"]
+<span class="put">"hello"</span>
+</pre>
+<p>Typ vrácené řady závisí na hodnotě prvního argumentu. Je-li první argument supertypu series!, tentýž typ řady je vrácen.</p>
+<pre>
+str: "abc "
+file: %file
+url: http://www.rebol.com/
+
+rejoin [str [1 2 3]]
+<span class="put">== "abc 1 2 3"</span>
+rejoin [file ".txt"]
+<span class="put">== %file.txt</span>
+rejoin [url %index.html]
+<span class="put">== http://www.rebol.com/index.html</span>
+</pre>
+<p>Nepatří-li první element bloku k supertypu series!, převede jej funkce 
+<b>rejoin</b> nejprve na string! a poté provede připojení:</p>
+<pre>
+rejoin [9:11:01 " elapsed"]
+<span class="put">== "9:11:01 elapsed"</span>
+rejoin [11:09:11 "AM" " on " now/date]
+<span class="put">== "11:09:11AM on 17-Aug-2017"</span>
+rejoin [now/date " -- today"]
+<span class="put">== "17-Aug-2017 -- today"</span>
+rejoin [255.255.255.0 " netmask"]
+<span class="put">== "255.255.255.0 netmask"</span>
+rejoin [412.452 " light-years away"]
+<span class="put">== "412.452 light-years away"</span>
+rejoin [312.423 123 987 234]
+<span class="put">== "312.423123987234"</span>
+</pre>
+<p>Je-li druhý element bloku také blok, provede se nejprve jeho vyhodnocení a poté připojení k prvnímu elementu.</p>
+<pre>
+rejoin ["a" ["b" "c" 1 2]]
+<span class="put">== "ab c 1 2"</span>
+rejoin [%/ [%dir1/ %sub-dir/ %filename ".txt"]]
+<span class="put">== %/dir1/%20sub-dir/%20filename%20.txt</span>
+<ii>Zde je vhodnější použít:</ii>
+rejoin [%/ %dir1/ %sub-dir/ %filename ".txt"]
+<span class="put">== %/dir1/sub-dir/filename.txt</span>
+</pre>
+
+</blockquote>
+<br>
+<h3 id="section-2.2">2.2 Form</h3>
+<blockquote>
+<p>Funkce <tt>form</tt> odstraní případné dekorace a přemění hodnotu na řetězec. Výstup z této funkce není vždy vhodný jako argument dalších procesů:</p>
+<pre>
+form [:aso /5 "yes"]
+<span class="put">"aso 5 yes"</span>
+
+<ii>Znaky řetězce odstraní funkce</ii> print:
+print form [:aso /5 "yes"]
+<span class="put">aso 5 yes</span> 
+</pre>
+<pre>
+type? form 25
+<span class="put">string!</span>
+</pre>
+<p>Následující příklad pužívá funkci <tt>form</tt> k nalezení čísla podle jeho desetinné hodnoty:</p>
+<pre>
+blk: [11.22 44.11 11.33 11.11]
+foreach num blk [if find form num ".11" [print num]]
+<span class="put">44.11
+11.11</span>
+</pre></blockquote>
+<!--
+<p>Zajímavé je toto působení funkce <tt>form</tt>:</p>
+<pre>
+form [33.44 num "-- nevyhodnocený řetězec:" str]
+<span class="put">"33.44 num -- nevyhodnocený řetězec: str"</span>
+print form [33.44 num "-- nevyhodnocený řetězec:" str]
+<span class="put">33.44 num -- nevyhodnocený řetězec: str</span>
+</pre>
+</blockquote>-->
+<!--
+<h3 id="section-2.4">2.4 Reform <ii>- nechodí</ii></h3>
+<blockquote>
+<p>Funkce <tt>reform</tt> je jako funkce <tt>form</tt>, s tím že bloky jsou před konverzí <tt>redukovány</tt> (vyhodnoceny).</p>
+<pre>
+str1: "Today's date is:"
+str2: "The time is now:"
+print reform [str1 now/date newline str2 now/time]
+<span class="put">Today's date is: 30-Jun-2000 The time is now: 14:41:44</span>
+</pre>
+<p>The <b><tt>print</tt></b> function is based on the
+<b><tt>reform</tt></b> function.</p>
+</blockquote>-->
+<br>
+<h3 id="section-2.3">2.3 Mold</h3>
+<blockquote>
+<p>Funkce <tt>mold</tt> přemění zadanou hodnotu na řetězec, bezpečně použitelný jako argument pro případné další procesy:</p>
+<pre>
+mold [:aso /5 "yes"]
+<span class="put">{[:aso /5 "yes"]}</span>
+
+<ii>Znaky řetězce odstraní funkce</ii> print:
+print mold [:aso /5 "yes"]
+<span class="put">[:aso /5 "yes"]</span> 
+</pre>
+<pre>
+type? mold 25
+<span class="put">string!</span>
+</pre>
+<p>Jednou vidět je lepší než 10x číst:</p>
+<pre>
+blk: [[11 * 4] (15 - 3.89) "eleven dollars"]    <ii>viz Pozn:</ii>
+<span class="put">== [[11 * 4] (15.00 - 3.89) "eleven dollars"]</span>
+
+molded-blk: mold blk
+<span class="put">== {[[11 * 4] (15.00 - 3.89) "eleven dollars"]}</span>
+
+new-blk: load molded-blk
+<span class="put">== [[11 * 4] (15.00 - 3.89) "eleven dollars"]</span>
+
+type? blk
+<span class="put">== block!</span>
+type? molded-blk
+<span class="put">== string!</span>
+type? new-blk
+<span class="put">== block!</span>
+
+first blk
+<span class="put">[11 * 4]</span>
+first molded-blk
+<span class="put">#"["</span>
+</pre>
+
+<p><ii>Pozn:</ii> Výrazy uvnitř bloku se samy od sebe nevyhodnotí ani s funkcí <b><tt>mold</tt></b>.</p>
+
+</blockquote>
+<!--
+<h3 id="section-2.6">2.6 Remold <ii>- nechodí</ii></h3>
+<blockquote>
+<p>The <b><tt>remold</tt></b> function works just like <b><tt>mold</tt></b>,
+except that blocks are reduced before being converted.</p>
+<pre>
+str1: "Today's date is:"
+probe remold [str1 now/date]
+<span class="put">{["Today's date is:" 30-Jun-2000]}</span>
+</pre></blockquote>-->
+<br>
+<h3 id="section-2.4">2.4 Mezery v řetězci</h3>
+<blockquote>
+<h4 id="section-2.4.1">2.4.1 Pad</h4>
+
+<p>Funkce <b><tt>pad</tt></b> doplní řetězec na pravé straně mezerami na zadanou délku.</p> 
+<pre>
+pad "ab" 4                   <ii>; číslo udává výslednou délku řetězce</ii>
+<span class="put">"ab  "</span>
+pad/left " ab" 4
+<span class="put">"  ab"
+</pre>
+<pre>
+prin "X"  prin pad/left "AB" 6  print "X" print "-123456-"
+<span class="put">X   ABX
+-123456_</span>
+</pre>
+<h4 id="section-2.4.2">2.4.2 Trim</h4>
+<p>Funkce <b><tt>trim</tt></b> odebere přebytečné mezery z čela a konce řetězce. S upřesněním <tt>/lines</tt> odebere všechny přebytečné mezery. Jde o trvalou úpravu proměnné:</p>
+<pre>
+str: "  text s přebytečnými    mezerami  "
+print trim/lines str
+<span class="put">"text s přebytečnými mezerami"
+</pre>
+
+<p>Pro specifikaci místa k odebrání mezery lze použít tato <tt>upřesnění</tt>:</p>
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/head</b></td><td valign="top">odebere mezeru jen z čela řetězce
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/tail</b></td><td valign="top">odebere mezeru z chvostu řetězce
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/lines</b></td><td valign="top">odebere přebytečné mezery, včetně přerušení řádků (linebreaks)
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/all</b></td><td valign="top">odebere všechny mezery, nikoliv však přerušení řádků
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/with</b></td><td valign="top">odebere všechny určené znaky
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/auto</b></td><td valign="top">odebere mezeru z každého přilehlého řádku
+&nbsp;&nbsp;    <ii>dosud nezavedeno</ii> </td>         
+</tr>
+</table>
+
+<p>Použití <tt>/with</tt> k odebrání zadaných znaků: 
+<pre>
+str: "some    extra-characters,, to use"
+<span class="put">== "some    extra-characters,, to use"</span>
+
+trim/with copy str ",-"              <ii>hodnotu str budeme ještě potřebovat</ii>
+<span class="put">"some    extracharacters to use"</span>
+trim/with copy str ",- "             <ii>do parametru přidána mezera!</ii>
+<span class="put">"someextracharacterstouse"</span>
+</pre>
+<!--
+<p>Use the <b><tt>/auto</tt></b> refinement to trim leading spaces from
+multiple lines leaving indented spaces intact: </p>
+<pre>
+str: {
+    indent text
+        indent text
+            indent text
+        indent text
+    indent text
+}
+print str
+<span class="put">indent text
+    indent text
+        indent text
+    indent text
+indent text</span>
+ trim/auto copy str          <ii>dosud nezavedeno</ii>      
+<span class="put">{indent text
+    indent text
+        indent text
+    indent text
+indent text
+}</span>
+</pre>
+<p>Použití <b><tt>/lines</tt></b> k okleštění čela a chvostu a také k přeměně newlines na mezery:</p>
+<pre>
+trim/lines copy str
+<span class="put">{indent text indent text indent text indent text indent text}</span>
+</pre>-->
+<p>Použití <b><tt>/all</tt></b> k odebrání všech mezer:</p>
+<pre>
+trim/all copy str
+<span class="put">"someextracharacterstouse"</span>
+</pre>
+<!--
+<h4 id="section-2.7.2">2.7.2 Detab a Entab <ii>- nechodí</ii></h4>
+<p>Funkce <tt>detab</tt> a <tt>entab</tt> přemění tabulátory na mezery a mezery na tabulátory.</p>
+<pre>
+str:
+<span class="put">{^(tab)line one
+^(tab)^(tab)line two
+^(tab)^(tab)^(tab)line three
+^(tab)line^(tab)full^(tab)of^(tab)tabs}</span>
+print str
+<span class="put">line one
+        line two
+            line three
+    line    full    of  tabs</span>
+</pre>
+<p>By default, the <b><tt>detab</tt></b> function
+converts tabs to four spaces (the REBOL standard spacing). All tabs in the
+string will be converted to spaces, regardless of where they are located.</p>
+<pre>
+probe detab str
+<span class="put">{    line one
+        line two
+            line three
+    line    full    of  tabs}</span>
+</pre>
+<p>Note that the <b><tt>detab</tt></b> and <b><tt>entab</tt></b> functions affect the string
+that is provided as an argument. To change a copy of the source
+string, use the <b><tt>copy</tt></b> function.</p>
+<p>The <b><tt>entab</tt></b> function converts spaces to tabs. Every four spaces
+will be converted to a single tab. Only spaces at the beginning
+of a line will be converted to tabs.</p>
+<pre>
+probe entab str
+<span class="put">{^-line one
+^-^-line two
+^-^-^-line three
+^-line^-full^-of^-tabs}</span>
+</pre>
+<p>You can use the <b><tt>/size</tt></b> refinement to specify the size of
+tabs. For instance, if you want to convert each tab to eight spaces, or convert
+every eight spaces to a tab, you can use this example:</p>
+<pre>
+probe detab/size str 8
+<span class="put">{        line one
+                line two
+                        line three
+        line    full    of      tabs}</span>
+probe entab/size str 8
+<span class="put">{^-line one
+^-^-line two
+^-^-^-line three
+^-line^-full^-of^-tabs}</span>
+</pre>-->
+
+<h4 id="section-2.4.3">2.4.3 Split</h4>
+<p>Funkce <b><tt>split</tt></b> rozdělí řetězec v označených místech:</p>
+<pre>
+str: "Několik koblih"
+split str "k"
+<span class="put">["Ně" "oli" " " "oblih"]
+</pre>
+</blockquote>
+<br>
+
+<h3 id="section-2.5">2.5 Uppercase a lowercase</h3>
+<blockquote>
+<p>Funkce pro změnu velikosti písmen:
+<tt>uppercase</tt> (verzálky) a <tt>lowercase</tt> (mínusky). Funkce 
+<b><tt>uppercase</tt></b> přijímá řetězec a přemění jeho znaky na velká písmena:</p>
+<pre>
+print uppercase "SamPle TExT, tO test CASES"
+<span class="put">SAMPLE TEXT, TO TEST CASES</span>
+</pre>
+<p>Funkce <tt>lowercase</tt> konvertuje znaky na malá písmena:</p>
+<pre>
+print lowercase "Sample TEXT, tO teST Cases"
+<span class="put">sample text, to test cases</span>
+</pre>
+<p>Ke změně pouze části řetězce použijeme upřesnění <tt>/part</tt>:</p>
+<pre>
+print upppercase/part "ukiah" 1
+<span class="put">Ukiah</span>
+</pre>
+</blockquote><br>
+<h3 id="section-2.6">2.6 Checksum</h3>
+<blockquote>
+<p>Funkce <b><tt>checksum</tt></b> vrátí kontrolní součet zadaného argumentu typu <tt>binary!, string!</tt> nebo <tt>file!</tt>.</p>
+<table>
+<tr><td width="10"></td><td valign="top" width="80"><b>Syntaxe:</b></td><td><b>checksum</b></td><td width="5"></td><td>argument</td><td width="5"></td><td><b>metoda</b></td>
+</tr>
+</table>
+<!--<table cellspacing="6" border="0" width="95%">-->
+<p>Metod pro určení kontrolního součtu je celá řada:</p>
+<table>
+
+<!--<tr><td width="20">&nbsp;</td><td valign="top" width="40"><b>MD5</b></td><td valign="top">je 128-bitová číselná hodnota
+</td></tr>-->
+<tr><td width="10">&nbsp;</td><td valign="top" width="80"><b>MD5</b></td><td>je 128-bitová číselná hodnota
+</td></tr>
+<tr><td width="10">&nbsp;</td><td valign="top" width="80"><b>CRC32</b></td><td valign="top">(Cyclic Redundancy Check) je hodnota, určená polynomiálním dělením; číslo za zkratkou určuje stupeň řídícího polynomu
+</td></tr>
+<tr><td width="10">&nbsp;</td><td valign="top" width="150"><b>SHA {1, 256, 384, 512}</b></td><td valign="top">(Secure Hash Algorithm) jsou {160, 256, 384 a 512}-bitové kryptografické hodnoty
+</td></tr>
+<tr><td width="10">&nbsp;</td><td valign="top" width="80"><b>TCP</b></td><td valign="top">(Transmission Control Protocol) je 16-bitová číselná hodnota
+</td></tr>
+</table>
+
+<pre>
+checksum "čičmunda" 'md5
+<span class="put">== #{21475F7C0CB50ABFD5863CB203576BDB}</span>
+
+checksum "čičmunda" 'crc32
+<span class="put">== 338877614</span>
+
+checksum "čičmunda" 'sha1
+<span class="put">== #{0AAFE9CD6E52E246093C079C415BE6D45BD3A15F}</span>
+
+checksum "čičmunda" 'sha256
+<span class="put">== #{CBBB25D3C8784939D3B52C81AFC45BA7844A3030ECD4D67A693A26BB524FA03...}</span>
+
+checksum "čičmunda" 'tcp
+<span class="put">== 27248</span>
+</pre>
+<p>Funkce checksum zná upřesnění <tt>/with</tt> ... 
+<!--
+<p>implicitně se počítá CRC checksum:</p>
+<pre>
+print checksum "hello"
+<span class="put">52719</span>
+print checksum (read http://www.rebol.com/)
+<span class="put">356358</span>
+</pre>
+<p>Pro výpočet TCP 16-bit checksum se používá upřesnění <tt>/tcp</tt>:</p>
+<pre>
+print checksum/tcp "hello"
+<span class="put">10943</span>
+</pre>
+<p>Bezpečnostní checksum vrátí binární hodnotu, nikoli celé číslo. Pro tento účel se používá upřesnění <tt>/secure</tt>:</p>
+<pre>
+print checksum/secure "hello"
+<span class="put">#{AAF4C61DDCC5E8A2DABEDE0F3B482CD9AEA9434D}</span>
+</pre>-->
+</blockquote>
+<!--
+<h3 id="section-2.10">2.10 Komprese a dekomprese <ii> - nechodí</ii></h3>
+<blockquote>
+<p>Funkce <tt>compress</tt> komprimuje řetězec a vrátí datový typ <tt>binary</tt> (binár). V následující ukázce je komprimován malý soubor:</p>
+<pre>
+Str:
+{I wanted the gold, and I sought it,
+  I scrabbled and mucked like a slave.
+Was it famine or scurvy -- I fought it;
+  I hurled my youth into a grave.
+I wanted the gold, and I got it --
+  Came out with a fortune last fall, --
+Yet somehow life's not what I thought it,
+  And somehow the gold isn't all.}
+
+print [size? str "bytes"]          <ii>size? nechodí</ii>
+<span class="put">306 bytes</span>
+bin: compress str
+
+print [size? bin "bytes"]          
+<span class="put">156 bytes</span>
+</pre>
+<p>Povšimněte si, že výsledek komprese je typu binary!
+</p>
+<p>Funkce <b><tt>decompress</tt></b> dekomprimuje v předchozím kroku komprimovaný řetězec.</p>
+<pre>
+print decompress bin
+<span class="put">I wanted the gold, and I sought it,
+  I scrabbled and mucked like a slave.
+Was it famine or scurvy -- I fought it;
+  I hurled my youth into a grave.
+I wanted the gold, and I got it --
+  Came out with a fortune last fall, --
+Yet somehow life's not what I thought it,
+  And somehow the gold isn't all.</span>
+</pre>
+<div class="note">
+<p>Vždy je záhodno zálohovat nekomprimovaná data. Při ztrátě jediného bajtu je obtížné data obnovit.</p></div>
+</blockquote>-->
+<br>
+<h3 id="section-2.7">2.7 Enbase a debase</h3>
+<blockquote>
+</p>
+<p>Funkce <tt>enbase</tt> provede konverzi zadané hodnoty typu <tt>binary!</tt> a <tt>string!</tt> na typ <tt>string!</tt> s tetrahexagesimálním (implicitně), hexadecimálním nebo binárním obsahem.</p>
+
+<table><tr>
+<td width="0"></td><td valign="top" width="80"><tt>Syntaxe:</tt></td><td><b>enbase</b>[/base]</td><td width="5"></td><td><b>argument</b></td><td width="5"></td><td><b>báze</b> (64, 16, 2)</td>
+</tr>
+</table>
+
+
+<pre>
+line: "No! There's a land!"
+<span class="put">== "No! There's a land!"</span>
+
+a-line: enbase line                   <ii>; implicitně: báze 64</ii>
+<span class="put">== "Tm8hIFRoZXJlJ3MgYSBsYW5kIQ=="</span>
+b-line: enbase/base line 64
+<span class="put">== "Tm8hIFRoZXJlJ3MgYSBsYW5kIQ=="</span>
+c-line: enbase/base line 16
+<span class="put">== "4E6F2120546865726527732061206C616E6421"</span>
+d-line: enbase/base line 2
+<span class="put">== "01001110011011110010000100100000010101000..."</span>
+type? b-line
+<span class="put">== string!</span>
+</pre>
+
+<p>Zakódované řetězce lze dekódovat funkcí <tt>debase</tt>.
+Mějte na paměti, že výsledek je binární hodnota. Pro její konverzi zpět na řetězec bude potřebná funkce <tt>to-string</tt>.</p>
+<pre>
+aa-line: debase a-line
+<span class="put">#{4E6F2120546865726527732061206C616E6421}</span>
+ab-line: debase b-line
+<span class="put">#{4E6F2120546865726527732061206C616E6421}</span>
+ac-line: debase c-line
+<span class="put">#{E04E85DB5DB4E78EBCEB9EF6EB9DBBEF7DB4EB5DB4E82EB8E84EB8}</span>
+ad-line: debase d-line
+<span class="put">#{D35D34D75D74D35D74D75D75D34D74D34D35D34D74D34D34D35D35D35...}</span>
+type? ad-line
+<span class="put">== binary!</span>
+
+to-string ab-line
+<span class="put">== "No! There´s a land!"</span>
+to-string ac-line                    <ii>; nutno vysvětlit ...</ii>
+<span class="put">*** Access Error: invalid UTF-8 encoding: #{E04E85DB}</span>
+</pre>
+<p>Upřesnění <b><tt>/base n</tt></b> (n = 2, 16, 64) může být použito s funkcemi <tt>enbase</tt> i <tt>debase</tt>.</p>
+</pre>
+</blockquote>
+<br>
+<h3 id="section-2.8">2.8 Hexadecimální dekódování internetu</h3>
+<blockquote>
+<p>Funkce <b><tt>dehex</tt></b> konvertuje URL internetu a znaky kódované v hexadecimálním CGI stylu na řetězce.
+hexadecimal encoded characters to strings. Hexadecimální prezentace ASCII se v řetězcích URL nebo CGI objeví jako <tt>%xx</tt>, kde
+<tt>xx</tt> je hexadecimální hodnota.</p>
+<pre>
+str: "there%20seems%20to%20be%20no%20spaces"
+dehex str
+<span class="put">there seems to be no spaces</span>
+dehex "%68%65%6C%6C%6F"
+<span class="put">hello</span>
+</pre>
+</blockquote>
+</td></tr>
+<tr><td align=center>
+
+</td></tr></table>
+</center>
+<!--<map name="bar-map">
+<area shape="rect" coords="0,0,150,28"   href="http://www.rebol.com" alt="REBOL.com">
+<area shape="rect" coords="175,0,275,28" href="http://www.rebol.com/docs.html" alt="Documents">
+<area shape="rect" coords="285,0,365,28" href="http://www.rebol.com/docs/core23/rebolcore.html" alt="Manual">
+<area shape="rect" coords="375,0,445,28" href="http://www.rebol.com/docs/dictionary.html" alt="Dictionary">
+<area shape="rect" coords="452,0,500,28" href="http://www.rebol.com/library.html" alt="Library">
+<area shape="rect" coords="510,0,575,28" href="http://www.rebol.com/feedback.html" alt="Feedback">
+</map>-->
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="07-bloky.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="09-funkce.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<span class="tail">
+Perpetrated 25-May-2017 -
+<!--<a href="http://www.rebol.com">Copyright REBOL Technologies</a>-->
+- Hosted with BitBucket Cloud
+</span></center>
+</body></html>

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" lang="cs">
+
+<title>Chapter 5 - Scripts</title>
+<link rel="stylesheet" HREF="red_cz.css">
+</head>
+<body bgcolor="beige">
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="04-vyrazy.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="06-serie.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<table width="660" cellpadding="4" cellspacing="0" border="0">
+<!--<tr><td><a href="http://www.rebol.com/docs.html"><img src="http://www.rebol.com/graphics/doc-bar.gif" width="680" height="28" align="bottom" alt="rebol document" border="0" usemap="#bar-map" ismap></a></td></tr>-->
+<tr><td height="24"> </td></tr>
+<tr><td><h1>Kapitola 5 - Skripty</h1>
+
+<h2>Obsah:</h2>
+<a class="toc1" href="#section-1">1. Úvodem</a><br>
+<a class="toc2" href="#section-1.1">1.1 Přípona souboru</a><br>
+<a class="toc2" href="#section-1.2">1.2 Struktura skriptu</a><br>
+<a class="toc2" href="#section-1.3">1.3 Komentáře</a><br>
+<a class="toc1" href="#section-2">2. Záhlaví</a><br>
+<a class="toc1" href="#section-3">3. Argumenty skriptu</a><br>
+<a class="toc2" href="#section-3.1">3.1 Programové možnosti</a><br>
+<a class="toc1" href="#section-4">4. Spouštění skriptů</a><br>
+<a class="toc2" href="#section-4.1">4.1 Načítání skriptů</a><br>
+<a class="toc2" href="#section-4.2">4.2 Ukládání skriptů</a><br>
+<a class="toc2" href="#section-4.3">4.3 Komentáře ve skriptech</a><br>
+<a class="toc1" href="#section-5">5. Stylizace</a><br>
+<a class="toc2" href="#section-5.1">5.1 Formátování</a><br>
+<a class="toc2" href="#section-5.2">5.2 Názvy entit</a><br>
+<a class="toc2" href="#section-5.3">5.3 Záhlaví skriptů</a><br>
+<a class="toc2" href="#section-5.4">5.4 Záhlaví funkcí</a><br>
+<a class="toc2" href="#section-5.5">5.5 Názvy souborů</a><br>
+<a class="toc2" href="#section-5.6">5.6 Vnořené příklady</a><br>
+<a class="toc2" href="#section-5.7">5.7 Vnořené ladění</a><br>
+<a class="toc2" href="#section-5.8">5.8 Minimum globálních proměnných</a><br> 
+<!--<a class="toc1" href="#section-6">6. Script Cleanup</a><br>-->
+<br>
+<h2 id="section-1">1. Úvodem</h2>
+<blockquote>
+<p>Termín <b><i>script</i></b> se vztahuje nejen na jednotlivý vyhodnocovaný soubor ale i na <i>zdrojový</i> text, vnořený v jiných typech souborů (jako jsou třeba webové stránky) nebo na <i>fragmenty</i> zdrojového textu, uložené jako datové soubory nebo předané jako zprávy.</p>
+<!--</blockquote>-->
+<h3 id="section-1.1">1.1 Přípona souboru</h3>
+<!--<blockquote>-->
+<p>Skripty Redu mívají přípanu <tt>.red</tt>; tato konvence však není povinná. Interpret načte soubory s jakoukoli příponou a pátrá v první řadě po platném záhlaví.</p>
+<!--</blockquote>-->
+<h3 id="section-1.2">1.2 Struktura skriptu</h3>
+<!--<blockquote>-->
+<p>Struktura skriptu nemá předepsanou formu. Lze používat mezery a odsazení pro zvýraznění skladby a obsahu skriptu. Doporučuje se však aplikovat zásady, uvedené v odstavci &nbsp;<a
+href="#section-5"> 5. Stylizace</a><!--<a
+href="05-skripty.html">Style Guide</a>-->.</p>
+<h3 id="section-1.3">1.3 Komentáře</h3>
+<!--<blockquote>-->
+<p>Text označený jako komentář je kompilátorem Redu ignorován. <b><tt>Jednořádkový</tt></b> (lexikální) komentář je předznamenán středníkem:</p>
+<pre>
+semtele: 10    ; koupit 10 dkg semtele
+</pre>
+<p><b><tt>Víceřádkový</tt></b> (blokový) komentář je uzavřen do složených závorek a předznamenán slovem <tt>comment</tt>:</p>
+<pre>
+comment {tento text bude
+      kompilátorem ignorován}
+</pre>
+<p>Stejně tak je ignorován text před záhlavím skriptu - viz dále. Specielním typem komentářů jsou dokumentační řetězce funkcí a jejich argumentů - viz <A href="09-funkce.html">Funkce</A></p>
+<br>
+</blockquote>
+<h2 id="section-2">2. Záhlaví</h2>
+<blockquote>
+<p>Na počátku každého skriptu musí být záhlaví obsahující název skriptu, jméno autora, datum, číslo verze, název souboru a další informace. Datové soubory, které nejsou určeny pro přímé vyhodnocení, záhlaví mít nemusejí.</p>
+<p>Záhlaví jsou užitečná z několika důvodů.</p>
+<ul>
+<li>Označují skript jako platný zdrojový text pro interpreta Redu.</li>
+<li>Interpret používá záhlaví pro tisk názvu skriptu a pro určení potřebných zdrojů a verzí pro vyhodnocení skriptu.</li>
+<li>Záhlaví poskytují standardní způsob sdělení názvu, účelu, autora a dalších detailů skriptu. Často lze určit hned ze záhlaví prospěšnost obsahu skriptu.</li>
+<li>Archivy skriptů a webové sajty používají záhlaví pro vytváření adresářů, kategorií a křížových odkazů mezi skripty.</li>
+<li>Některé textové editory aktualizují záhlaví skriptů ohledně jména autora, datumu, verze a historie skriptu.</li>
+</ul>
+<p>Obecná forma záhlaví skriptu je tato:</p>
+<pre>
+RED [block]
+</pre>
+<p>Aby interpret rozpoznal záhlaví, musí blok následovat bezprostředně slovo <tt>RED</tt>. Mezi tímto slovem a blokem jsou však přípustné mezery, tabulátory a dokonce i prázdné řádky.</p>
+<p>Blok, který následuje za slovem <tt>RED</tt>, je definice objektu, která popisuje skript. Doporučené minimální záhlaví obsahuje:</p>
+<pre>
+RED [
+    Title:  "Scan Web Sites"
+    Date:   2-Feb-2000        
+    File:   %webscan.r
+    Author: "Jane Doer"
+    Version: 1.2.3
+]
+</pre>
+<p>Při načítání skriptu je vyhodnocen blok záhlaví a jeho slova jsou přiřazena k definovaným hodnotám. Tyto hodnoty jsou použity interpretem a můžou být použita i ve skriptu samotném.</p>
+<p>Je dobré si uvědomit, že slova, definovaná jako jediná hodnota, mohou být také definována jako víceznačná hodnota jejich uvedením v bloku:</p>
+<pre>
+RED [
+    Title: "Scan Web Sites"
+    Date:   12-Nov-1997
+    Author: ["Ema User" "Wasa Writer"]
+]
+</pre>
+<p>Záhlaví může být kompletnější poskytnutím informace o autorovi, copyrightu, formátování, požadovaných verzích, o historii revizí a pod. Protože pro vytvoření záhlaví je použitý blok, může být snadno rozšířen o další informace.</p>
+<p>Úplné záhlaví může vypadat nějak takto:</p>
+<pre>
+RED [
+    Title:   "Full RED Header Example"
+    Date:    8-Sep-1999
+    Name:    'Full-Header  ; For window title bar
+
+    Version: 1.1.1
+    File:    %headfull.r
+    Home:    http://www.red.com/rebex/
+
+    Author:  "Carl Sassenrath"
+    Owner:   "REBOL Headquarters"
+    Rights:  "Copyright (C) Carl Sassenrath 1999"
+
+    Needs:   [2.0 ODBC]
+    Tabs:    4
+
+    Purpose: {
+        The purpose or general reason for the program
+        should go here.
+    }
+
+    Note: {
+        An important comment or notes about the program
+        can go here.
+    }
+
+    History: [
+        0.1.0 [5-Sep-1999 "Created this example" "Carl"]
+        0.1.1 [8-Sep-1999 {Moved the header up, changed
+            comment on extending the header, added
+            advanced user comment.} "Carl"]
+    ]
+
+    Language: 'English
+]
+</pre><br>
+
+<h4 id="section-2.1">2.1 Skripty s předmluvou</h4>
+<p>Text skriptu nemusí začínat záhlavím. Skripty mohou začínat jakýmkoliv textem, umožňujícím jejich vložení do emailových zpráv, webových stránek a dalších souborů.</p>
+<p>Záhlaví označuje počátek skriptu. Následující text je tělo skriptu. Text, který se objeví před záhlavím, se nazývá <i>preface</i> a je při vyhodnocení ignorován.</p>
+<pre>
+Text, který se vyskytuje před záhlavím, je Redem ignorován
+a lze jej použít pro komentáře, záhlaví emailů, tagů HTML atd.
+
+RED [
+  Title:   "Preface Example"
+  Date:    8-Jul-1999
+]
+print "Tento soubor má před záhlavím předmluvu"
+</pre><br>
+
+<h4 id="section-2.2">2.2 Vnořené skripty</h4>
+<p>Je-li skript následován textem se skriptem nesouvisejícím, musí být skript uzavřen v hranatých závorkách [ ]:</p>
+<pre>
+Toto je nějaký text před skriptem.
+[
+    RED [
+        Title:   "Embedded Example"
+        Date:    8-Nov-1997
+    ]
+    print "done"
+]
+Toto je nějaký text za skriptem.
+</pre>
+<p>Mezi slovem RED a počáteční hranatou závorkou je povolena mezera.</p>
+</blockquote><br>
+
+<h2 id="section-3">3. Argumenty skriptu</h2>
+<blockquote>
+<p>Vyhodnocovaný skript má přístup k informaci o sobě samém v objektu <tt>system/script</tt>. Tento objekt obsahuje následující pole:</p>
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="10">&nbsp;</td><td valign="top" width="80"><b>header</b></td><td valign="top">Záhlaví skriptu. Může být použito k získání informací o názvu skriptu, jménu autora, verzi, datumu a o jiných polích.
+</td></tr>
+<tr><td width="10">&nbsp;</td><td valign="top" width="80"><b>parent</b></td><td valign="top">Byl-li skript vyhodnocen z jiného skriptu, jde o označení rodičovského skriptu.
+</td></tr>
+<tr><td width="10">&nbsp;</td><td valign="top" width="80"><b>path</b></td><td valign="top">Cesta k souboru (nebo URL) s vyhodnocovaným skriptem.
+</td></tr>
+<tr><td width="10">&nbsp;</td><td valign="top" width="80"><b>args</b></td><td valign="top">Argumenty skriptu. tyto jsou zadávány z příkazového řádku operačního systému nebo z funkce, použité pro vyhodnocení skriptu.
+</td></tr>
+</table>
+<p>Příklady použití objektů skriptu:</p>
+<pre>
+print system/script/title
+
+print system/script/header/date
+
+do system/script/args
+
+do system/script/path/script.red
+</pre>
+<p>Poslední příklad vyhodnotí skript zvaný <tt>script.red</tt>, uložený v témže adresáři jako skript právě běžící.</p>
+</blockquote>
+<h3 id="section-3.1">3.1 Programové možnosti</h3>
+<blockquote>
+<p>Skripty mají také přístup k opcím, poskytnutým interpretem Redu při jeho spuštění. Tyto možnosti jsou k nalezení v objektu 
+<tt>system/options</tt>, který obsahuje tato pole:</p>
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="10">&nbsp;</td><td valign="top" width="80"><b>home</b></td><td valign="top">Cesta k souboru, určená prostředím operačního systému. Tato cesta je uvedená v proměnné prostředí <C>HOME nebo v systémovém registru u systémů, které jej podporují. Je to cesta, použitá pro nalezení souborů <C>redbol.red and <C>user.red.
+</td></tr>
+<tr><td width="10">&nbsp;</td><td valign="top" width="80"><b>script</b></td><td valign="top">Název souborů počátečního skriptu, poskytnutého při spuštění interpreta.
+</td></tr>
+<tr><td width="10">&nbsp;</td><td valign="top" width="80"><b>path</b></td><td valign="top">Cesta k aktuálnímu adresáři.
+</td></tr>
+<tr><td width="10">&nbsp;</td><td valign="top" width="80"><b>args</b></td><td valign="top">Počáteční argumenty poskytnuté interpretu z příkazového řádku.
+</td></tr>
+<tr><td width="10">&nbsp;</td><td valign="top" width="80"><b>do-arg</b></td><td valign="top">Řetězec, poskytnutý jako argument pro opci --do z příkazového řádku.
+</td></tr>
+</table>
+<p>Objekty <tt>system/options</tt> také obsahují další volby, poskytnuté z příkazového řádku. Zadejte následující příkaz za účelem prozkoumání obsahu objektu "options":</p>
+<pre>
+probe system/options
+<span class="put">make object! [
+    boot: "C:\ProgramData\Red\console-2017-3-26-60790.exe"
+	home: none
+	path: %/F/Codetest/Red/
+	script: none
+	...
+] </span>
+</pre>
+
+<p>Příklady:</p>
+<pre>
+system/options/script
+<span class="put">== none</span>
+system/options/args
+<span class="put">== none</span>
+print read system/options/home/user.red
+<span class="put">...</span>
+
+</pre>
+</blockquote><br>
+
+<h2 id="section-4">4. Spouštění skriptů</h2>
+<blockquote>
+<p>Skript lze spustit dvěma způsoby: současně se spuštěním interpreta Redu nebo funkcí <b><tt>do</tt></b>.</p>
+<p>Skript při startu interpreta spustíme příkazem ze systémového příkazového řádku:</p>
+<pre>
+red script.red
+</pre>
+
+<p>Funkci <b><tt>do</tt></b> evokujeme z interaktivního prostředí REPL nebo jako součást kódu příkazem:</p>
+<pre>
+do %script.red
+
+do http://www.rebol.com/script.red
+</pre>
+<p>Zadaný soubor je načten do volajícího prostředí a vyhodnocen interpretem. Funkce <b><tt>do</tt></b> vrátí výsledek po ukončeném vyhodnocení.</p>
+<p>Nezapomeňte, že skriptový soubor musí obsahovat záhlaví RED.</p>
+</blockquote>
+<h3 id="section-4.1">4.1 Načítání skriptů</h3>
+<blockquote>
+<p>Skriptové soubory lze načíst jako data funkcí <b><tt>load</tt></b>. Tato funkce čte skript a převádí jej na hodnoty, slova a bloky ale nevyhodnocuje jej. Výsledkem funkce <b><tt>load</tt></b> je blok, pokud nebyla načtena jediná hodnota, která se v tom případě vrací jako výstup funkce.</p>
+<p>Argumentem funkce <b><tt>load</tt></b> je název souboru, URL nebo řetězec.</p>
+<pre>
+load %script.red
+load %datafile.txt
+load http://www.rebol.org/script.red
+load "print now"
+</pre>
+<p>Funkce <b><tt>load</tt></b> provádí tyto úkony:</p>
+<ul>
+<li>Načte text ze souboru, URL nebo řetězce.</li>
+<li>Zjišťuje přítomnost záhlaví.</li>
+<li>Převádí případná data za záhlavím.</li>
+<li>Vrací blok, obsahující převedené hodnoty.</li>
+</ul>
+<p>Pokud například soubor buy.red obsahuje text:</p>
+<pre>
+Koupit 100 podílů po stovce
+</pre>
+<p>může být načten sekvencí:</p>
+<pre>
+data: load %buy.red
+</pre>
+<p>což skončí jako blok:</p>
+<pre>
+probe data
+<span class="put">== [
+Koupit 100 podílů po stovce
+]</span>
+</pre>
+<div class="note"><p><b></b></p>
+<p>Je potřebné poznamenat, že příklad "buy.red" výše je dialekt Redu, nikoliv přímo spustitelný kód. Viz kapitola 4 - Výrazy nebo kapitola 15 - Parsování.</p>
+</div>
+<p>Všimneme si, že soubor nepotřebuje záhlaví aby byl načten. To je nezbytné tehdy, když má být soubor spuštěn jako skript.</p>
+<p>Funkce <b><tt>load</tt></b> podporuje několik upřesnění. <!-- The load Function
+Refinements lists the refinements and a description of their
+functionality:--></p>
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="10">&nbsp;</td><td valign="top" width="80"><b>/header</b></td><td valign="top">Zahrne záhlaví, je-li přítomno.
+</td></tr>
+<tr><td width="10">&nbsp;</td><td valign="top" width="80"><b>/next</b></td><td valign="top">Načte pouze další hodnotu, jednu po druhé. Toto je užitečné při parsování skriptů Redu.
+</td></tr>
+<tr><td width="10">&nbsp;</td><td valign="top" width="80"><b>/markup</b></td><td valign="top">Pracuje se souborem jako s formátem HTML nebo XML a vrací blok, který obsahuje jeho tagy a text.
+</td></tr>
+</table>
+<p>Funkce <b><tt>load</tt></b> normálně záhlaví skriptu nevrací. Je-li však použito upřesnění <tt>/header</tt>, obsahuje vrácený blok záhlaví jako jeho první element.</p>
+<p>Upřesnění <tt>/next</tt> načte další hodnotu a vrací blok, obsahující dvě hodnoty. První vracená hodnota je další hodnota z řady (series). Druhá vracená hodnota je pozice řetězce bezprostředně za poslední načtenou položkou. <ii>; IDNU</ii></p>
+<p>Upřesnění <b><tt>/markup</tt></b> načte data HTML a XML jako blok s tagy a řetězci. Všechny tagy jsou typu tag!. Všechna ostatní data jsou vedena jako řetězce.</p>
+<p>Pokud byl následující obsah souboru načten s upřesněním <b><tt>load/markup:</tt></b></p>
+<pre>
+&lt;title&gt;This is an example&lt;/title&gt;
+</pre>
+<p>je výsledkem tento blok (po načtení do proměnné "data"):</p>
+<pre>
+probe data
+<span class="put">[&lt;title&gt; "This is an example" &lt;/title&gt;]</span>
+</pre>
+</blockquote>
+<h3 id="section-4.2">4.2 Ukládání skriptů</h3>
+<blockquote>
+<p>Data lze uložit do skriptového souboru prostřednictvím funkce  <b><tt>load</tt></b>. Takto je možné vytvářet celé mini databáze.</p>
+<p>Funkce <b><tt>save</tt></b> očekává dva argumenty: jméno souboru a buď blok nebo ukládanou hodnotu:</p>
+<pre>
+data: [Koupit 100 podílů po stovce]  <ii>; chybí nám datový typ money!</ii>
+
+save %data.red data
+</pre>
+<p>Data jsou zapsána ve formátu zdrojového souboru, který může být později načten příkazem:</p>
+<pre>
+data: load %data.red
+</pre>
+<p>Jednoduché hodnoty lze rovněž ukládat a načítat. Například datumové razítko může být uloženo příkazem:</p>
+<pre>
+save %date.red now
+</pre>
+<p>a později opět načteno s přiřazením k proměnné:</p>
+<pre>
+stamp: load %date.red
+</pre>
+<p>Protože je v předchozí ukázce razítko jedna hodnota, není při načtení uzavřena do bloku.</p>
+<p>Chceme-li uložit skript i se záhlavím, může být záhlaví uvedeno v upřesnění buď jako objekt nebo blok:</p>
+<pre>
+header: [Title: "This is an example"]
+
+save/header %data.red data header
+</pre>
+</blockquote>
+<h3 id="section-4.3">4.3 Komentáře ve skriptech</h3>
+<blockquote>
+<p>Komentování skriptu objasňuje jeho účel. Záhlaví skriptu poskytuje informace s potřebnou podrobností, zatímco komentáře poskytují krátké popisy funkcí. Je prospěšné komentovat i jiné části skriptu.</p>
+<p>Jednořádkový komentář se uvádí středníkem. Vše od středníku až na konec řádku je součástí komentáře:</p>
+<pre>
+zertplex: 10   ; set to the highest quality
+</pre>
+<p>Víceřádkový komentář se uzavírá do složených závorek:</p>
+<pre>
+{
+    This is a long multilined comment.
+	Toto je vícejazyčná dvouřádková poznámka.
+}
+</pre>
+<p>Abychom měli jistotu, že komentářový řetězec nebude interpretován jako argument funkce, vložime před něj slovo  <b><tt>comment</tt></b>:</p>
+<pre>
+comment {
+    This is a long multilined comment.
+	Argument funkce ani náhodou.
+}
+</pre>
+<p>Komentář nelze vložit do argumentačního řetěce:</p>
+<pre>
+print {toto má být comment{comment?} argument}
+<span class="put">toto má být comment {comment?} argument</span>
+</pre>
+</blockquote><br>
+<h2 id="section-5">5. Stylizace</h2>
+<blockquote>
+<p>Skripty Redu mají volnou formu. Odsazování, mezery, délky řádků a jejich zakončení lze používat podle vlastní libosti.</p>
+<p>Formátování korektně složeného skriptu neovlivní práci překladače, má však vliv na čitelnost a přehlednost textu. Je proto vhodné dodržovat zavedený standard, popisovaný v tomto odstavci.</p>
+<p>Zkušení autoři skriptů se shodují v tom, že čistý, konzistentní styl usnadňuje jejich psaní, udržování a kontrolu.</p>
+<p>Stejnému tématu jako tento odstavec je věnována kapitola <a href="https://doc.red-lang.org/cs/style-guide.html">Styl kódování</a> dokumentace <a href="https://doc.red-lang.org/cs/">Red Programming Language</a>.
+</blockquote>
+<h3 id="section-5.1">5.1 Formátování</h3>
+<blockquote>
+<p>Rozložení textu příspívá k přehlednosti skriptů.</p>
+<h4 id="section-5.1.1">5.1.1 Odsazení zvyšuje přehlednost</h4>
+<p>Obsahy bloků se odsazují, jejich hranaté závorky [] však nikoli. Závorky definují blok ale nepatří k obsahu bloku. Odsazení od levého okraje vyjadřuje hierarchii skladby.</p>
+<p>Levá závorka se ponechává na tomtéž řádku za výrazem, k němuž náleží. Stejná pravidla platí pro kulaté () a složené {} závorky.</p>
+<pre>
+if check [do this and that]
+
+if check [
+    do this and do that
+    do another thing
+    do a few more things
+]
+
+either check [do something short][
+    do something else]
+
+either check [
+    when an expression extends
+    past the end of a block...
+][
+    this helps keep things
+    straight
+]
+
+while [
+    do a longer expression
+    to see if it's true
+][
+    the end of the last block
+    and start of the new one
+    are at the WHILE level
+]
+
+adder: func [
+    "This is an example function"
+    arg1 "this is the first arg"
+    arg2 "this is the second arg"
+][
+    arg1 + arg2
+]
+</pre>
+<p>Odlišně se formátuje výraz, který normálně patří na jediný řádek ale zabírá více řádků:</p>
+<pre>
+if (this is a long conditional expression that
+    breaks over a line and is indented
+)[
+    so this looks a bit odd
+]
+</pre>
+<p>To také platí pro uskupení hodnot, které patří k sobě ale musí být zalomeny, protože se nevejdou na řádek:</p>
+<pre>
+[
+    "Hitachi Precision Focus" $1000 10-Jul-1999
+        "Computers Are Us"
+
+    "Nuform Natural Keyboard" $70 20-Jul-1999
+        "The Keyboard Store"
+]
+</pre>
+<h4 id="section-5.1.2">5.1.2 Nastavení tabulátoru</h4>
+<p>Standardní délka tabulátoru jsou čtyři mezery. Místo tabulátoru bývá vhodnější používat mezerník.</p>
+<!--
+<h4 id="section-5.1.3">5.1.3 Detab Before Posting</h4>-->
+<p>U mnohých prohlížeců nezpůsobí znak tabulátoru (Tab - ASCII 9) odsazení na čtyři mezery, je proto žádoucí nahradit před publikováním na webu tabulátorové mezery normálními mezerami. Lze to provést ručně editorem nebo programovým příkazem. Potřebnými funkcemi (detab, entab) však Red prozatím nedisponuje.
+<!--
+Následující funkce zajistí tuto náhradu does not indent four spaces in many viewers,
+browsers, or shells, so use an editor or REBOL to detab a script before
+publishing it to the net. The following function detabs a file with standard
+four-space tabs:</p>
+<pre>
+detab-file: func [file-name [file!]] [
+    write file-name detab read file-name
+]
+detab-file %script.r
+</pre>
+<p>The following function converts an eight-space tabs to four-space tabs:</p>
+<pre>
+detab-file: func [file-name [file!]] [
+    write file-name detab entab/size read file-name 8
+]
+</pre>-->
+<h4 id="section-5.1.3">5.1.3 Omezená délka řádku</h4>
+<p>Kvůli snadnějšímu čtení a pro přenositelnost mezi editory a emailovými čtečkami se délka řádku omezuje na 80 znaků. Dlouhé řádky, zalomené u emailových klientů v nevhodných místech se špatně čtou a mívají problém s načítáním.</p>
+</blockquote>
+<h3 id="section-5.2">5.2 Názvy entit</h3>
+<blockquote>
+<p>Slova jako názvy objektů a proměnných jsou první tykadla pro uživatele kódu. Jejich názvy tedy nutno volit uvážlivě. Kde je to možné, měla by volená jména odpovídat účelu označeného objektu.</p>
+<p>Následují standardní konvence pro pojmenování objektů v Redu.</p>
+<h4 id="section-5.2.1">5.2.1 Používat vhodně krátká slova</h4>
+<p>Nejvhodnější jsou kratká a výstižná slova:</p>
+<pre>
+size  time  send  wait  make  quit
+</pre>
+<p>Globální popisněnjší označení se může skládat i z více slov.</p>
+<h4 id="section-5.2.2">5.2.2 Používat pokud možno celá slova</h4>
+<p>Zkracování slov je zřídka vhodné. Napíšeme date, nikoliv dt nebo image-file místo imgfl.</p>
+<h4 id="section-5.2.3">5.2.3 Víceslovná jména s pomlčkami</h4>
+<p>Pomlčky jsou vhodné pro tvorbu slov jako jediné entity. Používání velkých písmen uvnitř slova se nedoporučuje.</p>
+<pre>
+group-name image-file  clear-screen  bake-cake
+</pre>
+<h4 id="section-5.2.4">5.2.4 Názvy funkcí začínají slovesem</h4>
+<p>Jména funkcí začínají slovesem, za kterým následuje podstatné jméno, příslovce nebo přídavné jméno. Některá podstatná jména lze použít jako slovesa.</p>
+<pre>
+make  print  scan  find  show  hide  take
+rake-coals  find-age  clear-screen
+</pre>
+<p>Vyhýbejte se nadbytečným slovům. Například označení quit je stejně zřejmé jako quit-system.</p>
+<p>Některá slovesa je vhodné doplnit speciálními znaky, jmenovitě otazníkem, tak jak to vidíme u funkce <b><tt>length?</tt></b> pro zjištění délky řady. Dalšími zavedenými názvy s otazníkem jsou:</p>
+<pre>
+size?  dir?  time?  modified?
+</pre>
+<h4 id="section-5.2.5">5.2.5 Názvy datových objektů začínají podstatným jménem</h4>
+<p>Názvy objektů nebo proměnných, které obsahují data mají začínat podstatným jménem, případně dle potřeby doplněným příslovcem:</p>
+<pre>
+image  sound  big-file  image-files  start-time
+</pre><!--
+<h4 id="section-5.2.6">5.2.6 Use Standard Names</h4>
+<p>There are standard names in REBOL that should be used for similar types of
+operations. For instance:</p>
+<pre>
+make-blub           ;creating something new
+free-blub           ;releasing resources of something
+copy-blub           ;copying the contents of something
+to-blub             ;converting to it
+insert-blub         ;inserting something
+remove-blub         ;removing something
+clear-blub          ;clearing something
+</pre>-->
+</blockquote>
+<h3 id="section-5.3">5.3 Záhlaví skriptů</h3>
+<blockquote>
+<p>Výhoda používání záhlaví je zřejmá. Záhlaví poskytuji uživatelům přehlednou informaci o skriptu a umožňují dalším skriptům tuto informaci použít. Minimální záhlaví obsahuje titul, datum, název souboru a účel skriptu. Další pole mohou obsahovat jméno autora, poznámky a potřebné náležitosti.</p>
+<pre>
+RED [
+    Title: "Local Area Defringer"
+    Date:  1-Jun-1957
+    File:  %defringe.r
+    Purpose: {
+        Stabilize the wide area ignition transcriber
+        using a double ganged defringing algorithm.
+    }
+]
+</pre>
+</blockquote>
+<h3 id="section-5.4">5.4 Záhlaví funkcí</h3>
+<blockquote>
+<p>Je užitečné uvádět popis funkce ve specifikačním bloku funkce. Text by měl být omezen na jeden řádek do 70 znaků. V popisu by neměl chybět typ návratové hodnoty funkce.</p>
+<pre>
+defringe: func [
+    "Return the defringed localization radius."   <ii>; popis návratové hodnoty</ii>
+    area "Topo area to defringe"                  <ii>; popis prvního argumentu</ii>
+    time "Time allotted for operation"            <ii>; popis druhého argumentu</ii>
+    /cost num "Maximum cost permitted"            <ii>; popis prvního upřesnění</ii>
+    /compound "Compound the calculation"          <ii>; popis druhého upřesnění</ii>
+][
+    ...code...
+]
+</pre>
+</blockquote>
+<h3 id="section-5.5">5.5 Názvy souborů</h3>
+<blockquote>
+<p>Nejlepší přístup k pojmenování souboru je pomyšlení, jak jej co nejlépe nalézt po několika měsících. Krátký a stručný název většinou postačí. Plurály se až na výjimky nepoužívají.</p>
+<p>Často je vhodné vytvářet pojmenováním obsahově příbuzné skupiny, začínající společným slovem.</p>
+<pre>
+%net-start.r
+%net-stop.r
+%net-run.r
+</pre>
+</blockquote>
+<h3 id="section-5.6">5.6 Vnořené příklady</h3>
+<blockquote>
+<p>Kde je to vhodné, je možné uvést ve skriptu osvětlující příklad, který také umožní uživateli rychlé ověření, že prezentovaný kód v jeho operačním systému správně pracuje.</p>
+</blockquote>
+<h3 id="section-5.7">5.7 Vnořené ladění</h3>
+<blockquote>
+<p>Často je užitečné doplnit skript ladícími funkcemi. Zvláště u skriptů zabývajících se prací v síti a manipulací se soubory, kde není žádoucí ostrý provoz v testovacím režimu. Takové testy lze umožnit kontrolní proměnnou v záhlaví skriptu.</p>
+<pre>
+verbose: on
+check-data: off
+</pre>
+</blockquote>
+<h3 id="section-5.8">5.8 Minimum globálních proměnných</h3>
+<blockquote>
+<p>U velkých skriptů a kde záhodno, vyhýbejte se používání globálních proměnných, které přenášejí interní stavy z jednoho modulu či funkce do jiného modulu či jiné funkce. U krátkých skriptů to nebývá vždy praktické. Uvědomte si však, že krátké skripty se mohou časem prodloužit.</p>
+<p>Máte-li kolekci blízce spřízněných globálních proměnných, uvažte jejich uložení do jediného objektu:</p>
+<pre>
+user: make object! [
+    name:  "Fred Dref"
+    age:   94
+    phone: 707-555-1234
+    email: dref@fred.dom
+]
+</pre><!--
+</blockquote>
+<h2 id="section-6">6. Script Cleanup</h2>
+<blockquote>
+<p>Here is a short script that can be
+used to clean up the indentation of a script. It works by parsing the REBOL
+syntax and reconstructing each line of the script. This example can be found in
+the REBOL Script Library at www.REBOL.com.</p>
+<pre>
+out: none ; output text
+spaced: off ; add extra bracket spacing
+indent: "" ; holds indentation tabs
+
+emit-line: func [] [append out newline]
+
+emit-space: func [pos] [
+    append out either newline = last out [indent] [
+        pick [#" " ""] found? any [
+            spaced
+            not any [find "[(" last out
+                     find ")]" first pos]
+        ]
+    ]
+]
+
+emit: func [from to] [
+    emit-space from append out copy/part from to
+]
+
+clean-script: func [
+    "Returns new script text with standard spacing."
+    script "Original Script text"
+    /spacey "Optional spaces near brackets/parens"
+    /local str new
+] [
+    spaced: found? spacey
+    out: append clear copy script newline
+    parse script blk-rule: [
+        some [
+            str:
+            newline (emit-line) |
+            #";" [thru newline | to end] new:
+                (emit str new) |
+            [#"[" | #"("]
+                (emit str 1 append indent tab)
+                blk-rule |
+            [#"]" | #")"]
+                (remove indent emit str 1) |
+            skip (set [value new]
+                load/next str emit str new) :new
+        ]
+    ]
+    remove out ; remove first char
+]
+
+script: clean-script read %script.r
+
+write %new-script.r script
+</pre> -->
+</blockquote>
+</td></tr>
+<tr><td align=center>
+</td></tr></table>
+</center>
+<!--<map name="bar-map">
+<area shape="rect" coords="0,0,150,28"   href="http://www.rebol.com" alt="REBOL.com">
+<area shape="rect" coords="175,0,275,28" href="http://www.rebol.com/docs.html" alt="Documents">
+<area shape="rect" coords="285,0,365,28" href="http://www.rebol.com/docs/core23/rebolcore.html" alt="Manual">
+<area shape="rect" coords="375,0,445,28" href="http://www.rebol.com/docs/dictionary.html" alt="Dictionary">
+<area shape="rect" coords="452,0,500,28" href="http://www.rebol.com/library.html" alt="Library">
+<area shape="rect" coords="510,0,575,28" href="http://www.rebol.com/feedback.html" alt="Feedback">
+</map>-->
+<table align="center" width="640" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="04-vyrazy.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="06-serie.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<span class="tail">
+Perpetrated 25-May-2017 -
+<!--<a href="http://www.rebol.com">Copyright REBOL Technologies</a>-->
+- Hosted with BitBucket Cloud
+</span></center>
+</body></html>

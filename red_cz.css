@@ -1,0 +1,58 @@
+
+body, p, td, li, a {font: 11pt arial, helvetica,   sans-serif; }
+h1 {font-size: 15pt; font-weight: bold;}
+h2 {font-size: 13pt; color: #2030a0;                 /*dark blue*/
+    font-weight: bold;  border-bottom: 1px solid #c09060;}
+h3 {font-size: 12pt; color: #2030a0; font-weight: bold;}
+h4 {font-size: 11pt; color: #2030a0; font-weight: bold;}
+h5 {font-size: 10pt; font-weight: bold;}
+
+blockquote {margin-left: 20px;}
+
+code { color: #0a2acc; font-size: 11pt; }                /*dark blue*/
+b {font-weight: 600}
+tt {font-size: 12pt; color: #990099; font-weight: 600;}   /*dark violet*/
+ii {color: #009933; font-weight: 400}                     /*dark green*/
+
+pre {font: bold 10pt "courier new", monospace, console;
+    background-color: #e0e0e0;                            /*light grey*/        
+    padding: 16px; border: solid #a0a0a0 1px;
+    style="overflow-y:auto";}
+
+.put {color: #000080; font-weight: normal;}               /*dark blue*/
+/*
+.toc1 {margin-left: 0cm; font-size: 10pt; font-weight: 500;}
+.toc2 {margin-left: 0.5cm; font-size: 10pt; font-weight: 500; text-decoration: none;}
+.toc3 {margin-left: 2cm; font-size: 10pt; text-decoration: none;}
+.toc4 {margin-left: 3cm; font-size: 10pt; color: grey; text-decoration: none;}
+.index {color: #a0522d; font-weight: 600; }
+.output {color: #000080; font-weight: normal;}
+*/
+
+.ale {color:#4B0082; font-weight: normal;}                /*dark violet*/
+.note {background-color: #f0e090;                         /*dark yellow*/
+ width: 100%; padding: 16px; border: solid #a0a0a0 1px;}
+.tail {color: gray; font-size: 8pt;}
+a {text-decoration: none; font-size: 10pt;
+font-weight: normal; font-family: Verdana}
+/*a {text-decoration: none; color: #a0522d; font-size: 10pt;
+font-weight: normal; font-family: Verdana}*/
+a:hover {text-decoration: underline}
+a:active {text-decoration: underline}
+a.h2 {font-size: 15pt; font-family: Times}
+a.h3 {font-size: 12pt; font-family: Times}
+/* h1 {font-size: 22pt; font-family: Times} */
+p.h2 {font-size: 15pt; font-family: Times}
+/*table {border: 0; margin-left: auto; margin-right: auto}*/
+/*td {background-color: #b0e0e6}*/
+th {font-size: 12pt; font-family: Times}
+
+.psh {background-color: #f7f7f7;}    /* light gray for shell*/
+.psc {background-color: #fcf0fc;}    /* pinkich for script*/
+.pop {background-color: #fffff5;}    /*light blueish for indifferent thing*/
+.att {background-color:#ffc0cb}      /*pink for attention*/  
+.com {color: #859900;}               /*green for comment #008000*/
+.val {color: #2aa198;}               /*cyan for values*/
+.obj {color: #b52a1d;}               /*názvy objektů  #cb4b16 */
+.kwd {color:#0000ff}                 /*dark blue*/ 
+.typ {color: #b8860b;}               /*dark golden  */

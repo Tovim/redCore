@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>Chapter 2 - Introduction</title>
+<link rel="stylesheet" HREF="red_cz.css">
+</head>
+<body bgcolor="beige">
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="01-predmluva.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="03-prehled.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<table width="660" cellpadding="4" cellspacing="0" border="0">
+<!--<tr><td><a href="http://www.rebol.com/docs.html"><img src="http://www.rebol.com/graphics/doc-bar.gif" width="680" height="28" align="bottom" alt="rebol document" border="0" usemap="#bar-map" ismap></a></td></tr>-->
+<tr><td height="24"> </td></tr>
+<tr><td><h1>Kapitola 2 - Úvod</h1>
+
+
+<h2>Obsah:</h2>
+<a class="toc1" href="#section-1">1. Instalace</a><br>
+<a class="toc2" href="#section-1.1">1.1 Instalace z distribučního souboru</a><br>
+<a class="toc2" href="#section-1.2">1.2 Instalace ze zdrojových souborů</a><br> <!--
+<a class="toc2" href="#section-1.3">1.3 Network Setup</a><br>
+<a class="toc2" href="#section-1.4">1.4 Proxy and Firewall Settings</a><br>
+<a class="toc2" href="#section-1.5">1.5 License Agreement</a><br>
+-->
+<a class="toc1" href="#section-2">2. Interaktivní konzola</a><br>
+<a class="toc1" href="#section-2">3. Obligátní Hello světe!</a><br>
+<a class="toc1" href="#section-2">4. Kompilace skriptu</a><br>
+<!--
+<!--
+<a class="toc2" href="#section-2.1">2.1 From an Icon</a><br>
+<a class="toc2" href="#section-2.2">2.2 From a Shell</a><br>
+<a class="toc2" href="#section-2.3">2.3 From Another Application</a><br>
+<a class="toc2" href="#section-2.4">2.4 Security Issues</a><br>
+<a class="toc2" href="#section-2.5">2.5 Program Arguments</a><br>
+<a class="toc2" href="#section-2.6">2.6 Script File</a><br>
+<a class="toc2" href="#section-2.7">2.7 Specifying Options</a><br>
+<a class="toc2" href="#section-2.8">2.8 File Redirection</a><br>
+<a class="toc2" href="#section-2.9">2.9 Script Arguments</a><br>
+<a class="toc2" href="#section-2.10">2.10 Startup Files</a><br>
+<a class="toc1" href="#section-3">3. Quitting REBOL</a><br>
+<a class="toc1" href="#section-4">4. Using the Console</a><br>
+<a class="toc2" href="#section-4.1">4.1 Mulitple Line Input</a><br>
+<a class="toc2" href="#section-4.2">4.2 Interrupting a Script</a><br>
+<a class="toc2" href="#section-4.3">4.3 History Recall</a><br>
+<a class="toc2" href="#section-4.4">4.4 Word Completion</a><br>
+<a class="toc2" href="#section-4.5">4.5 Busy Indicator</a><br>
+<a class="toc2" href="#section-4.6">4.6 Network Connections</a><br>
+<a class="toc2" href="#section-4.7">4.7 Virtual Terminal</a><br>
+<a class="toc1" href="#section-5">5. Getting Help</a><br>
+<a class="toc2" href="#section-5.1">5.1 Online Help</a><br>
+<a class="toc2" href="#section-5.2">5.2 Viewing Source Code</a><br>
+<a class="toc2" href="#section-5.3">5.3 Download Documents</a><br>
+<a class="toc2" href="#section-5.4">5.4 Script Library</a><br>
+<a class="toc2" href="#section-5.5">5.5 User Mailing List</a><br>
+<a class="toc2" href="#section-5.6">5.6 Contacting Us</a><br>
+<a class="toc1" href="#section-6">6. Errors</a><br>
+<a class="toc2" href="#section-6.1">6.1 Error Messages</a><br>
+<a class="toc2" href="#section-6.2">6.2 Redirecting Errors</a><br>
+<a class="toc1" href="#section-7">7. Upgrading</a><br>
+-->
+<h2 id="section-1">1. Instalace</h2>
+
+<h3 id="section-1.1">1.1 Instalace z distribučního souboru</h3>
+<blockquote>
+<p>První naše kroky v hájemnství jazyka Red nezbytně začínají na záložce <tt>Downloads</tt> jeho domovské stránky <a href="http://www.red-lang.org/p/download.html">red-lang.org</a>.</p>
+<p>Zde jsou k disposici binární spustitelné soubory pro systémy Windows, GNU/Linux a Mac OS-X z vývojových větví "last stable" (doporučeno) a novější "master". K disposici jsou rovněž komprimované verze <tt>~.zip</tt> a <tt>~.tar.gz</tt> zdrojových nebinárních souborů.</p>
+<p>Instalace jazykového prostředí Red je dětinsky prostá. Binární soubor (red.exe) umístíme do libovolné složky počítače.</p>
+<p>Při prvním poklepu soubor <tt>red.exe</tt> proběhne instalace kompilátoru, interpreta a potažmo otevření grafické konzoly <tt>Red Console</tt>. Při každém dalším poklepu na soubor <tt>red.exe</tt> se otevře přímo tato konzola.</p> 
+<p>Alternativně je možné  pro evokaci interaktivního prostředí <tt>REPL</tt> (Read-Evaluate-Print-Load) použít systémovou konzolu (případně aplikaci Console 2.00):</p>
+<pre>
+> red --cli
+
+--== Red 0.6.3 ==-- 
+Type HELP for starting information. 
+>>
+</pre>
+<p>Abychom měli přístup k souboru <tt>red.exe</tt> z kteréhokoli diskového oddílu či složky, vložíme si cestu k němu do systémové proměnné PATH. Musíme však instalační soubor přejmenovat na <tt>red-exe.exe</tt> a připojit k němu nový soubor <tt>red.bat</tt> s tímto obsahem:</p> 
+<pre>
+"%~dp0red-exe.exe" %*
+</pre>
+<p>V konzole pak můžeme odkudkoli vyvolat okno "Red Console", například:
+<pre>
+F:\> red
+</pre>
+nebo CLI verzi příkazem:
+<pre>
+F:\> red --cli
+</pre></p>
+</blockquote>
+<h3 id="section-1.2">1.2. Instalace ze zdrojových kódů</h3>
+<blockquote>
+<p>Poklep na červenou stužku v levém horním rohu domovské stránky nás přenese na stránky <tt>github.com/red/red</tt>, kde je k disposici aktuální verze zdrojového kódu, kterou lze stáhnout nebo klonovat do repozitáře Git v počítači.</p>
+<p>Postup instalace je popsán v textu Readme na výše uvedené stránce. Při této instalaci je potřebný překladač Rebolu, na jehož zdroj jsou pro Windows, Linux, Mac OS X, FreeBSD, OpenBSD a Solaris v uvedeném textu odkazy.</p>
+<p>Tato informace je zde uvedena jenom pro úplnost, neboť pro začínajícího adepta programování v jazyce Red nemá velký význam. Tato alternativa je určena pro přispívající vývojáře.</p> 
+</blockquote>
+<h2 id="section-2">2. Interaktivní konzola</h2>
+<blockquote>
+<p>Red patří k těm přívětivým jazykům, které svým uživatelům poskytují interaktivní prostředí, buď v samostatné grafické konzole (ve Windows) nebo v systémové konzole příkazem <tt>red --cli</tt>.</p>
+<p>Při práci v interaktivním prostředí Redu je vhodné vědět o existenci některých příkazů:
+<ul>
+<li>Prostředí opustíme příkazem <tt>quit</tt> nebo pouhým <tt>q</tt>.
+</li>
+<li>Nápovědu vyvoláme příkazem <tt>help &lt;cosi&gt;</tt> nebo pouhým <tt>? &lt;cosi&gt;</tt>.
+</li>
+</ul>
+</p>
+
+<p>Dobrým zdrojem heslovitých informací je také internetová stránka <a href="http://www.red-by-example.org/index.html">Red by Example</a>.
+</p></blockquote>
+
+<h2 id="section-3">3. Obligátní Hello světe!</h2>
+<blockquote>
+<p>Red vytvoří zobrazení tohoto pozdravu dětinsky prostým způsobem v příkazovém řádku:</p>
+<pre>
+>> print "Hello World!"
+Hello World!
+</pre>
+<p>Totéž umí v grafickém provedení:</p>
+<pre>
+>> view [text "Hello World!"]
+</pre>
+<p>Vestavěný grafický systém Red/GUI vytvoří okno s nápisem "Hello World!":</p>
+<a href=" "></a>
+<p>Podobně jednoduchým způsobem umí vytvořit i interaktivní okno s polem pro zadání vlastního jména:
+</p>
+<pre>
+>> view [name: field button "Hi" [print ["Hi" name/text]]]
+</pre>
+<a href=" "></a> 
+</blockquote>
+
+<h2 id="section-4">4. Kompilace skriptu</h2>
+
+<blockquote>
+<p>Totéž, co jsme napsali do příkazového řádku konzoly, můžeme zapsat do textového souboru s koncovkou ~.red.<br>
+Zdrojové soubory mají povinné záhlaví <tt>Red []</tt>. V interaktivním prostředí je toto záhlaví implicitně přítomno. Text před tímto záhlavím je ignorován, text za záhlavím tvoří vlastní zdrojový kód.<br>
+Uvnitř hranatých závorek se nachází průvodní informace skriptu a provozní pokyny.</p>
+<p>V textovém editoru vytvoříme soubor s názvem <tt>hello.red</tt> s tímto obsahem:</p>
+<pre>
+Red [Title: "Jednoduchý skript pro Hello World"]
+    
+print "Hello World!"
+</pre>
+<p>Ve složce se souborem hello.red uplatníme v systémové konzole tento příkaz:
+</p>
+<pre>
+> red -c hello.red
+<ii>;; otevře se kompilátor:</ii>
+=== Red Compiler 0.6.1 ===
+Compiling F:\Codetest\Red\hello.red ...
+Compiling to native code...
+... output file : F:\Codetest\Red\hello.exe
+<ii>;; provoz se vrátí do původní konzoly:</ii>
+ F:\Codetest\Red>
+</pre>
+<p>Vytvořený binární soubor <tt>hello.exe</tt> spustíme z příkazového řádku:</p>
+<pre>
+> hello
+Hello World!
+</pre>
+<p>Spustíme-li tento soubor poklepem na název v Průzkumníku, otevře se systémová konzola ale okamžitě se zavře, s čímž si však poradíme ...</p>
+<p>Popsaný způsob platí pro kompilaci v lokálním systému Windows (x86). Red aktuálně podporuje 11 dalších platforem.<br></p>
+<!--
+<p><br>
+MSDOS       : Windows, x86, console (+ GUI) applications<br>
+WindowsXP   : Windows, x86, console (+ GUI) applications<br>
+Linux       : GNU/Linux, x86<br>
+Linux-ARM   : GNU/Linux, ARMv5, armel (soft-float)<br>
+RPi         : GNU/Linux, ARMv5, armhf (hard-float)<br>
+Darwin      : macOS Intel, console-only applications<br>
+macOS       : macOS Intel, applications bundles<br>
+Syllable    : Syllable OS, x86<br>
+FreeBSD     : FreeBSD, x86<br>
+Android     : Android, ARMv5<br>
+Android-x86 : Android, x86<br>
+</p>-->
+<p>Přechod na jinou platformu se uskuteční následným způsobem:</p>
+<pre>
+$ red -c -t Windows hello.red
+> red -c -t Darwin hello.red
+> red -c -t Linux-ARM hello.red
+</pre>
+
+<p>Zdrojový kód pro grafickou aplikaci vyžaduje avízo <tt>Needs:   'View</tt> v záhlaví:
+</p>
+<pre>
+Red [Needs: 'View]
+    
+view [name: field button "Hi" [print ["Hi" name/text]]]
+</pre>
+<p>Uložený soubor <tt>hello-gui.red</tt> kompilujeme stejným způsobem jako předchozí soubor hello.red. Binární soubor spustíme z příkazového řádku nebo poklepem názvu. V druhém případě se nejprve otevře konzola a poté se vytvoří grafický prvek na obrazovce.<br>
+<ii>Jak to udělat aby se vytvořil grafický prvek bez otevření konzoly?</ii><br><ii>Jak to udělat aby prezentace vloženého jména uměla háčky a čárky?</ii>
+</p>
+</blockquote>
+
+<!--
+<h3 id="section-1.3">1.3 Network Setup</h3>
+<blockquote>
+<p>The first time you start REBOL, it prompts you for network information. This
+information is optional. Some protocols, such as email or FTP, require an email
+address or an email server name. In addition, if you are behind a firewall or
+use a proxy server, you need to provide specific information to access the
+Internet.</p>
+<p>To set up your network:</p>
+<ol>
+<li>Type your email address. For example, name@example.com.</li>
+<li>Type the name of your email server. For example:
+mail.example.com. Use the name of the email server you normally
+use. If you are not sure of the name of the server, contact your
+network administrator or Internet service provider for the name
+of your SMTP (email) server.</li>
+<li>Specify whether you use a proxy server. If you are directly
+connected to the Internet with a modem or ethernet, type <C>N
+(no). If you use a proxy or firewall, provide the required
+information as described in <A href="#_Toc487519637">Proxy and
+Firewall Settings</A> below.</li>
+</ol>
+<p>Once the startup questions are answered, REBOL creates a
+<tt>user</tt>.<tt>r</tt> file and places your network settings in it. You
+can change these settings at any time by editing the
+<tt>user</tt>.<tt>r</tt> file.</p>
+</blockquote>
+<h3 id="section-1.4">1.4 Proxy and Firewall Settings</h3>
+<blockquote>
+<p>Frequently, organizations use a firewall or proxy server to protect access to
+and from the Internet. Before REBOL can access the Internet through these
+systems, you need to provide some additional information.</p>
+<p>To provide proxy server information:</p>
+<ol>
+<li>When REBOL asks if you use a proxy server, answer by typing
+<C>Y (yes).</li>
+<li>Type the name of your proxy host. This is the computer or
+firewall on your network serving as a proxy.</li>
+<li>Type the port number used by the proxy host for proxy requests.
+Typically, this is port 1080, but this can vary. If you don't
+know the port number, check your Web browser settings or ask
+your network administrator.</li>
+</ol>
+<p>REBOL defaults to using a SOCKS proxy protocol. You can specify some other
+type of proxy by editing the <tt>user</tt>.<tt>r</tt> file and supplying the
+<b><tt>set-net</tt></b> function with the appropriate identification for the
+type of proxy being used. The following settings are supported:</p>
+<pre>
+socks   - use the latest SOCKS version (5)
+socks5  - use socks5 proxy
+socks4  - use socks4 proxy
+generic - use generic CERN proxy
+none    - use no proxy
+</pre>
+<p>These settings are provided as the sixth argument to the
+<b><tt>set-net</tt></b> function called in the <tt>user</tt>.<tt>r</tt> file. For more
+information about modifying the proxy settings in the <tt>user</tt>.r
+file, refer to the <A
+href="rebolcore-13.html#_Toc487519750">Network Protocols
+Chapter</A>.</p>
+</blockquote>
+<h3 id="section-1.5">1.5 License Agreement</h3>
+<blockquote>
+<p>The REBOL end-user license agreement that you agreed to when you downloaded
+or installed REBOL can be viewed at any time from the REBOL console by typing
+<tt>license</tt> at the REBOL prompt.</p>
+</blockquote>
+<h2 id="section-2">2. Starting REBOL</h2>
+<blockquote>
+<p>REBOL runs on a large variety of systems. You start REBOL the same way you
+start other applications on your system. Depending on the specific operating
+system, REBOL can be started from one or more of the following: an icon, the
+command shell, or other applications.</p>
+</blockquote>
+<h3 id="section-2.1">2.1 From an Icon</h3>
+<blockquote>
+<p>REBOL can be started by double-clicking the REBOL program icon, an associated
+<tt></tt>.r file, or a REBOL shortcut icon.</p>
+<p>If you double-click on the program icon, REBOL boots, displays the console,
+and provides you with a prompt.</p>
+<p>If you want to launch REBOL with a script, you can do so in the following
+ways:</p>
+<ul>
+<li>Drag the script to the program icon</li>
+<li>Associate the file with the REBOL program</li>
+<li>Create a shortcut or alias icon with program and script information.</li>
+</ul>
+<p>See your operating system manual for more information.</p>
+</blockquote>
+<h3 id="section-2.2">2.2 From a Shell</h3>
+<blockquote>
+<p>From a shell command line, go to the directory that contains the
+<tt>rebol</tt>.<tt>exe</tt> file (or <tt>rebol</tt> on non-Windows systems), and type
+rebol or ./rebol.</p>
+<p>On some operating systems, such as UNIX, you can create alias
+shell commands that are able to run REBOL with a set of
+arguments and files. In addition, UNIX enables you to create
+shell scripts that include a path, such as:</p>
+<pre>
+!#/path/to/rebol
+</pre>
+<p>in the top line of the script file. When you type the name of
+the script file at the command prompt, UNIX will launch REBOL to
+execute the script.</p>
+</blockquote>
+<h3 id="section-2.3">2.3 From Another Application</h3>
+<blockquote>
+<p>For writing and debugging REBOL scripts, it is handy to set up
+your favorite text editor to run REBOL and pass it the script
+file you are editing. Each text editor does this differently.</p>
+<p>For instance, in the Premia Codewright editor you can use the
+language compiler options to set up REBOL. Specify the REBOL
+program rather than a compiler. Then you can press a single key
+that saves the script and evaluates it.</p>
+</blockquote>
+<h3 id="section-2.4">2.4 Security Issues</h3>
+<blockquote>
+<p>By default, security is set to prevent scripts from modifying any of your
+files or directories.</p>
+<h4 id="section-2.4.1">2.4.1 Port Security</h4>
+<p>The <b><tt>secure</tt></b> function provides flexibility in setting and
+controlling the security features of REBOL. The current security
+settings are returned as a result of calling the <b><tt>secure</tt></b>
+function.</p>
+<p>Security settings use a REBOL dialect, that is, a language within a language.
+The normal dialect consists of a block of paired values. The
+<tt>first</tt> value in the pair specifies what is being secured:</p>
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>file</b></td><td valign="top">specifies file security.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>net</b></td><td valign="top">specifies network security.
+</td></tr>
+</table>
+<p>A file name or directory path allows you to specify security levels for a
+specific file or directory.</p>
+<p>The <tt>second</tt> value in the pair specifies the level of security.
+This can be either a security level word or a block of words.
+The security level words are:</p>
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>allow</b></td><td valign="top">allow access with no restrictions.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>ask</b></td><td valign="top">ask permission if any restricted access occurs.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>throw</b></td><td valign="top">throw an error if any restricted access occurs.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>quit</b></td><td valign="top">quit this REBOL session if any restricted access occurs.
+</td></tr>
+</table>
+<p>For example, to allow all network access, but to quit on any file access:</p>
+<pre>
+secure [
+    net allow ;allows any net access
+    file quit ;any file access will cause the program to quit
+]
+</pre>
+<p>If a block is used instead of a security level word, it can contain pairs of
+security levels and access types. This lets you specify a greater level of
+detail about the security you require. The access types allowed are:</p>
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>read</b></td><td valign="top">controls read access.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>write</b></td><td valign="top">controls write, delete and rename access.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>all</b></td><td valign="top">controls all access.
+</td></tr>
+</table>
+<p>The pairs are processed in the order they appear, with later pairs modifying
+the effect of earlier pairs. This permits setting one type of access without
+explicitly setting all others. For example:</p>
+<pre>
+secure [
+    net allow
+    file [
+        ask all
+        allow read
+    ]
+]
+</pre>
+<p>The above sets the security level to <b><tt>ask</tt></b> for all operations
+except for reading which is to be allowed. This technique can
+also be used for individual files and directories. For example:</p>
+<pre>
+secure [
+    net allow
+    file quit
+    %source/ [ask read]
+]
+</pre>
+<p>asks if an attempt is made to read the <tt>%source</tt> directory. Otherwise,
+it uses the default (<b><tt>quit</tt></b>).</p>
+<p>There is a special case in which the <b><tt>secure</tt></b> function takes a
+single word argument that must be one of the security access levels. In that
+case, the security level for all network and file access is set to that level.</p>
+<pre>
+secure quit
+</pre>
+<p>The <b><tt>secure</tt></b> function also accepts <b><tt>none</tt></b>, allowing access
+with no restrictions (same as <b><tt>allow</tt></b> ).</p>
+<pre>
+secure none
+</pre>
+<p>The default security level is now:</p>
+<pre>
+secure [
+    net allow
+    file [
+        ask all
+        allow read
+    ]
+]
+</pre>
+<p>If no security access level is specified for either network or
+file access, it defaults to <b><tt>ask</tt></b>. The current settings will
+<tt>not</tt> be modified if an error occurs parsing the security block
+argument.</p>
+<!--<p><A name=_Toc487519845><A></p>
+<h4 id="section-2.4.2">2.4.2 Prior Security Settings</h4>
+<p>The <b><tt>secure</tt></b> function now returns the prior security settings
+before the new settings were made. This is a block with the global network and
+file settings followed by file or directory settings. The <b><tt>query</tt></b>
+word can be used to obtain the settings without modifying them.</p>
+<pre>
+current-security: secure query
+</pre>
+<p>You can modify the current security level by querying the current settings,
+modifying them, then using the <b><tt>secure</tt></b> function to set the new
+values.</p>
+<p>Lowering the security level produces a <tt>change</tt> security
+settings request. The exception is when the REBOL session is running in
+<tt>quiet</tt> mode which will, instead, terminate the REBOL session. No
+query is generated when security levels are raised. Note that the security
+request now includes an option to allow all access for the remainder of the
+scripts processing.</p>
+<p>When running REBOL from the shell, the <b><tt>-s</tt></b> argument is
+equivalent to:</p>
+<pre>
+secure allow
+</pre>
+<p>and the <b><tt>+s</tt></b> arguments is equivalent to:</p>
+<pre>
+secure quit
+</pre>
+<p>You can now follow the <b><tt>--secure</tt></b> argument with one of the
+security access levels for both network and file access:</p>
+<pre>
+rebol --secure throw
+</pre>
+</blockquote>
+<h3 id="section-2.5">2.5 Program Arguments</h3>
+<blockquote>
+<p>There are a number of arguments that can be specified in a shell
+command line, in a batch script, or in the properties of an
+icon. To view the arguments and options available for any
+version of the REBOL language, type <tt>usage</tt> at the console
+prompt.</p>
+<pre>
+The command line usage is:
+
+    REBOL &lt;options&gt; &lt;script&gt; &lt;arguments&gt;
+
+All fields are optional. Supported options are:
+
+    --cgi (-c)       Check for CGI input
+    --do expr        Evaluate expression
+    --help (-?)      Display this usage information
+    --nowindow (-w)  Do not open a window
+    --noinstall (-i) Do not install (View)
+    --quiet (-q)     Don't print banners
+    --reinstall (+i) Force an install (View)
+    --script file    Explicitly specify script
+    --secure level   Set security level:
+                     (allow ask throw quit)
+    --trace (-t)     Enable trace mode
+    --uninstall (-u) Uninstall REBOL (View)
+
+Other command line options:
+
+    +q               Force not quiet (View)
+    -s               No security
+    +s               Full security
+    -- args          Provide args without script
+
+Examples:
+
+    REBOL script.r
+    REBOL script.r 10:30 test@domain.dom
+    REBOL script.r --do "verbose: true"
+    REBOL --cgi -s
+    REBOL --cgi --secure throw --script cgi.r "debug: true"
+    REBOL --secure none
+</pre>
+<p>Again, the format of the command line is:</p>
+<pre>
+REBOL options script arguments
+</pre>
+<p>Where:</p>
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>options</b></td><td valign="top">one or more of the program options. See <A
+href="#_Toc487519647">Specifying Options</A> below for more
+details.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>script</b></td><td valign="top">the file name of the script you want to run. If
+the file name contains spaces, it should be typed in quotes.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>arguments</b></td><td valign="top">the arguments passed to the script as a
+string. These arguments can be accessed from within the script.
+</td></tr>
+</table>
+<p>All of the above arguments are optional, and any combination is
+permitted.</p>
+<div class="note"><p><b>Shortcut Icons</b></p>
+<p>In some operating systems, like Windows or AmigaOS, you can
+create icons that supply any of the above options as part of the
+icon. Using this technique, you can create icons that directly
+execute REBOL scripts with the correct options.</p>
+</div>
+</blockquote>
+<h3 id="section-2.6">2.6 Script File</h3>
+<blockquote>
+<p>Typically, you run REBOL with the file name of the script that you want it to
+evaluate. Only one script file is allowed. For example:</p>
+<pre>
+REBOL script.r
+</pre>
+<p>If the file name contains spaces, it must be provided in double quotes.</p>
+</blockquote>
+<h3 id="section-2.7">2.7 Specifying Options</h3>
+<blockquote>
+<p>Program options are identifed with a plus (+) or minus (-) before a
+character or by a double dash (--) before a word. This is a standard
+practice for specifying program options on most operating systems.</p>
+<p>Here are several examples of how options are used.</p>
+<p>To run a script with an option, such as the <tt>-s</tt> option, which
+evaluates the script with security turned off, type:</p>
+<pre>
+REBOL -s script.r
+</pre>
+<p>To obtain usage information about REBOL, type:</p>
+<pre>
+REBOL -?
+REBOL --help
+</pre>
+<p>To run REBOL without opening a new window (this is done when you need to
+redirect output to a file or server), type:</p>
+<pre>
+REBOL -w
+REBOL --nowindow
+</pre>
+<p>To prevent the printout of startup information which is useful if you are
+redirecting the output to a file or server, type:</p>
+<pre>
+REBOL -q
+REBOL --quiet
+</pre>
+<p>To evaluate a REBOL expression from the command line, type:</p>
+<pre>
+REBOL --do "print 1 + 2"
+REBOL --do "verbose: true" script.r
+</pre>
+<p>This lets you evaluate a remote script with a line such as:</p>
+<pre>
+REBOL --do "do http://www.rebol.com/speed.r"
+</pre>
+<p>To change the security level of REBOL, type:</p>
+<pre>
+REBOL -s script.r
+REBOL --secure none script.r
+</pre>
+<p>To use REBOL scripts for CGI (see the <A
+href="rebolcore-13.html#_Toc487519913">CGI -
+Common Gateway Interface Section</A> of the <A
+href="rebolcore-13.html#_Toc487519750">Network
+Protocols Chapter</A> for more information), type:</p>
+<pre>
+REBOL -c cgi-script.r
+REBOL --cgi
+</pre>
+<p>Multiple options are also allowed. Multiple single character
+options can be included together. Multiple full word options
+must be separated with spaces.</p>
+<pre>
+REBOL -cs cgi-script.r
+REBOL --cgi --secure none cgi-script.r
+</pre>
+<p>The above example runs in CGI mode, with security turned off.
+The shorthand method is required for various web servers that
+restrict the number of arguments allowed on the command line
+(such as the Apache server on Linux).</p>
+</blockquote>
+<h3 id="section-2.8">2.8 File Redirection</h3>
+<blockquote>
+<p>On most systems, it is possible to redirect standard input and
+output from and to files. The example:</p>
+<pre>
+rebol -w script.r &gt; output-file
+</pre>
+<p>redirects output to a file. Similarly,</p>
+<pre>
+rebol -w script.r &lt; input-file
+</pre>
+<p>redirects input from a file.</p>
+<div class="note"><p><b>When Redirecting File IO...</b></p>
+<p>Use the <tt>-w</tt> option to prevent the REBOL console window from
+opening, as it interferes with standard input and output
+redirection.</p>
+</div>
+</blockquote>
+<h3 id="section-2.9">2.9 Script Arguments</h3>
+<blockquote>
+<p>Everything on the command line that follows the script file name is passed to
+the script as its argument. This allows you to write scripts that accept
+arguments directly from the command line. For example, if you start REBOL
+with the line:</p>
+<pre>
+REBOL script.r 10:30 test@domain.dom
+</pre>
+<p>There are two ways to obtain the command line arguments. The first
+method returns the arguments as a block of REBOL values:</p>
+<pre>
+probe system/options/args
+<span class="put">["10:30" "test@domain.dom"]</span>
+</pre>
+<p>The second method returns the arguments as a string:</p>
+<pre>
+probe system/script/args
+<span class="put">"10:30 test@domain.dom"</span>
+</pre>
+<div class="note"><p><b>Version dependent note:</b></p>
+<p>Earlier versions of REBOL returned the block of values for the
+script/args field (similar to options/args). It is advised that you
+verify that your script receives the correct args datatype as shown
+above.</p>
+</div>
+</blockquote>
+<h3 id="section-2.10">2.10 Startup Files</h3>
+<blockquote>
+<p>When REBOL starts, it attempts to load the <tt>rebol</tt>.<tt>r</tt> and
+<tt>user</tt>.<tt>r</tt> boot files. These files are optional, but when found,
+they can be used to set up networking, define common functions, and initialize
+data used by scripts.</p>
+<p>The <tt>rebol</tt>.<tt>r</tt> script file holds special functions or
+extensions to REBOL that are provided as part of the standard distribution. It
+is suggested that you do not edit this file as it is overwritten with each new
+release of REBOL.</p>
+<p>The <tt>user</tt>.<tt>r</tt> script file holds user preferences. You can
+edit this file and add whatever definitions or data you require.</p>
+<p>On multi-user systems, there can be a different <tt>user</tt>.<tt>r</tt>
+for every user. While the <tt>user</tt>.<tt>r</tt> file is not part of the
+distribution, it is automatically generated if it does not exist.</p>
+<p>When REBOL starts, it looks for the <tt>rebol</tt>.<tt>r</tt> and
+<tt>user</tt>.<tt>r</tt> files first in the home directory and, if not found
+there, then in the current directory.</p>
+<p>To set a HOME directory, you can set an environment variable
+in the appropriate login or startup script for your system.
+Note that some systems, such as UNIX or Linux may already do
+this, so you do not need to.</p>
+<p>For example, on Windows NT to set HOME you can add:</p>
+<pre>
+set HOME=C:\REBOL
+</pre>
+<p>to your environment by following these steps:</p>
+<ol>
+<li>Choose <W>Settings Control Panel in the Windows <W>Start Menu,</li>
+<li>Double-click the <W>System icon, and select the <W>Environment tab.</li>
+<li>Type <C>HOME in the variable field and <C>C:\REBOL (or the path
+to where you put the REBOL program) in the value field.</li>
+</ol>
+<p>On Unix systems, you can set the path to REBOL by adding a line
+like the following in your login shell script or profile:</p>
+<pre>
+set HOME=/usr/bin/rebol
+</pre>
+<p>For some versions of REBOL, the path is stored in a .<tt>rebol</tt> file that
+is located in your home directory.</p>
+</blockquote>
+<h2 id="section-3">3. Quitting REBOL</h2>
+<blockquote>
+<p>To exit REBOL at any time, select <b><tt>Quit</tt></b> from the <b><tt>Console</tt></b>
+<b><tt>File</tt></b> menu or by typing <b><tt>quit</tt></b> or <b><tt>q</tt></b> at the prompt.</p>
+<p>You can also quit the program from within a script:</p>
+<pre>
+if now/time &gt; 12:00 [quit]
+</pre>
+<p>The REBOL console may also quit if an error occurs during startup.</p>
+<div class="note"><p><b>Exit Does Not Quit</b></p>
+<p>Do not use the word <b><tt>exit</tt></b> to quit REBOL. This word is used for
+exiting functions and it will return an error if typed at the
+console.</p>
+</div></blockquote>
+
+<h2 id="section-4">4. Using the Console</h2>
+<blockquote>
+<p>Whenever you run REBOL/Core, it opens a console to display output and accept
+input. If you provide a script argument to the program, the script is run, and
+you see the output from that script. If you do not provide a script file, the
+console prompts you for input. The input prompt looks like this:</p>
+<pre>
+<span class="put">&gt;&gt;</span>
+</pre>
+<p>If you type an expression at the input prompt, it is evaluated and any
+returned values are displayed following the result indicator:</p>
+<pre>
+<span class="put">==</span>
+</pre>
+<p>For example:</p>
+<pre>
+&gt;&gt; 100 + 20
+<span class="put">== 120</span>
+&gt;&gt; now - 7-Dec-1944
+<span class="put">== 20341</span>
+</pre>
+<div class="note"><p><b>Changing the Prompt</b></p>
+<p>The prompt characters can be changed. See the <A
+href="rebolcore-18.html#_Toc487519750">Console Appendix</A> for
+more information.</p>
+</div>
+<p>The console also becomes active if a script encounters an error or if the
+script calls the <b><tt>halt</tt></b> function.</p>
+</blockquote>
+<h3 id="section-4.1">4.1 Mulitple Line Input</h3>
+<blockquote>
+<p>If you begin a block on the command line and don't end it, the block is
+extended to the next line. This is indicated by a prompt that begins with a
+bracket and is followed by indentation. The line will be indented four spaces
+for each open block. For example:</p>
+<pre>
+loop 10 [
+[    print "example"
+[    if odd? random 10 [
+[        print "here"
+[        ]
+[    ]
+</pre>
+<p>This is also true for multilined strings enclosed in braces.</p>
+<pre>
+Print {This is a long
+{    string that has more
+{    than one line.}
+</pre>
+<p>Brackets and braces that appear within quoted strings are ignored. You can
+escape from input at any time by pressing the ESCAPE key.</p>
+</blockquote>
+<h3 id="section-4.2">4.2 Interrupting a Script</h3>
+<blockquote>
+<p>A script can be interrupted by pressing the ESCAPE key, which returns
+immediately to the command prompt.</p>
+<p>During some types of operating system or network activity there may be a
+delay in responding to the ESCAPE interrupt.</p>
+</blockquote>
+<h3 id="section-4.3">4.3 History Recall</h3>
+<blockquote>
+<p>Each line that is typed into REBOL is stored for later recall. The up and
+down arrow keys are used to scroll through the list of previous lines. For
+instance, pressing the up arrow once recalls the prior input line.</p>
+<p>History lines can be written to a file by saving the history
+block. See the <A href="rebolcore-18.html#_Toc487519750">Console
+Appendix</A> for more information.</p>
+</blockquote>
+<h3 id="section-4.4">4.4 Word Completion</h3>
+<blockquote>
+<p>To help speed typing of long words and file names, the REBOL console has word
+and file name completion. After typing a few letters of a word, press the tab
+key. If the letters uniquely identify the word, the rest of the word is
+displayed. For example, typing:</p>
+<pre>
+&gt;&gt; sq
+</pre>
+<p>then pressing tab results in:</p>
+<pre>
+&gt;&gt; square-root
+</pre>
+<p>If the letters do not uniquely identify the word, you can press tab again to
+get a list of choices. For example, typing:</p>
+<pre>
+&gt;&gt; so
+</pre>
+<p>then pressing tab twice results in:</p>
+<pre>
+&gt;&gt; sort source
+</pre>
+<p>so</p>
+<p>and you can type the rest of the word or enough of it to be unique.</p>
+<p>Completion works for all words, including user-defined words. It also works
+for files when they are preceded by a percent sign.</p>
+<pre>
+&gt;&gt; print read %r
+</pre>
+<p>Pressing tab might produce:</p>
+<pre>
+&gt;&gt; print read %rebol.r
+</pre>
+<p>depending on your current directory.</p>
+</blockquote>
+<h3 id="section-4.5">4.5 Busy Indicator</h3>
+<blockquote>
+<p>When REBOL waits for a network operation to complete, a busy indicator
+appears to indicate that something is happening. You can change the indicator to
+your own character pattern. See the <A
+href="rebolcore-18.html#_Toc487519750">Console
+Appendix</A> for more information.</p>
+</blockquote>
+
+<h3 id="section-4.6">4.6 Network Connections</h3>
+<blockquote>
+<p>As network connections are initiated, a message appears on the console. For
+instance, typing:</p>
+<pre>
+&gt;&gt; read http://www.rebol.com
+<span class="put">connecting to: www.rebol.com</span>
+</pre>
+<p>If necessary, you can disable this output by setting the quiet flag. See the
+<A href="rebolcore-18.html#_Toc487519750">Console
+Appendix</A> for more information.</p>
+</blockquote>
+
+<h3 id="section-4.7">4.7 Virtual Terminal</h3>
+<blockquote>
+<p>The console provides <tt>virtual</tt> terminal capability that allows
+you to perform operations such as cursor movement, cursor addressing, line
+editing, screen clearing, control key input, and cursor position querying.</p>
+<p>The virtual terminal uses the standard ANSI character sequences. This allows
+you to write platform-independent terminal programs such as text editors, email
+clients, or telnet emulators.</p>
+<p>More information can be found in the <A
+href="rebolcore-18.html#_Toc487519750">Console Appendix</A>.</p>
+</blockquote>
+
+<h2 id="section-5">5. Getting Help</h2>
+<blockquote>
+<p>Several sources of information exist: online help built into REBOL, the
+<b><tt>source</tt></b> function,
+<a href="http://www.rebol.com/docs.html">documents on the REBOL website</a>,
+the <a href="http://www.rebol.org">REBOL script library</a>,
+the <a href="http://www.rebol.com//discussion.html">REBOL mailing list</a>,
+and sending <a href="http://www.rebol.com/feedback.html">feedback to REBOL</a>.</p>
+</blockquote>
+<h3 id="section-5.1">5.1 Online Help</h3>
+<blockquote>
+<p>The online <b><tt>help</tt></b> function provides a quick way to obtain
+summary information about REBOL words. There are several ways to use help.</p>
+<p>Type <b><tt>help</tt></b> or <b><tt>?</tt></b> at the console prompt to
+view a summary of help:</p>
+<pre>
+The help function provides a simple way to get
+information about words and values.  To use it
+supply a word or value as its argument:
+
+    help insert
+    help find
+
+To view all words that match a pattern:
+
+    help "path"
+    help to-
+
+To view all words of a specified datatype:
+
+    help native!
+    help datatype!
+
+There is also word completion from the command
+line.  Type a few chars and press TAB to complete
+the word.  If nothing happens, there is more than
+one word that matches.  Enough chars are needed
+to uniquely identify the word.
+
+Other useful functions:
+
+    about - for general info
+    usage - for the command line arguments
+    license - for the terms of user license
+    source func - print source for given function
+    upgrade - updates your copy of REBOL
+
+For more information, see the user guides.
+</pre>
+<p>If you provide a function word as an argument, <b><tt>help</tt></b> prints
+all of the information that was provided about the function.
+For instance, if you type:</p>
+<pre>
+help insert
+</pre>
+<p>you will see:</p>
+<pre>
+USAGE:
+    INSERT series value /part range /only /dup count
+
+DESCRIPTION:
+     Inserts a value into a series and returns the series after the insert.
+     INSERT is an action value.
+
+ARGUMENTS:
+     series -- Series at point to insert (Type: series port bitset)
+     value -- The value to insert (Type: any-type)
+
+REFINEMENTS:
+     /part -- Limits to a given length or position.
+         range -- (Type: number series port)
+     /only -- Inserts a series as a series.
+     /dup -- Duplicates the insert a specified number of times.
+         count -- (Type: number)
+</pre>
+<p>The <b><tt>help</tt></b> function also finds words that contain a specified
+string. For instance, to find all of the words that include the string
+<tt>path</tt>, type:</p>
+<pre>
+? "path"
+</pre>
+<p>and the result will be:</p>
+<pre>
+Found these words:
+     clean-path     (function)
+     lit-path!      (datatype)
+     lit-path?      (action)
+     path           (file)
+     path!          (datatype)
+     path-thru      (function)
+     path?          (action)
+     set-path!      (datatype)
+     set-path?      (action)
+     split-path     (function)
+     to-lit-path    (function)
+     to-path        (function)
+     to-set-path    (function)
+</pre>
+<p>You can also search for all globally defined words that are of a given data
+type. For example, to list all words that are function! data types, type:</p>
+<pre>
+? function!
+</pre>
+<p>and the result would be:</p>
+<pre>
+Found these words:
+     ?              (function)
+     ??             (function)
+     about          (function)
+     alert          (function)
+     alter          (function)
+     append         (function)
+     array          (function)
+     ask            (function)
+...
+</pre>
+<p>To obtain a list of all REBOL datatypes, type:</p>
+<pre>
+? datatype!
+
+Found these words:
+     action!        (datatype)
+     any-block!     (datatype)
+     any-function!  (datatype)
+     any-string!    (datatype)
+     any-type!      (datatype)
+     any-word!      (datatype)
+     binary!        (datatype)
+     bitset!        (datatype)
+     block!         (datatype)
+     char!          (datatype)
+     datatype!      (datatype)
+     date!          (datatype)
+     decimal!       (datatype)
+     email!         (datatype)
+...
+</pre>
+<div class="note"><p><b>No Help for Objects</b></p>
+<p><!--<A name=_Toc487519669>The <b><tt>help</tt></b> function does not provide
+useful information about the objects of the system, for example:</p>
+<pre>
+help system/options/home
+<span class="put">system/options/home is a path.</span>
+</pre>
+<p>Do not attempt to do:</p>
+<pre>
+help system
+</pre>
+<p>as it can take several minutes and produce over a megabyte of
+text output.</p>
+</div></blockquote>
+
+
+<h3 id="section-5.2">5.2 Viewing Source Code</h3>
+<blockquote>
+<p>Advanced users can learn more about specific REBOL functions by
+examining their source code. The <b><tt>source</tt></b> function displays the
+code for any REBOL defined function. If you type:</p>
+<pre>
+source join
+</pre>
+<p>The source to the <b><tt>join</tt></b> function will be returned:</p>
+<pre>
+join: func [
+    "Concatenates values."
+    value "Base value"
+    rest "Value or block of values"
+][
+    value: either series? value [copy value] [form value]
+    repend value rest
+]
+</pre>
+<p>REBOL defined functions include the <b><i>mezzanine</i></b> <b><i>functions</i></b>
+(built-in functions implemented in REBOL) and user defined
+functions. <b><i>Native</i></b> <b><i>functions</i></b> are built-in functions
+implemented in machine code, and their source cannot be
+displayed.</p>
+</blockquote>
+<h3 id="section-5.3">5.3 Download Documents</h3>
+<blockquote>
+<p>Check the REBOL Web site <A href="http://www.rebol.com/">http://www.rebol.com/</A> for a list
+of the current documentation.</p>
+<p>In addition to this manual, there is a <I>REBOL Dictionary</I>
+that covers all the predefined words available in REBOL. If the
+console help or this guide does not contain sufficient
+information about a REBOL word, look in the dictionary for a
+detailed description.</p>
+<p>The dictionary is updated with each release of REBOL and is
+available at <A href="http://www.rebol.com/docs/dictionary.html">http://www.REBOL.com/docs/dictionary.html</A>.</p>
+</blockquote>
+<h3 id="section-5.4">5.4 Script Library</h3>
+<blockquote>
+<p>The REBOL Web site contains a library with numerous useful debugged scripts
+that cover a variety of topics. The library is divided into categories to make
+it easy to find a script specific to a given function. You can also search the
+library for scripts that contain a specific word.</p>
+<p>The script library can be found at <A
+href="http://www.rebol.com/library/library.html">
+http://www.REBOL.com/library/library.html</A>.</p>
+</blockquote>
+<h3 id="section-5.5">5.5 User Mailing List</h3>
+<blockquote>
+<p>You can also obtain help from a community of REBOL users by
+joining the REBOL email discussion list. To sign up, send an
+email to rebol-request@rebol.com with the subject line
+containing the word "subscribe". For example:</p>
+<pre>
+send rebol-request@rebol.com "subscribe"
+</pre>
+<p>Be sure that your correct email address has been set up in
+advance with <b><tt>set-net</tt></b>.</p>
+</blockquote>
+<h3 id="section-5.6">5.6 Contacting Us</h3>
+<blockquote>
+<p>We want to know what you think; please contact us to:</p>
+<ul>
+<li>Report crashes or problems</li>
+<li>Tell us how you are using REBOL</li>
+<li>Make suggestions</li>
+<li>Request more information about our products.</li>
+</ul>
+<p>You can reach us through the <A
+HREF="http://www.rebol.com/feedback.html">Feedback</A> page on
+our website.</p>
+</blockquote>
+<h2 id="section-6">6. Errors</h2>
+<blockquote>
+</blockquote>
+<h3 id="section-6.1">6.1 Error Messages</h3>
+<blockquote>
+<p>There are several types of errors within REBOL. When an error occurs a
+message is displayed that tells you what the error was and approximately where
+it occurred. For instance if you type:</p>
+<pre>
+abc
+<span class="put">** Script Error: abc has no value.
+** Where: abc</span>
+</pre>
+<p>The type of error is indicated by the first few words of the message. In the
+above example, the error is a <tt>Script</tt> Error. Script errors are
+the most common and occur when you use a function of the language in the wrong
+way or with improper arguments. Other types of errors are described in <A href="#30433">Error
+Types</A>.</p>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+        <tr bgcolor="silver"><th align="left">
+<p>Error Type</p>
+</th><th align="left">
+<p>Description</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><tt>Syntax</tt> <tt>errors</tt></p>
+</td><td valign="top" bgcolor="white">
+<p>Occur when the script contains an invalid value or a missing header,
+quote, bracket, or parenthesis.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><tt>Math</tt> <tt>errors</tt></p>
+</td><td valign="top" bgcolor="white">
+<p>Occur when dividing a number by zero or there was a math overflow or
+underflow.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><tt>Access</tt> <tt>errors</tt></p>
+</td><td valign="top" bgcolor="white">
+<p>Occur when a file, directory, or network operation cannot be accessed
+or access permissions are restricted.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><tt>Throw</tt> <tt>errors</tt></p>
+</td><td valign="top" bgcolor="white">
+<p>Occur when a break, exit, or throw is used in an improper
+manner.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><tt>User</tt> <tt>errors</tt></p>
+</td><td valign="top" bgcolor="white">
+<p>Defined by the user's script.</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><tt>Internal</tt> <tt>errors</tt></p>
+</td><td valign="top" bgcolor="white">
+<p>Returned when a problem occurs within the REBOL system. If you
+encounter one of these types of errors, please report it to
+<A HREF="http://www.rebol.com/feedback.html">Feedback</A>.</p>
+</td></tr></table>
+<p>Most types of errors can be trapped and processed by your script. See <A
+href="rebolcore-4.html#_Toc487519749">Trying
+Blocks</A> for a description of the try function.</p>
+<p>The <A href="rebolcore-17.html#_Toc487519750">Errors
+Appendix</A> also includes useful information about errors.</p>
+</blockquote>
+<h3 id="section-6.2">6.2 Redirecting Errors</h3>
+<blockquote>
+<p>When errors are encountered in non-interactive sessions, such as when running
+in CGI mode (-c or --cgi ) or in no window mode (-w
+or --nowindow ), the session is automatically terminated.</p>
+<p>If a script terminates while running in non-interactive mode, you can use
+shell redirection to output the error to a file:</p>
+<pre>
+REBOL -cs my_script.r &gt;&gt; my_script.log
+</pre>
+<p>This appends the output to the file in most operating systems.</p>
+</blockquote>
+<h2 id="section-7">7. Upgrading</h2>
+<blockquote>
+<p>On initialization, a banner is displayed that identifies the program version.
+Version numbers have the format:</p>
+<pre>
+version.revision.update.platform.variation
+</pre>
+<p>For example, the version number:</p>
+<pre>
+2.3.0.3.1
+</pre>
+<p>indicates that you are running version 2, revision 3, update 0,
+for Windows 95/98/NT (REBOL platform number 3.1).  A complete
+list of all platform numbers is available from <A
+HREF="http://www.rebol.com">http://www.rebol.com</A>.  This HTML file also
+contains a hidden REBOL database that can be used for
+determining the platform.</p>
+<p>You can obtain the version number from the REBOL prompt with:</p>
+<pre>
+print system/version
+</pre>
+<p>Only the latest release of REBOL is supported by REBOL Technologies. You can
+verify that you have the latest version and automatically update it if out of
+date. To do so, be sure that you are connected to the Internet, then from within
+REBOL type:</p>
+<pre>
+upgrade
+</pre>
+<p>REBOL returns one of the following messages about your version:</p>
+<pre>
+<span class="put">This copy of Windows 95/98/NT iX86 REBOL/core 2.3.0.3.1
+is currently up to date.</span>
+</pre>
+<p>or:</p>
+<pre>
+<span class="put">This copy of Windows 95/98/NT iX86 REBOL/core 2.1.2.3.1
+is not up to date. Current version is: 2.3.0.3.1.
+Download current version?</span>
+</pre>
+<p>To upgrade to the latest version, type <tt>Y</tt> (yes). Otherwise, type
+<tt>N</tt> (no).</p>
+</blockquote>
+</td></tr>
+<tr><td align=center>
+</td></tr></table>
+</center>
+-->
+<!--<map name="bar-map">
+<area shape="rect" coords="0,0,150,28"   href="http://www.rebol.com" alt="REBOL.com">
+<area shape="rect" coords="175,0,275,28" href="http://www.rebol.com/docs.html" alt="Documents">
+<area shape="rect" coords="285,0,365,28" href="http://www.rebol.com/docs/core23/rebolcore.html" alt="Manual">
+<area shape="rect" coords="375,0,445,28" href="http://www.rebol.com/docs/dictionary.html" alt="Dictionary">
+<area shape="rect" coords="452,0,500,28" href="http://www.rebol.com/library.html" alt="Library">
+<area shape="rect" coords="510,0,575,28" href="http://www.rebol.com/feedback.html" alt="Feedback">
+</map>-->
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="01-predmluva.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+    <td bgcolor="#ccffff"><a href="03-prehled.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+ <!--   <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+	 <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<span class="tail">
+Perpetrated 25-May-2017 -
+<!--<a href="http://www.rebol.com">Copyright REBOL Technologies</a>-->
+- Hosted with BitBucket Cloud
+</span></center>
+</body></html>

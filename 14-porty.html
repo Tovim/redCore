@@ -1,0 +1,567 @@
+<!DOCTYPE HTML >
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>Chapter 14 - Ports</title>
+<link rel="stylesheet" HREF="red_cz.css">
+</head>
+<body bgcolor="beige">
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="13-network.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="15-parse.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<table width="660" cellpadding="4" cellspacing="0" border="0">
+<!--<tr><td><a href="http://www.rebol.com/docs.html"><img src="http://www.rebol.com/graphics/doc-bar.gif" width="680" height="28" align="bottom" alt="rebol document" border="0" usemap="#bar-map" ismap></a></td></tr>-->
+<tr><td height="24"> </td></tr>
+<tr><td><h1>Kapitola 14 - Porty</h1>
+
+<h2>Obsah:</h2>
+<a class="toc1" href="#section-1">1. Overview</a><br>
+<a class="toc1" href="#section-2">2. Opening a Port</a><br>
+<a class="toc2" href="#section-2.1">2.1 The Open Function</a><br>
+<a class="toc2" href="#section-2.2">2.2 Open Refinements</a><br>
+<a class="toc1" href="#section-3">3. Closing a Port</a><br>
+<a class="toc1" href="#section-4">4. Reading from a Port</a><br>
+<a class="toc1" href="#section-5">5. Writing to a Port</a><br>
+<a class="toc1" href="#section-6">6. Updating a Port</a><br>
+<a class="toc1" href="#section-7">7. Waiting for a Port</a><br>
+<a class="toc1" href="#section-8">8. Other Port Modes</a><br>
+<a class="toc2" href="#section-8.1">8.1 Line Mode</a><br>
+<a class="toc2" href="#section-8.2">8.2 Read and Write Only</a><br>
+<a class="toc2" href="#section-8.3">8.3 Direct Port Access</a><br>
+<a class="toc2" href="#section-8.4">8.4 Skipping Data</a><br>
+<a class="toc1" href="#section-9">9. File Permissions</a><br>
+<a class="toc1" href="#section-10">10. Directory Ports</a><br>
+<h2 id="section-1">1. Overview</h2>
+<blockquote>
+<p>Ports access <b><i>external</i></b> series such as files, networks,
+consoles, events, databases, data encoders, and data decoders. Port data is
+processed using the standard REBOL series functions as described in the <A
+href="rebolcore-6.html#_Toc487519750">Series
+Chapter</A>.</p>
+<p>Ports are used for both input and output. The type of data a port handles
+depends on how the port is opened. Three types of data are possible:</p>
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>String</b></td><td valign="top">a series of bytes, converts line breaks (default)
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>Binary</b></td><td valign="top">a series of bytes, no conversion of the data
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>Block</b></td><td valign="top">a series of REBOL values
+</td></tr>
+</table>
+<p>A port can be opened in one of two buffering modes:</p>
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>Buffered</b></td><td valign="top">all of the data is held in memory (default)
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>Direct</b></td><td valign="top">data is not held in memory
+</td></tr>
+</table>
+<p>In addition, a port can be opened with:</p>
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>Wait</b></td><td valign="top">port will wait for data (default)
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>No-wait</b></td><td valign="top">port will not wait for data
+</td></tr>
+</table>
+</blockquote>
+<h2 id="section-2">2. Opening a Port</h2>
+<blockquote>
+</blockquote>
+<h3 id="section-2.1">2.1 The Open Function</h3>
+<blockquote>
+<p>The <b><tt>open</tt></b> function initializes access to a port according to
+specified parameters. The function can be supplied with a
+filename, a URL, or an object. In addition, there are several
+refinements that will affect the open operation or the access to
+the port's data.</p>
+<p>The simplest method of using <b><tt>open</tt></b> is to provide it with a
+filename or URL as its argument. In the example below, a file port is
+opened:</p>
+<pre>
+fp: open %file.txt
+</pre>
+<p>The <tt>fp</tt> variable refers to the port. If the port did not open, an
+error will occur. If necessary, the error can be caught with the
+<b><tt>try</tt></b> function.</p>
+<p><A name=pgfId-539470></A>By default the file is opened as buffered. This
+means that the file is accessed and modified in memory and changes to the file
+are not written out until the port is closed or updated.</p>
+<p>For files, the <b><tt>open</tt></b> function will automatically create the
+file if it does not already exist.</p>
+<pre>
+close open %somefile.txt
+if exists? %somefile.txt [print "somefile exists"]
+<span class="put">somefile exists</span>
+</pre>
+<p>The <b><tt>/new</tt></b> refinement can be used to overwrite an existing
+file.</p>
+<pre>
+write %somefile.txt "text in some file"
+print read %somefile.txt
+<span class="put">text in some file</span>
+close insert open/new %somefile.txt "new data"
+print read %somefile.txt
+<span class="put">new data</span>
+</pre>
+<p><A name=pgfId-539479></A>Once a port is open, the series
+operations such as <b><tt>copy</tt></b>, <b><tt>insert</tt></b>, <b><tt>remove</tt></b>, <b><tt>clear</tt></b>,
+<b><tt>first</tt></b>, <b><tt>next</tt></b>, and <b><tt>length?</tt></b> can be used to access and
+change the contents the port.</p>
+</blockquote>
+<h3 id="section-2.2">2.2 Open Refinements</h3>
+<blockquote>
+<p>The open function accepts a number of refinements that can be used to modify
+its operation:</p>
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/binary</b></td><td valign="top">port data is binary
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/string</b></td><td valign="top">port data is text, translate all line terminators
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/with</b></td><td valign="top">specify an alternate line termination
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/lines</b></td><td valign="top">handle data a line at a time or as a block of lines
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/direct</b></td><td valign="top">do not buffer the port
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/new</b></td><td valign="top">create or recreate the target of the port
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/read</b></td><td valign="top">open for read only operation
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/write</b></td><td valign="top">open for write only operation
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/no-wait</b></td><td valign="top">do not wait for data
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/skip</b></td><td valign="top">skip part of the data
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/allow</b></td><td valign="top">specify protection attributes of files
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80"><b>/custom</b></td><td valign="top">allow special refinements
+</td></tr>
+</table>
+</blockquote>
+<h2 id="section-3">3. Closing a Port</h2>
+<blockquote>
+<p>Access to a port is terminated with the <b><tt>close</tt></b> function. All
+buffered data that has not been saved will be written to the target file. The
+example below will close a port opened earlier:</p>
+<pre>
+close fp
+</pre>
+<p>If you attempt to close a port that is not open, an error will occur.</p>
+<p>A port that is closed can be reopened again with the <b><tt>open</tt></b>
+function:</p>
+<pre>
+open fp
+</pre>
+</blockquote>
+<h2 id="section-4">4. Reading from a Port</h2>
+<blockquote>
+<p>The series <b><tt>copy</tt></b> function is used to read data from an open
+port:</p>
+<pre>
+print copy fp
+<span class="put">I wanted the gold, and I sought it,I scrabbled and mucked like
+a slave....</span>
+</pre>
+<p>This function will wait for the port data. If you don't want to wait for the
+data, open the port with the /no-wait refinement.</p>
+<p>To read only a portion of the port data, use <b><tt>copy/part:</tt></b></p>
+<pre>
+print copy/part fp 35
+<span class="put">I wanted the gold, and I sought it,</span>
+</pre>
+<p>Note that the second argument to copy can be a length or a position within
+the port.</p>
+<p>You can use the series <b><tt>find</tt></b> and <b><tt>copy</tt></b>
+functions to read just part of the port's data:</p>
+<pre>
+a: find fp "famine"
+print copy/part a find a newline
+<span class="put">famine or scurvy -- I fought it;</span>
+</pre>
+<p>The first, next, and other positional series functions can also be used on
+the port:</p>
+<pre>
+print first fp
+<span class="put">I</span>
+print first next next fp
+<span class="put">w</span>
+</pre>
+<p>The <b><tt>copy</tt></b> function will return <b><tt>none</tt></b> when all data have been
+read from a port. When running in <b><tt>/no-wait</tt></b> mode, the <b><tt>copy</tt></b>
+function will return an empty string if no data is available for
+the port.</p>
+<pre>
+tp: open/direct/binary/no-wait tcp://system:8000
+content: make binary! 1000
+while [wait tp  data: copy tp] [append content data]
+close tp
+</pre>
+</blockquote>
+<h2 id="section-5">5. Writing to a Port</h2>
+<blockquote>
+<p>The <b><tt>insert</tt></b> function is used to write to a port.</p>
+<pre>
+insert fp "I was a fool to seek it."
+</pre>
+<p>If the port is buffered, the change will occur externally when the port is
+closed or updated (with the <b><tt>update</tt></b> function). If the port is
+opened with <b><tt>/direct</tt></b>, then the change will occur
+immediately.</p>
+<p>All of the <b><tt>insert</tt></b> refinements can be used on the port. For
+example, to write 20 spaces into a port:</p>
+<pre>
+insert/dup fp " " 20
+</pre>
+<p>You can also use the <b><tt>remove</tt></b>, <b><tt>clear</tt></b>, <b><tt>change</tt></b>, <b><tt>append</tt></b>,
+<b><tt>replace</tt></b>, and other series modifying functions on the port.</p>
+<p>For example, to remove a single character or a number of characters:</p>
+<pre>
+remove fp
+
+remove/part fp 20
+</pre>
+<p>and to remove all remaining characters, write:</p>
+<pre>
+clear fp
+</pre>
+</blockquote>
+<h2 id="section-6">6. Updating a Port</h2>
+<blockquote>
+<p>The <b><tt>update</tt></b> function forces a port to update its status with
+respect to the external device. For example, when writing a buffered file, the
+<b><tt>update</tt></b> function can be used to force the data buffer out to the
+file. When reading, the <b><tt>update</tt></b> function can be used to be
+certain that any pending data has been read into memory.</p>
+<pre>
+update fp
+</pre>
+</blockquote>
+<h2 id="section-7">7. Waiting for a Port</h2>
+<blockquote>
+<p>The <b><tt>wait</tt></b> function is essential to programs that need to
+handle asynchronous data transfers. With <b><tt>wait</tt></b>, you can wait
+for data on one or more ports, or for a timeout to occur.</p>
+<p>The <b><tt>wait</tt></b> function will accept a single port:</p>
+<pre>
+wait port
+</pre>
+<p><A name=pgfId-539539></A>or, an entire block of ports can be provided:</p>
+<pre>
+wait [port1 port2 port3]
+</pre>
+<p>In addition, a timeout value can be provided as a number of seconds or as a
+time value:</p>
+<pre>
+wait [port1 port2 10]
+
+wait [port1 port2 0:00:05]
+</pre>
+<p>The first example will time out in ten seconds. The second example will
+timeout in five seconds.</p>
+<p>The <b><tt>wait</tt></b> function will return the port that is ready or
+<tt>none</tt> if the timeout occurred.</p>
+<pre>
+ready: wait [port1 port2 10]
+if ready [data: copy ready]
+</pre>
+<p>The above example will read data from the first ready port if a timeout did
+not occur.</p>
+<p>To obtain a block of all ports that are ready, use the /all refinement.</p>
+<pre>
+ready: wait/all [port1 port2 10]
+if ready [
+    foreach port ready [
+        append data copy port
+    ]
+]
+</pre>
+<p>This example would append data from all ready ports into a single series.</p>
+<p>You can also use the <b><tt>dispatch</tt></b> function to evaluate a block
+or function based on the results of a <b><tt>wait</tt></b> on multiple
+ports.</p>
+<pre>
+dispatch [
+    port1 [print "port1 awake"]
+    port2 [print "port2 awake"]
+    10 [print "timeout!"]
+]
+</pre>
+<div class="note"><p><b>Use /No-wait and /Direct</b></p>
+<p>To use <b><tt>wait</tt></b> with most ports, you will need to specify the
+<b><tt>/no-wait</tt></b> and <b><tt>/direct</tt></b> refinements as part of the open. This
+indicates that the normal data access functions should not block
+and that data is not buffered.</p>
+<pre>
+port1: open/no-wait/direct tcp://system:8000
+</pre>
+</div>
+</blockquote>
+<h2 id="section-8">8. Other Port Modes</h2>
+<blockquote>
+</blockquote>
+<h3 id="section-8.1">8.1 Line Mode</h3>
+<blockquote>
+<p>The <b><tt>open</tt></b> function allows ports to be opened for line access.
+In line mode, the first function will return a line of text,
+rather than a character. The example below reads a file one line
+at a time:</p>
+<pre>
+fp: open/lines %file.txt
+print first fp
+<span class="put">I wanted the gold, and I got it --</span>
+print third fp
+<span class="put">Yet somehow life's not what I thought it,</span>
+</pre>
+<p>The /lines refinement is also useful for Internet protocols that are line
+oriented.</p>
+<pre>
+tp: open/lines tcp://server:8000
+print first tp
+</pre>
+</blockquote>
+<h3 id="section-8.2">8.2 Read and Write Only</h3>
+<blockquote>
+<p>You can use the <b><tt>/read</tt></b> refinement to open a port as read only:</p>
+<pre>
+fp: open/read %file.txt
+</pre>
+<p>Changes made to the port's buffer, are not written back to the file.</p>
+<p>To open for write only, use the <b><tt>/write</tt></b> refinement:</p>
+<pre>
+fp: open/write %file.txt
+</pre>
+<p>File ports opened with the <b><tt>/write</tt></b> refinement will not read
+the current data upon opening the port.</p>
+<p>Closing, or updating a write only file port will cause existing data in the
+file to be overwritten:</p>
+<pre>
+insert fp "This is the law of the Yukon..."
+close fp
+print read %file.txt
+<span class="put">This is the law of the Yukon...</span>
+</pre>
+</blockquote>
+<h3 id="section-8.3">8.3 Direct Port Access</h3>
+<blockquote>
+<p>The <b><tt>/direct</tt></b> refinement opens an unbuffered port. This is
+useful to access files a portion at a time, such as when a file is too large to
+be held in memory.</p>
+<pre>
+fp: open/direct %file.txt
+</pre>
+<p>Reading the data with a <b><tt>copy</tt></b> function will move the port's
+head forward:</p>
+<pre>
+print copy/part fp 40
+<span class="put">I wanted the gold, and I sought it,^/ I</span>
+print copy/part fp 40
+<span class="put">scrabbled and mucked like a slave.^/Was i</span>
+</pre>
+<p>In direct mode, the port will always be at its head position:</p>
+<pre>
+print head? fp
+<span class="put">true</span>
+</pre>
+<p>The <b><tt>copy</tt></b> function will return <tt>none</tt> when the port
+has reached its end.</p>
+<p>Here is an example that uses direct ports to copy a file of any size:</p>
+<pre>
+from-port: open/direct %a-file.jpg
+to-port: open/direct %a-file.jpg
+while [data: copy/part from-port 100000 ][
+    append to-port data
+]
+close from-port
+close to-port
+</pre>
+</blockquote>
+<h3 id="section-8.4">8.4 Skipping Data</h3>
+<blockquote>
+<p>There are two ways to skip data that exists in a port. First, you can open
+the port with the <b><tt>/skip</tt></b> refinement. This <b><tt>open</tt></b>
+function will automatically skip to a point in the port. For example:</p>
+<pre>
+fp: open/direct/skip %file.big 1000000
+
+fp: open/skip http://www.example.com/bigfile.dat 100000
+</pre>
+<p>You can also use the <b><tt>skip</tt></b> function on the port. For files
+that are opened with <b><tt>/direct</tt></b> and <b><tt>/binary</tt></b> the
+skip operation is identical to a file system seek operation. Data is not read
+into memory. This is not possible in <b><tt>/string</tt></b> mode because the
+line breaks interfere with the skip size.</p>
+<pre>
+fp: open/direct/binary %file.dat
+fp: skip fp 100000
+</pre>
+</blockquote>
+<h2 id="section-9">9. File Permissions</h2>
+<blockquote>
+<p>When files are created by REBOL, default access permissions are set. On
+Windows and Macintosh systems files are created with full access privileges. On
+UNIX systems files are created with the permissions set to the current umask
+setting.</p>
+<p>When using <b><tt>open</tt></b> or <b><tt>write</tt></b> to access a file
+the <b><tt>/allow</tt></b> refinement is used to set file access
+permissions.</p>
+<p>The <b><tt>/allow</tt></b> refinement takes a block as an argument. This
+block can consist of any or all of the three words <b><tt>read</tt></b>,
+<b><tt>write</tt></b> and <b><tt>execute</tt></b>.</p>
+<div class="note"><p><b>Operating System Restrictions</b></p>
+<p>The <b><tt>/allow</tt></b> refinement will only set permissions on operating
+systems supporting the specified permission setting. If the
+operating system does not support a permission setting used, the
+setting will be ignored. For instance, files on UNIX systems may
+be set as executable (<b><tt></tt></b> execute ), but the Windows and
+Macintosh operating systems don't support this. When dealing
+with UNIX systems, permissions set using <b><tt>/allow</tt></b> will only set
+the user permissions. Using <b><tt>/</tt></b> allow will cause all access
+permissions to be removed for users and others.</p>
+</div>
+<p>To make a file read only, use <b><tt>open/allow</tt></b>, or
+<b><tt>write/allow</tt></b> with a read block.</p>
+<pre>
+write/allow %file.txt [read]
+</pre>
+<p>To make a file readable and executable:</p>
+<pre>
+open/allow %file.txt [read execute]
+</pre>
+<p>You can set similar permissions for write access:</p>
+<pre>
+write/allow %file.txt [read write]
+</pre>
+<p>To prevent any access to a file (for operating systems where this would make
+a difference) provide an empty permissions block:</p>
+<pre>
+write/allow %file.txt []
+</pre>
+<p>To permit full access:</p>
+<pre>
+write/allow %file [read write execute]
+</pre>
+</blockquote>
+<h2 id="section-10">10. Directory Ports</h2>
+<blockquote>
+<p>Directory ports allow you to open direct access to file directories. Within
+the system, this is how most other directory functions are created.</p>
+<p>When you open a directory, you gain direct access to the directory as a block
+of filenames:</p>
+<pre>
+mydir: open %intro/
+forall mydir [print first mydir]
+<span class="put">CVS/
+history.t
+intro.t
+overview.t
+quick.t</span>
+close mydir
+</pre>
+<p>You can advance to a specific position within a directory series and remove a
+file with code such as:</p>
+<pre>
+dir: open %.
+remove next dir
+close dir
+</pre>
+<p>This deletes the second file in the current directory. Similarly,</p>
+<pre>
+remove at dir 5
+</pre>
+<p>would delete the fifth file in the directory, and:</p>
+<pre>
+clear dir
+</pre>
+<p>would delete all of the files in the directory.</p>
+<p>To delete all files that contain with the word "junk", you can write:</p>
+<pre>
+dir: open %intro/
+while [not tail? dir] [
+    either find first dir "junk" [remove dir][
+        dir: next dir
+    ]
+]
+close dir
+</pre>
+<p>The changes made to a directory are made when the directory is closed or when
+it is updated. To force the action to occur immediately use a line such as:</p>
+<pre>
+update dir
+</pre>
+<p>The method of directory access can also be used for changing the names of
+files. After the <b><tt>open</tt></b>, the line:</p>
+<pre>
+change at dir 3 %newname.txt
+</pre>
+<p>will rename the third file in the directory. Similarly, the names of any of
+the files in the directory can be changed.</p>
+<p>Here is an example that renames all of the files in a directory by adding the
+word REBOL to their names:</p>
+<pre>
+dir: open %intro/
+forall dir [insert first dir "REBOL"]
+close dir
+</pre>
+</blockquote>
+</td></tr>
+<tr><td align=center>
+
+</td></tr></table>
+</center>
+<!--<map name="bar-map">
+<area shape="rect" coords="0,0,150,28"   href="http://www.rebol.com" alt="REBOL.com">
+<area shape="rect" coords="175,0,275,28" href="http://www.rebol.com/docs.html" alt="Documents">
+<area shape="rect" coords="285,0,365,28" href="http://www.rebol.com/docs/core23/rebolcore.html" alt="Manual">
+<area shape="rect" coords="375,0,445,28" href="http://www.rebol.com/docs/dictionary.html" alt="Dictionary">
+<area shape="rect" coords="452,0,500,28" href="http://www.rebol.com/library.html" alt="Library">
+<area shape="rect" coords="510,0,575,28" href="http://www.rebol.com/feedback.html" alt="Feedback">
+</map>-->
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="13-network.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="15-parse.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<span class="tail">
+Perpetrated 25-May-2017 -
+<!--<a href="http://www.rebol.com">Copyright REBOL Technologies</a>-->
+- Hosted with BitBucket Cloud
+</span></center>
+</body></html>

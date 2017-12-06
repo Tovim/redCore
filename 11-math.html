@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Chapter 11 - Math</title>
+<link rel="stylesheet" HREF="red_cz.css">
+</head>
+
+<body bgcolor="beige">
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="10-objekty.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="12-files.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<table width="660" cellpadding="4" cellspacing="0" border="0">
+<!--<tr><td><a href="http://www.rebol.com/docs.html"><img src="http://www.rebol.com/graphics/doc-bar.gif" width="680" height="28" align="bottom" alt="rebol document" border="0" usemap="#bar-map" ismap></a></td></tr>-->
+<tr><td height="24"> </td></tr>
+<tr><td><h1>Kapitola 11 - Matematické funkce</h1>
+
+<h2>Obsah:</h2>
+<a class="toc1" href="#section-1">1. Přehled</a><br>
+<a class="toc1" href="#section-2">2. Skalární datové typy</a><br>
+<a class="toc1" href="#section-3">3. Pořadí výpočtu</a><br>
+<a class="toc1" href="#section-4">4. Standardní funkce a operátory</a><br>
+<a class="toc2" href="#section-4.1">4.1 absolute</a><br>
+<a class="toc2" href="#section-4.2">4.2 add</a><br>
+<a class="toc2" href="#section-4.3">4.3 complement</a><br>
+<a class="toc2" href="#section-4.4">4.4 divide</a><br>
+<a class="toc2" href="#section-4.5">4.5 multiply</a><br>
+<a class="toc2" href="#section-4.6">4.6 negate</a><br>
+<a class="toc2" href="#section-4.7">4.7 random</a><br>
+<a class="toc2" href="#section-4.8">4.8 remainder</a><br>
+<a class="toc2" href="#section-4.9">4.9 subtract</a><br>
+<a class="toc1" href="#section-5">5. Konverze typu</a><br>
+<a class="toc1" href="#section-6">6. Relační funkce</a><br>
+<a class="toc2" href="#section-6.1">6.1 equal</a><br>
+<a class="toc2" href="#section-6.2">6.2 greater</a><br>
+<a class="toc2" href="#section-6.3">6.3 greater-or-equal</a><br>
+<a class="toc2" href="#section-6.4">6.4 lesser</a><br>
+<a class="toc2" href="#section-6.5">6.5 lesser-or-equal</a><br>
+<a class="toc2" href="#section-6.6">6.6 not equal to</a><br>
+<a class="toc2" href="#section-6.7">6.7 same</a><br>
+<a class="toc2" href="#section-6.8">6.8 strict-equal</a><br>
+<a class="toc1" href="#section-7">7. Logaritmické funkce</a><br>
+<a class="toc2" href="#section-7.1">7.1 exp</a><br>
+<a class="toc2" href="#section-7.2">7.2 log-10</a><br>
+<a class="toc2" href="#section-7.3">7.3 log-2</a><br>
+<a class="toc2" href="#section-7.4">7.4 log-e</a><br>
+<a class="toc2" href="#section-7.5">7.5 power</a><br>
+<a class="toc2" href="#section-7.6">7.6 square-root</a><br>
+<a class="toc1" href="#section-8">8. Trigonometrické funkce</a><br>
+<a class="toc2" href="#section-8.1">8.1 arccosine</a><br>
+<a class="toc2" href="#section-8.2">8.2 arcsine</a><br>
+<a class="toc2" href="#section-8.3">8.3 arctangent</a><br>
+<a class="toc2" href="#section-8.4">8.4 cosine</a><br>
+<a class="toc2" href="#section-8.5">8.5 sine</a><br>
+<a class="toc2" href="#section-8.6">8.6 tangent</a><br>
+<a class="toc1" href="#section-9">9. Logické funkce</a><br>
+<a class="toc2" href="#section-9.1">9.1 and</a><br>
+<a class="toc2" href="#section-9.2">9.2 or</a><br>
+<a class="toc2" href="#section-9.3">9.3 xor</a><br>
+<a class="toc2" href="#section-9.4">9.4 complement</a><br>
+<a class="toc2" href="#section-9.5">9.5 not</a><br>
+<a class="toc1" href="#section-10">10. Errors</a><br>
+<a class="toc2" href="#section-10.1">10.1 Pokus o dělení nulou</a><br>
+<a class="toc2" href="#section-10.2">10.2 Číselné přetečení</a><br>
+<a class="toc2" href="#section-10.3">10.3 Požadované kladné číslo</a><br>
+<a class="toc2" href="#section-10.4">10.4 Nekompatibilní operátor</a><br>
+
+<h2 id="section-1">1. Přehled</h2>
+<blockquote>
+<p>Red poskytuje všeobecný výběr matematických a trigonometrických operací. Mnohé operátory pracují s vícerými datovými typy, včetně typů integer, float, money, tuple, time a date. Some of these datatypes may even
+be mixed, or coerced.
+</p>
+</blockquote>
+<h2 id="section-2">2. Skalární datové typy</h2>
+<blockquote>
+<p>Matematické funkce Redu operují konzistentním způsobem s celou řadou skalárních (číselných) datových typů:</p>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+<tr bgcolor="silver"><th align="left">
+<p>Datový typ</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>Integer!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>32-bitová čísla bez desetinné čárky</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>Float!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>64-bitová čísla s desetinnou čárkou</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>Money!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>měna s 64-bitovým desetinným číslem</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>Time!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>hours, minutes, seconds, and sub-seconds</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>Date!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>day, month, year, time, time zone</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>Pair!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>grafická pozice nebo velikost</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b>Tuple!</b></p>
+</td><td valign="top" bgcolor="white">
+<p>verze, barvy, webové adresy</p>
+</td></tr></table>
+<p>Následuje několik příkladů, které ukazují řadu matematických operací se skalárními datovými typy. Pro každý datový typ produkují operátory užitečné výsledky.</p>
+<p>Datové type <b><tt>integer</tt></b> a <b><tt>float</tt></b> data types:</p>
+<pre>
+print 2 + 1
+<span class="put">3</span>
+print 2 - 1
+<span class="put">1</span>
+print 2 * 10
+<span class="put">20</span>
+print 20 / 10
+<span class="put">2</span>
+print 21 // 10
+<span class="put">1</span>
+print 2.2 + 1
+<span class="put">3.2</span>
+print 2.2 - 1
+<span class="put">1.2</span>
+print 2.2 * 10
+<span class="put">22</span>
+print 2.2 / 10
+<span class="put">0.22</span>
+print random 10
+<span class="put">5</span>
+</pre>
+<p>Datový typ <b><tt>time</tt></b>:</p>
+<pre>
+print 2:20 + 1:40
+<span class="put">4:00</span>
+print 2:20 + 5
+<span class="put">2:20:05</span>
+print 2:20 + 60
+<span class="put">2:21</span>
+print 2:20 + 2.2
+<span class="put">2:20:02.2</span>
+print 2:20 - 1:20
+<span class="put">1:00</span>
+print 2:20 - 5
+<span class="put">2:19:55</span>
+print 2:20 - 120
+<span class="put">2:18</span>
+print 2:20 * 2
+<span class="put">4:40</span>
+print 2:20 / 2
+<span class="put">1:10</span>
+print 2:20:01 / 2
+<span class="put">1:10:00.5</span>
+print 2:21 // 2
+<span class="put">0:00</span>
+print - 2:20
+<span class="put">-2:20</span>
+print random 10:00
+<span class="put">5:30:52</span>
+</pre>
+<p>Datový typ <b><tt>date</tt></b>: &nbsp; </p>  
+<pre>
+print 1-Jan-2000 + 1
+<span class="put">2-Jan-2000</span>
+print 1-Jan-2000 - 1
+<span class="put">31-Dec-1999</span>
+print 1-Jan-2000 + 31
+<span class="put">1-Feb-2000</span>
+print 1-Jan-2000 + 366
+<span class="put">1-Jan-2001</span>
+birthday: 7-Dec-1944
+print ["I've lived" (now/date - birthday) "days."]
+<span class="put">I've lived 20305 days.</span>
+print random 1-1-2000
+<span class="put">29-Apr-1695</span>
+</pre>
+<p>Datový typ <b><tt>money</tt></b>: &nbsp; <ii>dosud nechodí</ii></p>
+<pre>
+print $2.20 + $1
+<span class="put">$3.20</span>
+print $2.20 + 1
+<span class="put">$3.20</span>
+print $2.20 + 1.1
+<span class="put">$3.30</span>
+print $2.20 - $1
+<span class="put">$1.20</span>
+print $2.20 * 3
+<span class="put">$6.60</span>
+print $2.20 / 2
+<span class="put">$1.10</span>
+print $2.20 / $1.10
+<span class="put">2</span>
+print $2.21 // 2
+<span class="put">$0.21</span>
+print random $10.00
+<span class="put">$6.00</span>
+</pre>
+<p>Datový typ <b><tt>pair</tt></b>:</p>
+<pre>
+print 100x200 + 10x20
+<span class="put">110x220</span>
+print 10x10 + 3
+<span class="put">13x13</span>
+print 10x20 * 2x4
+<span class="put">20x80</span>
+print 100x100 * 3
+<span class="put">300x300</span>
+print 100x30 / 10x3
+<span class="put">10x10</span>
+print 100x30 / 10
+<span class="put">10x3</span>
+print 101x32 // 10x3
+<span class="put">1x2</span>
+print 101x32 // 10
+<span class="put">1x2</span>
+print random 100x20
+<span class="put">67x12</span>
+</pre>
+<p>Datový typ <b><tt>tuple</tt></b>:</p>
+<pre>
+print 1.2.3 + 3.2.1
+<span class="put">4.4.4</span>
+print 1.2.3 - 1.0.1
+<span class="put">0.2.2</span>
+print 1.2.3 * 3
+<span class="put">3.6.9</span>
+print 10.20.30 / 10
+<span class="put">1.2.3</span>
+print 11.22.33 // 10
+<span class="put">1.2.3</span>
+print 1.2.3 * 1.2.3
+<span class="put">1.4.9</span>
+print 10.20.30 / 10.20.30
+<span class="put">1.1.1</span>
+print 1.2.3 + 7
+<span class="put">8.9.10</span>
+print 1.2.3 - 1
+<span class="put">0.1.2</span>
+print random 10.20.30
+<span class="put">8.18.12</span>
+</pre>
+</blockquote>
+<h2 id="section-3">3. Pořadí výpočtu</h2>
+<blockquote>
+<p>Pro vyhodnocení matematických výrazů platí dvě pravidla:</p>
+<ul>
+<li>Výrazy se vyhodnocují zleva do prava.</li>
+<li>Operátory mají přednost před funkcemi.</li>
+</ul>
+<p>Vyhodnocení výrazu zleva doprava probíhá nezávisle na typu operátoru, například:</p>
+<pre>
+print 1 + 2 * 3
+<span class="put">9</span>   <ii>; nikoliv 7 !</ii>
+</pre>
+<div class="note"><p><b>Important Note</b></p>
+<p>The way mathematical expressions are evaluated from left to
+right regardless of the operator is different than many other
+computer languages. Many languages have rules of precedence that
+you must remember that determine the order of evaluation of
+operators.  For example, a multiply is done before an add. Some
+languages have 10 or more such rules.</p>
+<p>In RED, rather than requiring users to remember the precedence
+of operators, you only need to remember the left-to-right rule.
+More importantly, for advanced code such as expressions that
+handle expressions (in reflection, for example) you do not need
+to reorder terms based on precedence. The evaluation order is
+kept simple.</p>
+<p>For most math expressions, the left-to-right evaluation rule
+works quite well and is easy to remember. However, because
+this rule is different from other languages, it can be a source
+of programming errors, so watch out.</p>
+<p>The best solution is to check your work. You can also use
+parentheses if necessary to clarify your expression (see below),
+and you can always type your expression at the console to verify
+your result.</p>
+</div>
+<p>Potřebujeme-li aby výpočet probíhal v jiném pořadí, použijeme zápis s jiným pořadím nebo použijeme závorky:</p>
+<pre>
+print 2 * 3 + 1
+<span class="put">7</span>
+print 1 + (2 * 3)
+<span class="put">7</span>
+</pre>
+<p>Jsou-li ve výrazu funkce i operátory, vyhodnocují se nejprve operátory, potom funkce:</p>
+<pre>
+print absolute -10 + 5
+<span class="put">5</span>
+</pre>
+<p>V uvedené ukázce je nejprve proveden součet a jeho výsledek je zadán funkci <b><tt>absolute</tt></b>.</p>
+<p>V další ukázce:</p>
+<pre>
+print 10 + sine 30 + 60
+<span class="put">11.0</span>
+</pre>
+<p>je výraz vyhodnocen v tomto pořadí <ii>jakoby probíhal zprava do leva</ii>:</p>
+<pre>
+<span class="put">30 + 60 =&gt; 90       
+sine 90 =&gt; 1
+10 + 1 =&gt; 11
+print</span>
+</pre>
+<p>Pro přednostní vyhodnocení výrazu <b><tt>sine 30</tt></b>  použijeme závorky:</p>
+<pre>
+print 10 + (sine 30) + 60
+<span class="put">70.5</span>
+</pre>
+<p>nebo přeskupíme výraz:</p>
+<pre>
+print 10 + 60 + sine 30
+<span class="put">70.5</span>
+</pre>
+</blockquote><br>
+<h2 id="section-4">4. Standardní funkce a operátory</h2>
+<blockquote>
+<p>Tento odstavec popisuje standardní matematické funkce a operáty, používané v Redu.</p>
+</blockquote>
+<h3 id="section-4.1">4.1 absolute</h3>
+<blockquote>
+<p>Výrazy vrací absolutní hodnotu zadané číselné hodnoty.</p>
+<pre>
+absolute value
+
+abs value
+</pre>
+<p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>, <b><tt>money</tt></b>, <b><tt>time</tt></b>, <b><tt>pair</tt></b>
+data types.</p>
+<pre>
+print absolute -10
+<span class="put">10</span>
+print absolute -1.2
+<span class="put">1.2</span>
+print absolute -$1.2         <ii>; zatím nechodí</ii>
+<span class="put">$1.20</span>
+print absolute -10:20
+<span class="put">10:20</span>
+print absolute -10x-20
+<span class="put">10x20</span>
+</pre>
+</blockquote>
+<h3 id="section-4.2">4.2 add</h3>
+<blockquote>
+<p>Výrazy vrací výsledek součtu dvou číselných hodot:</p>
+<pre>
+value1 + value2
+
+add value1 value2
+</pre>
+</tt>.</p>
+<p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>,
+<b><tt>money</tt></b>, <b><tt>time</tt></b>, <b><tt>tuple</tt></b>,
+<b><tt>pair</tt></b>, <b><tt>date</tt></b>, <b><tt>char</tt></b>.</p>
+<pre>
+print 1 + 2
+<span class="put">3</span>
+print 1.2 + 3.4
+<span class="put">4.6</span>
+print 1.2.3 + 3.4.5
+<span class="put">4.6.8</span>
+print $1 + $2               <ii>; zatím nechodí</ii>
+<span class="put">$3.00</span>
+print 1:20 + 3:40
+<span class="put">5:00</span>
+print 10x20 + 30x40
+<span class="put">40x60</span>
+print #"A" + 10
+<span class="put">K</span>
+print add 1 2
+<span class="put">3</span>
+</pre>
+</blockquote>
+<h3 id="section-4.3">4.3 complement</h3>
+<blockquote>
+<p>Výraz vrací číselný doplněk (bitwise complement) hodnoty:</p>
+<pre>
+complement value
+</pre>
+<p>Pracuje s typy <b><tt>integer</tt></b>, (float a tuple nikoliv) .</p>
+<pre>
+print complement 10
+<span class="put">-11</span>
+print complement 10.5              <ii>; nechodí</ii>
+<span class="put">-11</span>
+print complement 100.100.100       <ii>; nechodí</ii>
+<span class="put">155.155.155</span>
+</pre>
+</blockquote>
+<h3 id="section-4.4">4.4 divide</h3>
+<blockquote>
+<p>Výrazy vrací výsledek dělení dvou číselných hodnot:</p>
+<pre>
+value1 / value2
+
+divide value1 value2
+</pre>
+<p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>, (<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>tuple</tt></b>,
+<b><tt>pair</tt></b>, <b><tt>char</tt></b> data types.</p>
+<pre>
+print 10 / 2
+<span class="put">5</span>
+print 1.2 / 3
+<span class="put">0.4</span>
+print 11.22.33 / 10
+<span class="put">1.2.3</span>
+print $12.34 / 2               <ii>; nechodí</ii>
+<span class="put">$6.17</span>            
+print 1:20 / 2
+<span class="put">0:40:00</span>
+print 10x20 / 2
+<span class="put">5x10</span>
+print divide 10 2
+<span class="put">5</span>
+</pre>
+</blockquote>
+<h3 id="section-4.5">4.5 multiply</h3>
+<blockquote>
+<p>Výrazy vrací výsledek součinu dvou (číselných) hodnot:</p>
+<pre>
+value1 * value2
+
+multiply value1 value2
+</pre>
+
+<p>Works with <b><tt>integer</tt></b>, <b><tt>float</tt></b>,
+(<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>tuple</tt></b>,
+<b><tt>pair</tt></b>, <b><tt>char</tt></b> data types.</p>
+<pre>
+print 10 * 2
+<span class="put">20</span>
+print 1.2 * 3.4
+<span class="put">4.08</span>
+print 1.2.3 * 3.4.5
+<span class="put">3.8.15</span>
+print $10 * 2                    <ii>; nechodí</ii>
+<span class="put">$20.00</span>
+print 1:20 * 3
+<span class="put">4:00</span>
+print 10x20 * 3
+<span class="put">30x60</span>
+print #"a" * 8
+<span class="put">#"&#168;"</span>
+print multiply 10 2
+<span class="put">20</span>
+</pre>
+</blockquote>
+<h3 id="section-4.6">4.6 negate</h3>
+<blockquote>
+<p>Výrazy mění znaménko číselné hodnoty:</p>
+<pre>
+-value             <ii>; bez mezery mezi znaménkem a hodnotou!</ii>
+
+negate value
+</pre>
+<p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>,
+(<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>pair</tt></b>,
+<b><tt>char</tt></b>.</p>
+<pre>
+print -10
+<span class="put">-10</span>
+print -1.2
+<span class="put">-1.2</span>
+print -$10
+<span class="put">-$10.00</span>          <ii>; nechodí</ii>
+print -1:20
+<span class="put">-1:20</span>
+print -10x20
+<span class="put">-10x-20</span>
+print negate 10
+<span class="put">-10</span>
+</pre>
+</blockquote>
+<h3 id="section-4.7">4.7 random</h3>
+<blockquote>
+<p>Výraz vrací náhodnou hodnotu, která je menší nebo rovna zadané hodnotě.</p>
+<pre>
+random value
+</pre>
+<p>Pro celá čísla začíná <b><tt>random</tt></b> hodnotou 1, <tt>nikoliv</tt> 0 a zadaná mez je inkluzivní. To umožňuje použití funkce <b><tt>random</tt></b> přímo s funkcemi jako je <b><tt>pick</tt></b>.</p>
+
+<p><ii>DO NOT UNDERSTAND:</ii> The <b><tt>/seed</tt></b> refinement restarts the random generator. Use the
+<b><tt>/seed</tt></b> refinement with <b><tt>random</tt></b> first it if you want unique
+random number generation. You can use the current date and time
+to make the seed more random:</p>
+<pre>
+random/seed now/time
+&gt;&gt;                     <ii>; nic se neděje</ii>
+</pre>
+<p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>, (<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>tuple</tt></b>,
+<b><tt>pair</tt></b>, (<b><tt>date</tt></b>), <b><tt>char</tt></b>, <b><tt>string</tt></b>, <b><tt>block</tt></b>.</p>
+<pre>
+print random 10
+<span class="put">5</span>
+print random 10.5
+<span class="put">7.691597055500186</span>
+print random 10:30
+<span class="put">7:51:24.5569689</span>
+print random 100.100.100
+<span class="put">79.95.66</span>
+print random $100
+<span class="put">$32.00</span>
+print random 10x20
+<span class="put">3x11</span>
+print random 30-Jun-2000
+<span class="put">27-Dec-1171</span>
+print random #"p"
+<span class="put">#"^R"</span>
+print random [12 "asi" none]
+<span class="put">[12 none "asi"]</span>
+print random "flašinet"
+<span class="put">"etšfnial"</span>
+</pre>
+</blockquote>
+<h3 id="section-4.8">4.8 remainder</h3>
+<blockquote>
+<p>Výrazy vrací zbytek dělení dvou číselných hodnot.</p>
+<pre>
+value1 // value2
+
+remainder value1 value2
+</pre>
+<p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>, (<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>tuple</tt></b>, <b><tt>pair</tt></b>.</p>
+<pre>
+11 // 2
+<span class="put">1</span>
+12,55 // 3
+<span class="put">0.5500000000000007</span>
+14:47:30 // 3
+<span class="put">0</span>
+#"b" // 2
+<span class="put">0</span>         
+remainder 11.22.33 10
+<span class="put">1.2.3</span>     
+remainder 11x22 2
+<span class="put">1x0</span>
+remainder #"b" 2
+<span class="put">#"^@"</span>
+</pre>
+</blockquote>
+<h3 id="section-4.9">4.9 subtract</h3>
+<blockquote>
+<p>Výraz vrací rozdíl mezi číselnými hodnotami.</p>
+<pre>
+value1 - value2
+
+subtract value1 value2
+</pre>
+<p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>,
+(<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>tuple</tt></b>,
+<b><tt>pair</tt></b>, (<b><tt>date</tt></b>), <b><tt>char</tt></b>.</p>
+<pre>
+print 2 - 1
+<span class="put">1</span>
+print 3.4 - 1.2
+<span class="put">2.2</span>
+print 3.4.5 - 1.2.3
+<span class="put">2.2.2</span>
+print $2 - $1                          <ii>; nechodí</ii>
+<span class="put">$1.00</span>
+print 3:40 - 1:20
+<span class="put">2:20:00</span>
+print 30x40 - 10x20
+<span class="put">20x20</span>
+print #"Z" - 1
+<span class="put">Y</span>
+print subtract 2 1
+<span class="put">1</span>
+</pre>
+</blockquote>
+<h2 id="section-5">5. Konverze typu</h2>
+<blockquote>
+<p>Početní operace mezi celým číslem a floatem vrací vždy float.</p>
+</blockquote>
+<h2 id="section-6">6. Relační funkce</h2>
+<blockquote>
+<p>Všechne relační funkce vracejí buď <tt>true</tt> nebo <tt>false</tt>.</p>
+</blockquote>
+<h3 id="section-6.1">6.1 equal</h3>
+<blockquote>
+<p>Výrazy vracejí <tt>true</tt>, jsou-li obě hodnoty stejné.</p>
+<pre>
+value1 = value2
+
+equal? value1 value2
+</pre>
+<p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>, (<b><tt>money</tt></b>), <b><tt>time</tt></b>, (<b><tt>date</tt></b>),
+<b><tt>tuple</tt></b>, <b><tt>char</tt></b> a <b><tt>series</tt></b>.</p>
+<pre>
+print now/time = 15:30
+<span class="put">false</span>
+print equal? 111.112.111.111 &nbsp;111.112.111.111
+<span class="put">true</span>
+print #"B" = #"B"
+<span class="put">true</span>
+print equal? "a b c d" "A B C D"
+<span class="put">true</span>
+</pre>
+</blockquote>
+<h3 id="section-6.2">6.2 greater</h3>
+<blockquote>
+<p>Výrazy vracejí <tt>true</tt>, je-li první hodnota větší než druhá.</p>
+<pre>
+value1 &gt; value2
+
+greater? value1 value2
+</pre>
+<p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>,
+(<b><tt>money</tt></b>), <b><tt>time</tt></b>, (<b><tt>date</tt></b>),
+<b><tt>tuple</tt></b>, <b><tt>char</tt></b> a <b><tt>series</tt></b>.</p>
+<pre>
+print now/time &gt; 15:30
+<span class="put">true (or false)</span>
+print greater? 113.111.111.111 &nbsp; 111.112.111.111
+<span class="put">true</span>
+print #"C" &gt; #"B"
+<span class="put">true</span>
+print greater? [12 23 34] [12 23 33]
+<span class="put">true</span>
+</pre>
+</blockquote>
+<h3 id="section-6.3">6.3 greater-or-equal</h3>
+<blockquote>
+<p>Výraz vrací <tt>true</tt>, je-li první hodnota větší nebo rovna druhé.</p>
+<pre>
+value1 &gt;= value2
+
+greater-or-equal? value1 value2
+</pre>
+<p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>decimal</tt></b>,
+(<b><tt>money</tt></b>), <b><tt>time</tt></b>, (<b><tt>date</tt></b>),
+<b><tt>tuple</tt></b>, <b><tt>char</tt></b> and <b><tt>series</tt></b>.</p>
+<pre>
+print now/time &gt;= 12:00
+<span class="put">true</span>
+print greater-or-equal? 111.112.111.111 &nbsp; 111.111.111.111
+<span class="put">true</span>
+print #"B" &gt;= #"A"
+<span class="put">true</span>
+print greater-or-equal? [b c d e] [a b c d]
+<span class="put">true</span>
+</pre>
+</blockquote>
+<h3 id="section-6.4">6.4 lesser</h3>
+<blockquote>
+<p>Výraz vrací <tt>true</tt>, je-li první hodnota menší než druhá.  </p>
+<pre>
+value1 &lt; value2
+
+lesser? value1 value2
+</pre>
+<p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>,
+(<b><tt>money</tt></b>), <b><tt>time</tt></b>, (<b><tt>date</tt></b>),
+<b><tt>tuple</tt></b>, <b><tt>char</tt></b> a <b><tt>series</tt></b>:</p>
+<pre>
+print 25 &lt; 50
+<span class="put">true</span>
+print lesser? 25.3 25.5
+<span class="put">true</span>
+print [b c d e] &lt; [a b c d]
+<span class="put">false</span>
+print lesser? 00:10:11 00:11:11
+<span class="put">true</span>
+</pre>
+</blockquote>
+<h3 id="section-6.5">6.5 lesser-or-equal</h3>
+<blockquote>
+<p>Výraz vrací <tt>true</tt>, je-li první hodnota menší nebo stejná jako druhá.</p>
+<pre>
+value1 &lt;= value2
+
+lesser-or-equal? value1 value2
+</pre>
+<p>Pracuje s typy  <b><tt>integer</tt></b>, <b><tt>float</tt></b>,
+(<b><tt>money</tt></b>), <b><tt>time</tt></b>, (<b><tt>date</tt></b>),
+<b><tt>tuple</tt></b>, <b><tt>char</tt></b> a <b><tt>series</tt></b>.</p>
+<pre>
+print 25 &lt;= 25
+<span class="put">true</span>
+print lesser-or-equal? 25.3 25.5
+<span class="put">true</span>
+print "a" &lt;= "A"
+<span class="put">false</span>
+print lesser-or-equal? 11:11:10 &nbsp; 11:11:11
+<span class="put">true</span>
+</pre>
+</blockquote>
+<h3 id="section-6.6">6.6 not equal to</h3>
+<blockquote>
+<p>Výraz vrací <tt>true</tt>, nejsou-li hodoty stejné.</p>
+<pre>
+value1 &lt;&gt; value2
+
+not-equal? value1 value2
+</pre>
+<p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>,
+(<b><tt>money</tt></b>), <b><tt>time</tt></b>, (<b><tt>date</tt></b>),
+<b><tt>tuple</tt></b>, <b><tt>char</tt></b> a <b><tt>series</tt></b>.</p>
+<pre>
+print 26 &lt;&gt; 25
+<span class="put">true</span>
+print not-equal? 25.3 25.5
+<span class="put">true</span>
+print #"a" &lt;&gt; #"A"
+<span class="put">true</span>
+print not-equal? 11:11:10 11:11:11
+<span class="put">true</span>
+</pre>
+</blockquote>
+<h3 id="section-6.7">6.7 same</h3>
+<blockquote>
+<p>Výraz vrací <tt>true</tt>, odkazují-li dvě slova na stejnou hodnotu. Vhodné pro zjištění, zda dvě slova odkazují na stejný index v hodnotě typu <tt>series</tt>.</p>
+<pre>
+value1 =? value2
+
+same? value1 value2
+</pre>
+<p>Pracuje se všemi datovými typy.</p>
+<pre>
+reference-one: "abcdef"
+reference-two: reference-one
+same? reference-one reference-two
+<span class="put">true</span>
+reference-one: next reference-one
+same? reference-one reference-two
+<span class="put">false</span>
+reference-two: next reference-two
+same? reference-one reference-two
+<span class="put">true</span>
+reference-two: copy reference-one
+same? reference-one reference-two
+<span class="put">false</span>
+</pre>
+</blockquote>
+<h3 id="section-6.8">6.8 strict-equal</h3>
+<blockquote>
+<p>Výraz vrací <tt>true</tt>, jsou-li obě hodnoty striktně stejné. Lze použít jako "case-sensitivní" verzi operátoru <tt>equal?</tt> pro řetězce a k rozlišení mezi čísly typu integer a float, mají-li stejnou hodnotu.</p>
+<pre>
+value1 == value2
+
+strict-equal? value1 value2
+</pre>
+<p>Pracuje se všemi datovými typy.</p>
+<pre>
+print strict-equal? "abc" "ABC"
+<span class="put">false</span>
+print equal? "abc" "ABC"
+<span class="put">true</span>
+print strict-equal? "abc" "abc"
+<span class="put">true</span>
+print strict-equal? 1 1.0
+<span class="put">false</span>
+print equal? 1 1.0
+<span class="put">true</span>
+print strict-equal? 1.0 1.0
+<span class="put">true</span>
+</pre>
+</blockquote>
+<!--
+<h3 id="section-6.9">6.9 strict-not-equal</h3>
+<blockquote>
+<p>Výraz vrací <tt>true</tt>, nejsou-li obě hodnoty striktně stejné. Lze použít jako case-sensitivní verzi operátoru <tt>not-equal?</tt> pro řetězce k rozlišení mezi čísly typu integer a float, nejsou-li jejich hodnoty stejné.</p>
+<pre>
+strict-not-equal? value1 value2
+</pre>
+<pre>
+print strict-not-equal? "abc" "ABC"
+<span class="put">true</span>
+print not-equal? "abc" "ABC"
+<span class="put">false</span>
+print strict-not-equal? "abc" "abc"
+<span class="put">false</span>
+print strict-not-equal? 1 1.0
+<span class="put">true</span>
+print not-equal? 1 1.0
+<span class="put">false</span>
+print strict-not-equal? 1.0 1.0
+<span class="put">false</span>
+</pre>
+</blockquote> -->
+<br>
+<h2 id="section-7">7. Logaritmické funkce</h2>
+
+
+<h3 id="section-7.1">7.1 exp</h3>
+<blockquote>
+<p>Výraz vrací zadanou mocninu přiřozeného čísla E.</p>
+<pre>
+exp value
+
+exp 5
+<span class="put">148.413159025766</span>
+</pre>
+</blockquote>
+
+<h3 id="section-7.2">7.2 log-10</h3>
+<blockquote>
+<p>Výraz vrací logaritmus (se základem 10) zadané hodnoty</p>
+<pre>
+log-10 value
+
+log-10 12
+<span class="put">1.079181246047625</span>
+</pre>
+</blockquote>
+
+<h3 id="section-7.3">7.3 log-2</h3>
+<blockquote>
+<p>Výraz vrací logaritmus (se základem 2) zadané hodnoty</p>
+<pre>
+log-2 value
+
+log-2 12
+<span class="put">3.584962500721157</span>
+</pre>
+</blockquote>
+
+<h3 id="section-7.4">7.4 log-e</h3>
+<blockquote>
+<p>Výraz vrací logaritmus (se základem E) zadané hodnoty.</p>
+<pre>
+log-e value
+
+log-e 7
+<span class="put">1.945910149055313</span>
+</pre>
+</blockquote>
+
+<h3 id="section-7.5">7.5 power</h3>
+<blockquote>
+<p>Výraz vrací umocnění první hodnoty druhou.</p>
+<pre>
+value1 ** value2
+
+power value1 value2
+</pre>
+</blockquote>
+
+<h3 id="section-7.6">7.6 square-root</h3>
+<blockquote>
+<p>Výraz vrací druhou odmocninu zadané hodnoty</p>
+<pre>
+square-root value
+</pre>
+</blockquote>
+<br>
+<h2 id="section-8">8. Trigonometrické funkce</h2>
+<blockquote>
+<p>Trigonometrické funkce pracují se stupni. Vstup a výstup v radiánech lze zajistit upřesněním <b><tt>/radians</tt></b> (pro všechny trigonometrické funkce).
+</blockquote>
+
+<h3 id="section-8.1">8.1 arccosine</h3>
+<blockquote>
+<p>Výraz vrací arkus kosinus zadané hodnoty.</p>
+<pre>
+arccosine value
+</pre>
+</blockquote>
+
+<h3 id="section-8.2">8.2 arcsine</h3>
+<blockquote>
+<p>Výraz vrací arkus sinus zadané hodnoty.</p>
+<pre>
+arcsine value
+</pre>
+</blockquote>
+
+<h3 id="section-8.3">8.3 arctangent</h3>
+<blockquote>
+<p>Výraz vrací arkus tangent zadané hodnoty.</p>
+<pre>
+arctangent value
+</pre>
+</blockquote>
+
+<h3 id="section-8.4">8.4 cosine</h3>
+<blockquote>
+<p>Výraz vrací kosinus zadané hodnoty.</p>
+<pre>
+cosine value
+</pre>
+</blockquote>
+
+<h3 id="section-8.5">8.5 sine</h3>
+<blockquote>
+<p>Výraz vrací sinus zadané hodnoty.</p>
+<pre>
+sine value
+</pre>
+</blockquote>
+
+<h3 id="section-8.6">8.6 tangent</h3>
+<blockquote>
+<p>Výraz vrací tangent zadané hodnoty.</p>
+<pre>
+tangent value
+</pre>
+</blockquote>
+<br>
+<h2 id="section-9">9. Logické funkce</h2>
+<blockquote>
+<p>Logické funkce lze použít pro logické hodnoty a pro některé skalární hodnoty včetně hodnot typů <b><tt>integer</tt></b>, <b><tt>char</tt></b>, <b><tt>tuple</tt></b> a
+<b><tt>bitset</tt></b>. Při práci s logickými hodnotami vrací logická funkce booleovu hodnotu. <br><br> <ii>QUEER:</ii> When working with other types of values,
+the logic functions on the bits.</p>
+</blockquote>
+
+<h3 id="section-9.1">9.1 and</h3>
+<blockquote>
+<p>Funkce <b><tt>and</tt></b> porovná dvě logické hodnoty a vrací <tt>true</tt>, jsou-li obě pravdivé:</p>
+<pre>
+print (1 &lt; 2) and (2 &lt; 3)
+<span class="put">true</span>
+print (1 &lt; 2) and (4 &lt; 3)
+<span class="put">false</span>
+</pre>
+<p>Při použití s celými čísly, porovnává funkce <b><tt>and</tt></b> bitové vyjádření obou čísel a vrací výsledek jako celé číslo:</p>
+<pre>
+print 3 and 5             <ii>011 and 101 -> 001 -> 1</ii>
+<span class="put">1</span>
+</pre>
+</blockquote>
+
+<h3 id="section-9.2">9.2 or</h3>
+<blockquote>
+<p>Funkce <b><tt>or</tt></b> porovná dvě logické hodnoty a vrací <tt>true</tt>, je-li alespoň jedna pravdivá, nebo <tt>false</tt>, jsou-li obě nepravdivé.
+false<b><tt></tt></b> :</p>
+<pre>
+print (1 &lt; 2) or (2 &lt; 3)
+<span class="put">true</span>
+print (1 &lt; 2) or (4 &lt; 3)
+<span class="put">true</span>
+print (3 &lt; 2) or (4 &lt; 3)
+<span class="put">false</span>
+</pre>
+<p>Při použití s celými čísly, porovnává funkce <b><tt>or</tt></b> bitové vyjádření obou čísel a vrací výsledek jako celé číslo:</p>
+<pre>
+print 3 or 5       <ii>011 or 101 -> 111 -> 7</ii>
+<span class="put">7</span> 
+</pre>
+</blockquote>
+
+<h3 id="section-9.3">9.3 xor</h3>
+<blockquote>
+<p>Funkce <b><tt>xor</tt></b> porovná dvě logické hodnoty a vrací <tt>true</tt> tehdy a jen tehdy, mají-li oba výrazy různou pravdivostní hodnotu.</p>
+<pre>
+print (1 &lt; 2) xor (2 &lt; 3)
+<span class="put">false</span>
+print (1 &lt; 2) xor (4 &lt; 3)
+<span class="put">true</span>
+print (3 &lt; 2) xor (4 &lt; 3)
+<span class="put">false</span>
+</pre>
+<p>Při použití s celými čísly, porovnává funkce <b><tt>xor</tt></b> bitové vyjádření obou čísel a vrací výsledek jako celé číslo:</p>
+<pre>
+print 3 xor 5            <ii>011 xor 101 -> 110 -> 6</ii>
+<span class="put">6</span>
+</pre>
+</blockquote>
+
+<h3 id="section-9.4">9.4 complement</h3>
+<blockquote>
+<p>Funkce <b><tt>complement</tt></b> vrací logický nebo v bitech vyjádřený doplněk zadané hodnoty. <ii>It is used for bitmask integer numbers and inverting
+bitsets.</ii></p>
+<pre>
+print complement true
+<span class="put">false</span>
+print complement 3            <ii>011 -> 100 -> -4</ii>
+<span class="put">-4</span>
+</pre>
+</blockquote>
+
+<h3 id="section-9.5">9.5 not</h3>
+<blockquote>
+<p>Funkce <b><tt>not</tt></b> vrací opak  zadané pravdivostní hodnoty. Neprovádí číselné bitwise operace.
+</p>
+<pre>
+print not true
+<span class="put">false</span>
+print not (2 < 1)
+<span class="put">true</span>
+</pre>
+</blockquote>
+<br>
+<h2 id="section-10">10. Errors</h2>
+<blockquote>
+<p>Matematické chyby jsou hlášeny při výskytu ilegální operace nebo při přetečení či podtečení. Lze se setkat s těmito chybami:</p>
+</blockquote>
+
+<h3 id="section-10.1">10.1 Pokus o dělení nulou</h3>
+<blockquote>
+<pre>
+1 / 0
+<span class="put">** Math Error: Attempt to divide by zero
+** Where: connect-to-link
+** Near: 1 / 0</span>
+</pre>
+</blockquote>
+
+<h3 id="section-10.2">10.2 Číselné přetečení</h3>
+<blockquote>
+<p>Použití příliš velkého čísla signalizuje Red odezvou:</p>
+<pre>
+1E+700 + 1E+400
+<span class="put">== 1.#INF</span>
+</pre>
+</blockquote>
+<h3 id="section-10.3">10.3 Požadované kladné číslo</h3>
+<blockquote>
+<p>Pokus o zpracování záporného čísla operátorem, který přijímá pouze kladná čísla:
+</p>
+<pre>
+log-10 -1
+<span class="put">== 1.#NaN</span>
+</pre>
+</blockquote>
+
+<h3 id="section-10.4">10.4 Nekompatibilní operátor s typem hodnoty</h3>
+<blockquote>
+<p>Inkriminovaný bývá druhý operand:</p>
+<pre>
+10:30 + 1.2.3
+<span class="put">** Script Error: time! type is not allowed here</span>
+</pre>
+</blockquote>
+
+</td></tr>
+</table>
+</center>
+<!--<map name="bar-map">
+<area shape="rect" coords="0,0,150,28"   href="http://www.rebol.com" alt="REBOL.com">
+<area shape="rect" coords="175,0,275,28" href="http://www.rebol.com/docs.html" alt="Documents">
+<area shape="rect" coords="285,0,365,28" href="http://www.rebol.com/docs/core23/rebolcore.html" alt="Manual">
+<area shape="rect" coords="375,0,445,28" href="http://www.rebol.com/docs/dictionary.html" alt="Dictionary">
+<area shape="rect" coords="452,0,500,28" href="http://www.rebol.com/library.html" alt="Library">
+<area shape="rect" coords="510,0,575,28" href="http://www.rebol.com/feedback.html" alt="Feedback">
+</map>-->
+<br>
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="10-objekty.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="12-files.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<span class="tail">
+Perpetrated 25-May-2017 -
+<!--<a href="http://www.rebol.com">Copyright REBOL Technologies</a>-->
+- Hosted with BitBucket Cloud
+</span></center>
+</body></html>

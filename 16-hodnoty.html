@@ -1,0 +1,2453 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" lang="cs">
+<title>Appendix 1 - Values</title>
+<link rel="stylesheet" HREF="red_cz.css">
+</head>
+
+<body bgcolor="beige">
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="15-parse.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+	 
+ <!--   <td bgcolor="#ccffff"><a href="03-prehled.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>-->
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<table border="0" cellpadding="4" cellspacing="0" width="660">
+
+<br>
+<tr><td><h1>Příloha - Datové typy</h1>
+
+<h2>Obsah:</h2>
+<a class="toc1" href="#section-1">1. Číselné hodnoty </a><br>
+<a class="toc2" href="#section-1.1">1.1 Float</a><br>
+<a class="toc2" href="#section-1.2">1.2 Integer</a><br>
+<a class="toc1" href="#section-2">2. Řady</a><br>
+<a class="toc2" href="#section-2.1">2.1 Binary</a><br>
+<a class="toc2" href="#section-2.2">2.2 Block</a><br>
+<a class="toc2" href="#section-2.3">2.3 Email</a><br>
+<a class="toc2" href="#section-2.4">2.4 File</a><br>
+<a class="toc2" href="#section-2.5">2.5 Hash</a><br>
+<a class="toc2" href="#section-2.6">2.6 Image</a><br>
+<a class="toc2" href="#section-2.7">2.7 Issue</a><br>
+<a class="toc2" href="#section-2.9">2.9 Paren</a><br>
+<a class="toc2" href="#section-2.10">2.10 Path</a><br>
+<a class="toc2" href="#section-2.11">2.11 String</a><br>
+<a class="toc2" href="#section-2.12">2.12 Tag</a><br>
+<a class="toc2" href="#section-2.13">2.13 URL</a><br>
+<a class="toc1" href="#section-3">3. Další hodnoty</a><br>
+<a class="toc2" href="#section-3.1">3.1 Character</a><br>
+<a class="toc2" href="#section-3.2">3.2 Date</a><br>
+<a class="toc2" href="#section-3.3">3.3 Logic</a><br>
+<a class="toc2" href="#section-3.4">3.4 Money</a><br>
+<a class="toc2" href="#section-3.5">3.5 None</a><br>
+<a class="toc2" href="#section-3.6">3.6 Pair</a><br>
+<a class="toc2" href="#section-3.7">3.7 Refinement</a><br>
+<a class="toc2" href="#section-3.8">3.8 Time</a><br>
+<a class="toc2" href="#section-3.9">3.9 Tuple</a><br>
+<a class="toc2" href="#section-3.10">3.10 Words</a><br>
+<br>
+<h4>Často používané funkce v následujících ukázkách kódu:</h4>
+<ul>
+<li>Funkce <tt>form</tt> konvertuje zadanou hodnotu na řetězec, čitelný uživatelem:
+<pre>
+>> form/part 0,22222 4
+<span class="put">== "0.22"</span>
+</pre></li>
+<li>Funkce <tt>mold</tt> konvertuje zadanou hodnotu na řetězec, čitelný uživatelem i Redem:
+<pre>
+>> mold/only [12,34 + 5]
+<span class="put">== "12.34 + 5"</span>
+</pre></li>
+<li>Funkce <tt>probe</tt> vrací argument, poté co jej vytiskne v upravené (molded) formě:
+<pre>
+>> probe [1 2 3]
+<span class="put">[1 2 3]
+== [1 2 3]</span>
+</pre></li>
+<li>Funkce <tt>print (prin)</tt> vytiskne argument do konzoly s přechodem (bez přechodu) na nový řádek.
+</li></ul>
+
+<br>
+<h2 id="section-1">1. Číselné hodnoty</h2>
+
+<h3 id="section-1.1">1.1 Float neboli číslo desetinné</h3>
+<blockquote>
+<h4 id="section-1.1.1">1.1.1 Koncept</h4>
+<p>Datový typ <tt>float!</tt> 
+je založen na 64 bitovém formátu desetinného čísla standardu IEEE. </p>
+<h4 id="section-1.1.2">1.1.2 Formát</h4>
+<p>Desetinná čísla jsou sekvencí numerických číslic, oddělených tečkou nebo čárkou na část "celou" a desetinnou.</p>
+<pre>1.23
+123.
+123.0
+0.321
+0.123
+1234.5678
+</pre>
+<p>Místo tečky  lze použít čárku:</p>
+<pre>1,23
+0,321
+1234,5678
+</pre>
+<p>Pro rozdělení dlouhého čísla lze použít apostrofu (`). Apostrof nemůže přijít na začátek čísla.</p>
+<pre>100'234'562.3782
+100'234'562,3782
+</pre>
+<p>Desetinná část čísla se nerozděluje.</p>
+<p>Pro vyjádření čísla lze také použít vědecké notace:</p>
+<pre>1.23E10
+1.2e007
+123.45e-42
+56,72E300
+-0,34e-12
+0.0001e-001
+</pre>
+<p>Desetinná čísla vyplňují řadu od 2.2250738585072e-308 až po 1.7976931348623e+308 a mohou mít až 15 desetinných číslic.</p>
+
+<h4 id="section-1.1.3">1.1.3 Konverze</h4>
+<p>Pro přeměnu typů <tt>string!</tt> a 
+<tt>integer!</tt> na typ  <tt>float!</tt> slouží funkce <tt>to-float</tt>:</p>
+<pre>
+to-float "123.45"
+<span class="put">123.45</span>
+to-float 123
+<span class="put">123.0</span>
+</pre>
+
+<!--
+<h4 id="section-1.1.3">1.1.3 Vytvoření</h4>
+<p>V Redu neexistuje typ decimal; obdoba  <b><tt>to-float</tt> (k funkci to-decimal) pro  konverzi typů <b><tt>string!</tt></b>,
+<b><tt>integer!</tt></b>, <b><tt>block!</tt></b>, na <b><tt>float!</tt></b> zatím nechodí:
+</p>
+<pre>probe to-decimal "123.45"
+<span class="put">123.45</span>
+probe to-decimal 123
+<span class="put">123</span>
+probe to-decimal [-123 45]
+<span class="put">-1.23E+47</span>
+probe to-decimal [123 -45]
+<span class="put">1.23E-43</span>
+probe to-decimal -123.8
+<span class="put">-123.8</span>
+probe to-decimal 12.3
+<span class="put">12.3</span>
+</pre> -->
+<p>Je-li v jednom výrazu použito číslo desetinné i celé, je celé číslo konvertováno na číslo desetinné:</p>
+<pre>1.2 + 2
+<span class="put">3.2</span>
+2 + 1.2
+<span class="put">3.2</span>
+1.01 &gt; 1
+<span class="put">true</span>
+1 &gt; 1.01
+<span class="put">false</span>
+</pre>
+
+<h4 id="section-1.1.4">1.1.4 Souvisí</h4>
+<p> K ověření, zda hodnota je typu <tt>float!</tt> či  <tt>integer!</tt> slouží funkce  <tt>float?</tt> či <tt>integer?</tt>.</p>
+<pre>float? 0.123
+<span class="put">true</span>
+</pre>
+<!--
+<p><ii>V Redu vesměs chodí jinak:</ii>
+ Use the <b><tt>form</tt></b>, <b><tt>print</tt></b>, and <b><tt>mold</tt></b> functions with an integer argument to print a decimal value in its simplest form:</p>
+<ul>
+<li>integer. If it can be represented as one.</li>
+<li>decimal without exponent. If it's not too big or too small.</li>
+<li>scientific notation. If it's too big or small.</li>
+</ul>
+<p>For example,</p>
+<pre>probe mold 123.4
+<span class="put">123.4</span>           ; <ii>jiný výsledek: "123.4"</ii>
+probe form 2222222222222222
+<span class="put">2.22222222222222E+15</span>           ; <ii>nechodí</ii>
+print 1.00001E+5
+<span class="put">100001</span>          ; <ii>jiný výsledek: 100001.0</ii>
+</pre>
+-->
+<p>Jednoduché apostrofy (`) a znaménko (+) se u výstupu desetinného čísla neobjeví:</p>
+<pre>print +1'100'200.222'112
+<span class="put">1100200.222112</span>   
+</pre>
+</blockquote>
+<br>
+<h3 id="section-1.2">1.2 Integer neboli číslo celé</h3>
+<blockquote>
+<h4 id="section-1.2.1">1.2.1 Koncept</h4>
+<p>Datový typ <tt>integer!</tt> je positivní i 
+negativní celočíselná hodnota o velikosti 64 bitů . </p>
+<h4 id="section-1.2.2">1.2.2 Formát</h4>
+<p>Celočíselné hodnoty (kladné či záporné) tvoří sekvence číslic. Znaménko plus (+) či mínus (-) se zapisují přímo před první číslici čísla. Nuly před první číslem jsou ignorovány.</p>
+<pre>0 1234 +1234 -1234 00012 -0123
+</pre>
+<p>Zápis delšího celého čísla lze zpřehlednit vkládáním apostrofů mezi číslice. Interpret Redu však tyto apostrofy zcela ignoruje.</p>
+<pre>2'147'483'647
+</pre>
+<p>Množina celých čísel vyplňuje řadu od -2147483648 do 2147483647.</p>
+<h4 id="section-1.2.3">1.2.3 Konverze</h4>
+<p>Pro přeměnu typů <tt>string!</tt> a <tt>float!</tt> na <tt>integer!</tt> slouží funkce <<tt>to-integer</tt>:</p>
+<pre>to-integer "123"
+<span class="put">123</span>
+<!--probe to-integer false
+<span class="put">0</span>
+probe to-integer true
+<span class="put">1</span>
+probe to-integer 123.4
+<span class="put">123</span>-->
+to-integer 123.8
+<span class="put">123</span>
+to-integer -123.8
+<span class="put">-123</span>
+to integer! #{1000}
+<span class="put">4096</span>
+</pre>
+
+<h4 id="section-1.2.4">1.2.4 Souvisí</h4>
+<p>K ověření, zda hodnota je typu <tt>integer!</tt> či <tt>float!</tt>, slouží funkce <tt>integer?</tt> či  <tt>float?</tt>.</p>
+<pre>probe integer? -1234
+<span class="put">true</span>
+</pre>
+<p>K vytištění celého čísla ve formátu řetězce se použijí funkce <tt>form</tt> a  <tt> mold</tt>:</p>
+<pre>mold 123
+<span class="put">"123"</span>
+form 123
+<span class="put">"123"</span>
+</pre>
+<p>Je-li ve výrazu kombinováno celé a decimální číslo, je celé číslo konvertováno na decimální (float):</p>
+<pre>1.2 + 2
+<span class="put">3.2</span>
+</pre>
+</blockquote>
+<br>
+<h2 id="section-2">2. Řady - series</h2>
+<blockquote>
+<p>Řada je uspořádaná sada hodnot různých typů. Datový typ <tt>series!</tt> je kolektivním typem (pseudotypem) pro entity typu binary!, block!, email!, file! hash!, image!, paren!, path!, tag!, string!, url! a vector!. Se všemi lze manipulovat stejným způsobem.
+</blockquote>
+
+<h3 id="section-2.1">2.1 Binary - binár</h3>
+<blockquote>
+<h4 id="section-2.1.1">2.1.1 Koncept</h4>
+<p>Binární hodnoty obsahují binární data libovolného typu. V tomto formátu lze uložit libovolnou sekvenci bajtů (image, audio, spustitelný soubor, komprimovaná či zašifrovaná data).<br>
+Formát zdroje binárních dat může být číslo se základem <tt>2 - binár</tt>, <tt>16 - hexadecimál</tt> a <tt>64 - tetrahexagesimál.</tt>. Implicitní hodnota základu číselné soustavy v Redu je 16.</p>
+<h4 id="section-2.1.2">2.1.2 Formát</h4>
+<p>Binární řetězce se zapisují do složených závorek s předsazeným znakem #. Znaky uvnitř řetězce vycházejí z kódování, určeného číslicí před znakem #. Nepřítomnost číslice avizuje implicitní hexadecimální kódování se základem 16.</p>
+<pre>#{3A18427F 899AEFD8}                    <ii>; base-16</ii>
+2#{10010110110010101001011011001011}    <ii>; base-2</ii>
+64#{LmNvbSA8yw9CB0aGvXmgUkVCu2Uz934b}   <ii>; base-64</ii>
+</pre>
+<p>Mezery, taby a nové řádky jsou uvnitř řetězce povoleny.</p>
+<pre>probe #{
+    3A
+    18
+    92
+    56
+}
+<span class="put">#{3A189256}</span>
+</pre>
+<p>Řetězce s nedostatečným počtem znaků pro vytvoření správného binárního výsledku jsou doplněny (padded) zprava.</p>
+
+<h4 id="section-2.1.3">2.1.3 Vytvoření</h4>
+<p>Funkce <tt>to-binary</tt> konvertuje data na datový typ <tt>binary!</tt> v základním kódování:</p>
+<pre>system/options/binary-base
+<span class="put">==16</span>
+to-binary "123"
+<span class="put">#{313233}</span>
+to-binary "today is the day..."
+<span class="put">#{746F64617920697320746865206461792E2E2E}</span>
+</pre>
+<p>Celé číslo při konverzi na binární tvar vkládáme do bloku:</p>
+<pre>to-binary [1]
+<span class="put">#{01}</span>
+to-binary [11]
+<span class="put">#{0B}</span>
+</pre>
+<p>Konverze řady celých čísel vrací binární konverzi každého jednotlivého čísla, spojenou do jediné hodnoty:</p>
+<pre>to-binary [1 1 1 1]
+<span class="put">#{01010101}</span>
+</pre>
+<h4 id="section-2.1.4">2.1.4 Souvisí</h4>
+<p>K ověření zda hodnota je typu <tt>binary!</tt> slouží funkce <tt>binary?</tt>.</p>
+<pre>binary? #{616263}
+<span class="put">true</span>
+</pre>
+<p>Binární hodnoty jsou subtypem pseudotypu <tt>series!</tt>:</p>
+<pre>series? #{616263}
+<span class="put">true</span>
+length? #{616263} ; three hex values in this binary
+<span class="put">3</span>
+</pre>
+<p>S datovým typem <tt>binary!</tt> úzce souvisí funkce <tt>enbase</tt> a <tt>debase</tt>. Funkce <tt>enbase</tt> konvertuje řetězce na bitovou prezentaci pro base-2, -16 nebo -64. Funkce <tt>debase</tt> 
+přemění "enbased" výraz na binární hodnotu pro základ, uvedený v <tt>system/options/binary-base</tt>.</p>
+<pre>
+>> x: enbase "Red is beautiful"          <ii>; implicitně pro base-64</ii>
+<span class="put">== "UmVkIGlzIGJlYXV0aWZ1bA=="</span>
+>> y: debase x
+<span class="put">== #{5265642069732062656175746966756C}</span>
+>> to string! y
+<span class="put">== "Red is beautiful"</span>
+</pre>
+</blockquote>
+
+
+<h3 id="section-2.2">2.2 Bloky</h3>
+<blockquote>
+
+<h3> <a id="1">Koncept</a></h3>
+
+<p>Bloky jsou skupiny hodnot a slov. Používají se všude, od samotného skriptu až po bloky dat a bloky kódu ve skriptu.</p>
+<p>
+Hodnoty bloku jsou označeny hranatými závorkami.</p>
+<pre>
+[123 data "hi"]      <ii>; blok s daty</ii>
+[]                   <ii>; prázdný blok</ii>
+</pre>
+Bloky mohou obsahovat záznamy informací:
+<pre>
+woodsmen: [
+    "Paul" "Bunyan" paul@bunyan.dom
+    "Grizzly" "Adams" grizzly@adams.dom
+    "Davy" "Crocket" davy@crocket.dom
+]
+</pre>
+Bloky mohou obsahovat kód:
+<pre>
+[print "this is a segment of code"]
+</pre>
+<p>Bloky jsou datovým typem skupiny series (řady) a proto vše, co lze provést s řadami, lze provést s hodnotou bloku.</p>
+
+Bloky lze prohledávat:
+<pre>
+copy/part (find woodsmen "Grizzly") 3
+<span class="put">== ["Grizzly" "Adams" grizzly@adams.dom]</span>
+</pre>
+Bloky lze měnit:
+<pre>
+append woodsmen [
+    "John" "Muir" john@muir.dom ]
+probe woodsmen
+<span class="put">[
+    "Paul" "Bunyan" paul@bunyan.dom
+    "Grizzly" "Adams" grizzly@adams.dom
+    "Davy" "Crocket" davy@crocket.dom
+    "John" "Muir" john@muir.dom
+]</span>
+</pre>
+Bloky lze vyhodnotit:
+<pre>
+blk: [print "data in a block"]
+do blk
+<span class="put">data in a block</span>
+</pre>
+Bloky mohou obsahovat jiné bloky:
+<pre>
+blks: [
+    [print "block one"]
+    [print "block two"]
+    [print "block three"]
+]
+foreach blk blks [do blk]
+<span class="put">block one
+block two
+block three</span>
+</pre>
+
+<h3 id="2">Formát</h3>
+
+<p>Bloky mohou obsahovat libovolný počet hodnot nebo žádnou hodnotu. Mohou zabírat více řádků a zahrnovat jakýkoli typ hodnoty včetně dalších bloků.</pre>
+
+Prázdný blok:
+<pre>
+[ ]
+</pre>
+Blok celých čísel:
+<pre>
+[24 37 108]
+</pre>
+Záhlaví skriptu:
+<pre>
+
+Red [
+    Title: "Test Script"
+    Date: 31-Dec-1998        
+    Author: "Ima User"
+]
+</pre>
+Podmínka a vyhodnocení bloku funkce:
+<pre>
+while [time < 10:00] [
+    print time               <ii>; time není zaveden</ii>               
+    time: time + 0:10
+]
+</pre>
+Slova v bloku nemusí mít určený význam:
+<pre>
+blk: [undefined words in a block]
+value? pick blk 1
+<span class="put">false</span>
+</pre>
+<p>Blok může obsahovat libovolný počet řádků, mezer nebo tabulátorových posunů. Řádky a mezery lze v bloku umístit kamkoli, pokud nerozdělují zápis hodnoty.</p>
+
+<h3 id="3">Transformace na blok</h3>
+
+<p>Funkce <tt><b>to-block</b></tt> mění data na typ <tt><b>block!</b></tt>:
+<pre>
+to-block luke@rebol.com
+<span class="put">[luke@rebol.com]</span>
+to-block {123 10:30 "string" luke@rebol.com}
+<span class="put">[123 10:30 "string" luke@rebol.com]</span>
+</pre>
+
+
+<h3 id="4">Souvisí</h3>
+<p>K ověření datového typu <tt><b>block!</b></tt> slouží funkce <tt><b>block?</b></tt>.</p>
+<pre>
+block? [123 10:30]
+<span class="put">true</span>
+</pre>
+Protože bloky jsou podskupinou skupiny <tt><b>series!</b></tt>, použijeme také <tt><b>series?</b></tt>:
+<pre>
+series? [123 10:30]
+<span class="put">true</span>
+</pre>
+<p>Funkce <tt><b>form</b></tt> vytvoří řetězec z obsahu bloku:</p>
+<pre>
+form [123 10:30]
+<span class="put">"123 10:30"</span>
+</pre>
+<p>Funkce  <tt><b>mold</b></tt> vytvoří řetězec z celého bloku:</p>
+
+<pre>mold [123 10:30]
+<span class="put">"[123 10:30]"</span>
+</pre>
+<!--
+<p>Blízce příbuznými datovými typy jsou <tt><b>hash!</b></tt> (slovník) a <tt><b>list!</b></tt> (seznam). Používají se téměř stejně jako bloky ale jsou rychlejší při modifikaci a vyhledávání částí jejich obsahů.</p> -->
+</blockquote>
+
+<h3 id="section-2.3">2.3 Email </h3>
+<blockquote>
+<h4 id="section-2.3.1">2.3.1 Koncept</h4>
+
+<p>Emailová addresa je datový typ <tt>email!</tt>, který umožňuje snadné vyjádření emailové adresy: </p>
+<pre>send luke@rebol.com {some message}
+
+emails: [
+    john@keats.dom
+    lord@byron.dom
+    edger@guest.dom
+    alfred@tennyson.dom
+]
+mesg: {poetry reading at 8:00pm!}      <ii>; údaj pm! dosud nezaveden</ii>
+foreach email emails [send email mesg]
+</pre>
+<p>Tento typ rovněž patří do skupiny <tt>series!</tt>, 
+takže pro něj platí stejná pravidla jako pro tuto skupinu :</p>
+<pre>head change/part jane@doe.dom "john" 4
+<span class="put">john@doe.dom</span>
+</pre>
+<h4 id="section-2.3.2">2.3.2 Formát</h4>
+<p>Standardním formátem emailové adresy je jméno následované znakem zavináč (@), následovaným doménou. Emailová adresa může mít libovolnou délku ale nesmí obsahovat zapovězené znaky, jako jsou hranaté závorky, uvozovky, složené závorky, mezery, nové řádky atp.</p>
+<p>Následující formáty datového typu <tt>email!</tt> jsou platné:</p>
+<pre>info@rebol.com
+123@number-mail.org
+my-name.here@an.example-domain.com
+</pre>
+<p>Velká a malá písmena jsou v emailových adresách zachovávána.</p>
+<h4 id="section-2.3.3">2.3.3 Přístup</h4>
+<p>Pro přístup ke jménu uživatele nebo k jeho doméně lze použít následující upřesnění (refinement):</p>
+<ul>
+<li>/user - get the user name.</li>
+<li>/host - get the domain.</li>
+</ul>
+<p>Například:</p>
+<pre>email: luke@rebol.com
+email/user
+<span class="put">luke</span>
+email/host
+<span class="put">rebol.com</span>
+</pre>
+<h4 id="section-2.3.4">2.3.4 Konverze</h4>
+<p>Funkce <tt>to-email</tt> konvertuje data na datový typ <tt>email!</tt>:</p>
+<pre>to-email "info@rebol.com"
+<span class="put">info@rebol.com</span>
+to-email [info rebol.com]
+<span class="put">info@rebol.com</span>
+to-email [info rebol com]
+<span class="put">info@rebol.com</span>
+to-email [user some long domain name out there dom]
+<span class="put">user@some.long.domain.name.out.there.dom</span>
+</pre>
+<h4 id="section-2.3.5">2.3.5 Souvisí</h4>
+<p>K ověření, zda je hodnota typem <tt>email!</tt>, použijeme funkci <tt>email?</tt>.</p>
+<pre>email? luke@rebol.com
+<span class="put">true</span>
+</pre>
+<p>Protože emaily jsou podskupinou skupiny (pseudotypu) <tt>series!</tt> použijeme i funkci <tt>series?</tt> ke zjištění, zda hodnota do tohoto pseudotypu patří:</p>
+<pre>series? luke@rebol.com
+<span class="put">true</span>
+</pre>
+<pre>pick luke@rebol.com 5
+<span class="put">#"@"</span>
+</pre>
+</blockquote>
+<h3 id="section-2.4">2.4 File</h3>
+<blockquote>
+<h4 id="section-2.4.1">2.4.1 Koncept</h4>
+<p>Entitou typu <tt>file!</tt> (soubor) může být název souboru, složky nebo výpis cesty..</p>
+<pre>%file.txt
+%directory/
+%directory/path/to/some/file.txt
+</pre>
+<p>Hodnoty typu <tt>file!</tt> jsou subtypem pseudotypu <tt>series!</tt> a lze s nimi jako s řadami (series) manipulovat:</p>
+<pre>probe find %dir/path1/path2/file.txt "path2"
+<span class="put">%path2/file.txt</span>
+f: %dir/path/file.txt
+probe head remove/part (find f "path/") (length? "path/")
+<span class="put">%dir/file.txt</span>
+</pre>
+<h4 id="section-2.4.2">2.4.2 Formát</h4>
+<p>Soubory se uvádějí s předsazeným znakem procenta (%):</p>
+<pre>load %image.jpg
+prog: load %examples.r
+save %this-file.txt "This file has few words."
+files: load %../programs/
+</pre>
+<p>Neobvyklé znaky v názvech souborů musí být vyjádřeny hexadecimálním číslem se znakem %. Název souboru s mezerou se píše se sekvencí %20:</p>
+<pre>%cool%20movie%20clip.mpg
+<span class="put">%cool%20movie%20clip.mpg</span>
+print %cool%20movie%20clip.mpg
+<span class="put">cool movie clip.mpg</span>
+</pre>
+<p>Jiný způsob je uzavření názvu do uvozovek:</p>
+<pre>%"cool movie clip.mpg"
+<span class="put">%cool%20movie%20clip.mpg</span>
+print %"cool movie clip.mpg"
+<span class="put">cool movie clip.mpg</span>
+</pre>
+<p>Standardním znakem pro oddělení adresářů v cestě je lomítko (/) nebo (\). Red umí používat obě:</p>
+<pre>%some\path/to\some/where\movieclip.mpg
+<span class="put">%some\path/to\some/where\movieclip.mpg</span>
+</pre>
+<h4 id="section-2.4.3">2.4.3 Konverze</h4>
+<p>Funkce <tt>to-file</tt> konvertuje data na datový typ 
+<tt>file!</tt>:</p>
+<pre>to-file "testfile"
+<span class="put">%testfile</span>
+</pre>
+<p>Data zadaná v bloku jsou spojena do názvu souboru:</p>
+<pre>to-file [some path to a file the-file.txt]
+<span class="put">%somepathtoafilethe-file.txt</span>
+</pre>
+<h4 id="section-2.4.4">2.4.4 Souvisí</h4>
+<p>K ověření zda hodnota je typu <tt>file!</tt> slouží funkce <tt>file?</tt>.</p>
+<pre>file? %rebol.r
+<span class="put">true</span>
+file? %rebol.red
+<span class="put">true</span>
+</pre>
+<p>Protože <tt>file!</tt> je subtyp pseudotypu <tt>series!</tt>, můžeme k ověření typu použít funkci  <tt>series?</tt>:</p>
+<pre>series? %rebol.r
+<span class="put">true</span>
+</pre>
+</blockquote>
+<h3 id="section-2.5">2.5 Hash</h3>
+<blockquote>
+<h4 id="section-2.5.1">2.5.1 Koncept</h4>
+<p>Hash je blok, vytvořený pro rychlejší vyhledávání dat. Vyhledávání se uskutečňuje s použitím hešových tabulek, jež u velkých bloků zrychlují vyhledávání až stonásobně.</p>
+<h4 id="section-2.5.2">2.5.2 Formát</h4>
+<p>Hešové bloky se vytvářejí s použitím funkce <tt>make</tt>.  Nemají lexikální formát.</p>
+<h4 id="section-2.5.3">2.5.3 Vytvoření</h4>
+<p>K deklaraci hešového bloku použijeme funkci <tt>make</tt>:</p>
+<pre>hsh: make hash 10  <ii> ; prázdný blok s alokovaným místem pro 10 prvků</ii>
+
+bosh: make hash [1 "one" 2 "two" 3 "three"]
+</pre>
+<p>Funkce <tt>to-hash</tt> konvertuje data na datový typ <tt>hash!</tt>:</p>
+<pre>blk: [1 "one" 2 "two" 3 "three" 4 "four"]
+bash: to-hash blk
+<span class="put">make hash! [1 "one" 2 "two" 3 "three" 4 "four"]</span>
+
+print select bash 2
+<span class="put">two</span>
+</pre>
+<p>Funkcí <tt>to-hash</tt> lze na typ <tt> hash!</tt>  konvertovat různé hodnoty:</p>
+<pre>to-hash luke@rebol.com
+
+to-hash 123.5
+
+to-hash {123 10:30 "string" luke@rebol.com}
+</pre>
+
+<h4 id="section-2.5.4">2.5.4 Souvisí</h4>
+<p>K otestování datového typu použijeme funkci <tt> hash?</tt>.</p>
+<pre>hsh: make hash [1 "one" 2 "two" 3 "three" 4 "four"]
+hash? hsh
+<span class="put">true</span>
+</pre>
+<p>Protože je hash! subtypem pseudotypu  series!, použijeme funkci <tt>series?</tt> k ověření jeho typu:</p>
+<pre>series? bosh
+<span class="put">true</span>
+</pre>
+<p>Funkce <tt>form</tt> vytvoří řetězec z obsahu heše:</p>
+<pre>form hsh
+<span class="put">"1 one 2 two 3 three 4 four"</span>
+</pre>
+<p>Funkce <tt>mold</tt> vrátí genezi celého heše::</p>
+<pre>mold hsh
+<span class="put">{make hash! [1 "one" 2 "two" 3 "three" 4 "four"]}</span>
+</pre>
+</blockquote>
+<h3 id="section-2.6">2.6 Image</h3>
+<blockquote>
+<h4 id="section-2.6.1">2.6.1 Koncept</h4>
+<p>Datový typ <tt>image!</tt> je řada, která obsahuje RGB zobrazení. Tento datový typ se používá v systému Red/View.</p>
+<p>Podporované obrazové formáty jsou GIF, JPEG, and BMP. Načtený objekt typu image může být manipulován jako řada (series).</p>
+<h4 id="section-2.6.2">2.6.2 Formát</h4>
+<p>Obrazy se obvykle načítají ze souboru. Mohou být však vyjádřeny i ve zdrojovém kódu. Vytvořený blok obsahuje velikost obrazu a jeho hodnoty RGB.</p>
+<pre>image: make image! [192x144 #{
+    B34533B44634B44634B54735B7473
+    84836B84836B84836BA4837BA4837
+    BC4837BC4837BC4837BC4837BC483 ...
+}
+</pre>
+<h4 id="section-2.6.3">2.6.3 Vytvoření</h4>
+<p>Prázdný obraz lze vytvořit příkazem <tt>make</tt>:</p>
+<pre>empty-img: make image! 300x300
+<span class="put">== make image! [300x300 #{FFFFFFFFFFFFFFFFFF...</span>
+
+empty-img: to-image 300x300  <ii>; v Redu nechodí</ii>
+</pre>
+
+<p><ii>Neověřeno: </ii>Images can also be made from snapshots of a face object. This is also done using <tt>make</tt> or <tt>to-image:</tt></p>
+<pre>face-shot: make image! face
+</pre>
+<p>K načtení obrazového souboru použijeme příkaz  <tt>load</tt>. </p>
+<pre>img: load %test/bay.jpg
+<span class="put">== make image! [1280x1024 #{59561152530F46520A...</span>
+</pre>
+<h4 id="section-2.6.4">2.6.4 Souvisí</h4>
+<p>K ověření zda hodnota je typu <tt>image!</tt> slouží funkce <tt>image?</tt>.</p>
+<pre>image? img
+</pre>
+<p>Typ <tt>image!</tt> je subtypem pseudotypu  <tt>series!</tt>:</p>
+<pre>series? img
+</pre>
+<p>Upřesněním (refinement) <tt>/size</tt> získáme velikost obrazu v pixelech coby hodnotu typu <tt>pair!</tt>:</p>
+<pre>img/size
+<span class="put">== 1280x1024</span>
+</pre>
+<p>Hodnoty jednotlivých pixelů získáme příkazem <tt>pick</tt> a změnit je můžeme příkazem  <tt>poke</tt>. Hodnota, vrácená příkazem <tt>pick</tt>, je entice (tuple) s hodnotami RGB. Hodnota, změněná příkazem <tt>poke</tt>, by rovněž měla být entice s hodnotami RGB.</p>
+<p>Vybírání určitých pixelů:</p>
+<pre>pick img 1
+<span class="put">== 89.86.17.0</span> 
+
+pick img 1500
+<span class="put">== 41.44.1.0</span>
+</pre>
+<p>Měnění určitých pixelů:</p>
+<pre>poke img 1 255.255.255
+<span class="put">== 255.255.255</span> 
+pick img 1
+<span class="put">== 255.255.255.0</span> 
+</pre>
+</blockquote>
+<h3 id="section-2.7">2.7 Issue</h3>
+<blockquote>
+<h4 id="section-2.7.1">2.7.1 Koncept</h4>
+<p>Datový typ <tt>issue!</tt> (emise) je sekvence znaků použitá k vyjádření čísla telefonního, seriového, atp, atp, případně čísla kreditní karty.</p>
+<!--
+<p>Hodnoty typu <b><tt>issue!</tt> jsou subtypem pseudotypu <b><tt>series!</tt> a lze s nimi jako se seriemi manipulovat:</p>
+<pre>probe copy/part find #888-555-1212 "555" 3  
+<span class="put">#555</span>  <ii>; sorry: příkaz copy nepodporuje argument typu issue! </ii>
+</pre> -->
+<h4 id="section-2.7.2">2.7.2 Formát</h4>
+<p>Emise začínají znakem čísla (#) a pokračují až k prvnímu oddělovači (např. k mezeře). </p>
+<pre>#707-467-8000
+#A-0987654321-CD-09876
+#1234-5678-4321-8765
+#MG82/32-7
+</pre>
+<p>Hodnoty, které obsahují oddělovací znaky, by měly být psány jako řetězce - spíše než emise.</p>
+<h4 id="section-2.7.3">2.7.3 Konverze</h4>
+<p><ii>V Redu nechodí:</ii> The <tt>to-issue</tt> function converts data to the <tt>issue!</tt> datatype:</p>
+<pre>to-issue "1234-56-7890"
+<span class="put">#1234-56-7890</span>
+</pre>
+<h4 id="section-2.7.4">2.7.4 Souvisí</h4>
+<p>K ověření datového typu emise použijeme funkci <tt>issue?</tt>.</p>
+<pre>issue? #1234-56-7890
+<span class="put">true</span>
+</pre>
+<!--
+<p>Protože jsou emise subtypem pseudotypu <b><tt>series!</tt>, můžeme pro ověření typu použit funkci  <b><tt>series?</tt>:</p>
+<pre>probe series? #1234-56-7890
+<span class="put">true</span>
+</pre> -->
+<p>Funkce <tt>form</tt> vrací emisi jako řetězec bez znaku #:</p>
+<pre>form #1234-56-7890
+<span class="put">"1234-56-7890"</span>
+</pre>
+<p>Funkce <tt>mold</tt> vrací emisi jako řetězec se znakem #, použitelný jako hodnota pro Red:</p>
+<pre>mold #1234-56-7890
+<span class="put">"#1234-56-7890"</span>
+</pre>
+<p>Funkce <tt>print</tt> provede standardní výstup emise (poté, co na ni provede úkon <tt>reform</tt> (?)):</p>
+<pre>print #1234-56-7890
+<span class="put">1234-56-7890</span>
+</pre>
+</blockquote>
+
+<h3 id="section-2.8">2.8 List - seznam</h3>
+<blockquote>
+<ii>Protože v Redu neexistuje funkce <tt>to-list</tt>, je celý odstavec 2.8 o ničem.</ii> 
+<h4 id="section-2.8.1">2.8.1 Koncept</h4>
+<p>Seznamy jsou 'linkované' bloky, které umožňují rychlejší a účinnější vkládání a odebírání hodnot, zejména u velkých bloků.</p>
+<h4 id="section-2.8.2">2.8.2 Formát</h4>
+<p>Bloky seznamů se vytvářejí příkazem  <tt>make</tt>.  Nemají lexikální formát. </p>
+<p>Hodnoty seznamů nejsou přímou náhradou bloků. Mezi bloky a seznamy existuje řada rozdílů:</p>
+<ul>
+<li>Prvky seznamu tvoří iterovatelnou indexovanou řadu - s prvkem prvním (head - čelo) a posledním (tail - chvost).</li>
+<li>Vložení hodnoty do seznamu ovlivní indexování až za místem vložení.</li>
+<li>Removing the element currently referenced in a list causes the reference to reset to the tail of the list</li>
+</ul>
+<p>Následující příklady ukazují rozdíl v chování při vkládání do bloku a do seznamu.</p>
+<p>Vytvoření bloku a seznamu:</p>
+<pre>blk: [1 2 3]
+lst: to-list [1 2 3] 
+</pre>
+<p>Inserting into a block and list:</p>
+<pre>insert blk 0
+
+insert lst 0
+</pre>
+<p>Looking at the word after the block and list after insertion. Notice <tt>blk</tt> points to the head, as before the insertion of <tt>0</tt>, but <tt>lst</tt> points to just after the point of insertion:</p>
+<pre>print blk
+<span class="put">0 1 2 3</span>
+print lst
+<span class="put">1 2 3</span>
+print head lst
+<span class="put">0 1 2 3</span>
+</pre>
+<p>The following examples show the difference in behavior between removing an element from a list and a block.</p>
+<p>Initializing a block and a list:</p>
+<pre>blk: [1 2 3]
+
+lst: to-list [1 2 3]
+</pre>
+<p>Removing from the block and list:</p>
+<pre>remove blk
+
+remove lst
+</pre>
+<p>Looking at the word after removal of the value. Notice <tt>lst</tt> now points to the tail of the series:</p>
+<pre>print blk
+<span class="put">2 3</span>
+print tail? lst
+<span class="put">true</span>
+print head lst
+<span class="put">2 3</span>
+</pre>
+<p>If you don't want the word to be at the tail after removing a value, 
+step forward and remove the value behind the current index. The 
+following examples depicts this.</p>
+<p>Initializing a list:</p>
+<pre>lst: to-list [1 2 3]
+</pre>
+<p>Stepping forward and removing the value behind the current index:</p>
+<pre>remove back (lst: next lst)
+</pre>
+<p>Looking at the word after removing the value:</p>
+<pre>probe lst
+<span class="put">make list! [2 3]</span>
+</pre>
+<h4 id="section-2.8.3">2.8.3 Creation</h4>
+<p>Use <tt>make</tt> to initialize a list value:</p>
+<pre>lst: make list! 10 ; allocating space for 10 elements
+</pre>
+<p>The <b><tt>to-list</tt></b> function converts data to the <b><tt>list!</tt></b> datatype:</p>
+<p>Convert a block:</p>
+<pre>blk: [1 "one" 2 "two" 3 "three" 4 "four"]
+probe to-list blk
+</pre>
+<h4 id="section-2.8.4">2.8.4 Related</h4>
+<p>Use <b><tt>list?</tt></b> to determine whether a value is an <b><tt>list!</tt></b>  datatype.</p>
+<pre>lst: to-list [1 "one" 2 "two" 3 "three" 4 "four"]
+probe list? Lst
+<span class="put">true</span>
+</pre>
+<p>Since lists are a subset of the <b><tt>series!</tt></b> datatype, use <b><tt>series?</tt></b> to check whether a list is a series:</p>
+<pre>probe series? lst
+<span class="put">true</span>
+</pre>
+<p>Using <b><tt>form</tt></b> on a list value creates a string from the contents contained in the list:</p>
+<pre>probe form lst
+<span class="put">"1 one 2 two 3 three 4 four"</span>
+</pre>
+<p>Using <b><tt>mold</tt></b> on a list value creates a string of the 
+list value itself and it's contents, thus allowing it to be reloaded as a
+ REBOL list value:</p>
+<pre>probe mold lst
+<span class="put">make list! [1 "one" 2 "two" 3 "three" 4 "four"]</span>
+</pre>
+</blockquote> 
+<h3 id="section-2.9">2.9 Paren</h3>
+<blockquote>
+<h4 id="section-2.9.1">2.9.1 Koncept</h4>
+<p>Datový typ <tt>paren!</tt>  je blok, který je ohraničen kulatými závorkami. Samotné závorky však k vytvoření tohoto typu nestačí.</p>
+<p>
+Protože v Redu mají aritmetické operátory stejnou preferenci (výraz je mechanicky vyhodnocován zleva doprava), jsou závorky nápomocné při určení preference podle představy programátora:</p>
+<pre>print 1 + 2 * 3
+<span class="put">9</span>
+print 1 + (2 * 3)
+<span class="put">7</span>
+zav: (1 + 2 * 3)
+<span class="put">9</span>
+</pre>
+<h4 id="section-2.9.2">2.9.2 Vytvoření</h4>
+<p>Objekt typu <tt>paren!</tt> můžeme vytvořit odkazem na počátek bloku: </p>
+<pre>paren: first [(1 + 2 * 3 / 4)]
+<span class="put">== (1 + 2 * 3 / 4) </span></pre>
+<p>Případně lze k deklaraci objektu použít funkci <tt>make</tt> :</p>
+<pre>prn: make paren! ["a" 5]    
+prn
+<span class="put">== ("a" 5)</span>
+insert prn `+       
+<ii>; Operátory je nutné vložit ve tvaru lit-word (nikoliv get-word!)</ii>
+print prn
+<span class="put">+ "a" 5</span>
+print paren
+<span class="put">1 + 2 * 3 / 4</span>
+</pre>
+<p>Funkce <tt>to-paren</tt> konvertuje data na formát typu <tt>paren!</tt>:</p>
+<pre>to-paren "123 456"
+<span class="put">(123 456)</span>
+to-paren [123 456]
+<span class="put">(123 456)</span>
+</pre>
+<p>Objekty typu <tt>paren!</tt> patří do skupiny <tt>series!</tt> a tudíž vše, co lze provést s řadami, lze provést s 'pareny'.</p>
+<pre>
+paren? paren
+<span class="put">true</span>
+type? paren
+<span class="put">paren!</span>
+length? paren
+<span class="put">7</span>
+first paren
+<span class="put">1</span>
+last :paren
+<span class="put">4</span>
+insert paren [10 + 5 *]
+paren
+<span class="put">(10 + 5 * 1 + 2 * 3 / 4)</span>
+</pre>
+
+<h4 id="section-2.9.3">2.9.3 Souvisí</h4>
+
+<pre>blk: [(3 + 3)]
+
+pick blk 1
+<span class="put">(3 + 3)</span>
+paren? pick blk 1
+<span class="put">true</span>
+series? pick blk 1
+<span class="put">true</span>
+form pick blk 1
+<span class="put">"3 + 3"</span>
+print pick blk 1
+<span class="put">3 + 3</span>
+</pre>
+</blockquote>
+<h3 id="section-2.10">2.10 Path</h3>
+<blockquote>
+<h4 id="section-2.10.1">2.10.1 Koncept</h4>
+<p>Cesty (paths) jsou kolekcemi slov a hodnot oddělených lomítky. Používají se k navigaci nebo k vyhledání čehosi. Slova a hodnoty cesty jsou určitou formou upřesnění (refinement).</p>
+<p>Formát cesty lze použít pro bloky, soubory, řetězce, heše (hashes), funkce a objekty. Působení cesty závisí na použitém datovém typu.</p>
+<p>Cesty lze použít k výběru hodnot z bloků, znaků z řetězců, pro přístup k proměnným v objektech, k upřesnění operace funkce:</p>
+<pre>USA/CA/Ukiah/size (výběr bloku)
+
+names/12          (pozice v řetězci)
+
+account/balance   (funkce objektu)
+
+match/any         (režim funkce)
+</pre>
+<p>Následující příklad ukazuje jednoduchost použití cesty pro přístup k mini databázi, vytvořené z několika bloků:</p>
+<pre>towns: [
+    Hopland [
+        phone #555-1234
+        web   http://www.hopland.ca.gov
+    ]
+
+    Ukiah [
+        phone #555-4321
+        web   http://www.ukiah.com
+        email info@ukiah.com
+    ]
+]
+
+print towns/ukiah/web
+<span class="put">http://www.ukiah.com</span>
+</pre><br>
+<p>Přehled sestav pro <tt>path</tt>:</p>
+<table bgcolor="#505050" border="0" cellpadding="4" cellspacing="1">
+        <tbody><tr bgcolor="silver"><th align="left">
+<p>Akce</p>
+</th><th align="left">
+<p>Označení typu</p>
+</th><th align="left">
+<p>Test typu</p>
+</th><th align="left">
+<p>Konverze</p>
+
+</th></tr><tr><td bgcolor="white" valign="top">
+<p><tt>path/word:</tt></p>
+</td><td bgcolor="white" valign="top">
+<p><tt>set-path!</tt></p>
+</td><td bgcolor="white" valign="top">
+<p><tt>set-path?</tt></p>
+</td><td bgcolor="white" valign="top">
+<p><tt>to-set-path</tt></p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>path/word</tt></p>
+</td><td bgcolor="white" valign="top">
+<p><tt>path!</tt></p>
+</td><td bgcolor="white" valign="top">
+<p><tt>path?</tt></p>
+</td><td bgcolor="white" valign="top">
+<p><tt>to-path</tt></p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>'path/word</tt></p>
+</td><td bgcolor="white" valign="top">
+<p><tt>lit-path!</tt></p>
+</td><td bgcolor="white" valign="top">
+<p><tt>lit-path?</tt></p>
+</td><td bgcolor="white" valign="top">
+<p><tt>to-lit-path</tt></p>
+</td></tr></tbody></table>
+<p>Příklady cest:</p>
+<p>Pro vyhodnocení funkce objektu:</p>
+<pre>obj: make object! [
+    hello: func [] [print "hello! hello!"]
+]
+obj/hello
+<span class="put">hello! hello!</span>
+</pre>
+<p>Pro vyhodnocení slova objektu:</p>
+<pre>obj: make object! [
+    text: "do you believe in magic?"
+]
+obj/text
+<span class="put">do you believe in magic?</span>
+</pre>
+<p>Upřesnění (refinements) funkce:</p>
+<pre>hello: func [/again] [
+    print either again ["hello again!"]["hello"]
+]
+hello/again
+<span class="put">hello again!</span>
+</pre>
+<p>Výběr z bloku:</p>
+<pre>USA: [
+    CA [
+        Ukiah [
+            population 15050
+            elevation [610 feet]
+        ]
+        Willits [
+            population 5073
+            elevation [1350 feet]
+        ]
+    ]
+]
+print USA/CA/Ukiah/population
+<span class="put">15050</span>
+print form USA/CA/Willits/elevation
+<span class="put">1350 feet</span>
+</pre>
+<p>Výběr prvků z řad a vnořených řad (series) podle jejich číselné pozice:</p>
+<pre>string-series: "abcdefg"
+block-series: ["John" 21 "Jake" 32 "Jackson" 43 "Joe" 52]
+block-with-sub-series: [ "abc" [4 5 6 [7 8 9]]]
+string-series/4
+<span class="put">#"d"</span>
+block-series/3
+<span class="put">"Jake"</span>
+block-series/6
+<span class="put">43</span>
+block-with-sub-series/1/2
+<span class="put">#"b"</span>
+block-with-sub-series/2/2
+<span class="put">5</span>
+block-with-sub-series/2/4/2
+<span class="put">8</span>
+</pre>
+<p>Slovo, zadané jako cesta, je symbolické a proto se nevyhodnocuje. To je nezbytné pro intuitivní formu odkazování na objekty. Při použití odkazu na slovo je požadovaná explicitní reference na hodnotu slova:</p>
+<pre>city: 'Ukiah
+USA/CA/city
+<span class="put">[
+    population 15050 
+    elevation "610 feet"
+]</span>
+</pre>
+<p>Cesty v blocích, heších nebo objektech se vyhodnocují hledáním shody pro slovo na počátku cesty a ověřením onoho slova jako hodnoty typu <tt>block!</tt>, <tt>hash!</tt> nebo <tt>object!</tt>. Poté je hledáno další slovo cesty jako slovo vyjádřené v bloku, heši nebo objektu a je aktivována implicitní funkce <tt>select</tt>. Vrací se hodnota následující za shodujícím se slovem. Je-li vrácenou hodnotou blok, hash nebo objekt, může být cesta rozšířena:</p>
+<p>Získání hodnoty, asociované s <tt>CA</tt> v <tt>USA:</tt></p>
+<pre>probe USA/CA
+<span class="put">[
+    Ukiah [
+        population 15050 
+        elevation "610 feet"
+    ] 
+    Willits [
+        population 5073 
+        elevation "1350 feet"
+    ]
+]</span>
+</pre>
+<p>Získání hodnoty, asociované s <tt>Willits</tt> v <tt>USA/CA:</tt></p>
+<pre>probe USA/CA/Willits
+<span class="put">[
+    population 5073 
+    elevation "1350 feet"
+]</span>
+</pre>
+<p>Získání hodnoty, asociované s <tt>population</tt> v <tt>USA/CA/Willits:</tt></p>
+<pre>USA/CA/Willits/population
+<span class="put">5073</span>
+</pre>
+<p>Je-li v cestě použito slovo, které v daném místě struktury neexistuje, vrací se:</p>
+<pre>USA/CA/Mendocino
+<span class="put">==none</span>
+</pre>
+<p>Cest lze použít ke změně hodnot v blocích a objektech:</p>
+<pre>USA/CA/Willits/elevation: "1 foot, after the earthquake"
+USA/CA/Willits
+<span class="put">[
+    population 9935 
+    elevation "1 foot, after the earthquake"
+]</span>
+obj/text: "yes, I do believe in magic."
+obj
+<span class="put">make object! [
+    text: "yes, I do believe in magic."
+]</span>
+</pre>
+<p>Bloky, heše, funkce a objekty lze v cestách mísit.</p>
+<p>Výběr z elementů v bloku uvnitř objektu:
+</p>
+<pre>obj: make object! [
+    USA: [
+        CA [
+            population "too many"
+        ]
+    ]
+]
+obj/USA/CA/population
+<span class="put">too many</span>
+</pre>
+<p>
+Upřesnění funkce uvnitř objektu:</p>
+<pre>obj: make object! [
+    hello: func [/again] [
+        print either again [
+            "hello again"
+        ] [
+            "oh, hello"
+        ]
+    ]
+]
+obj/hello/again
+<span class="put">hello again</span>
+</pre>
+<p>Cesty jsou typem pseudotypu <tt>series!</tt> a proto vše, co lze učinit s řadou, lze provést s hodnotami cesty:</p>
+<pre>root: [sub1 [sub2 [
+    word "a word at the end of the path"
+    num 55
+]   ]   ]
+path: 'root/sub1/sub2/word
+probe :path
+probe path             <ii>; v obou případech dostáváme:</ii>
+<span class="put">root/sub1/sub2/word</span>
+</pre>
+<p>Abychom získali odpovídající hodnotu slova "word", musíme použít formu:</p>
+<pre>get path
+<span class="put">"a word at the end of the path"</span>
+</pre>
+<p>Zjištění délky cesty:</p>
+<pre>length? path
+<span class="put">4</span>
+</pre>
+<p>Nalezení slova v cestě:</p>
+<pre>find path 'sub2
+<span class="put">sub2/word</span>
+</pre>
+<p>Změna slova v cestě:</p>
+<pre>change find path 'word 'num
+path
+<span class="put">root/sub1/sub2/num</span>
+</pre>
+
+<h4 id="section-2.10.2">2.10.2 Vytvoření cesty</h4>
+<p>Prázdnou cestu dané velikosti lze vytvořit příkazem <tt>make</tt>:</p>
+<pre>path: make path! 10
+insert path "test"
+insert tail path "this"
+print path
+<span class="put">test/this</span>
+</pre>
+<p>Funkce <tt>to-path</tt> konvertuje data na datový typ <tt>path!</tt>:</p>
+<pre>to-path [root sub]
+<span class="put">root/sub</span>
+to-path "root sub"
+<span class="put">root/sub</span>
+</pre>
+<p>Funkce <tt>to-set-word</tt> konvertuje hodnoty na datový typ <tt>set-word</tt>.</p>
+<pre>to-set-path "root sub"
+<span class="put">root/sub:</span>
+</pre>
+<p>Funkce <tt>to-lit-word</tt> konvertuje hodnoty na datový typ <tt>lit-word</tt>.</p>
+<pre>to-lit-path "root sub"
+<span class="put">'root/sub</span>
+</pre>
+<h4 id="section-2.10.3">2.10.3 Souvisí</h4>
+<p>K určení datového typu hodnoty použijeme funkce <tt>path?</tt>, <tt>set-path?</tt> a <tt>lit-path?</tt>.</p>
+<pre>path? second [1 two "3"]
+<span class="put">false</span>
+blk: [sub1 [sub2 [word 1]]]
+blk2: [blk/sub1/sub2/word: 2]
+if set-path? (pick blk2 1) [print "it is set"]
+<span class="put">it is set</span>
+lit-path? first ['root/sub]
+<span class="put">true</span>
+</pre>
+<p>Protože jsou cesty subtypem pseudotypu <tt>series!</tt>, můžeme k ověření použít funkci <tt>series?</tt>:</p>
+<pre>series? pick [root/sub] 1
+<span class="put">true</span>
+</pre>
+<p>Funkce <tt>form</tt> vytvoří z cesty řetězec:</p>
+<pre>form pick [root/sub] 1
+<span class="put">"root/sub"</span>
+</pre>
+<p>Funkce <tt>mold</tt> vytvoří z cesty řetězec, použitelný Redem jako hodnota cesty:</p>
+<pre>mold pick [root/sub] 1
+<span class="put">"root/sub"</span>
+</pre>
+</blockquote>
+<h3 id="section-2.11">2.11 String</h3>
+<blockquote>
+<h4 id="section-2.11.1">2.11.1 Koncept</h4>
+<p>Řetězce (strings) jsou serie znaků. Všechny operace, proveditelné na hodnotách řad (series), lze provést na řetězcích.</p>
+<h4 id="section-2.11.2">2.11.2 Formát</h4>
+<p>Řetězce se zapisují jako posloupnost znaků, ohraničená dvojitými uvozovkami " " nebo složenými závorkami {}. Řetězce ve dvojitých uvozovkách jsou určeny pro jeden řádek a nesmějí obsahovat netisknutelné znaky.</p>
+<pre>"Toto je krátký řetězec znaků."
+</pre>
+<p>Řetězce ve složených závorkách se používají pro delší texty na více řádcích. Všechny znaky řetězce, včetně mezer, tabulátorů a nových řádků, jsou součástí řetězce.</p>
+<pre>{This is a long string of text that will 
+not easily fit on a single line of source.
+These are often used for documentation
+purposes.}
+</pre>
+<p>Řetězec se složenými závorkami může obsahovat další složené závorky, pokud se shoduje počet levých a pravých závorek.</p>
+<pre>{
+This is another long string of text that would
+never fit on a single line. This string also
+includes braces { a few layers deep { and is 
+valid because there are as many closing braces }
+as there are open braces } in the string.
+}
+</pre>
+<p>Do řetězců lze vkládat specielní znaky spolu se znakem ^ (caret):</p>
+<table bgcolor="#505050" border="0" cellpadding="4" cellspacing="1">
+        <tbody><tr bgcolor="silver"><th align="left">
+<p>Znak</p>
+</th><th align="left">
+<p>Definice</p>
+
+</th></tr><tr><td bgcolor="white" valign="top">
+<p>^"</p>
+</td><td bgcolor="white" valign="top">
+<p>Vloží dvojitou uvozovku (").</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p>^}</p>
+</td><td bgcolor="white" valign="top">
+<p>Vloží pravou složenou závorku (}).</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p>^^</p>
+</td><td bgcolor="white" valign="top">
+<p>Vloží caret (^).</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p>^/</p>
+</td><td bgcolor="white" valign="top">
+<p>Započne nový řádek.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p>^(line)</p>
+</td><td bgcolor="white" valign="top">
+<p>Započne nový řádek.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p>^-</p>
+</td><td bgcolor="white" valign="top">
+<p>Vloží tabulátor.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p>^(tab)</p>
+</td><td bgcolor="white" valign="top">
+<p>Vloží tabulátor.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p>^(page)</p>
+</td><td bgcolor="white" valign="top">
+<p>Započne novou stránku.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p>^(back)</p>
+</td><td bgcolor="white" valign="top">
+<p>Vymaže znak vlevo od bodu vložení.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p>^(null)</p>
+</td><td bgcolor="white" valign="top">
+<p>Vloží znak nuly.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p>^(escape)</p>
+</td><td bgcolor="white" valign="top">
+<p>Vloží znak 'escape'.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p>^(letter)</p>
+</td><td bgcolor="white" valign="top">
+<p>Vloží písmeno (A-Z).</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p>^(xx)</p>
+</td><td bgcolor="white" valign="top">
+<p>Vloží znak ASCII jako hexadecimální (xx) číslo. </p>
+</td></tr></tbody></table>
+<h4 id="section-2.11.3">2.11.3 Vytvoření</h4>
+<p>Prázdný řetězec s vymezenou velikostí prostoru vytvoříme příkazem <tt>make</tt>:</p>
+<pre>make string! 40'000 <ii>; prostor pro 4k znaků</ii>
+</pre>
+<p>Funkce <tt>to-string</tt> konvertuje data na datový typ <tt>string!</tt>:</p>
+<pre>to-string 29-2-2000            <ii>; dosud nechodí</ii>
+<span class="put">"29-Feb-2000"</span>
+to-string 123456.789
+<span class="put">"123456.789"</span>
+to-string #888-555-2341
+<span class="put">"888-555-2341"</span>
+</pre>
+<p>Konverze dat v bloku způsobí jejich sloučení bez vyhodnocení:</p>
+<pre>to-string [123 456]
+<span class="put">"123456"</span>
+to-string [225.225.225.0 none true 'word]
+<span class="put">"225.225.225.0nonetrueword"</span>
+</pre>
+<h4 id="section-2.11.4">2.11.4 Souvisí</h4>
+<p>K určení zda je hodnota typu <tt>string!</tt> použijeme funkce <tt>string?</tt> nebo <tt>series?</tt>:</p>
+<pre>string? "123"
+<span class="put">true</span>
+series? "123"
+<span class="put">true</span>
+</pre>
+<p>Funkce <tt>form</tt> a <tt>mold</tt> vytvářejí řetězce z jiných datových typů. Funkce <tt>form</tt> vytváří jednoduše čitelnou verzi, zatímco funkce <tt>mold</tt> vytváří verzi, čitelnou Redem.</p>
+<pre>form "111 222 333"
+<span class="put">"111 222 333"</span>
+mold "111 222 333"
+<span class="put">{"111 222 333"}</span>
+</pre>
+</blockquote>
+<h3 id="section-2.12">2.12 Tag</h3>
+<blockquote>
+<h4 id="section-2.12.1">2.12.1 Koncept</h4>
+<p>Tagy se používají v HTML a v jiných značkovacích jazycích k vyjádření úprav textového pole. Například, tag  <tt>&lt;HTML&gt;</tt> na počátku souboru určuje, že text má být parsován podle pravidel Hypertext Markup Language. Tag s lomítkem, např. <tt>&lt;/HTML&gt;</tt>, označuje závěrný tag na konci stránky.</p>
+<p>Datový typ <tt>tag!</tt> patří do skupiny <tt>series!</tt> a jako řada je manipulovatelný:</p>
+<pre>a-tag: &lt;img src="mypic.jpg"&gt;
+a-tag
+<span class="put">&lt;img src="mypic.jpg"&gt;</span>
+append a-tag { alt="My Picture!"}
+a-tag
+<span class="put">&lt;img src="mypic.jpg" alt="My Picture!"&gt;</span>
+</pre>
+<h4 id="section-2.12.2">2.12.2 Formát</h4>
+<p>Platné tagy začínají levou lomenou závorkou (&lt;) a končí pravou závorkou (&gt;), na příklad:</p>
+<pre>&lt;a href="index.html"&gt;
+&lt;img src="mypic.jpg" width="150" height="200"&gt;
+</pre>
+<h4 id="section-2.12.3">2.12.3 Vytvoření</h4>
+<p>Funkce <tt>to-tag</tt> konvertuje data na datový typ  <tt>tag!</tt>:</p> 
+<pre>to-tag "title"
+<span class="put">&lt;title&gt;</span>
+</pre>
+<p>Tag se jménem a atributy vytvoříme pomocí funkce <tt>build-tag</tt>. Argumentem této funkce je blok, obsahující jméno tagu a další údaje, použité pro vytvoření atributu:</p>
+ <ii>build-tag dosud nechodí</ii>
+<pre>build-tag [a href http://www.rebol.com/]
+<span class="put">&lt;a href="http://www.rebol.com/"&gt;</span>
+build-tag [
+    img src %mypic.jpg width 150 alt "My Picture!"
+]
+<span class="put">&lt;img src="mypic.jpg" width="150" alt="My Picture!"&gt;</span>
+</pre>
+<h4 id="section-2.12.4">2.12.4 Souvisí</h4>
+<p>K ověření, zda hodnota je typu <tt>tag!</tt>, použijeme funkci <tt>tag?</tt> nebo <tt>series?</tt>:</p>
+<pre>tag? &lt;a href="http://www.rebol.com/"&gt;
+<span class="put">true</span>
+</pre>
+<pre>series? &lt;a href="http://www.rebol.com/"&gt;
+<span class="put">true</span>
+</pre>
+<p>Funkce <tt>form</tt> a <tt>mold</tt> vracejí tag jako řetězec:</p>
+<pre>form &lt;a href="http://www.rebol.com/"&gt;
+<span class="put">{&lt;a href="http://www.rebol.com/"&gt;}</span>
+</pre>
+<pre>mold &lt;a href="http://www.rebol.com/"&gt;
+<span class="put">{&lt;a href="http://www.rebol.com/"&gt;}</span>
+</pre>
+<p>Funkce <tt>print</tt> vytiskne tag v konzole: </p>
+<pre>print &lt;a href="http://www.rebol.com/"&gt;
+<span class="put">&lt;a href="http://www.rebol.com/"&gt;</span>
+</pre>
+</blockquote>
+<h3 id="section-2.13">2.13 URL</h3>
+<blockquote>
+<h4 id="section-2.13.1">2.13.1 Koncept</h4>
+<p>URL je zkratka pro Uniform Resource Locator, což je internetový standard, používaný pro přístup přes síť ke zdrojům jako jsou webové stránky, obrázky, soubory a emaily.</p>
+<p>Hodnoty URL jsou subtypem pseudotypu <tt>series!</tt> a tudíž je možné s nimi manipulovat jako s řadami:</p>
+<pre>url: http://www.rebol.com/reboldoc.html
+to-file find/reverse (tail url) "rebol"
+<span class="put">%reboldoc.html</span>
+</pre>
+<h4 id="section-2.13.2">2.13.2 Formát</h4>
+<p>První část URL uvádí komunikační protokol, zvaný schéma. Jazyk podporuje několik schemat, včetně: webové stránky (<tt>HTTP:</tt>), přenos souborů (<tt>FTP:</tt>), zpráv (<tt>NNTP:</tt>), emailu (<tt>MAILTO:</tt>), file (<tt>FILE:</tt>), finger (<tt>FINGER:</tt>), whois (<tt>WHOIS:</tt>), small network time (<tt>DAYTIME:</tt>), post office (<tt>POP:</tt>), transmission control (<tt>TCP:</tt>) a domain name service (<tt>DNS:</tt>). Tyto názvy schemat jsou následovány znaky, jež závisí na použitém schematu.</p>
+<pre>http://host.dom/path/file
+ftp://host.dom/path/file
+nntp://news.some-isp.net/some.news.group
+mailto:name@domain
+file://host/path/file
+finger://user@host.dom
+whois://rebol@rs.internic.net
+daytime://everest.cclabs.missouri.edu
+pop://user:passwd@host.dom/
+tcp://host.dom:21
+dns://host.dom
+</pre>
+<p>Některá pole jsou volitelná. Například, hostitel může být následován číslem portu, pokud se liší od implicitního. FTP URL doplňuje heslo, pokud není zadáno:</p>
+<pre>ftp://user:password@host.dom/path/file
+</pre>
+<p>Znaky v URL musí odpovídat internetovým standardům. Vyhrazené znaky musí být uvedeny v hexadecimálním formátu, předznačeném znakem  %:</p>
+<pre>probe http://www.somesite.dom/odd%28dir%29/odd%7Bfile%7D.txt
+<span class="put">http://www.somesite.dom/odd%28dir%29/odd%7Bfile%7D.txt</span>
+print http://www.somesite.dom/odd%28dir%29/odd%7Bfile%7D.txt
+<span class="put">http://www.somesite.dom/odd(dir)/odd{file}.txt</span>
+</pre>
+<h4 id="section-2.13.3">2.13.3 Vytvoření konverzí</h4>
+<ii>Chodí poněkud zkomoleně</ii>
+<p>Funkce <tt>to-url</tt> konvertuje blok na datový typ <tt>url!</tt>, jeho prvním elementem je schema, druhým elementem je doména (s/bez <tt>user:pass</tt> a portem) zbývající elementy jsou cesta a soubor:</p>
+<pre>to-url [http www.rebol.com reboldoc.html]
+<span class="put">http://www.rebol.com/reboldoc.html</span>
+<ii>httpwww.rebol.comreboldoc.html</ii>
+
+to-url [http www.rebol.com %examples "websend.r"]
+<span class="put">http://www.rebol.com/examples/websend.r</span>
+<ii>httpwww.rebol.comexampleswebsend.r</ii>
+
+to-url [http usr:pass@host.com:80 "(path)" %index.html]
+<span class="put">http://usr:pass@host.com:80/%28path%29/index.html</span>
+<ii>httpusr:pass@host.com:80%28path%29index.html</ii>
+</pre>
+<h4 id="section-2.13.4">2.13.4 Souvisí</h4>
+<p>Datový typ hodnoty <tt>url!</tt> ověříme funkcí <tt>url?</tt> (případně <tt>series?</tt>).</p>
+<pre>url? ftp://ftp.rebol.com/
+<span class="put">true</span>
+series? http://www.rebol.com/
+<span class="put">true</span>
+</pre></blockquote>
+<br>
+</blockquote>
+<h2 id="section-3">3. Další hodnoty</h2>
+
+
+<h3 id="section-3.1">3.1 Typ char!</h3>
+<blockquote>
+<h4 id="section-3.1.1">3.1.1 Koncept</h4>
+<p>Znaky (characters) nejsou řetězce. Jsou to individuální hodnoty, z nichž se řetězce tvoří. Znak může být tisknutelný, netisknutelný a řídící.</p>
+<h4 id="section-3.1.2">3.1.2 Formát</h4>
+<p>Hodnota typu <tt>char!</tt> se píše jako sekvence znaků:</p>
+<pre>#"R"    <ii>; znak: R</ii>
+"R"     ; <ii>řetězec se znakem: R</ii>
+</pre>
+<p>Součástí znaků mohou být únikové sekvence začínající karetem (^) následovaným jedním nebo více znaky kódování. Toto kódování může zahrnovat znaky <tt>#"^A<w>"</w></tt> až <tt>#"^Z<w>"</w></tt> pro <tt>Control</tt> <tt>A</tt> až <tt>Control</tt> <tt>Z</tt> (velká i malá písmena jsou stejná):</p>
+<pre>#"^A" #"^Z"
+</pre>
+<p>Pokud jsou se znakem použity závorky, označují hodnotu. Například nulu lze psát jako:</p>
+<pre>"^@"
+"^(null)"
+"^(00)"
+</pre>
+<p>Druhý řádek je zapsán v hexadecimálním formátu (base 16).
+Thes last line is written in hex format (base 16).</p>
+<p>Následuje tabulka řídících znaků, které lze v Redu použít.</p>
+<ii>Poněkud nechodí</ii>
+
+<table bgcolor="#505050" border="0" cellpadding="4" cellspacing="1">
+        <tbody><tr bgcolor="silver"><th align="left">
+<p>Character</p>
+</th><th align="left">
+<p>Definition</p>
+
+</th></tr><tr><td bgcolor="white" valign="top">
+<p><tt>#"(null)" or #"@"</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>null (zero)</p>
+
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>#"(line)", #"/" or, #"."</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>end of line</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>#"(tab)" or #"-"</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>horizontal tab</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>#"(page)"</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>new page (and page eject)</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>#"(esc)"</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>escape</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>#"(back)"</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>backspace</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>#"(del)"</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>delete</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>#"^"</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>caret character</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>#"^""</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>quotation mark</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>#"(00)" to #"(FF)"</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>hex forms of characters</p>
+</td></tr></tbody></table>
+<h4 id="section-3.1.3">3.1.3 Vytvoření konverzí</h4>
+<p>Hodnoty typu  <tt>char!</tt> lze vytvořit z jiných datových typů funkcí <tt>to-char</tt> function:</p>
+<pre>to-char "a"
+<span class="put">#"a"</span>
+to-char "z"
+<span class="put">#"z"</span>
+</pre>
+<p>Znaky konvenují se standardem ASCII a lze je vytvořít zadáním číselného ekvivalentu:</p>
+<pre>to-char 65
+<span class="put">#"A"</span>
+to-char 52
+<span class="put">#"4"</span>
+to-char 52.3
+<span class="put">#"4"</span>
+</pre>
+<p>Jiným způsobem získání znaku je jeho vyjmutí z řetězce:</p>
+<pre> second "ABC"
+<span class="put">#"B"</span>
+</pre>
+<p>Zatímco znaky v řetězcích nejsou "case" senzitivní, porovnání dvou znaků je:</p>
+<pre>"a" = "A"
+<span class="put">true</span>
+#"a" = #"A"
+<span class="put">false</span>
+</pre>
+<p>V některých typech funkcí není porovnávání citlivé na velikost písmen, pokud není specificky určeno:</p>
+<pre>
+find "abcde" #"B"
+<span class="put">"bcde"</span>
+find/case "abcde" #"B"
+<span class="put">none</span>
+select [#"A" 1] #"a"
+<span class="put">none</span>                              
+select/case [#"A" 1] #"a"          <ii>; case sensitive</ii>
+<span class="put">none</span>                         
+switch #"A" [#"a" [print true]]    <ii>; switch nemá /case</ii>
+<span class="put">true</span>
+</pre>
+<h4 id="section-3.1.4">3.1.4 Souvisí</h4>
+<p>K ověření, zda hodnota je typu <tt>char!</tt>, použijeme funkci <tt>char?</tt>.</p>
+<pre>char? "a"
+<span class="put">false</span>
+char? #"a"
+<span class="put">true</span>
+</pre>
+<p>Funkce <tt>form</tt> vytiskne znak bez dvojitého křížku:</p>
+<pre>form #"A"
+<span class="put">"A"</span>
+</pre>
+<p>Funkce <tt>mold</tt> vytiskne znak s dvojitým křížkem a dvojitými uvozovkami uvnitř složených závorek:</p>
+<pre>mold #"A"
+<span class="put">{#"A"}</span>
+</pre>
+</blockquote>
+<h3 id="section-3.2">3.2 Datum</h3>
+<blockquote>
+<h4 id="section-3.2.1">3.2.1 Koncept</h4>
+<p>V různých částech světa jsou datumy psány různým způsobem. Většina zemí však používá formát <tt>day-month-year</tt>. Jednou z mála výjimek jsou Spojené státy, které obecně používají formát <tt>month-day-year</tt>. Lidé kolem počítačů preferují kvůli snadnému třídění datumy ve formátu ISO: year-month-day.<br>
+Výstupní formát datumu v Redu je <b><tt>day-month-year</tt></b>.
+</p><br>
+
+<h4 id="section-3.2.2">3.2.2 Formát</h4>
+<p>Některé země používají jako oddělovač pomlčku (-), jiné lomítko (/) a některé tečku. Flexibilní jazyk Redu umožňuje vyjádřit datový typ <tt>date!</tt> sedmi způsoby:</p>
+<pre>
+1/3/1999
+<span class="put">1-Mar-1999</span>
+1999/8/12
+<span class="put">12-Aug-1999</span>
+1999-8-12                ;ISO format
+<span class="put">12-Aug-1999</span>
+1-3-1999 
+<span class="put">12-Mar-1999</span>
+5/Oct/1999
+<span class="put">5-Oct-1999</span>
+5-October-1999
+<span class="put">5-Oct-1999</span>
+1999/oct/5
+<span class="put">5-Oct-1999</span>
+</pre>
+<p>Pro rok lze použít řadu od 1 do 9999. Přestupné dny (únor 29) lze psát jen pro přestupné roky:</p>
+<pre>29-2-2000
+<span class="put">29-Feb-2000</span>
+</pre>
+
+<p>Je-li psán rok v posledním poli, může být psán i jako dvoumístné číslo:</p>
+<pre>5/oct/99
+<span class="put">5-Oct-1999</span>
+</pre>
+<p>Doporučuje se ovšem psát rok <b>čtyřmi</b> číslicemi kvůli možným problémům při porovnávacích a třídících operacích.<br>
+Interpretace dvoumístného čísla pro rok je relativní vzhledem k aktuálnímu roku a je platná jen pro 50 let minulých či budoucích:</p>
+<pre>28-2-66 
+<span class="put">28-Feb-1966</span>
+12-Mar-20
+<span class="put">12-Mar-2020</span>
+11/2/45   ; odkazuje na 2045, nikoliv 1945
+<span class="put">11-Feb-2045</span>
+</pre>
+
+<p>Pro vyjádření datumu v prvním století (což se děje zřídka, neboť v té době Gregoriánský kalendář neexistoval) používejte úvodní nuly:</p>
+<pre>
+9-4-0029
+<span class="put">9-Apr-0029</span>
+</pre>
+<p>Datum může také volitelně obsahovat časové pole a časové pásmo (zone). Čas je od datumu oddělen lomítkem. Časové pásmo je připojeno za znakem plus (+) nebo minus (-), mezery nejsou dovoleny. <br> 
+Časové pásmo vyjadřuje časový posun (plus minus v hodinách nebo půlhodinách) od GMT. </p>
+<pre>
+<ii>Kompletní údaj vrátí příkaz:</ii>
+now
+<span class="put">10-Jul-2017/20:43:33+02:00</span>
+<ii>Samotný čas vrátí volání:</ii>
+now/time
+<span class="put">20:45:48</span>
+<ii>Samotný datum vrátí příkaz:</ii>
+now/date
+<span class="put">10-Jul-2017</span>
+<ii>Kompletní údaj získáme také součtem:</ii>
+now/date + now/time
+<span class="put">10-Jul-2017/20:48:33+02:00</span>
+</pre>
+
+<h4 id="section-3.2.3">3.2.3 Diferencovaný přístup k hodnotě</h4>
+
+<p>Spolu s datovou hodnotou lze použít upřesnění (refinement) k získání hodnoty definovaného pole:</p>
+<table bgcolor="#505050" border="0" cellpadding="4" cellspacing="1">
+        <tbody><tr bgcolor="silver"><th align="left">
+<p>Refinement</p>
+</th><th align="left">
+<p>Description</p>
+
+</th></tr><tr><td bgcolor="white" valign="top">
+<p><tt>/day</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>Vrací číslo dne.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>/month</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>Vrací číslo měsíce.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>/year</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>Vrací letopočet.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>/julian</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>Pořadové číslo dne v roce podle Juliánského kalendáře.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>/weekday</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>Vrací pořadové číslo dne v týdnu.</p>
+</td>
+</tr>
+<tr><td bgcolor="white" valign="top">
+<p><tt>/time</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>Vrací časový údaj (if present).</p>
+</td></tr>
+<tr><td bgcolor="white" valign="top">
+<p><tt>/zone</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>Vrací časové pásmo (if present).</p>
+</td></tr>
+<tr><td bgcolor="white" valign="top">
+<p><tt>/time/hour</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>Vrací hodinu časového údaje (if present)</p>
+</td></tr>
+
+<tr><td bgcolor="white" valign="top">
+<p><tt>/time/minute</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>Vrací minutu časového údaje (if present).</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>/time/second</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>Vrací vteřinu časového údaje (if present).</p>
+</td>
+</tr></tbody></table>
+<p><b>Příklady použití:</b></p>
+<pre>
+dnes: now/date
+<span class="put">10-Jul-2017</span>
+dnes/day
+<span class="put">7</span>
+dnes/month
+<span class="put">2</span>
+dnes/year
+<span class="put">2017</span>
+days: ["Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"]
+pick days dnes/weekday
+<span class="put">Mon</span>
+</pre>
+<p>Je-li přítomen časový údaj, lze použít upřesnění vzhledem k tomuto údaji. Upřesnění <tt>/hour</tt>, <tt>/minute</tt> a <tt>/second</tt> se použijí s upřesněním <tt>/time</tt>, které izoluje časový segment od datumové části:</p>
+<pre>
+dnes: now
+10-jul-2017/21:07:14+02:00
+dnes/time
+<span class="put">21:07:14</span>
+dnes/time/hour
+<span class="put">21</span>
+dnes/time/minute
+<span class="put">7</span>
+dnes/time/second
+<span class="put">14.00</span>
+
+</pre>
+<h4 id="section-3.2.4">3.2.4 Konverze</h4>
+<p>Pro chodící datové formáty lze při konverzi hodnoty na datový typ <tt>date!</tt> použít funkci <tt>to-date</tt>. Datumová hodnota přitom může být rozdělena mezerami:</p>
+<pre>to-date 5 10-1999   
+<span class="put">5-Oct-1999</span>
+to-date [1999 10 5]
+<span class="put">5-Oct-1999</span>
+to-date 5 10 1999 10:30
+<span class="put">5-Oct-1999/10:30</span>
+to-date [5 10 1999 10:30 -8:00]
+<span class="put">5-Oct-1999/10:30-8:00</span>
+</pre>
+<p>Poznámka: Pro konverzi na datový typ <tt>date</tt> musí být rok zadán čtyřmi číslicemi.</p>
+<p>
+Datový typ <tt>date</tt> umí pracovat i s početními operacemi:</p>
+<pre>5-Oct-1999 + 1
+<span class="put">6-Oct-1999</span>
+5-10-1999 - 10
+<span class="put">25-Sep-1999</span>
+5-Oct-1999/23:00 + 5:00
+<span class="put">6-Oct-1999/4:00</span>
+</pre>
+<h4 id="section-3.2.5">3.2.5 Souvisí</h4>
+<p>Zda hodnota je typu <tt>date!</tt> zjistíme funkcí <tt>date?</tt>.</p>
+<pre>date? 5/1/1999
+<span class="put">true</span>
+</pre>
+<ii>Dosud nechodí</ii>
+<p>The related function <tt>to-idate</tt> returns a standard 
+Internet date string. The Internet date format is day, date, month, 
+year, time (24-hour clock), and time zone offset from GMT.</p>
+<pre>probe to-idate now
+<span class="put">Fri, 30 Jun 2000 14:42:26 -0700</span>
+</pre><br>
+</blockquote>
+<h3 id="section-3.3">3.3 Logic</h3>
+<blockquote>
+<h4 id="section-3.3.1">3.3.1 Koncept</h4>
+<p>Datový typ <tt>logic!</tt> obsahuje hodnoty <tt>true</tt> a <tt>false</tt>. Tyto jsou často vraceny jako odpověď na porovnání:</p>
+<pre>age: 100
+age = 100
+<span class="put">true</span>
+time: 10:31:00
+time &lt; 10:30
+<span class="put">false</span>
+str: "this is a string"
+probe (length? str) &gt; 10
+<span class="put">true</span>
+</pre>
+<p>Datový typ <tt>logic!</tt> se nejčastěji používá jako parametr u podmínkových funkcí jako <tt>if</tt>, <tt>while</tt> a <tt>until</tt>:</p>
+<pre>if age = 100 [print "Centennial human"]
+<span class="put">Centennial human</span>
+while [time &gt; 6:30] [
+    send person "Wake up!"
+    wait [0:10]
+]
+</pre>
+<p>Komplementární hodnota logické hodnotě se získá funkcí <tt>not</tt>:</p>
+<pre>there: place = "Ukiah" 
+if not there [...]
+</pre>
+<h4 id="section-3.3.2">3.3.2 Formát</h4>
+<p>Normálně se logické hodnoty získají z vyhodnocení porovnávacích výrazů. Lze je však přiřadit ke slovům a použít je k jejich aktivaci či deaktivaci:</p>
+<pre>print-me: false
+print either print-me ["turned on"]["turned off"]
+<span class="put">turned off</span>
+print-me: true
+print either print-me ["turned on"]["turned off"]
+<span class="put">turned on</span>
+</pre>
+<p>Hodnota <tt>false</tt> není ekvivalentní celočíselné nule nebo hodnotě <tt>none</tt>. V podmínkových výrazech však mají <tt>false</tt> a <tt>none</tt> stejný účinek:</p>
+<pre>print-me: none
+print either print-me ["turned on"]["turned off"]
+<span class="put">turned off</span>
+</pre>
+<p>Téměř každá hodnota, přiřazená ke slovu, má stejný účinek jako <tt>true</tt>:</p>
+<pre>print-me: "just a string"
+print either print-me ["turned on"]["turned off"]
+<span class="put">turned on</span>
+print-me: 11-11-1999
+print either print-me ["turned on"]["turned off"]
+<span class="put">turned on</span>
+</pre>
+<p>Následující slova mají implicitně přířazeny logické hodnoty true nebo false:</p>
+<pre>true: on, yes
+false: off, no
+</pre>
+<p>Takže tam, kde  to má význam, lze místo <tt>true</tt> a <tt>false</tt> použít slova <tt>on</tt> a <tt>off</tt> nebo <tt>yes</tt> a <tt>no</tt>:</p>
+<pre>print-me: yes
+print either print-me ["turned on"]["turned off"]
+<span class="put">turned on</span>
+print-me: no
+print either print-me ["turned on"]["turned off"]
+<span class="put">turned off</span>
+print-me: on
+print either print-me ["turned on"]["turned off"]
+<span class="put">turned on</span>
+print-me: off
+print either print-me ["turned on"]["turned off"]
+<span class="put">turned off</span>
+</pre>
+<h4 id="section-3.3.3">3.3.3 Vytvoření</h4>
+<p>Funkce <tt>to-logic</tt> konvertuje hodnoty typu <tt>integer!</tt> nebo <tt>none!</tt> na datový typ <tt>logic!</tt>:</p>
+<pre>to-logic 0
+<span class="put">false</span>
+to-logic 200
+<span class="put">true</span>
+to-logic none
+<span class="put">false</span>
+to-logic []
+<span class="put">true</span>
+to-logic "a"
+<span class="put">true</span>
+to-logic none
+<span class="put">false</span>
+</pre>
+<h4 id="section-3.3.4">3.3.4 Souvisí</h4>
+<p>Funkci <tt>logic?</tt> použijeme k ověření datového typu <tt>logic!</tt>.</p>
+<pre>logic? 1
+<span class="put">false</span>
+logic? on
+<span class="put">true</span>
+logic? false
+<span class="put">true</span>
+</pre>
+<p>Funkce <tt>form</tt>, <tt>print</tt>a <tt>mold</tt> použijeme k vytištění logické hodnoty:</p>
+<pre>form true
+<span class="put">true</span>
+mold false
+<span class="put">false</span>
+print true
+<span class="put">true</span>
+</pre>
+</blockquote>
+<h3 id="section-3.4">3.4 Money</h3>
+<blockquote>
+<ii>Dosud v Redu nepodporováno</ii>
+<h4 id="section-3.4.1">3.4.1 Concept</h4>
+<p>There is a wide variety of international symbols for monetary 
+denominations. Some symbols are used before the amount and some after. 
+As a standard for representing international monetary values, the REBOL 
+language uses the United States monetary format, but allows the 
+inclusion of specific denominations.</p>
+<h4 id="section-3.4.2">3.4.2 Format</h4>
+<p>The <tt>money!</tt> datatype uses standard IEEE floating point numbers allowing up to 15 digits of precision including cents.</p>
+<p>The language limits the length to 64 characters. Values that are out 
+of range or cannot be represented in 64 characters are flagged as an 
+error.</p>
+<p>Monetary values are prefixed with an optional currency designator, 
+followed by a dollar sign ($). A plus (+) or minus (-) can appear 
+immediately before the first character (currency designator or dollar 
+sign) to indicate sign.</p>
+<pre>$123
+-$123
+$123.45
+US$12
+US$12.34
+-US$12.34
+$12,34
+-$12,34
+DEM$12,34
+</pre>
+<p>To break long numbers into readable segments, a single quote (`) can 
+be placed anywhere between two digits within the amount, but not before 
+the amount.</p>
+<pre>probe $1'234.56
+<span class="put">$1234.56</span>
+probe $1'234'567,89
+<span class="put">$1234567.89</span>
+</pre>
+<p>Do not use commas and periods to break up large amounts, as both these characters represent decimal points.</p>
+<p><tt>The</tt> money! datatype is a hybrid datatype. 
+Conceptually money is scalar--an amount of money. However, because the 
+currency designation is stored as a string, the <tt>money!</tt> datatype has two elements:</p>
+<ul>
+<li><w>string! - The currency designator string, which can have 3 characters maximum.</w></li>
+<li><w>decimal! - The money amount.</w></li>
+</ul>
+<p>To demonstrate this, the following money is specified with the USD prefix:</p>
+<pre>my-money: USD$12345.67
+</pre>
+<p>Here are the two components:</p>
+<pre>probe first my-money
+<span class="put">USD</span>
+probe second my-money
+<span class="put">12345.67</span>
+probe pick my-money 3       ; only two components
+<span class="put">none</span>
+</pre>
+<p>If no currency designator is used, the currency designator string is empty:</p>
+<pre>my-money: $12345.67
+
+probe first my-money
+<span class="put">""</span>
+probe second my-money
+<span class="put">12345.67</span>
+</pre>
+<p>Various international currencies can be specified in the currency designator, such as:</p>
+<pre>my-money: DKM$12'345,67
+
+probe first my-money
+<span class="put">DKM</span>
+probe second my-money
+<span class="put">12345.67</span>
+</pre>
+<h4 id="section-3.4.3">3.4.3 Creation</h4>
+<p>Use the <tt>to-money</tt> function to convert money from a <tt>string!</tt>, <tt>integer!</tt>, <tt>decimal!</tt>, or <tt>block!</tt>.</p>
+<pre>probe to-money 123
+<span class="put">$123.00</span>
+probe to-money "123"
+<span class="put">$123.00</span>
+probe to-money 12.34
+<span class="put">$12.34</span>
+probe to-money [DEM 12.34]
+<span class="put">DEM$12.34</span>
+probe to-money [USA 12 34]
+<span class="put">USA$12.34</span>
+</pre>
+<p>Money can be added, subtracted, and compared with other money of the 
+same currency. An error occurs if a different currency is used for such 
+operations (automatic conversions are not currently supplied).</p>
+<pre>probe $100 + $10
+<span class="put">$110.00</span>
+probe $100 - $50
+<span class="put">$50.00</span>
+probe equal? DEM$100.11 DEM$100.11
+<span class="put">true</span>
+</pre>
+<p>Money can be multiplied and divided by integers and decimals. Money 
+can also be divided by money, resulting in an integer or decimal.</p>
+<pre>probe $100 + 11
+<span class="put">$111.00</span>
+probe $100 / 4
+<span class="put">$25.00</span>
+probe $100 * 5
+<span class="put">$500.00</span>
+probe $100 - 20.50
+<span class="put">$79.50</span>
+probe 10 + $1.20
+<span class="put">$11.20</span>
+probe 10 - $0.25
+<span class="put">$9.75</span>
+probe $10 / .50
+<span class="put">$20.00</span>
+probe 10 * $0.75
+<span class="put">$7.50</span>
+</pre>
+<h4 id="section-3.4.4">3.4.4 Related</h4>
+<p>Use <tt>money?</tt> to determine whether a value is an <tt>money!</tt>  datatype.</p>
+<pre>probe money? USD$12.34
+<span class="put">true</span>
+</pre>
+<p>Use the <tt>form</tt>, <tt>print</tt>, and <tt>mold</tt>
+ functions with a money argument to print a money value with the 
+currency designator and dollar sign ($), as a decimal number with two 
+digits of decimal precision.</p>
+<pre>probe form USD$12.34
+<span class="put">USD$12.34</span>
+probe mold USD$12.34
+<span class="put">USD$12.34</span>
+print USD$12.34
+<span class="put">USD$12.34</span>
+</pre>
+</blockquote>
+<h3 id="section-3.5">3.5 None</h3>
+<blockquote>
+<h4 id="section-3.5.1">3.5.1 Koncept</h4>
+<p>Datový typ <tt>none!</tt> obsahuje jedinou hodnotu <tt>none</tt>, která reprezentuje nepřítomnost hodnoty.</p>
+<p>Koncept hodnoty <tt>none</tt> se liší od prázdného bloku či řetězce nebo znaku nuly. Je to skutečná hodnota která reprezentuje neexistenci.</p>
+<p>Hodnota <tt>none!</tt> může být vrácena různými funkcemi, primárně těmi, které se týkají řad (například <tt>pick</tt>, <tt>find</tt> a <tt>select</tt>).</p>
+<p>V databázích může být <tt>none</tt> držitelem místa pro chybějící hodnoty:</p>
+<pre>email-database: [
+    "Bobby" bob@rebol.com 40
+    "Linda" none 23
+    "Sara"  sara@rebol.net 33
+]
+</pre>
+
+<h4 id="section-3.5.2">3.5.2 Formát</h4>
+<p>I když <tt>none</tt> není ekvivalentní <tt>nule</tt> či slovu <tt>false</tt>, je platné uvnitř podmínkových výrazů a má stejný účinek jako <tt>false:</tt></p>
+<pre>probe find "abcd" "e"
+<span class="put">== none</span>
+if find "abcd" "e" [print "found"]
+<span class="put">== none</span>
+</pre>
+<h4 id="section-3.5.3">3.5.3 Souvisí</h4>
+<p>Funkce <tt>to-none</tt> vždy vrací <tt>none</tt>.</p>
+<pre>to-none "abcd"
+<span class="put">== none</span>
+</pre>
+<p>Funkcí <tt>none?</tt> ověříme typ hodnoty.</p>
+<pre>none? 1
+<span class="put">false</span>
+none? find [1 2 3] 4
+<span class="put">true</span>
+</pre>
+<p>Funkce <tt>form</tt>, <tt>print</tt> a <tt>mold</tt> vytisknou hodnotu <tt>none</tt>, je-li jim zadán argument <tt>none</tt> argument.</p>
+<pre>form none
+<span class="put">none</span>
+mold none
+<span class="put">none</span>
+print none
+<span class="put">none</span>
+</pre>
+</blockquote>
+<h3 id="section-3.6">3.6 Pair</h3>
+<blockquote>
+<h4 id="section-3.6.1">3.6.1 Koncept</h4>
+<p>Datový typ pair! (pár) se používá pro vyjádření dvojice čísel, které vyjadřují rozměr nebo souřadnice bodu v rovině. Tento typ se používá hlavně v proceduře Red/View.</p>
+<h4 id="section-3.6.2">3.6.2 Format</h4>
+<p>Pár tvoří dvojice celých čísel se znakem <tt>x</tt>.</p>
+<pre>100x50
+
+1024x800
+
+-50x200
+</pre>
+<h4 id="section-3.6.3">3.6.3 Vytvoření</h4>
+<p>Funkce <tt>to-pair</tt> konvertuje blok nebo řetězec na datový typ <tt>pair!</tt>:</p>
+<pre>p: to-pair "640x480" 
+probe p
+<span class="put">640x480</span>
+p: to-pair [800 600] 
+probe p
+<span class="put">800x600</span>
+</pre>
+<h4 id="section-3.6.4">3.6.4 Souvisí</h4>
+<p>Ke zjištění zda hodnota je typu <tt>pair!</tt> použijeme funkci <tt>pair?</tt>:</p>
+<pre>probe pair? 400x200
+<span class="put">true</span>
+probe pair? pair
+<span class="put">true</span>
+</pre>
+<p>Páry lze použít s většinou aritmetických operátorů:</p>
+<pre>100x200 + 10x20
+
+10x20 * 2x4
+
+100x30 / 10x3
+
+100x100 * 3
+
+10x10 + 3
+</pre>
+<p>Páry lze prohlížet jednotlivě po členech:</p>
+<pre>pair: 640x480
+probe first pair
+<span class="put">640</span>
+probe second pair
+<span class="put">480</span>
+</pre>
+<p>Všechny páry také podporují upřesnění <tt>/x</tt> a <tt>/y</tt> pro přístup k jednotlivým prvkům páru.</p>
+<p>Za účelem jejich zobrazení:</p>
+<pre>probe pair/x
+<span class="put">640</span>
+probe pair/y
+<span class="put">480</span>
+</pre>
+<p>Za účelem jejic změny:</p>
+<pre>pair/x: 800
+pair/y: 600
+probe pair
+<span class="put">800x600</span>
+</pre>
+</blockquote>
+<h3 id="section-3.7">3.7 Refinement</h3>
+<blockquote>
+<h4 id="section-3.7.1">3.7.1 Koncept</h4>
+<p>Upřesnění (refinement) je modifikátor, podobný přídavným jménům přirozené lidské řeči. Upřesnění indikuje variaci v použití nebo rozšíření významu funkce, objektu, jména souboru, URL nebo cesty. </p>
+<p>Upřesnění se používají u funkcí:</p>
+<pre>block: [1 2]
+append/only block (3 4)
+<span class="put">== [1 2 3 4]</span>
+</pre>
+<p>jako atributy objektů:</p>
+<pre>print system/version
+<span class="put">0.6.1</span>
+</pre>
+<p>u souborů zobrazují cestu:</p>
+<pre>dir: %docs/core
+print read dir/file.txt
+</pre>
+<p>podobně jako  u url:</p>
+<pre>site: http://www.rebol.com
+print read site/index.html
+</pre>
+<h4 id="section-3.7.2">3.7.2 Formát</h4>
+<p>Upřesnění se skládá z lomítka a platného slova Redu. Příklady:</p>
+<pre>/only
+/test1
+/save-it
+</pre>
+<p>Upřesnění se obvykle připojují k  jiným slovům, jako v případě (který nechodí):</p>
+<pre>port: open/binary file  <ii>; Red zatím nezná slovo 'open'</ii>
+</pre>
+<p> <ii>Zatím nechodí:</ii> Lze je však také psát samostatně, jako při určování upřesnění pro funkci:</p>
+<pre>save-data: function [file data /limit /reload] ...
+</pre>
+<h4 id="section-3.7.3">3.7.3 Vytvoření</h4>
+<p>Upřesnění lze vytvořit zápisem ve zdrojovém kódu:</p>
+<pre>/test
+</pre>
+<p>nebo jej lze vytvořit funkcí <tt>to-refinement</tt>:</p>
+<pre>to-refinement "test"
+<span class="put">/test</span>
+</pre>
+<h4 id="section-3.7.4">3.7.4 Souvisí</h4>
+<p>K otestování datového typu <tt>refinement!</tt> použijeme funkci <tt>refinement?</tt>:</p>
+<pre>refinement? /test
+<span class="put">true</span>
+refinement? 'word
+<span class="put">false</span>
+</pre><br>
+</blockquote>
+<h3 id="section-3.8">3.8 Time</h3>
+<blockquote>
+<h4 id="section-3.8.1">3.8.1 Koncept</h4>
+<p>Jazyk Red podporuje standardní vyjádření času v hodinách, minutách, vteřinách a subvteřinách. U hodin se používá 24 hodinový cyklus. Jsou povoleny kladné i záporné hodnoty.</p>
+<h4 id="section-3.8.2">3.8.2 Formát</h4>
+<p>Datový typ <tt>time!</tt> vyžaduje uvedení hodin a minut, vteřiny nejsou povinné:</p>
+<pre>10:30
+0:00
+18:59
+23:59:50
+8:6:20
+8:6:2
+</pre>
+<p>Pole pro minuty a vteřiny mohou obsahovat celá čísla větší než 60. Čísla větší než 60 jsou automaticky konvertována. Například  <tt>0:120:00</tt> je totéž jako <tt>2:00</tt>.</p>
+<pre>probe 0:87363.21
+<span class="put">24:16:03.21</span>
+</pre>
+<p>Části vteřin jsou určeny jako desetinná část v poli pro vteřiny. Při přítomnosti desetinné části (oddělené tečkou nebo čárkou) je uvedení hodin nepovinné. Část vteřiny menší než milióntina vteřiny je zaokrouhlena na nulu:</p>
+<pre>probe 32:59:29.5
+<span class="put">32:59:29.5</span>
+probe 1:10,25
+<span class="put">0:01:10.25</span>
+probe 0:0.000000001
+<span class="put">0:00:00</span>
+probe 0:325.2
+<span class="put">0:05:25.2</span>
+</pre>
+<p><ii>V Redu nechodí:</ii> Časový údaj může být doplněn <tt>AM</tt> or <tt>PM</tt> bez mezilehlé mezery. Přípona<tt>PM</tt> přídává 12 hodin k zadanému údaji:</p>
+<pre>probe 10:20PM
+<span class="put">22:20</span>
+probe 3:32:20AM
+<span class="put">3:32:20</span>
+</pre>
+<h4 id="section-3.8.3">3.8.3 Přístup</h4>
+<p>Časové hodnoty mají tři upřesnění (refinements) pro vyjádření specifického údaje:</p>
+<table bgcolor="#505050" border="0" cellpadding="4" cellspacing="1">
+        <tbody><tr bgcolor="silver"><th align="left">
+<p>Refinement</p>
+</th><th align="left">
+<p>Description</p>
+
+</th></tr><tr><td bgcolor="white" valign="top">
+<p><tt>/hour</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>Vrátí počet hodin zadané hodnoty.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>/minute</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>Vrátí počet minut zadané hodnoty.</p>
+</td>
+</tr><tr><td bgcolor="white" valign="top">
+<p><tt>/second</tt></p>
+</td><td bgcolor="white" valign="top">
+<p>Vrátí počet vteřin zadané hodnoty.</p>
+</td></tr></tbody></table>
+<p>Nástroj refinement (upřesnění) použijeme takto:</p>
+<pre>lapsed-time: 91:32:12.14
+lapsed-time/hour
+<span class="put">91</span>
+lapsed-time/minute
+<span class="put">32</span>
+lapsed-time/second
+<span class="put">12.14</span>
+</pre>
+<p>Časové pásmo (zone) lze uplatnit jen u typu <tt>date!</tt>.</p>
+<h4 id="section-3.8.4">3.8.4 Vytvoření</h4>
+<p>Číselný údaj lze konvertovat na datový typ <tt>time!</tt> funkcí <tt>to-time</tt>:</p>
+<pre>to-time "10:30"
+<span class="put">10:30</span>
+to-time [10 30]
+<span class="put">10:30</span>
+to-time [0 10 30]
+<span class="put">0:10:30</span>
+to-time [10 30 20.5]
+<span class="put">10:30:20.5</span>
+</pre>
+<p>Hodnoty v předchozích ukázkách nejsou vyhodnocovány. Vyhodnocení hodnot coby matematických výrazů zařídí funkce <tt>reduce</tt>:</p>
+<pre>to-time reduce [10 30 + 5]
+<span class="put">10:35</span>
+</pre>
+<p>V různých matematických operacích s časem dochází k následujícím konverzím:</p>
+<pre>probe 10:30 + 1
+<span class="put">10:30:01</span>
+probe 10:00 - 10
+<span class="put">9:59:50</span>
+probe 0:00 - 10
+<span class="put">-0:00:10</span>
+probe 5:10 * 3
+<span class="put">15:30</span>
+probe 0:0:0.000000001 * 1'500'600
+<span class="put">0:00:00.0015006</span>
+probe 8:40:20 / 4
+<span class="put">2:10:05</span>
+probe 8:40:20 / 2:20:05
+<span class="put">3</span>
+probe 8:40:20 // 4:20
+<span class="put">0:00:20</span>
+</pre>
+<h4 id="section-3.8.5">3.8.5 Souvisí</h4>
+<p>K ověření datového typu <tt>time!</tt> použijeme funkci <tt>time?</tt>:</p>
+<pre>time? 10:30
+<span class="put">true</span>
+time? 10.30
+<span class="put">false</span>
+</pre>
+<p>Upřesnění <tt>/time</tt> k funkci <tt>now</tt> vrací aktuální čas:</p>
+<pre>now/time
+<span class="put">14:42:15</span>
+</pre>
+<p>Funkci <tt>wait</tt> použijeme k čekání na port nebo po určenou dobu.</p>
+Přípustný argument funkce <tt>wait</tt> je typu <tt>number!</tt>, <tt>paren!</tt> a <tt>block!</tt>.
+<p>Je-li hodnota typu <tt>time!</tt>, má funkce <tt>wait</tt> odkladný účinek pro zadaný časový úsek. Je-li hodnota typu <tt>date!/time!</tt>, způsobí funkce <tt>wait</tt> čekání až k určenému datumu a času. Je-li hodnota typu <tt>integer!</tt> nebo <tt>decimal!</tt>, zajistí funkce čekání po určený počet vteřin. Je-li hodnotou název <tt>portu</tt>,  čeká funkce na událost uvedeného portu. <br><ii>If a block is 
+specified, it will wait for any of the times or ports to occur. It 
+returns the port that caused the wait to complete or returns <tt>none</tt> if the timeout occurred.</ii><br> Příklad:</p>
+<pre>
+now/time
+<span class="put">14:42:16</span>
+wait 0:00:10      
+now/time
+<span class="put">14:42:26</span>
+</pre>
+</blockquote>
+<h3 id="section-3.9">3.9 Tuple - entice</h3>
+<blockquote>
+<h4 id="section-3.9.1">3.9.1 Koncept</h4>
+<p>Čísla verzí, internetové adresy a RGB hodnoty barev se obvykle prezentují jako skupiny tří nebo čtyř celých čísel.
+Takováto skupina tvoří v Redu datový typ zvaný <tt>tuple!</tt> (entice - podobně jako trojice, šestice)
+a zapisuje se jako sada celých čísel, oddělených tečkami.</p>
+<pre>1.3.0 2.1.120 1.0.2.32     ; versions
+199.4.80.250 255.255.255.0 ; net addresses/masks
+0.80.255 200.200.60        ; RGB colors
+</pre>
+<h4 id="section-3.9.2">3.9.2 Formát</h4>
+<p>Každé celočíselné pole datového typu <tt>tuple!</tt> může obsahovat hodnotu od 0 do 255. Negativní čísla produkují chybu.</p>
+<p>Entice se může skládat ze dvou až z deseti celých čísel. Jsou-li dána jen dvě čísla, musí být doplněna dvěma tečkami aby nebyl zápis považován za desetinné číslo.</p>
+<pre>probe 1.2     ; is decimal
+<span class="put">1.2</span>
+probe type? 1.2
+<span class="put">decimal!</span>
+probe 1.2.3   ; is tuple
+<span class="put">1.2.3</span>
+probe 1.2.    ; is tuple
+<span class="put">1.2.0</span>
+probe type? 1.2.
+<span class="put">tuple!</span>
+</pre>
+<h4 id="section-3.9.3">3.9.3 Vytvoření</h4>
+<p>Funkci <tt>to-tuple</tt> použijeme ke konverzi dat na datový typ <tt>tuple!</tt></p>
+<pre>probe to-tuple "12.34.56"
+<span class="put">12.34.56</span>
+probe to-tuple [12 34 56]
+<span class="put">12.34.56</span>
+</pre>
+<h4 id="section-3.9.4">3.9.4 Souvisí</h4>
+<p>K ověření datového typu použijeme funkci <tt>tuple?</tt>.</p>
+<pre>probe tuple? 1.2.3.4
+<span class="put">true</span>
+</pre>
+<p>K transformaci entice na řetězec použijeme funkci <tt>form</tt>:</p>
+<pre>probe form 1.2.3.4
+<span class="put">1.2.3.4</span>
+</pre>
+<p>K transformaci entice na řetězec, který může být načten zpět jako entice poslouží funkce <tt>mold</tt>:</p>
+<pre>probe mold 1.2.3.4
+<span class="put">1.2.3.4</span>
+</pre>
+<p>Funkce <tt>print</tt> vytiskne entici v konzole:</p>
+<pre>print 1.2.3.4
+<span class="put">1.2.3.4</span>
+</pre><br>
+</blockquote>
+<h3 id="section-3.10">3.10 Slova - words</h3>
+<blockquote>
+<h4 id="section-3.10.1">3.10.1 Koncept</h4>
+<p>Slova jsou klíčovým pojmem v jazyce Red. Mohou být označením <tt>proměnných</tt>, které ukazují na hodnoty či funkce nebo mohou být jenom prostými <tt>symboly</tt>. </p>
+<p>Red nemá žádná restriktivně vymezená klíčová slova. Lze například definovat vlastní funkci s názvem <tt>print</tt> a používat ji místo nativní funkce, rovněž zvané 'print' (což se ovšem vřele nedoporučuje). Názvy nativních (předdefinovaných) entit tvoří skupinu tak zvaných "předdefinovaných" slov.</p>
+<p>V závislosti na požadované operaci se používají čtyři různé fomáty slov:</p>
+<table bgcolor="#505050" border="0" cellpadding="4" cellspacing="1">
+<tbody>
+<tr bgcolor="silver">
+<th align="left">
+<p>Akce</p></th>
+<th align="left">
+<p>Název typu</p></th>
+<th align="left">
+<p>Test typu</p></th>
+<th align="left">
+<p>Konverze</p></th>
+<th align="left">
+<p>Použití</p></th></tr>
+<tr>
+<td bgcolor="white" valign="top">
+<p><b>word</b></p></td>
+<td bgcolor="white" valign="top">
+<p><tt>word!</tt></p></td>
+<td bgcolor="white" valign="top">
+<p><tt>word?</tt></p></td>
+<td bgcolor="white" valign="top">
+<p><tt>to-word</tt></p></td>
+<td bgcolor="white" valign="top">
+<p>formát pro přirozenou hodnotu slova</p></td>
+</tr>
+<tr>
+<td bgcolor="white" valign="top">
+<p><b>word:</b></p></td>
+<td bgcolor="white" valign="top">
+<p><tt>set-word!</tt></p></td>
+<td bgcolor="white" valign="top">
+<p><tt>set-word?</tt></p></td>
+<td bgcolor="white" valign="top">
+<p><tt>to-set-word</tt></p></td>
+<td bgcolor="white" valign="top">
+<p>formát pro přiřazení hodnoty ke slovu</p></td>
+</tr>
+<tr>
+<td bgcolor="white" valign="top">
+<p><b>:word</b></p></td>
+<td bgcolor="white" valign="top">
+<p><tt>get-word!</tt></p></td>
+<td bgcolor="white" valign="top">
+<p><tt>get-word?</tt></p></td>
+<td bgcolor="white" valign="top">
+<p><tt>to-get-word</tt></p></td>
+<td bgcolor="white" valign="top">
+<p>odkaz na hodnotu slova </p></td>
+</tr>
+
+<tr>
+<td bgcolor="white" valign="top">
+<p><b>'word</b></p></td>
+<td bgcolor="white" valign="top">
+<p><tt>lit-word!</tt></p></td>
+<td bgcolor="white" valign="top">
+<p><tt>lit-word?</tt></p></td>
+<td bgcolor="white" valign="top">
+<p><tt>to-lit-word</tt></p></td>
+<td bgcolor="white" valign="top">
+<p>odkaz na slovo jako symbol</p></td>
+</tr></tbody></table>
+<h4 id="section-3.10.2">3.10.2 Složení slov</h4>
+<p>Slova jsou složena z písmen abecedy, čísel a z následujících znaků:</p>
+<pre>? ! . ' + - * &amp; | = _ &amp;#126;
+</pre>
+<p>Konec slova je vyznačen mezerou, novým řádkem nebo některým z následujících znaků:</p>
+<pre>[ ] ( ) { } " : ; /
+</pre>
+<p>Hranaté závorky bloku nejsou součástí slova:</p>
+<pre>[test]
+</pre>
+<p>Slova nemohou začínat čislem a nemohou obsahovat tyto znaky:</p>
+<pre>@ # $ % ^ ,
+</pre>
+<p>Slova nemohou být delší než délka řádku.</p>
+<pre>this-is-a-very-long-word-used-as-an-example
+</pre>
+<p>Příklady slov:</p>
+<pre>Copy print test
+
+number?  time?  date!
+
+image-files  l'image
+
+++ -- == +-
+
+***** *new-line*
+
+left&amp;right left|right
+</pre>
+<p>Red není "case-sensitive".  Zápisy:</p>
+<pre>blue
+
+Blue
+
+BLUE
+</pre>
+<p>odkazují na jedno a totéž slovo. Velikost písmen se zachovává při tisku do konzoly.</p>
+
+<h4 id="section-3.10.3">3.10.3 Vytvoření konverzí</h4>
+
+<p>Funkce <tt>to-word</tt> konvertuje hodnotu na datový typ <tt>word!</tt>.</p>
+<pre>to-word "test"
+<span class="put">test</span>
+</pre>
+<p>Funkce <tt>to-set-word</tt> konvertuje hodnotu na datový typ <tt>set-word!</tt>.</p>
+<pre>to-set-word! "test"
+<span class="put">test:</span>
+</pre>
+<p>Funkce <tt>to-get-word</tt> konvertuje hodnotu na datový typ <tt>get-word!</tt>.</p>
+<pre>to-get-word "test"
+<span class="put">:test</span>
+</pre>
+<p>Funkce <tt>to-lit-word</tt> konvertuje hodnotu na datový typ <tt>lit-word!</tt>.</p>
+<pre>to-lit-word "test"
+<span class="put">'test</span>
+</pre>
+<h4 id="section-3.10.4">3.10.4 Kontext určuje význam</h4>
+<p>Význam slova je závislý na kontextu, ve kterém se nachází.</p>
+<pre>sizes: [large medium small]
+print sizes
+<span class="put">*** Script Error: large has no value</span>
+</pre>
+<p>Slova large, medium, small jsou uvnitř bloku netečnými symboly, které se implicitně nevyhodnocují.</p>
+<p>Pokud slova vybavíme hodnotami, stanou se z nich proměnné: </p>
+<pre>large:  1000
+medium: 100
+small:  10
+print sizes
+<span class="put">1000 100 10</span>
+</pre>
+<h4 id="section-3.10.5">3.10.5 Souvisí</h4>
+<p>K otestování datového typu použijeme funkce <tt>word?</tt>, <tt>set-word?</tt>, <tt>get-word?</tt> a <tt>lit-word?</tt> :</p>
+<pre>probe word? second [1 two "3"]
+<span class="put">true</span>
+if set-word? first [word: 10] [print "it is set"]
+<span class="put">it is set</span>
+probe get-word? second [pr: :print]
+<span class="put">true</span>
+probe lit-word? first ['foo bar]
+<span class="put">true</span>
+</pre>
+</blockquote>
+
+</td></tr></table>
+</center>
+<!--<map name="bar-map">
+<area shape="rect" coords="0,0,150,28" href="http://www.rebol.com/" alt="REBOL.com">
+<area shape="rect" coords="175,0,275,28" href="http://www.rebol.com/docs.html" alt="Documents">
+<area shape="rect" coords="285,0,365,28" href="http://www.rebol.com/docs/core23/rebolcore.html" alt="Manual">
+<area shape="rect" coords="375,0,445,28" href="http://www.rebol.com/docs/dictionary.html" alt="Dictionary">
+<area shape="rect" coords="452,0,500,28" href="http://www.rebol.com/library.html" alt="Library">
+<area shape="rect" coords="510,0,575,28" href="http://www.rebol.com/feedback.html" alt="Feedback">
+</map>-->
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+<tr>
+<td bgcolor="#ccffff"><a href="15-parse.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+<td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td> 
+	 
+<td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td> 
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+</tr>
+</table> 
+<center>
+<span class="tail">
+Perpetrated 25-May-2017 -
+<!--<a href="http://www.rebol.com">Copyright REBOL Technologies</a>-->
+- Hosted with BitBucket Cloud
+</span></center>
+
+</body></html>

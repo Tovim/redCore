@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" lang="cs">
+<title>Chapter 3 - Quick Tour</title>
+<link rel="stylesheet" HREF="red_cz.css">
+</head>
+<body bgcolor="beige">
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="02-uvod.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="04-vyrazy.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+</tr>
+</table>
+<center>
+<table border="0" cellpadding="4" cellspacing="0" width="660">
+
+<!--<tr><td><a href="http://www.rebol.com/docs.html"><img src="http://www.rebol.com/graphics/doc-bar.gif" width="680" height="28" align="bottom" alt="rebol document" border="0" usemap="#bar-map" ismap></a></td></tr>-->
+
+<tr><td height="24"> </td></tr>
+<tr><td><h1>Kapitola 3 - Stručný přehled</h1>
+
+
+
+<h2>Obsah:</h2>
+<a class="toc1" href="#section-0">Úvodní poznámka</a><br>
+<a class="toc1" href="#section-1">1. Hodnoty</a><br>
+<a class="toc2" href="#section-1.1">1.1 Typy hodot</a><br>
+<a class="toc1" href="#section-2">2. Přehled některých hodnot</a><br>
+<a class="toc2" href="#section-2.1">2.1 Čísla</a><br>
+<a class="toc2" href="#section-2.2">2.2 Čas</a><br>
+<a class="toc2" href="#section-2.3">2.3 Datum</a><br>
+<a class="toc2" href="#section-2.4">2.4 Peníze</a><br>
+<a class="toc2" href="#section-2.5">2.5 Entice</a><br>
+<a class="toc2" href="#section-2.6">2.6 Řetězce</a><br>
+<a class="toc2" href="#section-2.7">2.7 Tagy</a><br>
+<a class="toc2" href="#section-2.8">2.8 Emailové adresy</a><br>
+<a class="toc2" href="#section-2.9">2.9 URL</a><br>
+<a class="toc2" href="#section-2.10">2.10 Názvy souborů</a><br>
+<a class="toc2" href="#section-2.11">2.11 Páry</a><br>
+<a class="toc2" href="#section-2.12">2.12 Emise</a><br>
+<a class="toc2" href="#section-2.13">2.13 Bináry</a><br>
+<a class="toc1" href="#section-3">3. Slova</a><br>
+<a class="toc1" href="#section-4">4. Bloky</a><br>
+<a class="toc1" href="#section-5">5. Proměnné</a><br>
+<a class="toc1" href="#section-6">6. Vyhodnocení</a><br>
+<a class="toc1" href="#section-7">7. Funkce</a><br>
+<a class="toc1" href="#section-8">8. Cesty</a><br>
+<a class="toc1" href="#section-9">9. Objekty</a><br>
+<a class="toc1" href="#section-10">10. Skripty</a><br>
+<a class="toc1" href="#section-11">11. Soubory </a><br>
+<a class="toc1" href="#section-12">12. Práce v síti</a><br>
+<a class="toc2" href="#section-12.1">12.1 HTTP</a><br>
+<a class="toc2" href="#section-12.2">12.2 FTP</a><br>
+<a class="toc2" href="#section-12.3">12.3 SMTP</a><br>
+<a class="toc2" href="#section-12.4">12.4 POP</a><br>
+<a class="toc2" href="#section-12.5">12.5 NNTP</a><br>
+<a class="toc2" href="#section-12.6">12.6 Daytime</a><br>
+<a class="toc2" href="#section-12.7">12.7 Whois</a><br>
+<a class="toc2" href="#section-12.8">12.8 Finger</a><br>
+<a class="toc2" href="#section-12.9">12.9 DNS</a><br>
+<a class="toc2" href="#section-12.10">12.10 TCP</a><br>
+<br>
+<h2 id="section-0">Úvodní poznámka</h2>
+<blockquote>
+<p>Tato kapitola poskytuje rychlý přehled jazyka Red. S použitím příkladů jsou prezentovány základní koncepty a struktury jazyka.</p>
+<p>Podrobnější výklad pojmů lze nalézt v příloze <a href="16-hodnoty.html">Datové typy</a>, kde jsou navíc vysvětleny pojmy <tt>char, hash, image, logic, none, paren</tt> a <tt>tag</tt>.</p>
+<p>V této 3. kapitole jsou oproti Příloze navíc uvedeny pojmy <tt>proměnné, vyhodnocení, funkce, objekty</tt> a <tt>skripty</tt>.</p>
+<ii>Red dosud nepoužívá datový typ pro vyjádření peněz.</ii> 
+</blockquote>
+
+<h2 id="section-1">1. Hodnoty</h2>
+<blockquote>
+<p></p>
+<p>Výrazy Redu jsou kombinací 
+<tt>hodnot</tt>  a <tt>slov</tt>  v <tt>blocích</tt> .</p>
+
+<h3 id="section-1.1">1.1 Přímé a nepřímé hodnoty</h3>
+<p>Hodnoty mohou být vyjádřeny <tt>přímo</tt>  nebo <tt>nepřímo</tt>.</p>
+<p><tt>Přímo</tt> vyjádřená hodnota je daná pouhým aktem lexikálního neboli doslovného (literal) zápisu. Na příklad, číslo 10 nebo čas 10:30 jsou přímo vyjádřené hodnoty.</p>
+<p><tt>Nepřímo</tt> vyjádřená hodnota není známá, dokud není určená vyhodnocením zápisu. Hodnoty <tt>none</tt>, <tt>true</tt>  a <tt>false</tt> jsou všechny nepřímo vyjádřené slovním označením, jehož skutečný význam zjistí interpret při  vyhodnocení. To platí i pro jiné hodnoty, jako jsou seznamy (lists, hashes), funkce, objekty, atd.</p>
+
+<h3 id="section-1.2">1.2 Typy hodnot</h3>
+
+<p>Každá hodnota Redu má svůj specifický 
+<tt>datový typ</tt> . Datový typ hodnoty určuje:</p>
+<ol>
+<li>Rozsah přípustných hodnot - například datový typ <tt>logic</tt>  může mít hodnotu <tt>true</tt> nebo <tt>false</tt>.</li>
+<li>Přípustné operace.  Lze například sečíst dvě celá čísla ale nelze sečíst dvě logické hodnoty.</li>
+<li>Způsob  uložení hodnot v paměti. Některé datové typy mohou být uloženy přímo (například čísla), jiné nepřímo (například řetězce).</li>
+</ol>
+<p>Slova, označující datový typ jsou pro zdůraznění doplněna vykřičníkem (!). Například:</p>
+<pre>integer! char! word! string!
+</pre>
+<p>Přehled datových typů viz příloha <a href="16-hodnoty.html">Datové typy</a>.</p>
+</blockquote>
+
+
+</blockquote>
+<h3 id="section-2.1">2.1 Čísla</h3>
+<blockquote>
+<p>Čísla lze psát jako čísla celá (integers), desetinná (floats) nebo pomocí vědecké notace. Jednotlivá čísla v řadě oddělujeme mezerou. Na příklad:</p>
+<pre>1234 -432 3.1415 1.23e12
+</pre>
+<p>Pro desetinná čísla (float) lze používat tečky i čárky:</p>
+<pre>123,4 = 123.4  
+<span class="put">== true</span>
+</pre>
+</blockquote>
+<h3 id="section-2.2">2.2 Čas</h3>
+<blockquote>
+<p>Čas se zapisuje v hodinách a minutách a případně v sekundách následovně:</p>
+<pre>12:34 20:05:32 0:25.345 
+0:25,345  --> 0:00:25,345
+</pre>
+<p>Sekundy mohou mít desetinnou část.</p>
+<p><ii>V Redu nechodí:</ii>  Times can also include
+AM and PM appended without intervening spaces:</p>
+<pre>12:35PM 9:15AM
+</pre>
+</blockquote>
+<h3 id="section-2.3">2.3 Datumy</h3>
+<blockquote>
+<p>Datumy lze zapsat v obou mezinárodních formátech: day-month-year
+nebo year-month-day. Datum může také obsahovat čas, případně s časovou zónou. Redem přetvořený formát datumu je stejný, jako se používá v USA.</p>
+<pre>
+20-Apr-1998, 20/Apr/1998 (Red & USA)
+<span class="put">== 20-Apr-1998</span>
+20-4-1998, 1998-4-20     (international)
+1980-4-20/12:32          (datum s časem)
+<span class="put">== 20-Apr-1998/12:32:00</span>
+1998-3-20/8:32-8:00      (dtto s časovým pásmem)
+</pre>
+</blockquote>
+<h3 id="section-2.4">2.4 Peníze</h3>
+<blockquote><ii>V Redu nechodí:</ii>
+<p>Money is written as an optional international three-letter
+currency symbol followed by a numeric amount. For example:</p>
+<pre>$12.34  USD$12.34  CAD$123.45  DEM$1234,56
+</pre>
+</blockquote>
+<h3 id="section-2.5">2.5 Entice - tuples</h3>
+<blockquote>
+<p>Entice se používají pro čísla verzí, barevných hodnot RGB a adresy v síti. Píší se jako celá čísla v rozsahu od 0 do 255, oddělená tečkami:</p>
+<pre>2.3.0.3.1  255.255.0  199.4.80.7
+</pre>
+<p>Aby byl výraz interpretován jako entice a nikoli jako desetinné číslo, musí obsahovat alespoň dvě tečky:</p>
+<pre>2.3.0  ; tuple
+2.3.   ; tuple
+2.3    ; decimal
+</pre>
+</blockquote>
+<h3 id="section-2.6">2.6 Řetězce - strings</h3>
+<blockquote>
+<p>Jednořádkové řetězce jsou vymezeny uvozovkami. Víceřádkové řetězce jsou vymezeny složenými závorkami stejně tak jako řetězce které obsahují apostrofy či vložené řetězce:</p>
+<pre>"Here is a single-line string"
+
+{Here is a multiline string that
+contains a "quoted" string.}
+</pre>
+<p>Speciální znaky (escape characters) uvnitř řetězců se označují znakem (^). Tabulku escape sekvencí naleznete v odstavci 2.11 String přílohy<a href="16-hodnoty.html">
+<!--<a href="http://www.rebol.com/docs/core23/rebolcore-16.html">--> Values.</a></p>
+</blockquote>
+<h3 id="section-2.7">2.7 Tagy</h3>
+<blockquote>
+<p>
+Tagy jsou používané u značkovacích jazyků jako XML a HTML. Jsou to výrazy v lomených závorkách, například:</p>
+<pre>&lt;title&gt; &lt;/body&gt;
+
+&lt;font size="2" color="blue"&gt;
+</pre></blockquote>
+
+<h3 id="section-2.8">2.8 E-mailové adresy</h3>
+<blockquote>
+<p>Emailové adresy musejí obsahovat znak @. Na příklad:</p>
+<pre>info@rebol.com
+pres-bill@oval.whitehouse.gov
+</pre>
+</blockquote>
+
+<h3 id="section-2.9">2.9 URL</h3>
+<blockquote>
+<p>Většina typů internetových adres (URL) je Redem akceptována. Začínají názvem domény (např. HTTP) za nímž následuje cesta:</p>
+<pre>http://www.red-lang.org
+
+ftp://ftp.rebol.com/sendmail.r
+
+ftp://freda:grid@da.site.dom/dir/files/
+
+mailto:info@rebol.com
+</pre>
+</blockquote>
+<h3 id="section-2.10">2.10 Názvy souborů</h3>
+<blockquote>
+<p>Názvy souborů se kvůli odlišení od jiných slov uvozují znakem procenta (%):</p>
+<pre>%data.txt
+
+%images/photo.jpg
+
+%../scripts/*.r
+</pre>
+</blockquote>
+<h3 id="section-2.11">2.11 Páry</h3>
+<blockquote>
+<p>Páry se používají pro vyjádření rozměrů a pozic v rovině. Uvnitř páru se nepíší mezery:</p>
+<pre>100x50
+
+1024x800
+
+-50x200
+</pre>
+</blockquote>
+<h3 id="section-2.12">2.12 Emise - issues</h3>
+<blockquote>
+<p>Emise jsou identifikační čísla telefonní, modelů či kreditních karet. Uvozují se znakem (#):</p>
+<pre>#707-467-8000
+
+#0000-1234-5678-9999
+
+#MFG-932-741-A
+</pre>
+</blockquote>
+<h3 id="section-2.13">2.13 Bináry - binary</h3>
+<blockquote>
+<p>Binární hodnoty jsou řetězce bajtů libovolné délky. Mohou být kódovány jako čísla se základem 2 (binární), 16 (hexadecimální) nebo se základem 64. Implicitní formát je se základem 16:</p>
+<pre>#{42652061205245424F4C}                <ii>; hexadecimální (báze 16)</ii>
+2#{10010110110010101001011011001011}   <ii>; binární (báze 2)</ii>
+64#{UkVCT0wgUm9ja3Mh}                  <ii>; tetrasexagesimální (báze 64)</ii>
+</pre>
+<p>Hodnoty, zadané v bázi 2 nebo 64 jsou při kompilaci  převáděny na bázi hexadecimální:</p>
+<pre>
+2#{10010110110010101001011011001011}
+<span class="put">== #{96CA96CB}</span>
+</pre> 
+</blockquote>
+<h2 id="section-3">3. Slova</h2>
+<blockquote>
+<p>Slova se v Redu používají jako symboly, názvy proměnných či vestavěných entit. O významu slova rozhoduje způsob jeho použití.</p>
+<p>Příklady platných slov: </p>
+<pre>number?  time?  date!  
+image-files  l'image    
+++ -- == +-
+***** *new-line*
+left&amp;right left|right
+</pre>
+<!--<pre>
+show next image
+
+Install all files here
+
+Country State City Street Zipcode
+
+on off true false one none
+</pre>-->
+
+<p>U slov nezáleží na velikosti písmen (nejsou 'case sensitive') a mohou obsahovat řadu speciálních znaků jako:</p>
+<pre>+ - `  * ! ~ &amp; ? |
+</pre>
+
+<p>Začátek či konec slova je vyznačen mezerou, přerušením řádku nebo jedním z následujících znaků:</p>
+<pre>[ ] ( ) { } " : ; /
+</pre>
+<p>Uvnitř slov nejsou povolené tyto znaky:</p>
+<pre>@ # $ % ^ ,
+</pre>
+<p>Red má jako každý jiný programovací jazyk obsáhlý soubor <tt>předdefinovaných</tt> slov, která jsou názvy vestavěných funkcí či objektů. Na rozdíl od jiných jazyků však tato slova nejsou <tt>klíčovými slovy</tt> a lze je použít i v jiném kontextu než pro který byla vytvořena. <br>
+Lze například deklarovat název funkce <tt>print</tt> jako název proměnné:</p>
+<pre>
+print: "obilí"          <b><tt>Vřele se dopuručuje tuto možnost raději nepoužívat!</tt></b>
+<span class="put">== "obilí"</span>
+print
+<span class="put">== "obilí"</span>
+'obilí "žito"
+<span class="put">== "žito"</span>
+</pre>  
+<p>V závislosti na požadované operaci se používají čtyři různé formáty slov.</p>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+        <tr bgcolor="silver"><th align="left">
+<p>Formát</p>
+</th><th align="left">
+<p>Typ slova</p>
+</th><th align="left">
+<p>Test typu</p>
+</th><th align="left">
+<p>Konverze</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b><tt>word:</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p><b><tt>set-word!</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p><b><tt>set-word?</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p><b><tt>to-set-word</tt></b></p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b><tt>:word</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p><b><tt>get-word!</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p><b><tt>get-word?</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p><b><tt>to-get-word</tt></b></p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b><tt>word</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p><b><tt>word!</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p><b><tt>word?</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p><b><tt>to-word</tt></b></p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b><tt>'word</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p><b><tt>lit-word!</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p><b><tt>lit-word?</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p><b><tt>to-lit-word</tt></b></p>
+</td></tr></table>
+</blockquote>
+<h2 id="section-4">4. Bloky</h2>
+<blockquote>
+<p>Program Redu se skládá z hodnot a slov, seskupených do <tt>bloků</tt>. Blokem je rovněž samotný soubor, obsahující program Redu (neboli skript).</p>
+<p>Nejjednodušším příkladem bloku je výčet položek (seznam).</p>
+<p>Blok je vymezen buďto hranatými závorkami [ ] nebo odsazením řádku. Hodnoty a slova uvnitř bloku mohou být organizovány libovolným způsobem a mohou zabírat libovolný počet řádků.</p>
+<p>V následující ukázce obsahují víceřádkové bloky ještě vnořené tři bloky, z nichž každý má tři položky:
+<pre>[white red green blue yellow orange black]
+
+["Spielberg" "Back to the Future" 1:56:20 MCA]
+
+[
+    Ted    ted@gw2.dom   #213-555-1010
+    Bill   billg@ms.dom  #315-555-1234
+    Steve  jobs@apl.dom  #408-555-4321
+]
+
+[
+    "Elton John"  6894  0:55:68
+    "Celine Dion" 68861 0:61:35
+    "Pink Floyd"  46001 0:50:12
+]
+</pre>
+<p>Bloky se používají pro data i kód:</p>
+<pre>loop 7 [print "hello"]
+
+if now/time &gt; 10:30 [print "kolo mlýnský"]  
+
+sites: [
+    http://www.rebol.com [save %reb.html data]
+    http://www.cnn.com   [print data]
+    ftp://www.amiga.com  [send cs@org.foo data]
+]
+
+foreach [site action] sites [
+    data: read site
+    do action
+]
+</pre>
+<p>Soubor se skriptem je rovněž blok (i když není vymezen hranatými závorkami). Například víceřádkový text ve skriptu:</p>
+<pre>red
+green
+blue
+yellow
+</pre>
+<p>je ekvivalentní zápisu:</p>
+<pre>[red green blue yellow]
+</pre>
+</blockquote>
+<h2 id="section-5">5. Proměnné</h2>
+<blockquote>
+<p>Slova mohou být použita jako názvy proměnných. Chceme-li definovat slovo jako název proměnné, napíšeme za něj dvojtečku, mezeru a hodntu, na níž proměnná odkazuje:</p>
+<pre>age: 22
+snack-time: 12:32     
+birthday: 20-Mar-1997   
+friends: ["John" "Paula" "Georgia"]
+</pre>
+<p>Proměnná může odkazovat na libovolný typ hodnoty,  včetně funkcí
+(viz <a href="#section-7">Funkce</a>) a
+objektů (viz <a href="#section-9">Objekty</a>).</p>
+
+<p>Proměnná odkazuje na specifickou hodnotu pouze uvnitř definovaného kontextu, jako je blok, funkce nebo celý program. Mimo tohoto kontextu může proměnná odkazovat na jinou hodnotu nebo nemusí odkazovat na žádnou hodnotu. Platnost proměnné může být v rozsahu celého programu nebo může být omezena na určitý blok, funkci nebo objekt. Tento rozsah se nazývá <tt>scope</tt> proměnné.</p>
+</blockquote>
+<h2 id="section-6">6. Vyhodnocení bloku</h2>
+<blockquote>
+<p>Při vyhodnocování bloku jsou za jména proměnných dosazovány jejich hodnoty. V následné ukázce jsou použity v předchozí ukázce deklarované proměnné <tt>age</tt> a 
+<tt>friends</tt> :</p>
+<pre>print age
+<span class="put">22</span>
+print third friends  <ii>; vytiskne třetí položku seznamu</ii>
+<span class="put">Georgia</span>
+</pre>
+<p>Blok může být vyhodnocován opakovaně s použitím smyčky:</p>
+<pre>loop 5 [prin "*"]  <ii>  ; "prin" není překlep - viz později</ii>
+<span class="put">**********</span>
+loop 20 [         
+    wait 8:00
+    send friend@rebol.com read http://www.cnn.com
+]
+
+repeat count 3 [print ["count:" count]]
+<span class="put">count: 1
+count: 2
+count: 3</span>
+<ii>; místo 'count' lze použít cokoli, třeba 'něco'</ii>
+</pre>
+<p>Vyhodnocení bloku vrací hodnotu.
+V následující ukázce jsou hodnoty <tt>5</tt> a <tt>PM</tt> výsledky vyhodnocených bloků:</p>
+<pre>print do [2 + 3]
+<span class="put">5</span>
+print either now/time &lt; 12:00 ["AM"]["PM"]  
+<span class="put">PM</span>
+</pre>
+<p>Pro vyhodnocování bloků neexistují v Redu žádná pravidla precedence. Hodnoty a slova v bloku jsou vždy vyhodnocovány zleva do prava. Pokud se při tomto postupu narazí na vnořený blok, je tento vyhodnocen přednostně:</p>
+<pre>print 2 + 3 * 10
+<span class="put">50</span>
+</pre>
+<p>Pořadí výpočtu lze ovlivnit kulatými závorkami:</p>
+<pre>2 + (3 * 10)
+<span class="put">32</span>
+(length? "boat") + 2
+<span class="put">6</span>
+</pre>
+<p>V této ukázce vidíme řádkový blok s vnořeným seznamem (blokem), obsahujícím tři výrazy (položky). Jde zároveň o ukázku funkce <tt>reduce</tt>:</p>
+<pre>reduce [1 + 2  3 + 4  5 + 6]
+<span class="put">3 7 11</span>
+</pre>
+</blockquote>
+<h2 id="section-7">7. Funkce</h2>
+<blockquote>
+<p>Funkce je blok s proměnnými, jimž jsou přiřazovány hodnoty při jejím volání. Tyto proměnné se nazývají parametry. Hodnotám těchto parametrů, dosazovaným při volání funkce, říkáme argumenty.</p>
+<p>V následující ukázce odkazuje slovo <tt>sum</tt> na funkci, která přijímá dva argumenty:</p>
+<pre>sum: func [a b] [a + b]
+</pre>
+<p>Definice funkce se principiálně skládá ze dvou částí: ze záhlaví funkce - v našem případě to je zápis <tt>sum: func [a b]</tt> a z těla funkce - v našem případě prezentovaném blokem <tt>[a + b]</tt>.<br>
+Záhlaví funkce se skládá z názvu funkce, vyhrazeného slova <tt>func</tt> a z bloku, tvořeného seznamem parametrů.<br>
+Tělo funkce v samostatném bloku popisuje aktivity, které má funkce provést.</p>
+<p>Následně vidíme přiklad volání této funkce. Použití vestavěné funkce <tt>print</tt> není v interaktivním režimu konzoly  potřebné:</p>
+<pre>print sum 2 3
+<span class="put">5</span>
+</pre>
+<p>Některé funkce používají kromě argumentů ještě lokální proměnné. Při definování takové funkce používáme místo <tt>func</tt> vybrané slovo <tt>function</tt>:</p>
+<pre>average: function [series] [
+    total: 0
+    foreach value series [total: total + value]
+    total / (length? series)
+]
+
+print average [37 1 42 108]
+<span class="put">47</span>
+
+forse: [12 5 3 45]
+print average forse
+<span class="put">16</span>
+
+forse: [12 5.0 3 45]
+print average forse
+<span class="put">16.25</span>
+
+</pre>
+<p>V představené ukázce můžeme slovo <tt>series</tt> nahradit třeba slovem <tt>žeryk</tt>. Příkaz k tisku <tt>print</tt> lze v interaktivním režimu vypustit.</p>
+<p>Blok pro parametry funkce může obsahovat popisný řetězec:</p>
+<pre>average: function [ "Vrací numerický průměr čísel" 
+   series "Čísla, jež mají být zprůměrována"][
+   total: 0
+   foreach value series [total: total + value]
+   total / (length? series)
+]
+</pre>
+<p>Tyto popisné řetězce jsou přiřazeny k funkci a lze je vyvolat dotazem na funkci:</p>
+<pre>help average
+<span class="put">USAGE:
+    AVERAGE series
+DESCRIPTION:
+    Vrací numerický průměr čísel
+    average is of type: function!
+ARGUMENTS:
+    series => Čísla, jež mají být zprůměrována.</span>
+</pre>
+<b>Poznámka</b>:
+<p>Funkce <tt>func</tt> se od <tt>function</tt> liší v tom, že případné proměnné jsou v prvním případě globální (přístupné i mimo funkce), v druhém případě lokální (přístupné jen uvnitř funkce).<br>
+Použití tvaru <tt>func</tt> v první ukázce bylo vhodné, protože funkce neměla žádné proměnné. </p>
+</blockquote>
+<h2 id="section-8">8. Cesty</h2>
+<blockquote>
+<p>Cesta (path) poskytuje sadu hodnot, které se použijí pro navigaci z jednoho místa do druhého. Čímž může být míněna cesta k souboru nebo k položce objektu.</p>
+<p>Formát cesty má i konstrukce, zvaná <tt>upřesnění</tt> (refinement), které se používá k evokaci definovaných parametrů funkce.</p>
+<p>Pro oddělení jednotlivých slov a hodnot v cestě se používá lomítko (/):</p>
+<pre>%source/images/globe.jpg
+
+http://www.rebol.com/examples/simple.r
+</pre>
+
+<p>Formátu cesty se používá při výběru hodnot z bloků, písmen z řetězce, při určení metody objektu a jako upřesnění parametrů funkce:</p>
+
+<pre>USA/CA/Ukiah/elevation (výběr z bloku - viz Příloha 2.10.2)
+names/12               (prvek řetězce s názvem "names")
+account/balance        (položka objektu - viz odst. 9)
+match/any              (upřesnění parametru funkce)
+
+</pre>
+
+<p>Funkce <tt>print</tt> v následující ukázce demonstruje jednoduchost použití cesty pro přístup k mini databázi, vytvořené z několika bloků:</p>
+<pre>towns: [
+    Hopland [
+        phone #555-1234
+        web   http://www.hopland.ca.gov
+    ]
+
+        Ukiah [
+        phone #555-4321
+        web   http://www.ukiah.com
+    ]
+]
+
+print towns/ukiah/web
+<span class="put">http://www.ukiah.com</span>
+</pre>
+</blockquote>
+<h2 id="section-9">9. Objekty</h2>
+<blockquote>
+<ii>V ukázce nechodí dosud nezavedený typ money!</ii>
+<p>Objekt je sada proměnných,  jejichž hodnoty jsou ve vzájemném kontextu. Objekty se používají pro správu datových struktur.
+Následující ukázka ilustruje sestavení bankovního účtu s jeho atributy a funkcemi:</p>
+<pre>account: make object! [
+  name: "James"
+  balance: $100
+  ss-number: #1234-XX-4321
+  deposit:  func [amount] [balance: balance + amount]
+  withdraw: func [amount] [balance: balance - amount]
+]
+</pre>
+<p>Slova <tt>name</tt>, <tt>balance</tt>,
+<tt>ss-number</tt>, <tt>deposit</tt> a <tt>withdraw</tt> jsou lokální proměnné objektu <tt>account</tt>. Proměnné <tt>deposit</tt> a <tt>withdraw</tt> označují funkce, definované uvnitř objektu. Proměnné účtu (account) jsou přístupné prostřednictvím cesty, jak je následně demonstrováno:</p>
+<pre>print account/balance
+<span class="put">$100.00</span>
+account/deposit $300
+
+print ["Balance for" account/name "is" account/balance]
+<span class="put">Balance for James is $400.00</span>
+</pre>
+<p>Následující příklad ukazuje, jak lze vytvořit nový účet ze starého:</p>
+<pre>checking-account: make account [
+    balance: $2000
+]
+</pre>
+<p>U tohoto nového účtu se změnilo jeho jméno a hodnota uložených peněz; ostatní položky (atributy) zůstaly nezměněny.</p>
+<p>Stejně tak snadno lze vytvořit nový objekt účtu, který je rozšířením starého přidáním nových proměnných pro název banky a datum poslední aktivity:</p>
+<pre>account: make account [
+    bank: "Savings Bank"
+    last-active: 20-Jun-2000
+]
+
+print account/balance
+<span class="put">$400.00</span>
+print account/bank
+<span class="put">Savings Bank</span>
+print account/last-active
+<span class="put">20-Jun-2000</span>
+</pre>
+</blockquote>
+<h2 id="section-10">10. Skripty</h2>
+<blockquote>
+<p>Skript je soubor obsahující blok, jenž může byt načten a proveden (vyhodnocen). Tento blok může obsahovat kód nebo data a zpravidla obsahuje řadu sub-bloků..</p>
+<p>Přítomnost kódu ve skriptu se avizuje záhlavím <tt>Red []</tt>. Blok záhlaví může obsahovat název skriptu, datum a jiné informace:</p>
+<pre>Red [
+    Title: "Detektor změny  webové stránky"
+    File:  %webcheck.r
+    Author: "Reburu"
+    Date:  20-May-1999
+    Purpose: {
+        Determine if a web page has changed since it was
+        last checked, and if it has, send the new page
+        via email.
+    }
+    Category: [web email file net 2]
+]
+
+page: read http://www.rebol.com
+
+page-sum: checksum page
+
+if any [
+    not exists? %page-sum.r
+    page-sum &lt;&gt; (load %page-sum.r)
+][
+    print ["Page Changed" now]
+    save %page-sum.r page-sum
+    send luke@rebol.com page
+]
+</pre>
+</blockquote>
+<h2 id="section-11">11. Soubory</h2>
+<blockquote>
+<p>Soubory jsou v Redu snadno přístupné objekty. Následující přehled ukazuje různé způsoby přístupu.</p>
+<p>Textový soubor lze načíst sekvencí:</p>
+<pre>data: read %plan.txt
+</pre>
+<p>Načtený soubor lze zobrazit v konzole:</p>
+<pre>print read %plan.txt
+</pre>
+<p>Do souboru  lze zapsat údaje:</p>
+<pre>write %plan.txt data            <ii>; zruší stará data</ii>
+</pre>
+<p>Například lze zapsat aktuální čas:</p>
+<pre>write %plan.txt now/time
+</pre>
+<p>Na konec souboru lze přidat nové údaje:</p>
+<pre>write/append %plan.txt data
+</pre>
+<p>Binární soubory lze číst a psát pomocí:</p>
+<pre>data: read/binary %image.jpg
+
+write/binary %new.jpg data
+</pre>
+<p>Načíst soubor jako blok nebo hodnotu Redu:</p>
+<pre>data: load %data.red
+</pre>
+<p>Uložit blok nabo hodnotu do souboru je rovněž snadné (smažou se ale přitom stará data):</p>
+<pre>save %data.red data
+</pre>
+<p>Použít soubor jako skript (ten ale musí mít záhlaví):</p>
+<pre>do %script.red
+</pre>
+<p>Můžete načíst obsah složky:</p>
+<pre>dir: read %images/
+</pre>
+<p>a poté zobrazit názvy jejich souborů:</p>
+<pre>foreach file dir [print file]
+</pre>
+<p>Vytvořit novou složku:</p>
+<pre>make-dir %newdir/
+</pre>
+<p>Zjistit cestu k aktuální složce:</p>
+<pre>print what-dir
+</pre>
+<p><ii>Nechodí:</ii> Smazat soubor:</p>   
+<pre>delete %oldfile.txt        <ii>dosud nezavedeno</ii>
+</pre>
+<p><ii>Nechodí:</ii> Přejmenovat soubor :</p>  
+<pre>rename %old.txt %new.txt   <ii>dosud nezavedeno</ii>
+</pre>
+<p><ii>Nechodí:</ii> Získat informaci o souboru:
+<pre>print size? %file.txt          <ii>dosud nezavedeno</ii>
+
+print modified? %file.txt      <ii>dosud nezavedeno</ii>
+
+print dir? %image
+</pre>
+</blockquote>
+<h2 id="section-12">12. Práce v síti</h2> 
+<blockquote>
+<p>Red má vestavěnou celou řadu internetových protokolů. Práce s nimi je snadná a jednoduchá.</p>
+<ii>N e p r o v ě ř e n o</ii>
+</blockquote>
+<h3 id="section-12.1">12.1 HTTP</h3>
+<blockquote>
+<p>Nechodí: Použití protokolu HTTP ke čtení webové stránky:</p>
+<pre>page: read http://www.rebol.com
+</pre>
+<p>Nechodí: Stáhnout obrázek z webové stránky a uložit ho do lokálního souboru:</p>
+<pre>image: read/binary http://www.page.dom/image.jpg
+
+write/binary %image.jpg image
+</pre>
+</blockquote>
+<h3 id="section-12.2">12.2 FTP</h3>
+<blockquote>
+<p>Neověřeno: Načtení souboru z jednoho serveru a jeho zápis na jiný server:</p>
+<pre>file: read ftp://ftp.rebol.com/test.txt
+
+write ftp://user:pass@site.dom/test.txt file
+</pre>
+<p>Potíže: The next example gets a directory listing from FTP:</p>
+<pre>print read ftp://ftp.rebol.com/pub
+</pre>
+</blockquote>
+<h3 id="section-12.3">12.3 SMTP</h3>
+<blockquote>
+<p>Nechodí: The following example sends email with the simple mail transfer protocol
+(SMTP):</p>
+<pre>send luke@rebol.com "Use the force."
+</pre>
+<p>Nechodí: The next example sends the text of a file as an email:</p>
+<pre>send luke@rebol.com read %plan.txt
+</pre>
+</blockquote>
+<h3 id="section-12.4">12.4 POP</h3>
+<blockquote>
+<p>Potíže: The following example fetches email with the post office protocol (POP) and
+prints all of the current messages but leaves them on the server:</p>
+<pre>foreach message read pop://user:pass@mail.dom [
+    print message
+]
+</pre>
+</blockquote>
+<h3 id="section-12.5">12.5 NNTP</h3>
+<blockquote>
+<p>Potíže: The following example fetches news with the network news transfer protocol
+(NNTP), reading all of the news in a particular news group:</p>
+<pre>messages: read nntp://news.server.dom/comp.lang.rebol
+</pre>
+<p>Potíže: The next example reads a list of all news group and prints them:</p>
+<pre>news-groups: read nntp://news.some-isp.net
+
+foreach group news-groups [print group]
+</pre>
+</blockquote>
+<h3 id="section-12.6">12.6 Daytime</h3>
+<blockquote>
+<p>Potíže: The following example gets the current time from a server:</p>
+<pre>print read daytime://everest.cclabs.missouri.edu
+</pre>
+</blockquote>
+<h3 id="section-12.7">12.7 Whois</h3>
+<blockquote>
+<p>Potíže: The following example finds out who is in charge of a domain using the whois
+protocol:</p>
+<pre>print read whois://rebol@rs.internic.net
+</pre>
+</blockquote>
+<h3 id="section-12.8">12.8 Finger</h3>
+<blockquote>
+<p>Potíže: The following example gets user information with the finger protocol:</p>
+<pre>print read finger://username@host.dom
+</pre>
+</blockquote>
+<h3 id="section-12.9">12.9 DNS</h3>
+<blockquote>
+<p>Potíže: The following example determines an Internet address from a domain name and a
+domain name from an address:</p>
+<pre>print read dns://www.rebol.com
+
+print read dns://207.69.132.8
+</pre>
+</blockquote>
+<h3 id="section-12.10">12.10 TCP</h3>
+<blockquote>
+<p>Nezkoušel: Direct connections with TCP/IP are also possible in REBOL. The following
+example is a simple, but useful, server that waits for connections on a
+port, then executes whatever has been sent:</p>
+<pre>server-port: open/lines tcp://:9999
+
+forever [
+    connection-port: first server-port
+    until [
+        wait connection-port
+        error? try [do first connection-port]
+    ]
+    close connection-port
+]
+</pre>
+</blockquote>
+</td></tr>
+<tr><td align="center">
+</td></tr></table>
+</center>
+<!--<map name="bar-map">
+<area shape="rect" coords="0,0,150,28" href="http://www.rebol.com/" alt="REBOL.com">
+<area shape="rect" coords="175,0,275,28" href="http://www.rebol.com/docs.html" alt="Documents">
+<area shape="rect" coords="285,0,365,28" href="http://www.rebol.com/docs/core23/rebolcore.html" alt="Manual">
+<area shape="rect" coords="375,0,445,28" href="http://www.rebol.com/docs/dictionary.html" alt="Dictionary">
+<area shape="rect" coords="452,0,500,28" href="http://www.rebol.com/library.html" alt="Library">
+<area shape="rect" coords="510,0,575,28" href="http://www.rebol.com/feedback.html" alt="Feedback">
+</map>--> 
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="02-uvod.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="04-vyrazy.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<span class="tail">
+Perpetrated 25-May-2017 -
+<!--<a href="http://www.rebol.com">Copyright REBOL Technologies</a>-->
+- Hosted with BitBucket Cloud
+</span></center>
+
+</body></html>

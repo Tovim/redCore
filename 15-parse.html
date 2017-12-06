@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" lang="cs">
+<title>Chapter 15 - Parsing</title>
+<link rel="stylesheet" HREF="red_cz.css">
+</head>
+
+<body bgcolor="beige">
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="14-porty.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="16-hodnoty.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<table width="660" cellpadding="4" cellspacing="0" border="0">
+<!--<tr><td><a href="http://www.rebol.com/docs.html"><img src="http://www.rebol.com/graphics/doc-bar.gif" width="680" height="28" align="bottom" alt="rebol document" border="0" usemap="#bar-map" ismap></a></td></tr>-->
+<tr><td height="24"> </td></tr>
+<tr><td><h1>Kapitola 15 - Parsování</h1>
+
+
+<h2>Obsah:</h2>
+<a class="toc1" href="#section-1">1. Úvod</a><br>
+<a class="toc1" href="#section-2">2. Klíčová slova</a><br>
+<a class="toc1" href="#section-3">3. Gramatické regule</a><br>
+<a class="toc1" href="#section-4">4. Přeskakování prvků vstupu</a><br>
+<a class="toc1" href="#section-5">5. Typy shod</a><br>
+<a class="toc1" href="#section-6">6. Rekurzivní regule</a><br>
+<a class="toc1" href="#section-7">7. Vyhodnocení</a><br>
+<a class="toc2" href="#section-7.1">7.1 Vratná hodnota</a><br>
+<a class="toc2" href="#section-7.2">7.2 Výrazy v regulích</a><br>
+<a class="toc2" href="#section-7.3">7.3 Kopírování vstupu</a><br>
+<a class="toc2" href="#section-7.4">7.4 Označování vstupu</a><br>
+<a class="toc2" href="#section-7.5">7.5 Úprava vstupnícho řetězce</a><br>
+<a class="toc2" href="#section-7.6">7.6 Používání objektů</a><br>
+<a class="toc2" href="#section-7.7">7.7 Ladění</a><br>
+<a class="toc1" href="#section-8">8. Ošetření mezer</a><br>
+<a class="toc1" href="#section-9">9. Parsování bloků a dialektů</a><br>
+<a class="toc2" href="#section-9.1">9.1 Shoda slov</a><br>
+<a class="toc2" href="#section-9.2">9.2 Shoda datových typů</a><br>
+<a class="toc2" href="#section-9.3">9.3 Nepovolené znaky</a><br>
+<a class="toc2" href="#section-9.4">9.4 Příklady dialektu</a><br>
+<a class="toc2" href="#section-9.5">9.5 Parsování sub-bloků</a><br>
+<a class="toc1" href="#section-10">10. Shrnutí parsovacích operací</a><br>
+<a class="toc2" href="#section-10.1">10.1 Obecné formy</a><br>
+<a class="toc2" href="#section-10.2">10.2 Opakování</a><br>
+<a class="toc2" href="#section-10.3">10.3 Přeskakování hodnot</a><br>
+<a class="toc2" href="#section-10.4">10.4 Určení hodnot</a><br>
+<a class="toc2" href="#section-10.5">10.5 Použití slov</a><br>
+<a class="toc2" href="#section-10.6">10.6 Shoda hodnot </a><br>
+<a class="toc2" href="#section-10.7">10.7 Datatype Words</a>
+<br><br>
+<h2 id="section-1">1. Úvod</h2>
+<blockquote>
+<p><b><tt>Parse</tt></b> je funkce typu <b>native!</b> pro rozbor zadaného argumentu s použitím stanovených pravidel (rules neboli <tt>regulí</tt>). Tento nástroj se používá pro kontrolu, ověřování, vyjímání a upravování zadaných dat nebo dokonce pro využití vnořených a externích DSL.</p>
+<!-- <p>Rozbor stěpí sekvenci znaků nebo hodnot na menší části.  Kromě toho, že poskytuje účinný, přehledný a editovatelný přístup k vyhledávání shody se vzorem (pattern matching), umožňuje také vytváření vlastních jazyků pro specifické účely.</p> -->
+<p>Funkce <b><tt>parse</tt></b> má tuto obecnou skladbu:</p>
+<pre>
+parse &lt;input&gt; [rules]
+</pre>
+<p>Argument <tt>input</tt> je posuzovaný vstup a může být libovolným typem supertypu <tt>series!</tt> (string!, block! binary!, issue!). </p>
+<p>Argument <tt>rules</tt> (regule) určuje způsob, jakým je argument <tt>series</tt> analyzován. Jeho hodota je typu  <tt>block!</tt>, jenž se může skládat z porovnávaných hodnot, klíčových slov, proměnných, výrazů (v závorkách) i z dalších bloků, obsahujících další (vnořené) regule.</p>
+<p>Výstupem funkce je hodnota typu <tt>logic!</tt> nebo <tt>block!</tt></p>
+
+<p>Funkce <tt>parse</tt> také přijímá upřesnění  <tt>/case</tt>, <tt>/part</tt> a <tt>/trace</tt>. Upřesnění  <tt>/case</tt> rozebírá řetězec s ohledem na velikost písmen. Upřesnění <tt>/part</tt> ... . Upřesnění <tt>/trace</tt> ... .  &nbsp; <ii> nutno doplnit </ii>.</p>
+
+<h2 id="section-2">Obecné složení regulí</h2>
+<p>Regule se skládají z těchto hlavních prvků:</p>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050" class="doctable">
+<tr bgcolor="silver"><th align="top">
+Položka
+</th><th valign="top">
+Popis
+</th>
+<tr>
+<td valign="top" bgcolor="white" >
+keyword </td><td valign="top" bgcolor="white"> specielní slovo dialektu, uvedené v dalším odstavci
+</td>
+<tr>
+<td valign="top" bgcolor="white" >
+word </td><td valign="top" bgcolor="white"> pro zadání nebo získání hodnoty proměnné (viz dále) - nemůže být klíčovým slovem
+</td>
+<tr>
+<td valign="top" bgcolor="white" >
+path </td><td valign="top" bgcolor="white"> pro zadání nebo získání hodnoty proměnné prostřednictvím cesty (viz dále)
+</td>
+<tr>
+<td valign="top" bgcolor="white" >
+value </td><td valign="top" bgcolor="white"> pro porovnání se vstupní hodnotou (akceptované datové typy závisí na datovém typu vstupu)
+</td>
+<tr>
+<td valign="top" bgcolor="white" >
+"|" </td><td valign="top" bgcolor="white"> vycouvat (backtrack) a porovnat s alternativní regulí (OR)
+</td>
+<tr>
+<td valign="top" bgcolor="white" >
+[block] </td><td valign="top" bgcolor="white"> blok se sub-regulí
+</td>
+<tr>
+<td valign="top" bgcolor="white" >
+(paren) </td><td valign="top" bgcolor="white"> výraz v závorce implikuje jeho vyhodnocení
+</td></tr></table>
+
+</blockquote>
+<br>
+<h2 id="section-2">2. Klíčová slova</h2>
+<blockquote>
+<p>Na rozdíl od Redu, o němž se tvrdí že nemá klíčová slova, DSL Parse klíčová slova používá v nemalém počtu.
+</p>
+</blockquote>
+<h3 id="section-2.1">2.1 Porovnávání</h3>
+<blockquote>
+<dl>
+<dt><b>ahead</b>  <i>rule</i></dt><dd>: porovnat s regulí ale nepostoupit ve vstupu (look-ahead rule)</dd>
+<dt><b>end</b></i></dt><dd>: vrátit <tt>true</tt>, je-li aktuální pozice na konci vstupní řady</dd>
+<dt><b>none</b> </dt><dd>: vždy vrátit <tt>true</tt></dd>
+<dt><b>not</b>  <i>rule</i></dt><dd>: invertovat výsledek sub-regule</dd>
+<dt><b>opt</b>  <i>rule</i></dt><dd>: možnost porovnat s regulí (for dialect escaping needs)</dd>
+<dt><b>quote</b>  <i>value</i></dt><dd>: porovnat literál další hodnoty (look-ahead rule)</dd>
+<dt><b>skip</b> </dt><dd>: posunout pozici vstupu o jeden element</dd>
+<dt><b>thru</b>  <i>rule</i></dt><dd>: posunout pozici ve vstupu hned za udaný element (look-ahead rule)</dd>
+<dt><b>to</b>  <i>rule</i></dt><dd>: posunout pozici ve vstupu na udaný element</dd>
+</dl>
+</blockquote>
+<h3 id="section-2.2">2.2 Průběh</h3>
+<blockquote>
+<dl>
+<dt><b>break</b> </dt><dd>: vyskočit z porovnávací smyčky (any, some, while) a vrátit <tt>true</tt></dd>
+<dt><b>if</b>  <i>(expr)</i></dt><dd>: vyhodnotit výraz Redu; je-li hodnocením <tt>false</tt> nebo <tt>none</tt>, vycouvat (backtrack) a vrátit <tt>false</tt>.</dd>
+<dt><b>into</b>  <i>rule</i></dt><dd>: přesunout vstup na porovnávanou řadu (string nebo blok) a parsovat ji zadanou regulí</dd>
+<dt><b>fail</b></dt><dd>: způsobit selhání aktuální regule a vycouvat</dd>
+<dt><b>then</b></dt><dd>: přeskočit následující alternativní reguli </dd>
+<dt><b>reject</b></dt><dd>: vyskočit z porovnávací smyčky a vrátit <tt>false</tt></dd>
+</dl></blockquote>
+<h3 id="section-2.3">2.3 Iterace</h3>
+<blockquote>
+<dl>
+<dt><b>any</b> <i>rule</i></dt><dd>: opakovat reguli nula nebo vícekrát až do selhání nebo vyčerpání vstupu</dd>
+<dt><b>some</b> <i>rule</i></dt><dd>: opakovat reguli jednou nebo vícekrát až do selhání nebo vyčerpání vstupu</dd>
+<dt><b>while</b> <i>rule</i></dt><dd>: opakovat reguli nula nebo vícekrát až do selhání bez ohledu na pozici vstupu</dd>
+</dl></blockquote>
+<h3 id="section-2.4">2.4 Extrakce</h3>
+<blockquote>
+<dl>
+<dt><b>collect</b> <i>[rule]</i></dt><dd>: vrátit blok shodujících se hodnot</dd>
+<dt><b>collect set</b> <i>word [rule]</i></dt><dd>: shromáždit shodující se hodnoty a přiřadit je ke 'slovu'</dd>
+<dt><b>collect into</b> <i>word [rule]</i></dt><dd>: shromáždit shodující se hodnoty a vložit je do bloku, přiřazeného ke 'slovu'</dd>
+<dt><b>copy</b> <i>word rule</i></dt><dd>: přiřadit 'slovo' k porovnávanému vstupu</dd>
+<dt><b>keep</b> <i>rule</i></dt><dd>: přidat kopii porovnávaného vstupu ke sběrnému bloku</dd>
+<dt><b>keep</b> <i>(expression)</i></dt><dd>: přidat poslední hodnotu z výrazu ke sběrnému bloku</dd>
+<dt><b>set</b> <i>word rule</i></dt><dd>: zadat 'slovo' pro první hodnotu porovnávaného vstupu</dd>
+</dl></blockquote>
+<h3 id="section-2.5">2.5 Modifikace</h3>
+<blockquote>
+<dl>
+<dt><b>insert [/only]</b> <i>value</i></dt><dd>: vložit hodnotu v aktuální pozici a přesunout vstup za tuto hodnotu</dd>
+<dt><b>remove</b> <i>rule</i></dt><dd>: odebrat reguli (prý 'matched input')</dd>
+</dl></blockquote>
+<!--
+<ii>Celý odstavec vypuštěn.</ii>
+<p>Pro štěpení řetězců se používá jednoduchá forma funkce <b><tt>parse</tt></b>:</p>
+<pre>
+parse string none
+</pre>
+<p>Funkce <b><tt>parse</tt></b> štěpí argument typu <tt>string!</tt> na blok dílčích řetězců, vytvořených v místech oddělovačů jako je mezera, tabulátor, nový řádek, čárka nebo středník. Argument  <tt>none</tt> udává, že jiné oddělovače nepřicházejí v úvahu. Na příklad:
+argument indicates that no other
+delimiters other than these. For example:</p>
+<ii>V Red chodí jinak. Pravidlo musí být v bloku!</ii>
+<pre>
+parse "The trip will take 21 days" none
+<span class="put">["The" "trip" "will" "take" "21" "days"]</span>
+</pre>
+<p>Podobně</p>
+<pre>
+parse "here there,everywhere; ok" none
+<span class="put">["here" "there" "everywhere" "ok"]</span>
+</pre>
+<p>Všimněte si, že čárky a středníky byly z výsledných řetězců odebrány.</p>
+<p>Pro pravidlo funkce <b><tt>parse</tt></b> je možné určit vlastní oddělovač, jako v následující ukázce:</p>
+<pre>
+probe parse "707-467-8000" "-"
+<span class="put">["707" "467" "8000"]</span>
+</pre>
+<p>Další příklad používá jako oddělovač rovnítko (=) a dvojitou uvozovku ("):</p>
+<pre>
+probe parse &lt;IMG SRC="test.gif" WIDTH="123"&gt; {="}
+<span class="put">["IMG" "SRC" "test.gif" "WIDTH" "123"]</span>
+</pre>
+<p>The next example parses a string based on commas only; any other delimiters
+are ignored. Consequently, the spaces within the strings are not removed:</p>
+<p>Normally when you parse strings, any whitespace (space, tab, lines) are
+automatically processed as delimiters. To avoid that action, you can use
+the <tt>/any</tt> refinement. Compare these two examples:</p>
+<pre>
+parse "Test This" ""
+<span class="put">["Test" "This"]</span>
+parse/all "Test This" ""
+<span class="put">["Test This"]</span>
+</pre>
+<p>In the second, you can see that the space was not treated as a delimiter.</p>
+<p>Here is another example:</p>
+<pre>
+probe parse/all "Harry, 1011 Main St., Ukiah" ","
+<span class="put">["Harry" " 1011 Main St." " Ukiah"]</span>
+</pre>
+<p>You can also parse strings that contain null characters as separators
+(such as certain types of data files):</p>
+<pre>
+parse/all nulled-string "^(null)"
+</pre> -->
+</blockquote><br>
+<h2 id="section-3">3. Gramatické regule</h2>
+<blockquote>
+<!--Funkce <tt>parse</tt> přijímá gramatická pravidla, psaná <tt>dialektem</tt> Redu, zvaným <tt>Parse</tt>. V tomto dialektu se používají tytéž lexikální formy všech datových typů jako v Redu ale s odlišným uspořádáním hodot uvnitř bloku. Gramatika a slovník tohoto dialektu mají podobnou strukturu jako forma BNF (Backu-Naur Form).
+<p><tt>Pravidla</tt> (rules) tvoří blok, který určuje pořadí elementů vstupu. Například pro řetězec <b>"the phone"</b> vytvoří kladnou odezvu pravidlo:</p>-->
+<p>Při provádění operace <tt>parse</tt> je blok regulí (regule) postupně uplatňován na jedotlivé části vstupu.<br><b>Regule</b> může být prostým výčtem hodnot, jenž má být kompatibilní s elementy vstupu nebo může tvořit strukturovaný blok, obsahující výčty, podmínky, proměnné, výrazy i další vnořené bloky.</p>
+<p>Nejjednodušším případem regule je blok, s jehož prvky jsou porovnávány elementy vstupu:</p> 
+<pre>
+parse "the phone" ["the" space "phone"]      <ii>mezeru nutno uvést</ii>
+<span class="put">== true</span>
+</pre>
+<!--<p>To allow any number of spaces or no spaces between the words, write the rule
+like this:</p>
+<pre>
+parse string ["the" "phone"]
+</pre> -->
+<p>Je možné vytvářet regule s alternativní platností. Například reguli:</p>
+<pre>
+["a" | "the" space "phone"]
+</pre>
+<p>vyhoví oba tyto řetězce:</p>
+<pre>
+<span class="put">"a phone"
+"the phone</span>
+</pre>
+<p>Regule může obsahovat bloky, které jsou pojednány jako sub pravidla. Například reguli:</p>
+<pre>
+[ ["a" | "the"] space ["phone" | "radio"] ]
+</pre>
+<p>vyhoví tyto čtyři různé řetězce:</p>
+<pre>
+<span class="put">"a phone"
+"a radio"
+"the phone"
+"the radio"</span>
+</pre>
+<p>Alternativy lze přiřadit k názvům proměnných:
+</p>
+<pre>
+article: ["a" | "the"]
+device: ["phone" | "radio"]
+parse string [article space device]
+</pre>
+<p>Opakovaný počet výskytu vstupního elementu lze vyjádřit číslem:</p>
+<pre>
+[3 "a" 2 "b"]
+</pre>
+<p>což odpovídá řetězci:</p>
+<pre>
+<span class="put">"aaabb"</span>
+</pre>
+<p>V další ukázce vidíme použití číselného rozsahu:</p>
+<pre>
+[1 3 "a" "b"]
+</pre>
+<p>čemuž vyhovuje libovolná sekvence řetězců &nbsp;  <b>"ab" "aab" "aaab"</b> - co do výskytu, pořadí i počtu prvků:  </p>
+<pre>
+parse ("aaab" "ab") [1 3 "a" "b"]
+<span class="put">== true</span>
+</pre>
+<p>Sekvence řetězců jako vstupní argument musí tvořit traverzovatelný kolektor typu string!. Musí proto být uvedena uvnitř závorek!</p> 
+<p>Číselný rozsah může začínat i nulou:</p>
+<pre>
+[0 3 "a" "b"]
+</pre>
+<p>čemuž odpovídá libovolná kombinace těchto řetězců:</p>
+<pre>
+<span class="put">"b" "ab" "aab" "aaab"</span>
+</pre>
+<p>Klíčové slovo <tt>some</tt>* určuje, že lze kombinovat jeden až mnoho řetězců 'a' s jedním řetězcem 'b' (* platí pro následující element regule):
+</p>
+<pre>
+parse ("aaaaaaaaaaaaaaab" "ab") [some "a" "b"]
+<span class="put">== true</span>
+</pre>
+</pre>
+<p>Klíčové slovo <tt>any</tt>* určuje, že lze kombinovat žádný až mnoho řetězců 'a' s jedním řetězcem 'b' (* platí pro následující element regule):</p>
+<pre>
+parse ("aaaab" "b" "ab") [any "a" "b"]
+<span class="put">== true</span>
+</pre>
+
+<p>Slova <tt>some</tt> and <tt>any</tt> lze také použít u bloků. Například pravidlo:</p>
+<pre>
+[some ["a" | "b"]]
+</pre>
+<p>akceptuje řetězce, které obsahují libovolnou kombinací znaků 'a' a 'b'.</p>
+<p>Jako alternativní možnost lze použít hodnotu <tt>none</tt> (nebo prázdný řetězec <tt>""</tt>):</p>
+<pre>
+["a" | "b" | none]
+</pre>
+<p>Tento příklad přijímá řetězce, které obsahují <tt>a</tt> nebo <tt>b</tt> nebo <tt>""</tt> (nikoliv 'none').</p>
+<pre>
+parse "" ["a" | "b" | none]
+<span class="put">== true</span>
+</pre>
+<p>Hodnota <tt>none</tt> je užitečná pro určení nepovinných vzorů nebo pro odchycení chybových případů, kdy se žádný vzor neshoduje.</p>
+</blockquote>
+<br>
+<h2 id="section-4">4. Přeskakování prvků vstupu</h2>
+<blockquote>
+<p>Klíčová slova <tt>skip</tt>, <tt>to</tt> a <tt>thru</tt> umožňují přeskakování vybraných částí vstupu.</p>
+<p>Je nutné si uvědomit, že vstupní sekvence je uspořádaný, iterovatelný kolektor, v němž lze řízeně přecházet z jedné pozice do jiné. Výchozí poloha 'pozice' je v čele kolektoru.</p>
+<p>K přemístění pozice na vybrané místo řady použijeme klíčové slovo <tt>to</tt>. K přeskočení jedné či více pozic použijeme slovo <tt>skip</tt>:</p>
+<pre>
+parse "abc" [to "b" 1 skip "c"]         <ii>kvantifikaci "1" zde lze vypustit</ii>
+<span class="put">== true</span>
+</pre>
+<p>Příkaz <b>to</b> přenesl pozici <b>na</b> znak 'b', příkaz <b>1 skip</b> přemístil pozici na znak 'c'. 
+</p>
+<p>Klíčové slovo <tt>thru</tt> přímístí pozici <b>za</b> určený element řady:</p>
+<pre>
+parse "abc" [thru "b" "c"]
+<span class="put">== true</span>
+</pre>
+
+<p>Následující pravidlo nalezne titul webové stránky a vytiskne jej:
+</p>
+<pre>
+page: read http://www.rebol.com/      <ii>načte soubor HTML</ii>
+
+parse page [thru &lt;title&gt; copy text to &lt;/title&gt;]
+
+print text
+<span class="put">REBOL Technologies</span>
+</pre>
+<p>První <b>thru</b> nalezne tag &lt;title&gt; a přejde na první pozici za něj. Následně je část vstupu až ke koncovému tagu &lt;/title&gt; zkopírován idiomem <b>copy text</b> (zde bez dvojtečky) do proměnné 'text'.<br>
+Slovo <b>to</b> končí výběr před udaným elementem.
+</p>
+</blockquote>
+<br>
+<h2 id="section-5">5. Typy shod</h2>
+<blockquote>
+<p>Při parsování řetězců lze použít tato slova a datové typy pro nalézání shody se znaky ve vstupním řetězci:
+</p>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+		<tr bgcolor="silver"><th align="left">
+<p>Typ shody</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b><tt>"abc"</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p>shoda s celým řetězcem</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b><tt>#"c"</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p>shoda s jediným znakem</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b><tt>&lt;tag&gt;</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p>shoda se stringem tagu</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b><tt>end</tt></b></p>
+</td><td valign="top" bgcolor="white">
+<p>shoda s celým vstupem    &nbsp; &nbsp; <ii>???</ii></p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p><b><tt>(bitset</tt></b>)</p>
+</td><td valign="top" bgcolor="white">
+<p>shoda s libovolným určeným znakem v setu</p>
+</td></tr></table>
+<p>Všechna tato slova (kromě bitsetu, popsaného níže) lze použít v jediném pravidlu:</p>
+<pre>
+[&lt;B&gt; ["excellent" | "incredible"] #"!" &lt;/B&gt; end]
+</pre>
+<p>jenž parsuje tyto vstupní stringy:</p> 
+<pre>
+"&lt;B&gt;excellent!&lt;/B&gt;"
+"&lt;B&gt;incredible!&lt;/B&gt;"
+</pre>
+<p>Slovo <b><tt>end</tt></b> říká, že ve vstupním proudu již nic nenásleduje; celý vstup byl parsován. Tato volba je vhodná v situaci, kdy zpětná hodnota funkce <tt>parse</tt> má být posuzována. Více informací viz odstavec <a
+href="#section-7">Vyhodnocení</a>.</p>
+<p>Datový typ <b><tt>bitset</tt></b> zasluhuje více pozornosti. Bitsety se používají pro označení kolekcí znaků. Funkce <tt>charset</tt> umožňuje určit jednotlivé znaky nebo rozsahy znaků. Například řádek:</p>
+<pre>
+digit: charset "0123456789"
+</pre>
+<p>definuje sadu znaků, která obsahuje číslice. To umožňuje sestavení například této regule:</p>
+<pre>
+[3 digit "-" 3 digit "-" 4 digit]
+</pre>
+<p>jež může parsovat telefonní čísla daného formátu, například <b>707-467-8000</b>:</p>
+<pre>
+parse "707-467-8000" [3 digit "-" 3 digit "-" 4 digit] 
+<span class="put">== true</span>
+</pre>
+<p>Pro akceptování libovolného množství číslic lze upravit reguli:</p>
+<pre>
+digits: [<b>some</b> digit]
+</pre>
+<p>Sadu znaků <tt>digit</tt> jsme mohli zapsat také jako:</p>
+<pre>
+digit: charset [#"0" - #"9"]
+</pre>
+<p>Případně lze kombinovat určité znaky a rozsahy znaků:</p>
+<pre>
+the-set: charset ["+-." #"0" - #"9"]
+</pre>
+<p>Mimochodem, toto je alfanumerická sada znaků:</p>
+<pre>
+alphanum: charset [#"0" - #"9" #"A" - #"Z" #"a" - #"z"]
+</pre>
+<p>Sady znaků lze také upravovat funkcemi <tt>insert</tt> a <tt>remove</tt> nebo vytvářet kombinace setů funkcemi <tt>union</tt> a <tt>intersect</tt>. <br>Následující řádek kopíruje číselnou sadu znaků a přidává k ní tečku:</p>
+<pre>
+digit-dot: insert copy digit "."
+<span class="put">== make bitset! #{000000000002FFC0}</span>
+</pre>
+<p>Zde je několik užitečných znakových sad pro parsování:</p>
+<pre>
+digit: charset [#"0" - #"9"]
+alpha: charset [#"A" - #"Z" #"a" - #"z"]
+alphanum: union alpha digit
+</pre>
+</blockquote>
+<br>
+<h2 id="section-6">6. Rekurzivní pravidla</h2>
+<blockquote>
+<p>Zde je příklad sady regulí, které parsují matematické výrazy a určují prioritu použitých matematických operátorů:</p>
+<pre>
+expr:    [term ["+" | "-"] expr | term]
+term:    [factor ["*" | "/"] term | factor]
+factor:  [primary "**" factor | primary]
+primary: [some digit | "(" expr ")"]
+digit:   charset "0123456789"
+</pre>
+<p>Nyní můžeme parsovat mnohé typy matematických výrazů. Vratná hodnota <tt>true</tt> u následujících příkladů indikuje platnost výrazu:</p>
+<pre>
+probe parse "1 + 2 * ( 3 - 2 ) / 4" expr
+<span class="put">true</span>                           <ii>regulérní výraz!</ii>
+probe parse "4/5+3**2-(5*6+1)" expr          
+<span class="put">true</span>                           <ii>neregulérní výraz!</ii>      
+</pre>
+<p>Všimněte si, že některé regule odkazují sama na sebe. Takovéto regule se označují jako <tt>rekurzivní</tt>. Například regule <tt>expr</tt> obsahuje rovněž <tt>expr</tt>. To je užitečná technika pro opakování sekvencí a kombinací.</p>
+<p>Při používání rekurzivních regulí je nutné dbát na to aby nedocházelo k nekonečné rekurzi.
+Na příklad regule:</p>
+<pre>
+expr: [expr ["+" | "-"] term]
+</pre>
+<p>vytváří nekonečnou smyčku, protože první věc, kterou regule <tt>expr</tt> provede je to, že použije opět reguli <tt>expr</tt>.</p>
+</blockquote>
+<br>
+<h2 id="section-7">7. Vyhodnocení</h2>
+<blockquote>
+<p>Parsováním stringu můžeme získat více než pouhé ověření, že parsovaný vstup je platný. Můžeme například chtít vybrat substring z různých částí daného stringu, vytvářet bloky z příbuzných hodnot nebo spočítat hodnotu.</p>
+</blockquote>
+<h3 id="section-7.1">7.1 Vratná hodnota</h3>
+<blockquote>
+<p>Příklady v předchozích odstavcích ukazovaly kterak parsovat řetězce ale žádné hodnoty nebyly produkovány. Ověřovali jsme si pouze, zda řetězec mají předpokládanou gramatiku. Výstupem byly hodnoty 'true' nebo 'false':</p>
+<pre>
+parse "a b c" ["a" space "b" space "c"]      <ii>mezery nutno označit</ii>
+<span class="put">true</span>
+parse "a b" ["a" space "c"]
+<span class="put">false</span>
+</pre>
+<p>Funkce <b><tt>parse</tt></b> vrací <tt>true</tt> pouze tehdy, když dojde na konec vstupního stringu. Zjištěná neshoda zastaví parsování řady.
+<ii>brekeke</ii> 
+ If <b><tt>parse</tt></b> runs out of values to search for before
+reaching the end of the series, it does not traverse the series and returns
+<tt>false</tt> <b><tt>:</tt></b></p>
+<pre>
+parse "abcd" ["a" "b" "c"]
+<span class="put">false</span>
+parse "abcd" [to "b" thru "d"]
+<span class="put">true</span>
+parse "abcd" [to "b" to end]
+<span class="put">true</span>
+</pre>
+</blockquote>
+<h3 id="section-7.2">7.2 Výrazy v regulích</h3>
+<blockquote>
+<p>Regule může obsahovat výraz, který se provede, dojde-li parsování k určitému místu posuzované řady. Výrazy se vkládají do závorek:</p>
+<pre>
+string: "there is a phone in this sentence"
+parse string [ to "a" 
+    to "phone" (print "found phone")
+    to end   ]
+<span class="put">found phone
+== true</span>
+</pre>
+<p>Vyraz se vyhodnotí (provede) i když je celkové hodnocení vstupu záporné:</p>
+<pre>
+parse string [to "phone" (print "found phone")
+              to "a" to end ]
+<span class="put">found phone
+== false</span>
+</pre>
+<p>Výrazy se mohou vyskytnout kdekoliv v reguli a v různých částech regule se mohou vyskytovat různé výrazy. Následující kód například vytiskne různé řetězce v závislosti na přidružení k různým místům vstupu:</p>
+<pre>
+parse string [
+    "a" | "the"
+    to "phone" (print "answer") |
+    to "radio" (print "listen") |
+    to "tv"    (print "watch")	]
+
+<span class="put">answer
+== false</span>
+
+string: "there is the radio on the shelf"
+
+parse string [
+    "a" | "the"
+    to "phone" (print "answer") |
+    to "radio" (print "listen") |
+    to "tv"    (print "watch")  ]
+	
+<span class="put">listen
+== false</span>
+</pre>
+<p>Zde je příklad, který počítá počet výskytů tagu &lt;pre&gt; v řetězci načteného textu stránky HTML:</p>
+<pre>
+count: 0
+page: read https://tovim.bitbucket.io/15-parse.html
+<span class="put">== {&lt;!DOCTYPE html&gt;^/&lt;html&gt;^/&lt;head&gt;^/... </span>
+parse page [any [thru &lt;pre&gt; (count: count + 1)]]
+<span class="put">== false</span>
+print count
+<span class="put">79</span>
+</pre>
+</blockquote>
+<h3 id="section-7.3">7.3 Kopírování vstupu</h3>
+<blockquote>
+<p>Nejpoužívanější akci, prováděnou funkcí <tt>parse</tt> je výběr částí parsovaného stringu. Používá se přitom slovo <tt>copy</tt>, následované jménem proměnné, do níž se vybraná část kopíruje. Následující příklad parsuje titul naší webové stránky:</p>
+<pre>
+parse page [thru &lt;title&gt; copy papouch to &lt;/title&gt;]
+<span class="put">== false</span>
+print papouch
+<span class="put">Chapter 15 - Parsing</span>
+</pre>
+<p>Toto parsování probíhá tak, že přeskakuje po parsovaném textu až narazí na tag &lt;title&gt;. Tam začne kopírovat zbytek textu až po tag &lt;/title&gt;, kteroužto kopii vloží do proměnné 'papouch'.</p>
+<p>Příkaz <b>copy</b> lze použít pro celé bloky regule. Například pro reguli:</p>
+<ii>me not understand</ii>
+<pre>
+[copy heading ["H" ["1" | "2" | "3"]]
+</pre>
+<p>obsahuje 'heading' celé řetězce <tt>H1</tt>, <tt>H2</tt>, nebo <tt>H3</tt>. Chodí to také u velkých více blokových regulí.</p>
+</blockquote>
+<h3 id="section-7.4">7.4 Označování vstupu</h3>
+<blockquote>
+<p>Akce <b><tt>copy</tt></b> vytváří kopii nalezeného substringu ale to není vždy žádoucí. V některých případech je lepší uložit aktuální pozici vstupního proudu do proměnné.</p>
+<p><ii>NOTE</ii>: Slovo <tt>copy</tt>, používané v dialektu PARSE má odlišný význam od funkce <tt>copy</tt>, používané ve výrazech jazyka Red/Core.</p>
+<p>V následujícím příkladu obsahuje proměnná <tt>begin</tt> odkaz na vstupní string <tt>page</tt> hned za tag &LT;title&GT;. Proměnná <tt>ending</tt> odkazuje na string <tt>page</tt> právě před tag &lt;/title&gt;. Tyto proměnné lze použít stejným způsobem jako u jakýchkoliv jiných řad (series).</p>
+<pre>
+parse page [
+    thru &lt;title&gt; begin: to &lt;/title&gt; ending:
+    (change/part begin "Word Reference Guide" ending)  ]
+<span class="put">== false</span>
+begin
+<span class="put">== {Word Reference Guide&lt;/title&gt;^/&lt;link rel="stylesheet" ...</span>
+ending
+<span class="put">== {&lt;/title&gt;^/&lt;link rel="stylesheet" HREF="red_cz.css"&gt;^/... </span>
+</pre>
+<p>Můžeme se přesvědčit, že výše uvedené parsování skutečně změnilo obsah titulu:</p>
+<pre>
+parse page [thru &lt;title&gt; copy papaj to &lt;/title&gt;]
+<span class="put">== false</span>
+print papaj
+<span class="put">Word Reference Guide</span>
+</pre>
+<p>Zde je jiný příklad, který označí pozici každého tagu &lt;table&gt; v souboru HTML:</p>
+<pre>
+page: read https://tovim.bitbucket.io/15-parse.html
+tables: make block! 20
+parse page [
+    any [to "&lt;table" mark: thru "&gt;"
+        (append tables index? mark)
+    ]]
+</pre>
+<p>Blok <tt>tables</tt> nyní obsahuje pozici každého tagu:</p>
+<pre>
+foreach table tables [
+    print ["table found at index:" table] ]
+<span class="put">
+table found at index: 219
+table found at index: 1142
+table found at index: 11801
+table found at index: 29195
+table found at index: 33854
+etc</span>
+</pre>
+<p>NOTE: Nutno poznamenat, že operace <tt>parse</tt> vytváří pro vstupní objekt něco jako iterátor, umožňující měnit aktuální pozici 'ukazovátka'. Další odstavec vysvětluje, jak se to provádí.</p>
+</blockquote>
+<h3 id="section-7.5">7.5 Úprava vstupního řetězce</h3>
+<blockquote>
+<p>Nyní, když umíme zjistit pozici vstupního elementu, můžeme pro vstup použít také jiné funkce řad, včetně funkcí <tt>insert</tt>,
+<tt>remove</tt> a <tt>change</tt>. Při sepisování skriptu, který nahradí všechny otazníky za vykřičníky, napíšeme:</p>
+<pre>
+str: "Where is the turkey? Have you seen the turkey?"
+<ii>Zeleně jsou označena klíčová slova dialektu parse</ii>:
+parse str [<ii>some</ii> [<ii>to</ii> "?" mark: (<ii>change</ii> mark "!") <ii>skip</ii>]]
+<span class="put">== true</span>
+print str
+<span class="put">Where is the turkey! Have you seen the turkey!</span>
+</pre>
+<p>Klíčové slovo <tt>skip</tt> je možné v tomto případě vypustit, protože jeho úlohu zastupuje klíčové slovo <tt>some</tt> (= jednou či vícekrát). Jeho používání je však dobrou praxí.</p>
+<p>V další ukázce vložíme aktuální čas všude tam, kde se vyskytuje slovo <tt>time</tt>:</p>
+<pre>
+str: "at this time, I'd like to see the time change"
+parse str [<ii>some</ii> [<ii>to</ii> "time" mark:
+     (<ii>remove/part</ii> mark 4  mark: <ii>insert</ii> mark now/time)
+      :mark   ]]
+<span class="put">== false</span>
+print str
+<span class="put">at this 14:42:12, I'd like to see the 14:42:12 change</span>
+</pre>
+<p>Všimněte si různého použití proměnné <tt>mark</tt>. Nejprve přijme záměnu slova 'time' za 'now/time' a poté hodnotu funkce 'now/time' vrací. Slova <ii>remove/part</ii> a <ii>insert</ii> označují běžné funkce řad.</p>
+</blockquote>
+<h3 id="section-7.6">7.6 Používání objektů</h3>
+<blockquote>
+<p>Při parsování obsáhlé gramatiky, dané sadou regulí, se pro větší přehlednost používají proměnné. Tyto proměnné jsou ovšem globální a lze je zaměnit za proměnné stejného jména na jiném místě programu.</p>
+<p>Řešením tohoto problému je použití objektu, jímž se stanou všechna slova pravidla lokální. Například:</p>
+<pre>
+tag-parser: make object! [
+    tags: make block! 100
+    text: make string! 8000
+    html-code: [
+        copy tag ["&lt;" thru "&gt;"] (append tags tag) |
+        copy txt to "&lt;" (append text txt)
+    ]
+    parse-tags: func [site [url!]] [
+        clear tags clear text
+        parse read site [to "&lt;" some html-code]
+        foreach tag tags [print tag]
+        print text
+    ]
+]
+tag-parser/parse-tags http://www.rebol.com
+</pre>
+</blockquote>
+<h3 id="section-7.7">7.7 Ladění</h3>
+<blockquote>
+<p>Při sestavování regulí se občas vyskytne potřeba ladění (debugging). Konkretně nás může zajímat, jak daleko jsme se dostali při parsování regule.</p>
+<p>Pro sledování průběhu operace lze použít funkci <tt>trace</tt> ale její výstup může obsahovat tisíce těžko přehledných řádků</p>
+<p>Lepší způsob je vložení ladicích výrazů do parsovacích regulí. Například, abychom odladili reguli:</p>
+<pre>
+[to "&lt;IMG" "SRC" "=" filename "&gt;"]
+</pre>
+<p>vložíme funkci <b><tt>print</tt></b> za významné úseky, což nám umožní monitorovat průchod regulí:</p>
+<pre>
+[to "&lt;IMG" (print 1) "SRC" "=" (print 2)
+    filename (print 3) "&gt;"]
+</pre>
+<p>Tento příklad tiskne <tt>1</tt>, <tt>2</tt> a <tt>3</tt> při procházení regulí.</p>
+<p>Jiným přístupem je tištění části vstupního řetězce při probíhajícím parsování:</p>
+<pre>
+[  to "&lt;IMG" here: (print here)
+   "SRC" "=" here: (print here)
+  b filename here: (print here) "&gt;" ]
+  
+<ii>Úsek "here: (print here)" je ukázka velmi zajímavé rekurze!</ii>
+</pre>
+<p>Má-li se to provést častěji, můžme pro vsuvku vytvořit reguli:</p>
+<pre>
+here: [where: (print where)]         <ii>opět rekurze!</ii>
+
+[  to "&lt;IMG" here
+   "SRC" "=" here
+    filename here "&gt;"  ]
+</pre>
+<p>Lze také použít funkci <b><tt>copy</tt></b> k označení parsovaných substringů.</p>
+</blockquote>
+<h2 id="section-8">8. Ošetření mezer</h2>
+<blockquote>
+<p>Funkce <b><tt>parse</tt></b> vyžaduje reflexi každé mezery ve vstupním stringu, například regule:</p>
+<pre>
+["a" "b" "c"]
+</pre>
+<p>vrátí 'true' pouze pro vstup "abc". Mezeru nutno v reguli popsat:</p>
+<pre>
+parse ("a bc") ["a" space "b" "c"]
+<span class="put">== true</span>
+</pre>
+<!--
+<p>To enforce a specific spacing convention, use <b><tt>parse</tt></b> with the
+<b><tt>/all</tt></b> refinement. In the preceeding example, this refinement
+causes <b><tt>parse</tt></b> to only match the first case (abc).</p>
+<pre>
+parse/all "abc" ["a" "b" "c"]
+</pre>
+<p>Specifying the /<b><tt></tt></b> all refinement forces every character in
+the input stream to be dealt with, including the default delimiters, such as
+space, tab, newline.</p> -->
+<p>Místo zavedeného klíčového slova "space" můžeme deklarovat slovo vlastní pro jiný rozdělovač:</p>
+<pre>
+koma: charset reduce [tab newline #","]
+
+parse ("a,bc") ["a" koma "b" "c"]
+<span class="put">== true</span>
+</pre>
+<p>Opakované použití rozdělovačů můžeme podchytit pomocnou proměnnou, například:</p>
+<pre>
+spaces: [some space]
+parse ("a    bc") ["a" spaces "b" "c"]
+<span class="put">== true</span>
+</pre>
+<p>Pro komplikovanější gramatiku je vhodné si vytvořit sadu znaků, umožňujících skenovat string až do těch mezer.</p>
+<pre>
+spacer: charset reduce [tab newline #" "] 
+non-space: complement spacer
+to-space: [some non-space | end]
+words: make block! 20
+parse text [
+    some [copy word to-space (append words word) spacer]
+]
+</pre>
+<p>Předchozí ukázka vytváří blok ze všech svých vlastních slov. Funkce <tt>complement</tt> invertuje bitset <tt>spacer</tt>. Aby nám chodila, museli jsme zdrojový kód doplnit o vlastní definici tohoto bitsetu. Bitset (sada znaků) <tt>non-space</tt> obsahuje všechny znaky kromě mezer. Regule <tt>to-space</tt> akceptuje jeden nebo více znaků až k mezeře nebo ke konci vstupního proudu. Hlavní regule předpokládá, že zkopíruje rozsah od prvního slova vstupu až k mezeře, přeskočí mezeru a začne dalším slovem. Probraná slova vkládá do bloku 'words'. Slovo 'word' je lokální proměnná.</p>
+</blockquote>
+<br>
+<h2 id="section-9">9. Parsování bloků a dialektů</h2>
+<blockquote>
+<p>Bloky se parsují podobně jako řetězce. Sada regulí určuje pořadí očekávaných hodnot. Na rozdíl od parsování stringů, při kterém se probírají znaky a oddělovače, se parsování bloků zabývá hodnotami, což zjednodušuje gramatické regule a velmi urychluje provádění operací.</p>
+<p>Parsování bloků je nejjednodušší způsob vytváření dialektů v Redu. <tt>Dialekty</tt> jsou sub-jazyky, které používají tutéž lexikální formu pro všechny datové typy avšak umožňují odlišné uspořádání hodnot uvnitř bloku. Hodnoty nepotřebují být ve shodě s normálním pořadím, požadovaným pro argumenty funkce. Dialekty umí poskytnout větší expresivitu pro určité oblasti použití. Regule pro parsování jsou rovněž považovány za dialekt.</p>
+</blockquote>
+<h3 id="section-9.1">9.1 Shoda slov</h3>
+<blockquote>
+<p>Při parsování bloku z hlediska shody s nějakým slovem, uvedeme toto slovo jako literál:</p>
+<pre>
+'name
+'when
+'empty
+</pre>
+</blockquote>
+<h3 id="section-9.2">9.2 Shoda datových typů</h3>
+<blockquote>
+<p>Hodnotu libovolného datového typu lze porovnávat uvedením jeho typového označení - viz tabulka:</p>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+		<tr bgcolor="silver"><th align="left">
+<p>Označení typu</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>string!</p>
+</td><td valign="top" bgcolor="white">
+<p>matches any quoted string</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>time!</p>
+</td><td valign="top" bgcolor="white">
+<p>matches any time</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>date!</p>
+</td><td valign="top" bgcolor="white">
+<p>matches any date</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>tuple!</p>
+</td><td valign="top" bgcolor="white">
+<p>matches any tuple</p>
+</td></tr></table>
+<p>NOTE: <ii>Primitivismus: Pro všechny typy platí totéž. Popsaný vztah platí jenom pro uvedené typy?</ii>.</p>
+</blockquote>
+<h3 id="section-9.3">9.3 Nepovolené znaky</h3>
+<blockquote>
+<p>Povolené operace <b><tt>parse</tt></b> jsou ty, které pracují s určitými znaky. Shoda například nemůže být určena pro první písmeno slova nebo stringu, či pro mezery nebo znaky 'nového řádku'.</p>
+</blockquote>
+<h3 id="section-9.4">9.4 Příklady dialektu</h3>
+<blockquote>
+<p>Několik stručných příkladů pomůže ilustrovat parsování bloků:</p>
+<pre>
+block: [when 10:30]
+parse block ['when 10:30]
+parse block ['when time!]
+parse block ['when set time time! (print time)]
+</pre>
+<p>Všimněte si, že určité slovo může být porovnáno použitím jeho literálové formy v reguli (jako v případě <tt>'when</tt> ). Místo hodnoty může být uveden datový typ, jako v řádcích nahoře, obsahujících slovo ><tt>time!</tt>. Navíc, proměnné může být přiřazena hodnota operací <tt>set</tt>.</p>
+<p>Stejně jako u řetězců lze při parsování bloků použít alternativní regule:</p>
+<pre>
+rule: [some [
+    'when set time time! |
+    'where set place string! |
+    'who set persons [word! | block!]
+]]
+</pre>
+<p>Tyto regule umožňují vkládání informací v libovolném pořadí:</p>
+<pre>
+parse [
+    who Fred
+    where "Downtown Center"
+    when 9:30 ] rule
+
+print [time place persons]
+<span class="put">9:30:00 Downtown Center Fred</span>
+</pre>
+<p>V tomto příkladě šlo použít přiřazení k proměnným ale takto ilustruje poskytování alternativního uspořádání vstupu.</p>
+<p>Zde je jiný příklad, který vyhodnocuje výsledky parsování:</p>
+<pre>
+rule: [
+    set count integer!
+    set str string!
+    (loop count [print str])]
+
+parse [3 "great job"] rule
+parse [3 "hut" 1 "hike"] [some rule]
+</pre>
+<p>Nakonec více obsáhlý příklad:</p>
+<ii>Nechodí kvůli penězům</ii>
+<pre>
+rule: [
+    set action ['buy | 'sell]
+    set number integer!
+    'shares 'at
+    set price money!
+    (either action = 'sell [
+            print ["income" price * number]
+            total: total + (price * number)
+        ][
+            print ["cost" price * number]
+            total: total - (price * number)
+        ] ) ]
+
+total: 0
+parse [sell 100 shares at $123.45] rule
+print ["total:" total]
+
+total: 0
+parse [
+    sell 300 shares at $89.08
+    buy  100 shares at $120.45
+    sell 400 shares at $270.89
+] [some rule]
+print ["total:" total]
+</pre>
+<p>Budiž poznamenáno, že toto je jeden způsob, kterak vyhodnocovat výrazy, jež používají koncept <ii>dialektu</ii>, prvně popsaného v kapitole 4.</p>
+</blockquote>
+<h3 id="section-9.5">9.5 Parsování sub-bloků</h3>
+<blockquote>
+<p>Narazi-li se při parsování bloku na sub-blok, je tento považován za jedinou hodnotu typu <tt>block!</tt>. Pro parsování sub-bloku je nutné invokovat parser rekurzivně. Tuto schopnost poskytuje slovo <tt>into</tt>. To očekává, že další hodnotou pro parsování je sub-blok typu <tt>block!</tt>. Není-li, ke shodě nedojde a slovo <tt>into</tt> hledá alternativu nebo opouští reguli. Je-li další hodnota blokem, použije se pro parsování sub-bloku regule, nasledující slovo <tt>into</tt>.</p>
+<pre>
+rule: [date! into [string! time!]]
+data: [10-Jan-2000 ["Ukiah" 10:30]]
+print parse data rule
+</pre>
+<p>Všechny normální parsovací operace lze aplikovat na akci slova <tt>into</tt>.</p>
+<pre>
+rule: [
+    set date date!
+    set info into [string! time!]]
+
+data: [10-Jan-2000 ["Ukiah" 10:30]]
+print parse data rule
+
+print info
+<span class="put">Ukiah 10:30:00</span>
+
+rule: [date! copy items 2 into [string! time!]]
+data: [10-Jan-2000 ["Ukiah" 10:30] ["Rome" 2:45]]
+print parse data rule
+
+items
+<span class="put">[["Ukiah" 10:30:00] ["Rome" 2:45:00]]</span>
+</pre>
+</blockquote>
+<h2 id="section-10">10. Shrnutí parsovacích operací</h2>
+<blockquote>
+</blockquote>
+<h3 id="section-10.1">10.1 Obecné formy</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+		<tr bgcolor="silver"><th align="left">
+<p>Operátor</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>|</p>
+</td><td valign="top" bgcolor="white">
+<p>alternativní regule</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>[block]</p>
+</td><td valign="top" bgcolor="white">
+<p>sub-regule</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>(paren)</p>
+</td><td valign="top" bgcolor="white">
+<p>vyhodnocení výrazu Red</p>
+</td></tr></table>
+</blockquote>
+<h3 id="section-10.2">10.2 Opakování</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+		<tr bgcolor="silver"><th align="left">
+<p>Operátor</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>none</p>
+</td><td valign="top" bgcolor="white">
+<p>match nothing</p>
+<ii>nejspíš nechodí</ii>          
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>opt</p>
+</td><td valign="top" bgcolor="white">
+<p>nulkrát nebo jednou</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>some</p>
+</td><td valign="top" bgcolor="white">
+<p>jednou či vícekrát</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>any</p>
+</td><td valign="top" bgcolor="white">
+<p>nulkrát nebo vícekrát</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>12</p>
+</td><td valign="top" bgcolor="white">
+<p>opakovat vzor 12x</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>1 12</p>
+</td><td valign="top" bgcolor="white">
+<p>opakovat vzor jednou až 12x</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>0 12</p>
+</td><td valign="top" bgcolor="white">
+<p>opakovat vzor 0 až 12x</p>
+</td></tr></table>
+</blockquote>
+<h3 id="section-10.3">10.3 Přeskakování hodnot</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+		<tr bgcolor="silver"><th align="left">
+<p>Operátor</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>skip</p>
+</td><td valign="top" bgcolor="white">
+<p>přeskočit hodnotu (nebo vícekrát, dáno-li opakování)</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>to</p>
+</td><td valign="top" bgcolor="white">
+<p>pokročit u vstupu k hodnotě nebo datovému typu</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>thru</p>
+</td><td valign="top" bgcolor="white">
+<p>pokročit u vstupu za hodnotu či datový typ</p>
+</td></tr></table>
+</blockquote>
+<h3 id="section-10.4">10.4 Určení hodnot</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+		<tr bgcolor="silver"><th align="left">
+<p>Operátor</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>set</p>
+</td><td valign="top" bgcolor="white">
+<p>přiřadit následující hodnotu k proměnné
+</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>copy</p>
+</td><td valign="top" bgcolor="white">
+<p>přiřadit kopii následující (match) sekvence k proměnné
+</p>
+</td></tr></table>
+</blockquote>
+<h3 id="section-10.5">10.5 Použití slov</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+		<tr bgcolor="silver"><th align="left">
+<p>Operátor</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>word</p>
+</td><td valign="top" bgcolor="white">
+<p>vyhledat hodnotu slova</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>word:</p>
+</td><td valign="top" bgcolor="white">
+<p>přiřadit proměnnou k aktuální pozici vstupu (set the variable to the current input position )
+</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>:word</p>
+</td><td valign="top" bgcolor="white">
+<p>set the current input series position from the variable 
+</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>'word</p>
+</td><td valign="top" bgcolor="white">
+<p>porovnání s literálovou formou slova (parse block)</p>
+</td></tr></table>
+</blockquote>
+<h3 id="section-10.6">10.6 Shoda hodnot (block parsing only)</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+		<tr bgcolor="silver"><th align="left">
+<p>Operátor</p>
+</th><th align="left">
+<p>Popis</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>"fred"</p>
+</td><td valign="top" bgcolor="white">
+<p>shoduje se s řetězcem "fred"</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>%data</p>
+</td><td valign="top" bgcolor="white">
+<p>shoduje se s názvem souboru %data</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>10:30</p>
+</td><td valign="top" bgcolor="white">
+<p>shoduje se s časem (time) 10:30</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>1.2.3</p>
+</td><td valign="top" bgcolor="white">
+<p>shoduje se s enticí (tuple) 1.2.3</p>
+</td></tr></table>
+</blockquote>
+<h3 id="section-10.7">10.7 Datatype Words</h3>
+<blockquote>
+<table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
+		<tr bgcolor="silver"><th align="left">
+<p>Word</p>
+</th><th align="left">
+<p>Description</p>
+</td>
+</tr><tr><td valign="top" bgcolor="white">
+<p>type!</p>
+</td><td valign="top" bgcolor="white">
+<p>matches anything of a given datatype</p>
+</td></tr></table>
+</blockquote>
+</td></tr>
+<tr><td align=center>
+
+</td></tr></table>
+</center>
+<!--<map name="bar-map">
+<area shape="rect" coords="0,0,150,28"   href="http://www.rebol.com" alt="REBOL.com">
+<area shape="rect" coords="175,0,275,28" href="http://www.rebol.com/docs.html" alt="Documents">
+<area shape="rect" coords="285,0,365,28" href="http://www.rebol.com/docs/core23/rebolcore.html" alt="Manual">
+<area shape="rect" coords="375,0,445,28" href="http://www.rebol.com/docs/dictionary.html" alt="Dictionary">
+<area shape="rect" coords="452,0,500,28" href="http://www.rebol.com/library.html" alt="Library">
+<area shape="rect" coords="510,0,575,28" href="http://www.rebol.com/feedback.html" alt="Feedback">
+</map>-->
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="14-porty.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="16-hodnoty.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<span class="tail">
+Perpetrated 25-May-2017 -
+<!--<a href="http://www.rebol.com">Copyright REBOL Technologies</a>-->
+- Hosted with BitBucket Cloud
+</span></center>
+</body></html>

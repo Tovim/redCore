@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" lang="cs">
+<title>Chapter 9 - Functions</title>
+<link rel="stylesheet" HREF="red_cz.css">
+</head>
+
+<body bgcolor="beige">  <!--#fff8e8-->
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="08-strings.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="10-objekty.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<table width="660" cellpadding="4" cellspacing="0" border="0">
+<!--<tr><td><a href="http://www.rebol.com/docs.html"><img src="http://www.rebol.com/graphics/doc-bar.gif" width="680" height="28" align="bottom" alt="rebol document" border="0" usemap="#bar-map" ismap></a></td></tr>-->
+<tr><td height="24"> </td></tr>
+<tr><td><h1>Kapitola 9 - Funkce</h1>
+
+
+<h2>Obsah:</h2>
+<a class="toc1" href="#section-1">1. Úvod</a><br>
+<a class="toc1" href="#section-2">2. Vyhodnocení funkcí</a><br>
+<a class="toc2" href="#section-2.1">2.1 Argumenty funkcí</a><br>
+<a class="toc2" href="#section-2.2">2.2 Datové typy argumentů</a><br>
+<a class="toc2" href="#section-2.3">2.3 Upřesnění</a><br>
+<a class="toc2" href="#section-2.4">2.4 Funkce jako hodnota</a><br>
+<a class="toc1" href="#section-3">3. Definování funkcí</a><br>
+<a class="toc2" href="#section-3.1">3.1 Specifikace rozhraní</a><br>
+<a class="toc2" href="#section-3.2">3.2 Literálové argumenty</a><br>
+<a class="toc2" href="#section-3.3">3.3 Argumenty get</a><br>
+<a class="toc2" href="#section-3.4">3.4 Deklarace upřesnění</a><br>
+<a class="toc2" href="#section-3.5">3.5 Lokální proměnné</a><br>
+<a class="toc2" href="#section-3.6">3.6 Lokální proměnné obsahující řady</a><br>
+<a class="toc2" href="#section-3.7">3.7 Návratová hodnota</a><br>
+<a class="toc2" href="#section-3.8">3.8 Vícero návratových hodnot hodnoty</a><br>
+<a class="toc1" href="#section-4">4. Vnořené funkce</a><br>
+<a class="toc1" href="#section-5">5. Nepojmenované funkce</a><br>
+<a class="toc1" href="#section-6">6. Podmínkové funkce</a><br>
+<a class="toc1" href="#section-7">7. Atributy funkcí</a><br>
+<a class="toc1" href="#section-8">8. Předběžné odkazy</a><br>
+<a class="toc1" href="#section-9">9. Rajón proměnných</a><br>
+<a class="toc1" href="#section-10">10. Reflektivní vlastnosti</a><br>
+<a class="toc1" href="#section-11">11. Online funkce Help</a><br>
+<a class="toc1" href="#section-12">12. Prohlížení zdrojového kódu</a><br></blockquote>
+
+<h2 id="section-1">1. Úvod</h2>
+<blockquote>
+<p>V programovém jazyce Red se vyskytuje několik druhů funkcí. Pseudotyp <tt>any-function!</tt> zahrnuje funkce typu <tt>action!, function!, native!, op!</tt> a <tt>routine!</tt>.<br>Seznam funkcí například typu <tt>function!</tt> poskytne dotaz &nbsp; <tt>&gt;&gt help function!</tt>.</p>
+
+<table cellspacing="0" border="0" width="100%">
+<tr><td width="0"></td>
+<td valign="top" width="80"><b>Native!</b></td><td valign="top">Nativní funkce je vyhodnocena přímo procesorem. Jde o nejnižší úroveň funkcí v jazyce. Do jazyka Red je implementována pomocí konstrukce:
+<pre>print: make native! [   
+    "Outputs a value followed by a newline"
+    value [any-type!]
+    #get-definition NAT_PRINT ]
+</pre>
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="100"><b>Function!</b></td><td valign="top">Uživatelské funkce vyšší úrovně definované blokem. Vyhodnocením této funkce je vyhodnocení jejího bloku. Příkladem zdrojového kódu je:
+<pre>
+quote: func [:value ][:value ]
+</pre> 
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="100"><b>Action!</b></td><td valign="top">Funkce, které jsou standardní částí jazyka a jsou vytvořené podobně jako nativní funkce:
+<pre>
+head: make action! [[
+     "Returns a series at its first index"
+     series [series!]
+     return:  [series!]]
+     #get-definition ACT_HEAD ]
+</pre> 
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="100"><b>Routine!</b></td><td valign="top"> Funkce (rutina), která se používá pro volání funkce z externí knihovny, například:
+<pre>
+exists?: routine [path [file!] return: [logic!]] [
+     simple-io/file-exists? file/to-OS-path path ]
+</pre> 
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="100"><b>Op!</b></td><td valign="top">Operátorové funkce, používané jako infixový operátor, například <tt>+</tt>, <tt>-</tt>, <tt>*</tt> a <tt>/</tt>. Příklad zdrojového kódu:
+<pre>
+#load set-word! "//"  make op! :modulo
+</pre>
+</td></tr>
+</table>
+<br>
+</blockquote>
+<h2 id="section-2">2. Vyhodnocení funkcí</h2>
+<blockquote>
+<p>V kapitole <A href="04-vyrazy.html">Výrazy</A> jsou popsány povšechné principy vyhodnocování. Způsob, jakým jsou funkce vyhodnocovány je obecně dán pořadím slov a hodnot. Tato kapitola podrobněji popisuje vyhodnocování funkcí.</p>
+</blockquote>
+<h3 id="section-2.1">2.1 Argumenty</h3>
+<blockquote>
+<p>Funkce přijímají argumenty a vracejí výsledky. Většina funkcí vyžaduje jeden či více argumentů. Některé funkce, jako například <tt>now</tt> (aktuální datum a čas), nevyžadují žádný argument.</p>
+<p>Argumenty, které jsou poskytovány funkci, jsou nejprve zpracovány překladačem a poté předány funkci. Funkce <tt>send</tt> například, přijímá dva argumenty:</p>
+<ii>Funkce send nechodí</ii>
+<pre>
+friend: luke@rebol.com
+message: "message in a bottle"
+
+send friend message
+</pre>
+<p>Nejprve je vyhodnoceno slovo <tt>friend</tt>  a jeho hodnota 
+(<tt>luke@rebol</tt>.com ) je poskytnuta jako první argument funkci <tt>send</tt>. Dále je vyhodnoceno slovo <tt>message</tt> a jeho hodnota se stává druhým argumentem:</p>
+<pre>
+send luke@rebol.com "message in a bottle"
+</pre>
+<p>Zadáme-li menší počet argumentů, než pro který je funkce definována, obdržíme chybové hlášení, jako například v tomto volání funkce <tt>send</tt>:</p>
+<pre>
+send friend
+<span class="put">** Script Error: send is missing its message argument.
+** Where: send friend</span>
+</pre>
+<p>Zadáme-li více argumentů než očkáváno, jsou nadbytečné argumenty ignorovány - bez chybového hlášení:</p>
+<pre>
+send friend message "urgent"
+</pre>
+<p>Argumenty funkce jsou vyhodnocovány zleva doprava. Toto pořadí je dodrženo i když je argumentem funkce. Napíšeme-li například:</p>
+<pre>
+send friend detab copy message  <ii>;; detab není rovněž podporováno</ii>
+</pre>
+<p>dojde u druhého argumentu k oklice, spočívající v tom, že nejprve je <tt>kopie</tt> slova <b>message</b> poskytnuta jako argument funkci <tt>detab</tt> a její návratová hodnota se posléze stává druhým argumentem funkce <tt>send</tt>. Jak vidno, řada funkcí se vyhodnocuje z prava doleva.</p>
+<p>Postup vyhodocení lze přehledně vyjádřit s použitím závorek. Nutno počítat s tím, že závorky poněkud zpomalují vyhodnocení.</p>
+<pre>
+send friend (detab (copy message))
+</pre>
+<p>Kaskádový účinek výsledků, zadávaných funkcím, je docela užitečný. Zde je příklad, který v jednom výrazu používá dvakrát funkci <tt>insert</tt>:</p>
+<pre>
+file: %image
+insert tail insert file %graphics/ %.jpg
+<span class="put">== %""</span>
+print file
+<span class="put">graphics/image.jpg</span>
+</pre>
+<p>Vidíme, že název souboru s připojenou extenzí byl uveden za vloženým názvem složky. Závorky opět výtečně zpřehlední průběh vyhodnocení:</p>
+<pre>
+insert (tail (insert file %graphics/)) %.jpg
+<span class="put">== %""</span>
+</pre>
+</blockquote>
+
+<h3 id="section-2.2">2.2 Datové typy argumentů</h3>
+<blockquote>
+<p>Některé funkce vyžadují argumenty určitého datového typu. Například, prvním argumentem nativní funkce <tt>send</tt> <ii>(nechodí)</ii> může být emailová adresa nebo blok emailových adres. Jakýkoliv jiný typ hodnoty vyvolá chybové hlášení:</p>
+<pre>
+send 1234 "numbers"
+<span class="put">** Script Error: send expected address argument of type: email block.
+** Where: send 1234 "numbers"</span>
+</pre>
+<p>Dobrým způsobem, jak zjistit typ akceptovaných argumentů funkce, je zadání dotazu:</p>
+<pre>
+help send                    <ii>send se neumí</ii>
+<span class="put">USAGE:
+    SEND address message /only /header header-obj</span>
+<span class="put">DESCRIPTION:
+    Send a message to an address (or block of addresses)
+    SEND is a function value.</span>
+<span class="put">ARGUMENTS:
+    address -- An address or block of addresses (Type: email block)
+    message -- Text of message. First line is subject. (Type: any)</span>
+<span class="put">REFINEMENTS:
+    /only -- Send only one message to multiple addresses
+    /header -- Supply your own custom header
+        header-obj -- The header to use (Type: object)</span>
+</pre>
+<p>V části ARGUMENTS vidíme výpis očekávaných argumentů. Druhý argument může být libovolného typu, takže můžeme napsat:</p>
+<pre>
+send luke@rebol.com $1000.00
+</pre>
+</blockquote>
+
+<h3 id="section-2.3">2.3 Upřesnění</h3>
+<blockquote>
+<p>Upřesnění (refinement) specifikuje odchylku od normálního výpočtu funkce. Upřesnění také umožňují zadání volitelných argumentů. Upřesnění se používají jak u nativních, tak i uživatelských funkcí.</p>
+<p>Upřesnění se uvádí za lomítkem a názvem funkce. Například:</p>
+<pre>
+copy/part  (kopírovat jenom část řetězce)
+
+find/tail  (vrátit konec nalezené řady)
+
+load/markup  (vrátit tagy a řetězce XML/HTML)
+</pre>
+<p>Funkce mohou být také vybaveny vícerými upřesněními:</p>
+<pre>
+find/case/tail (vrátit konec řady se shodnou velikostí písma)
+
+insert/only/dup (vložit celý blok vícekrát)
+</pre>
+<p>Viděli jsme použití funkce <tt>copy</tt> k vytvoření kopie řetězce. Implicitně vrací funkce <tt>copy</tt> kopii svého argumentu:</p>
+<pre>
+string: "no time like the present"
+print copy string
+<span class="put">no time like the present</span>
+</pre>
+<p>S upřesněním <tt>/part</tt> vrací <tt>copy</tt> jenom vyznačenou část řady řetězce:</p>
+<pre>
+print copy/part string 7
+<span class="put">no time</span>
+</pre>
+<p>Číslo <tt>7</tt> zde zadalo kopírovanou délku řady.</p>
+<p>Výpis upřesnění pro funkci <tt>copy</tt> nám opět poskytne dokumentační funkce <tt>help</tt>:</p>
+<pre>
+help copy
+<span class="put">USAGE:
+    COPY value /part range /deep</span>
+<span class="put">DESCRIPTION:
+     Returns a copy of a value.
+     COPY is an action value.</span>
+<span class="put">ARGUMENTS:
+     value -- Usually a series (Type: series port bitset)</span>
+<span class="put">REFINEMENTS:
+     /part -- Limits to a given length or position.
+         range -- (Type: number series port)
+     /deep -- Also copies series values within the block.</span>
+</pre>
+<p>K upřesnění <tt>/part</tt> se uvádí, že vyžaduje další argument (délku kopírované části). Upřesnění <tt>/deep</tt> zařídí kopírování všech vnořených bloků bez dalších argumentů.</p>
+<p>Při použití vícerých upřesnění je pořadí dalších argumentů určeno pořadím upřesnění. Na příklad:</p>
+<pre>
+str: "test"
+insert/dup/part str "this one" 4 5
+print str
+<span class="put">this this this this test</span>
+</pre>
+<p>Změnou pořadí <tt>/dup</tt> and <tt>/part</tt> se změní pořadí argumentů. Zde vidíme rozdíl:</p>
+<pre>
+str: "test"
+insert/part/dup str "this one" 4 5
+print str
+<span class="put">thisthisthisthisthistest</span>
+</pre>
+<p>Upřesnění indikují pořadí argumentů.</p>
+</blockquote>
+<h3 id="section-2.4">2.4 Funkce jako hodnota</h3>
+<blockquote>
+<p>Předchozí příklady ukazují, jak funkce vracejí hodnoty při jejich vyhodnocení (volání). Někdy je však zapotřebí získat funkci samotnou, nikoliv její vratnou hodnotu. To se zajistí předsazením dvojtečky před názvem funkce nebo použitím funkce <tt>get</tt>. Na příklad, pro přiřazení funkce <tt>print</tt> ke slovu <tt>pr</tt> nutno zapsat:</p>
+<pre>
+pr: :print
+</pre>
+<p>nebo:</p>
+<pre>
+pr: get 'print
+</pre>
+<p>Nyní je <tt>pr</tt> ekvivalentní funkci <tt>print</tt>:</p>
+<pre>
+pr "this is a test"
+<span class="put">this is a test</span>
+</pre>
+</blockquote>
+
+<h2 id="section-3">3. Definování funkcí</h2>
+<blockquote>
+<p>Obecné schema deklarace funkce má tuto konfiguraci:</p>
+<pre>
+does|func|has|function [specifikace funkce] [tělo funkce]
+</pre>
+<p>Jak vidno, skládá se deklarace funkce v podstatě ze tří částí. V první části se uvádí, jaký druh funkce se deklaruje, druhou částí je blok s parametry a specifikacemi funkce, třetí částí je blok s tělem funkce.</p>
+<p>Zápis jednotlivých funkcí může vypadat takto:</p>
+<p>
+<b>does</b> uvádí funkci bez parametrů.
+<pre>
+sing: does [print "do re mi fa so la si do"]
+<span class="put">== func [][print "do re mi fa so la si do"]</span>
+sing
+<span class="put">do re mi fa so la si do</span>
+</pre></p>
+<b>func</b> uvádí funkci s parametry bez lokálních proměnných.  
+<pre>
+plus: func [x y] [x + y]
+<span class="put">== func [x y][x + y]</span>
+plus 5 8
+<span class="put">13</span>
+</pre>
+<b>has</b> uvádí funkci bez parametrů ale s lokálními proměnnými.  
+<pre>
+max-rand: has [x y] [x: random 10 y: random 10 max x y]
+<span class="put">== func [/local x y][x: random 10 y: random 10 max x y]</span>
+max-rand 5 8
+<span class="put">8</span> <ii>        ;; nevrací nic jiného!!</ii> 
+</pre>
+<b>function</b> uvádí funkci s parametry i s lokálními proměnnými.
+<pre>
+plus: function [x y] [sum: x + y sum]
+<span class="put">== func [x y /local sum] [sum: s + y sum]</span>
+plus 5 8
+<span class="put">13</span>
+</pre>
+
+<p>Jak vidíme, jsou všechny čtyři typy převedeny v překladači na typ <b><tt>func</tt></b> s použitím různých akomodací: 
+</p>
+<ol><li>
+Funkci <b>does</b> lze nahradit funkcí <b><tt>func</tt></b> s použitím prázdného bloku specifikací <tt>[]</tt>.</li>
+<li>
+Funkci <b>has</b> lze nahradit funkcí <b><tt>func</tt></b> s použitím upřesnění <tt>[/local x y]</tt> v bloku specifikací, které z globálních parametrů <tt>[x y]</tt> činí lokální proměnné <tt>x y</tt>.</li>
+<li>
+Funkci <b>function</b> lze nahradit funkcí <b><tt>func</tt></b> s použitím upřesnění <tt>/local sum</tt> v bloku specifikací <tt></tt> pro lokální proměnnou <tt>sum</tt>.</li>
+</ol>
+<p>Funkcki <b><tt>func</tt></b> samotnou lze definovat jako objekt, jehož prototypem je datový typ <tt>function!</tt>:</p>
+<pre>
+func: make function! [[specs] [body]]
+</pre>
+<p>Za funkci lze vlastně považovat i blok, jehož vyhodnocení aktivujeme funkcí <tt>do</tt>.
+</p>
+<pre>
+akce: [
+    probe "Zde je jedna akce"
+    print "zde je druhá akce"
+    write %/F/codetest/red/the3rd.txt "Zde je třetí akce"
+]
+do akce    <ii> ;; ověřte si to</ii>
+</pre>
+</blockquote>
+<!-- ŘEŠENO V KAP. 9 - RAJÓN PROMĚNNÝCH
+<h3 id="section-3.1">3.1 Jmenný prostor funkce</h3>
+<blockquote>
+<p>Funkce sdílejí operační prostor (prostor jmen, scope) s prostorem, ze kterého jsou volány. To znamená, že funkce může jako argument použít hodnotu, deklarovanou vně funkce.</p>
+<p>Všechny proměnné funkcí jsou tedy <tt>globální</tt>. Za <tt>lokální</tt> lze označit tu proměnnou, jejíž hodnota byla deklarována uvnitř funkce.</p> 
+<p>Má-li lokální proměnná stejné jméno jako globální proměnná, má v těle funkce přednost před globální proměnnou.<br>
+Lokální proměnná může změnit hodotu stejnojmenné globální proměnné. </p>
+<pre>
+x: 12
+y: 5
+sum: func [y z] [x: y + z]
+<span class="put">== func [y z] [x: y + z]</span>     <ii>;; <tt>x</tt> je zde lokální proměnná</ii>
+print sum 2 8      <span class="put">;; == 10</span>
+print x            <span class="put">;; == 10</span>
+
+print sum 2 y     <span class="put">;; == 7</span>
+print x           <span class="put">;; == 7</span>
+</pre>
+<p>Nyní si totéž zkusíme s deklarací lokálních proměnných upřesněním <tt>/local </tt>:</p>
+<pre>
+x: 12
+y: 5
+sum: func [/local y z] [x: y + z]
+<span class="put">== func [/local y z] [x: y + z]</span>
+sum/local 2 8      <span class="put">;; == 10</span>
+x                  <span class="put">;; == 10</span>
+
+sum/local 2 y      <span class="put">;; == 7</span>
+x                  <span class="put">;; == 7</span>
+</pre>
+<p>Lokál nelokál, výsledky jsou stejné. Potvrzuje se, že všechny proměnné funkce jsou globální. Dokonce i ta interní proměnná <tt>x</tt>, která přepíše hodnotu globální <tt>x</tt>.  <ii>Poněkud tápeme.</ii></p>
+<p><ii>Domněnka, která se může hodit:</ii> Při volání funkce např. <tt>sum 2 y</tt> nahradil interpret proměnnou <tt>y</tt> číslem 5  a funkce přijala konkretní argumenty <tt>2</tt> a <tt>5</tt>.
+</blockquote> -->
+<h3 id="section-3.1">3.1 Specifikace rozhraní</h3>
+<blockquote>
+<p>První blok v definici funkce je rozhraním funkce. Obsahuje popis funkce, její argumenty, přípustné typy argumentů, popis těchto argumentů a jiné položky.</p>
+<p>Specifikace rozhraní je dialektem Redu, neboť má jiná vyhodnocovací pravidla než normální kód. Specifikační blok má tento formát:</p>
+<pre>
+[
+    "nepovinný popis funkce"
+    
+    argument-1 [nepovinný: typ]
+    "nepovinný popis argumentu"
+
+    argument-2 [nepovinný: typ]
+    "nepovinný popis argumentu"
+
+    ...
+
+    /nepovinné upřesnění
+    "nepovinný popis upřesnění"
+
+    argument-upřesnění-1 [nepovinný: typ]
+    "nepovinný popis argumentu upřesnění"
+
+    ...
+]
+</pre>
+<!--
+<p>The fields of the specification block are:</p>
+<table cellspacing="6" border="0" width="95%">
+<tr><td width="20">&nbsp;</td><td valign="top" width="80">Description</td><td valign="top">A short description of the function. This is a
+string that can be accessed by other functions such as <W>help
+to output descriptions of functions.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80">Attributes</td><td valign="top">A block that describes special properties of the
+function, such as its behavior on errors. It may be expanded in
+the future to include flags for optimizations.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80">Argument</td><td valign="top">A variable that is used to access an argument from
+within the body of the function.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80">Arg Type</td><td valign="top">A block that identifies the data types that are
+accepted by the function. If a data type not identified in this
+block is passed to the function, an error will occur.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80">Arg Description</td><td valign="top">A short description of the argument. Like the
+function description, this can be accessed by other functions
+such as <W>help.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80">Refinement</td><td valign="top">A refinement word that indicates special behavior
+is required of the function.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80">Refinement Description</td><td valign="top">A short description of the refinement.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80">Refinement Argument</td><td valign="top">A variable that is used by the
+refinement.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80">Refinement Argument Type</td><td valign="top">A block that identifies the data
+types that are accepted by the refinement.
+</td></tr>
+<tr><td width="20">&nbsp;</td><td valign="top" width="80">Refinement Argument Description</td><td valign="top">A short description of the
+refinement argument.
+</td></tr>
+</table>
+<p>All of these fields are optional.</p>
+-->
+<p>Jako příklad je uveden kód funkce <tt>sum</tt> s rozvinutým blokem argumentů:</p> 
+<pre>
+sum: func [
+    "Return the sum of two numbers."
+    arg1 [number!] "first number"
+    arg2 [number!] "second number"
+][
+    arg1 + arg2
+]
+</pre>
+<p>Pokud bychom nedeklarovali typy argumentů, dostali bychom tento výstup při nekorektním volání funkce:</p>
+<pre>
+print sum 1 "test"
+<span class="put">** Script Error: string! type is not allowed here
+** Where: +</span>
+</pre>
+<p>S deklarovanými typy argumentů dostaneme podrobnější komentář:</p>
+<pre>
+print sum 1 "test"
+<span class="put">** Script Error: sum does not allow string! for its arg2 argument
+** Where: sum</span>
+</pre>
+<p>Jak vidno, rozdíl v tomto případě není veliký a to proto, že si překladač sám hlídá konformitu typů. Výpočet s deklarovanými typy bude zřejmě i rychlejší.</p>
+<p>Deklarace více typů argumentů činí funkci tolerantnější:</p>
+<pre>
+sum: func [
+    "Return the sum of two numbers."
+    arg1 [number! tuple! money!] "first number"
+    arg2 [number! tuple! money!] "second number"
+][
+    arg1 + arg2
+]
+
+print sum 1.2.3 3.2.1
+<span class="put">4.4.4</span>
+print sum $1234 100
+<span class="put">$1334.00</span>
+</pre>
+<p>Nyní funkce <tt>sum</tt> přijímá jako argument číslo, entici (tuple) nebo (<ii>zatím nepodporovanou</ii>) peněžní hodnotu. Pokud bychom uvnitř funkce potřebovali určit, jaký typ dat byl zadán, můžeme použít funkce pro testování dat:</p>
+<pre>
+if tuple? arg1 [print arg1]
+
+if money? arg2 [print arg2]
+</pre>
+<p>Protože funkce <tt>sum</tt> obsahovala také dokumentační řetězce, může nám o ní funkce <tt>help</tt> poskytnout informaci:</p>
+<pre>
+help sum
+<span class="put">USAGE:
+    SUM arg1 arg2</span>
+<span class="put">DESCRIPTION:
+     Return the sum of two numbers.
+     SUM is a function value.</span>
+<span class="put">ARGUMENTS:
+     arg1 -- first number (Type: number tuple money)
+     arg2 -- second number (Type: number tuple money)</span>
+</pre>
+</blockquote>
+<h3 id="section-3.2">3.2 Literálové argumenty</h3>
+<blockquote>
+<p>Jak již bylo popsáno dříve, vyhodnotí překladač argumenty funkce a předá je tělu funkce. Někdy se ale nehodí aby byly argumenty funkce vyhodnocovány. Když například potřebujeme zadat slovo a mít k němu přístup z těla funkce, nehodí se aby bylo vyhodnoceno jako argument. Dobrým příkladem je funkce <tt>help</tt>, která očekává slovo:</p>
+<pre>
+help print
+</pre>
+<p>Abychom zabránili vyhodnocení funkce <tt>print</tt>, musí funkce <tt>help</tt> obsahovat interní příkaz, že její argument nemá být vyhodnocován.</p>
+<p>Ručně se to řeší tak, že argument má formu <tt>literálu</tt>, to jest, jeho slovo je uvedeno jednoduchým apostrofem. Na příklad:</p>
+<pre>
+zap: func ['var] [set var 0]    
+test: 10
+zap test
+<span class="put">==00</span>                       
+print test
+<span class="put">== 0</span>
+</pre>
+<p>Argument s apostrofem je předáván jako slovo. Na příklad:</p>
+<pre>
+say: func ['var] [probe var]       
+say test
+<span class="put">test</span>
+</pre>
+<p>Kdybychom pro proměnnou <tt>var</tt> nepoužili literálovou formu, dostali bychom v předchozím příkladě chybové hlášení:<br><ii>Ó nikoliv! </ii> 
+</p>
+<pre>
+say: func [var] [probe var]    
+say test
+<span class="put">== 0</span>
+<!--<span class="put">** Script Error: test has no value
+** Where: say </span>-->
+</pre>
+<p>Jiným příkladem je funkce, která zvyšuje hodnotu proměnné o 1 a vrací výsledek (podobně jako inkrementální funkce <tt>++</tt> v C):</p>
+<pre>
+++: func ['word] [set word 1 + get word]    
+
+count: 0
+++ count
+<span class="put">1</span>
+++ count
+<span class="put">2</span>
+</pre>
+</blockquote>
+<h3 id="section-3.3">3.3 Přístup k argumentům</h3>
+<blockquote>
+<ii>Nerozumím a nechodí</ii>
+<p>
+Function arguments can also specify that a word's value be fetched but not
+evaluated. This is similar to the literal arguments described above, but rather
+than passing the word, the value of the word is passed without being
+evaluated.</p>
+<p>To specify that an argument be fetched but not evaluated, precede the
+argument name with a colon. For example, the following function accepts
+functions as arguments:</p>
+<pre>
+print-body: func [:fun] [probe second :fun]
+</pre>
+<p>The sample function prints the body of a function that is passed to it. The
+argument is preceded by a colon, which indicates that the value of the word
+should be obtained, but not further evaluated.</p>
+<ii>Nechodí</ii>
+<pre>
+print-body reform                    <ii>neumíme 'reform'</ii>
+<span class="put">[form reduce value]</span>
+print-body rejoin
+<span class="put">[
+    if empty? block: reduce block [return block]
+    append either series? first block [copy first block] [
+        form first block] next block
+]</span>
+</pre>
+</blockquote>
+<h3 id="section-3.4">3.4 Deklarace upřesnění</h3>
+<blockquote>
+<p>Upřesnění mohou být použita k určení odchylného průběhu vyhodnocení funkce a k zadání volitelných argumentů. Upřesnění se přidává ke specifikaci funkce jako slovo za lomítkem (/).</p>
+<p>Uvnitř funkce je upřesnění použito jako logická hodnota, potvrzující že bylo upřesnění použito při volání funkce. Název tohoto upřesnění je deklarován v argumentačním bloku.</p>
+<p>Například, v následujícím kódu se přidává upřesnění k funkci <tt>sum</tt>, definované v předchozí ukázce:</p>
+<pre>
+sum: func [
+    "Return the sum of two numbers."
+    arg1 [number!] "first number"
+    arg2 [number!] "second number"
+    /brambor "vrací průměr čísel"
+][
+    either brambor [arg1 + arg2 / 2][arg1 + arg2]
+]
+</pre>
+<p>Funkce <tt>sum</tt> deklaruje upřesnění <tt>/brambor</tt>. V těle funkce je toto slovo testováno funkcí <tt>either</tt>, jež vrací "true", bylo-li upřesnění při volání funkce použito.</p>
+<pre>
+print sum/brambor 123 321
+<span class="put">222</span>
+</pre>
+<p>Voláme-li funkci bez definovaného upřesnění uplatní se výraz <tt>arg1+arg2</tt>:</p>
+<pre>
+print sum 123 321
+<span class="put">444</span>
+</pre>
+<p>Případné argumenty pro upřesnění se deklarují rovněž v argumentačním bloku:</p>
+<pre>
+sum: func [
+    "Return the sum of two numbers."
+    arg1 [number!] "first number"
+    arg2 [number!] "second number"
+    /krát "multiply the result"
+    mocli [number!] "how many times"
+][
+    either krát [arg1 + arg2 * mocli][arg1 + arg2]
+]
+</pre>
+<p>Argument <tt>mocli</tt> je platný v případě, že upřesnění <tt>krát</tt> je pravdivé (bylo při volání fce uplatněno).
+Zde je příklad:</p>
+<pre>
+print sum/krát 123 321 10
+<span class="put">4440</span>
+print sum 123 321 10
+<span class="put">444</span>
+</pre> <!--
+<p>
+Do not forget to check the refinement word before using the additional
+arguments. If a refinement argument is used without the refinement being
+specified, it will have a <tt>none</tt> value.</p>-->
+
+<!--
+<h3 id="section-3.5">3.5 Lokální proměnné</h3>
+<blockquote>
+<p>Lokální proměnná je slovo, jehož hodnota je definována uvnitř funkce. Změny lokální proměnné ovlivňují pouze tu funkci, kde je proměnná definovaná; mimo prostor funkce se neprojeví, byť i zde by existovala proměnná stejného jména.</p>
+<p>Proměnné argumentů (parametry) a slova upřesnění jsou lokální proměnné. Jejich hodnoty jsou deklarovány uvnitř těla funkce. Dodatečné lokální proměnné lze definovat pomocí upřesnění <tt>/local</tt>.<br>
+Upřesnění <tt>/local</tt> je následováno seznamem slov, která jsou použita jako lokální proměnné uvnitř funkce.</p>
+<pre>
+average: func [
+    block "Block of numbers"
+    /local total length
+][
+    total: 0
+    length: length? block
+    foreach num block [total: total + num]
+    either length &gt; 0 [total / length][0]
+]
+</pre>
+<p>Slova <tt>total</tt> a <tt>length</tt> jsou názvy lokálních proměnných funkce.</p>
+<p>Jiný způsob vytvoření lokálních slov je s použitím funkce  <tt>function</tt>, jejíž tělo je identické s funkcí <tt>func</tt>, ale nepoužívá upřesnění <tt>/local</tt> a jména lokálních funkcí jsou uzavřena v samostatném bloku:</p>
+<pre>
+average: function [
+    block "Block of numbers"
+][
+    total length
+][
+    total: 0
+    length: length? block
+    foreach num block [total: total + num]
+    either length &gt; 0 [total / length][0]
+]
+</pre>
+<p>Implicitní hodnota lokálních proměnných v argumentačním bloku je <tt>none</tt>.</p>
+-->
+</blockquote>
+<h3 id="section-3.5">3.5 Lokální proměnné</h3>
+<blockquote>
+<p>Lokální proměnná je slovo, jehož hodnota je definována uvnitř funkce. Změny lokální proměnné ovlivňují pouze tu funkci, kde je proměnná definovaná; mimo prostor funkce se neprojeví, byť i zde by existovala proměnná stejného jména.</p>
+<p>Proměnné argumentů (parametry) a slova upřesnění jsou lokální proměnné. Jejich hodnoty jsou deklarovány uvnitř těla funkce. Dodatečné lokální proměnné lze definovat pomocí upřesnění <tt>/local</tt>.<br>
+Upřesnění <tt>/local</tt> je následováno seznamem slov, která jsou použita jako lokální proměnné uvnitř funkce.</p>
+<pre>
+average: func [
+    block "Block of numbers"
+    /local total length
+][
+    total: 0
+    length: length? block
+    foreach num block [total: total + num]
+    either length &gt; 0 [total / length][0]
+]
+</pre>
+<p>Slova <tt>total</tt> a <tt>length</tt> jsou názvy lokálních proměnných funkce.</p>
+<p>Jiný způsob vytvoření lokálních slov je s použitím funkce  <tt>function</tt>, jejíž tělo je identické s funkcí <tt>func</tt>, ale nepoužívá upřesnění <tt>/local</tt> a jména lokálních funkcí jsou uzavřena v samostatném bloku:</p>
+<pre>
+average: function [
+    block "Block of numbers"
+][
+    total length
+][
+    total: 0
+    length: length? block
+    foreach num block [total: total + num]
+    either length &gt; 0 [total / length][0]
+]
+</pre>
+<p>Implicitní hodnota lokálních proměnných v argumentačním bloku je <tt>none</tt>.</p>
+</blockquote>
+<h3 id="section-3.6">3.6 Lokální proměnné obsahující řady</h3>
+<blockquote>
+<p>Lokální proměnné, které ukazují na řady, musí být pro víceré použití kopírovány. Chceme-li například aby byl řetězec <tt>stars</tt> stejný při každém volání funkce <tt>start-name</tt>, měli bychom psát:</p>
+<pre>
+star-name: func [name] [
+    stars: copy "**"
+    insert next stars name
+    stars
+]
+</pre>
+<p>Pokud zapíšeme:</p>
+<pre>
+star-name: func [name] [
+    stars: "**"     
+    insert next stars name
+    stars
+]
+</pre>
+<p>přiloží se hodnota parametru <tt>name</tt> k hodnotě proměnné <tt>stars</tt> při každém volání funkce.</p>
+<pre>
+print star-name "test"
+<span class="put">*test*</span>
+print star-name "this"
+<span class="put">*thistest*</span>
+</pre>
+</blockquote>
+<h3 id="section-3.7">3.7 Návratová hodnota</h3>
+<blockquote>
+<p>Jak víme z kapitoly <A href="rebolcore-4.html#_Toc487519750">Expressions</A>, vyhodnocený blok vrací svoji poslední hodnotu:</p>
+<pre>
+do [1 + 3  5 + 7]
+<span class="put">12</span>
+</pre>
+<p>To platí také pro funkce. Poslední hodnota se vrací jako hodota funkce:</p>
+<pre>
+sum: func [a b] [
+    print a print b
+    a + b       ]
+
+sum 123 321
+<span class="put">123
+321
+444</span>
+</pre>
+<p>Funkcí <tt>return</tt> zastavíme vyhodnocování funkce v libovolném místě a vyvoláme návrat poslední hodoty:</p>
+<pre>
+find-value: func [series value] [
+    forall series [
+        if (first series) = value [
+            return series ] ]
+    none ]
+
+find-value [1 2 3 4] 3
+<span class="put">[3 4]</span>
+</pre>
+<p>Při nálezu určené hodnoty vrátila funkce řadu od pozice shody. Jinak by vrátila zadanou hodnotu <tt>none</tt>.</p>
+<p>Pro ukončení výpočtu funkce bez návratové hodnoty se používá funkce <tt>exit</tt>:</p>
+<ii>Funkce <tt>join</tt> není podporována</ii>
+<pre>
+source: func [
+    "Print the source code for a word"
+    'word [word!]
+][
+    prin join word ": "
+    if not value? word [print "undefined" exit]
+    either any [
+        native? get word op? get word action? get word
+    ][
+        print ["native" mold third get word]
+    ][print mold get word]
+]
+</pre>
+</blockquote>
+<h3 id="section-3.8">3.8 Vícero návratových hodnot</h3>
+<blockquote>
+<p>Pro návrat více než jedné hodnoty použijeme blok. Lze s výhodou vracet redukovaný blok.</p>
+<p>Na příklad:</p>
+<pre>
+find-value: func [series value /local count] [
+    forall series [
+        if (first series) = value [
+            reduce [series  index? series]
+        ]
+    ]
+    none
+]
+</pre>
+<p>The function returns a block that holds the series and the index value where
+the value was found.</p>
+<pre>
+find-value [1 2 3 4] 3
+<span class="put">[[3 4] 3]</span>   <ii>; má vrátit</ii> 
+<ii>; vrací však <tt>== none</tt> nebo SE: count has no value</ii>
+</pre>
+<p>Funkce <tt>reduce</tt> je nezbytná pro vytvoření bloku hodnot z bloku daných slov.
+ <!--Do not return the local variables
+themselves. That is not a supported mode of operation (currently).--></p>
+<p>Pro snadné přiřazení proměnné k návratové hodnotě funkce použijeme funkci <tt>set:</tt></p>
+<pre>
+set [block index] find-value [1 2 3 4] 3
+print block
+<span class="put">3 4</span>
+print index
+<span class="put">3</span>    <ii>dostáváme <tt>== none</tt></ii>
+</pre>
+</blockquote>
+<h2 id="section-4">4. Vnořené funkce</h2>
+<blockquote>
+<p>Funkce mohou definovat jiné funkce. Sub-funkce mohou být globální, lokální nebo navrácené jako výsledek.</p>
+<p>Abychom vytvořili globální funkci uvnitř jiné funkce, přiřadíme ji ke globální proměnné:</p>
+<pre>
+make-timer: func [code] [
+    timer: func [time] code   
+make-timer [wait time]       
+timer 5                     <ii>;; po pěti vteřinách:</ii>
+<span class="put">== none</span>
+</pre>
+<p>Lokální funkce zase přiřadíme k lokální proměnné:</p>
+<pre>
+do-timer: func [code delay /local timer] [
+    timer: func [time] code
+    timer delay
+    timer delay
+]
+do-timer [wait time] 5
+</pre>
+<p>Funkce <tt>timer</tt> existuje pouze při vyhodnocování funkce <tt>do-timer</tt>.</p>
+<p>Pro návrat funkce jako výsledku zadáme:</p>
+<pre>
+make-timer: func [code] [
+    func [time] code
+]
+timer: make-timer [wait time]
+timer 5
+</pre>
+<div class="note"><p>Používejte správné lokální proměnné</p>
+<p>Neměly by se používat proměnné, které jsou lokální vůči nadřízené funkci jako nevyhodnocená část vnořené funkce. Na příklad:</p>
+<pre>
+make-timer: func [code delay] [
+    timer: func [time] [wait time + delay]
+]
+</pre>
+<p>Slovo <tt>delay</tt> v ukázce náleží dynamicky k funkci <tt>make-timer</tt>. Tomu je zapotřebí se vyhnout, protože hodnota <tt>delay</tt> se změní při následních evokacích funkce <tt>make-timer</tt>.</p>
+</div>
+</blockquote>
+<h2 id="section-5">5. Nepojmenované funkce</h2>
+<blockquote>
+<p>Jména funkcí jsou proměnnými. V Redu je proměnná proměnnou bez ohledu na co ukazuje. Funkce nejsou žádnou specifikou.</p>
+<p>Navíc, funkce nepotřebují mít jméno. Lze vytvořit funkci a ihned ji vyhodnotit, uložit do bloku, zadat ji jako argument jiné funkci nebo ji vrátit jako výsledek jiné funkce. Tyto funkce jsou nepojmenované.</p>
+<p>Zde je příklad, který vytváří blok nepojmenovaných funkcí:</p>
+<pre>
+funcs: []
+repeat n 10 [
+    append funcs func [t] compose [t + (n * 100)] ]
+<span class="put">== [func [t][t + 100] func [t][t + 200] ...</span>
+
+print funcs/1 10
+<span class="put">110</span>
+print funcs/5 10
+<span class="put">510</span>
+</pre>
+<p>Funkce lze také vytvářet a zadávat jiným funkcím. Když například použijeme funkci <tt>sort</tt> s vlastním porovnáním, poskytujeme funkci jako argument :</p>
+<pre>
+sort/compare data func [a b] [a &gt; b]
+</pre>
+</blockquote>
+<h2 id="section-6">6. Podmínkové funkce</h2>
+<blockquote>
+<p>Protože se funkce vytvářejí dynamicky při vyhodnocení, lze určit jak má být funkce vytvořena v závislosti na další informaci. To je způsob, jímž se poskytuje podmínkový kód v makrech či preprocesorových sub-jazycích jiných programovacích jazyků. V Redu je tento typ podmínkového kódu vytvořen normálním kódem.</p>
+<p>Chcete-li například vytvořit ladící verzi funkce, která tiskne dodatečné informace:</p>
+<pre>
+test-mode: on
+
+timer: either test-mode [
+    func [delay] [
+        print "delaying..."
+        wait delay
+        print "resuming"
+    ]
+][
+    func [delay] [wait delay]
+]
+</pre>
+<p>Zde vytvoříte jednu ze dvou funkcí, založených na zadané hodnotě <tt>test-mode</tt>. Lze to také zapsat stručněji takto:</p>
+<pre>
+timer: func [delay] either test-mode [[
+    print "delaying..."
+    wait delay
+    print "resuming"
+]][[wait delay]]
+</pre>
+</blockquote>
+<h2 id="section-7">7. Atributy funkcí</h2>
+<blockquote>
+<p>Atributy funkcí umožňují výběr určitého chování funkce, jako je např. metoda, kterou funkce použije pro obsloužení chyb nebo k rozhodnutí o ukončení funkce. Atributy jsou uloženy do volitelného bloku slov uvnitř specifikace rozhranní.</p>
+<p>Aktuálně existují dva atributy funkce: <tt>catch</tt> a
+<tt>throw</tt>.</p>
+<p>Chybová hlášení se obvykle zobrazují při výskytu chyby uvnitř funkce. Je-li zadán atribut <tt>catch</tt>, dojde k automatickému odchycení chyby, nikoliv však k jejímu zobrazení uvnitř funkce ale tam, kde byla funkce použita. To je užitečné, poskytujete-li knihovnu mezaninových funkcí.:</p>
+<pre>
+root: func [[catch] num [number!]] [
+    if num &lt; 0 [
+        throw make error! "only positive numbers"
+    ]
+    square-root num
+]
+
+root 4
+<span class="put">2</span>
+root -4
+<span class="put">**User Error: only positive numbers
+**Where: root -4</span>
+</pre>
+<p>Všimněte si, že v tomto příkladu se chyba zobrazuje tam, kde byla volána funkce <tt>root</tt>, i když vlastní chyba byla generována v těle funkce. To díky použitému atributu <tt>catch</tt>.</p>
+<p>Bez tohoto atributu by se chyba projevila uvnitř funkce <tt>root</tt>:</p>
+<pre>
+root: func [num [number!]] [
+    square-root num
+]
+root -4
+<span class="put">** Math Error: Positive number required.
+** Where: square-root num</span>
+</pre>
+<p>Uživatel nemusí znát nic o složení funkce <tt>root</tt>. Chybové hlášení by bylo matoucí. Uživatel zná pouze funkci <tt>root</tt>, ale chyba se vyskytla v <tt>square-root</tt>.</p>
+<p>Nezaměňujet atribute <tt>catch</tt> s funkcí <tt>catch</tt>. 
+I když jsou podobné, funkci <tt>catch</tt> lze použít pro libovolný vyhodnocovaný blok.</p>
+<p>Atribut <tt>throw</tt> umožňuje psaní vlastních řídících funkcí (<tt>for</tt>, <tt>foreach</tt>, <tt>if</tt>, <tt>loop</tt> a <tt>forever</tt>), připouštějících zadání operací <tt>return</tt> a <tt>exit</tt>. Například tato smyčková funkce:</p>
+<pre>
+loop-time: func [time block] [
+    while [now/time &lt; time] block
+]
+</pre>
+<p>provádí vyhodnocení bloku až k okamžiku dosažení určitého času. Tuto smyčku lze potom použít uvnitř funkce:</p>
+<pre>
+do-job: func [job][
+    loop-time 10:30 [
+        if error? try [page: read http://www.rebol.com]
+            [return none]
+    ]
+    page
+]
+</pre>
+<p>Co se tedy stane, když dojde k vyhodnocení bloku  <tt>[return none]</tt>? Protože je tento blok vyhodnocen unvitř funkce <tt>loop-time</tt>, je realizován v této funkci, nikoliv ve funkci <tt>do-job</tt>.</p>
+<p>Tomu lze zabránit atributem <tt>throw</tt>:</p>
+<pre>
+loop-time: func [[throw] time block] [
+    while [now/time &lt; time] block
+]
+</pre>
+<p>Atribut <tt>throw</tt> způsobí, že akce <tt>return</tt> nebo <tt>exit</tt>, které se vyskytly uvnitř bloku, jsou vyvrženy (throw) do předchozí úrovně, což je další funkce, způsobující návrat funkce <tt>do-job</tt>.</p>
+</blockquote>
+<h2 id="section-8">8. Předběžné odkazy</h2>
+<blockquote>
+<p>Někdy je ve skriptu potřebný odkaz na funkci, která ještě nebyla definována. To lze učinit, pokud není proměnná funkce vyhodocena před svou deklarací.</p>
+<pre>
+buy: func [item] [
+    append own item
+    sell head item   <ii>; dosud není definována</ii>
+]
+
+sell: func [item] [
+    remove find own item
+]
+</pre>
+</blockquote>
+<h2 id="section-9">9. Prostor proměnných</h2>
+<blockquote>
+<p>Operační prostor proměnných se označuje jako jejich <tt>scope</tt>, řekněmež <tt>rajón</tt>. Tento rajón může být globální nebo lokální. Red používá statickou formu rajónování, zvanou <tt>definiční</tt>. Rajón proměnné je určen při její deklarací. V případě funkce je určen při její definici.</p>
+<p>Rajón všech lokálních proměnných, definovaných uvnitř funkce, je určen relativně k rajónu funkce. Vložené funkce a objekty mají přístup ke slovům svých rodičů.</p>
+<pre>
+a-func: func [a] [
+    print ["a:" a]
+    b-func: func [b] [
+        print ["b:" b]
+        print ["a:" a]
+        print a + b
+    ]
+    b-func 10
+]
+a-func 11
+<span class="put">a: 11
+b: 10
+a: 11
+21</span>
+</pre>
+<p>Všimněte si, že vnořená funkce <tt>b-func</tt> má přístup k argumentu funkce <tt>a-func</tt>.</p>
+<p>Slova, vázaná mimo funkci, si zachovávají tuto vazbu i při vyhodnocení uvnitř funkce. To je důsledek statického rajónování (scoping), který nám umožňuje psát vlastní vyhodnocovací funkce bloku (jako <tt>if</tt>, <tt>while</tt>, <tt>loop</tt> ).</p>
+<p>Zde například je signovaná funkce <tt>if</tt>, která vyhodnotí jeden ze tří bloků v závislosti na znaménku podmínkové hodnoty:</p>
+<pre>
+ifs: func [
+    "If positive do block 1, zero do block 2, minus do 3"
+    condition block1 block2 block3
+][
+    if positive? condition [return do block1]
+    if negative? condition [return do block3]
+    return do block2
+]
+
+print ifs 12:00 - now/time ["morning"]["noon"]["night"]
+<span class="put">night</span>
+</pre>
+<p>Zadávané bloky mohou obsahovat totožná slova se slovy, použitými uvnitř funkce <tt>ifs</tt>, aniž by kolidovala s lokálně definovanými slovy uvnitř funkce. Je to proto, že zadávaná slova nejsou vázaná s funkcí.</p>
+<p>V následujícím příkladu jsou funkci <tt>ifs</tt> zadána předdefinovaná slova <tt>block1</tt>, <tt>block2</tt> a <tt>block3</tt>.  Funkce není zmatena shodou názvů slov, zadávaných jako argumenty a slov, definovaných lokálně uvnitř funkce:</p>
+<pre>
+block1: "morning right now"
+block2: "just turned noon"
+block3: "evening time"
+
+print ifs (12:00 - now/time) [block1][block2][block3]
+<span class="put">evening time</span>
+</pre>
+</blockquote>
+<h2 id="section-10">10. Reflektivní vlastnosti</h2>
+<blockquote>
+<ii>Nechodí a nerozumím</ii>
+<p>The specification of all functions can be obtained and manipulated during
+run-time. For example, you can print the specification block for a function
+with:</p>
+<pre>
+probe third :if
+<span class="put">[
+    "If condition is TRUE, evaluates the block."
+    condition
+    then-block [block!]
+    /else "If not true, evaluate this block"
+    else-block [block!]
+]</span>
+</pre>
+<p>The body code of functions can be obtained with:</p>
+<pre>
+probe second :append
+<span class="put">[
+    head either only [
+        insert/only tail series :value
+    ][
+        insert tail series :value
+    ]
+]</span>
+</pre>
+<p>Functions can be dynamically queried during evaluation. This is how the
+<tt>help</tt> and <tt>source</tt> functions work and how errors
+messages are formatted.</p>
+<p>In addition, this feature is useful for creating your own unique versions of
+existing functions. For example, a user-defined print function can be created
+that has exactly the same specification as <tt>print</tt>, but sends
+its output to a string rather than the display:</p>
+<pre>
+output: make string! 1000
+
+print-str: func third :print [
+    repend output [reform :value newline]
+]
+</pre>
+<p>The name of the argument used for print-str is obtained from the interface
+specification for print. You can examine that specification with:</p>
+<pre>
+probe third :print
+<span class="put">[
+    "Outputs a value followed by a line break."
+    value "The value to print"
+]</span>
+</pre>
+</blockquote>
+<h2 id="section-11">11. Online Function Help</h2>
+<blockquote>
+<p>Užitečnou informaci o všech funkcích lze získat funkcí  <tt>help</tt>:</p>
+<pre>
+help send
+<span class="put">USAGE:
+    SEND address message /only /header header-obj</span>
+<span class="put">DESCRIPTION:
+     Send a message to an address (or block of addresses)
+     SEND is a function value.</span>
+<span class="put">ARGUMENTS:
+     address -- An address or block of addresses (Type: email block)
+     message -- Text of message. First line is subject. (Type: any)</span>
+<span class="put">REFINEMENTS:
+     /only -- Send only one message to multiple addresses
+     /header -- Supply your own custom header
+         header-obj -- The header to use (Type: object)</span>
+</pre>
+<p>Veškeré tyto informace pocházejí z definice funkce. Help lze získat pro všechny typy funkcí, ne jen pro funkce nativní či vestavěné. Funkci <tt>help</tt> lze použít i pro uživatelsky definované funkce. Zobrazená informace je součástí definice funkce.</p>
+<p>Funkcí <tt>help</tt> lze získat informaci k libovolnému "zavedenému" slovu: 
+</p>
+<!--<pre style="overflow:auto">
+<pre id="div4"> #div4 {overflow:auto}-->
+<pre style="overflow-x:auto">
+help "point"
+<span class="put">
+ arctangent2  => Returns the angle of the point y/x in radians, when ...
+ atan2        => Returns the angle of the point y/x in radians
+ change       => Changes a value in a series and returns the series ...
+ within?      => Return TRUE if the point is withint the rectangle bounds</span>
+</pre>
+
+<p>Výpis všech funkcí získáme dotazem <tt>what</tt>.</p>
+<pre>
+what
+<span class="put">
+%        : Returns what is left over when one value is divided by another
+*        : Returns the product of two values
+**       : Returns a number raised to a given power (exponent)
++        : Returns the sum of the two values
+-        : Returns the difference between two values
+/        : Returns the quotient of two values
+//       : Wrapper for MOD that handles errors like REMAINDER.
+...</span>
+</pre>
+</blockquote>
+<h2 id="section-12">12. Zobrazení zdrojového kódu</h2>
+<blockquote>
+<p>Pseudotyp <tt>any-function!</tt> zahrnuje funkce typu <tt>action!, function!, native!, op!</tt> a <tt>routine!</tt>.</p> 
+<p>Seznamy pro jednotlivé typy získáme dotazem, např:</p>
+<pre>
+help function!
+</pre>
+<p>Pro funkce typu <tt>function!</tt> lze zobrazit jejich zdrojový kód příkazem, například:
+</p>
+<pre>hel
+source second
+<span class="put">second: func [
+    "Returns the second value in a series."
+    s [series! tuple! pair! time!]] [
+    pick s 2 ]
+</span>
+</pre>
+<p>Zde se funkce <tt>source</tt> používá k zobrazení zdrojového kódu.</p>
+<p>Zdrojový kód nativních funkcí zobrazit nelze, neboť tyto existují pouze jako strojový kód. Rovněž nelze zobrazit funkce typu action!</p>
+<!--<pre>
+source add
+<span class="put">add: native [
+    "Returns the result of adding two values."
+    value1 [number! pair! char! money! date! time! tuple!]
+    value2 [number! pair! char! money! date! time! tuple!]
+]</span>
+</pre>-->
+</blockquote>
+</td></tr>
+<tr><td align=center>
+
+</td></tr></table>
+</center>
+<!--<map name="bar-map">
+<area shape="rect" coords="0,0,150,28"   href="http://www.rebol.com" alt="REBOL.com">
+<area shape="rect" coords="175,0,275,28" href="http://www.rebol.com/docs.html" alt="Documents">
+<area shape="rect" coords="285,0,365,28" href="http://www.rebol.com/docs/core23/rebolcore.html" alt="Manual">
+<area shape="rect" coords="375,0,445,28" href="http://www.rebol.com/docs/dictionary.html" alt="Dictionary">
+<area shape="rect" coords="452,0,500,28" href="http://www.rebol.com/library.html" alt="Library">
+<area shape="rect" coords="510,0,575,28" href="http://www.rebol.com/feedback.html" alt="Feedback">
+</map>-->
+<table align="center" width="660" cellpadding="0" cellspacing="1" border="1">
+  <tr>
+    <td bgcolor="#ccffff"><a href="08-strings.html">
+     <img border="0" alt="comment" src="images/myprev.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="index.html">
+     <img border="0" alt="up" src="images/myup.png"></a></td>
+	 
+    <td bgcolor="#ccffff"><a href="10-objekty.html">
+     <img border="0" alt="next" src="images/mynext.png"></a></td>
+	 
+  <td bgcolor="#ccffff"  align="center" width="100%">
+     <img border="0" alt="how to" src="images/myhead.png"></td>
+	 
+<!--    <td bgcolor="#ccffff"><a href="english/ch02.xhtml">
+     <img border="0" alt="english" src="images/myenglish.png"></a></td>-->
+<td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>	 
+    <td bgcolor="#ccffff"><a href="">
+     <img border="0" alt="end" src="images/end.png"></a></td>
+  </tr>
+</table>
+<center>
+<span class="tail">
+Perpetrated 25-May-2017 -
+<!--<a href="http://www.rebol.com">Copyright REBOL Technologies</a>-->
+- Hosted with BitBucket Cloud
+</span></center>
+</body></html>
