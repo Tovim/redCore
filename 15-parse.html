@@ -69,14 +69,14 @@
 <br><br>
 <h2 id="section-1">1. Úvod</h2>
 <blockquote>
-<p><b><tt>Parse</tt></b> je funkce typu <b>native!</b> pro rozbor zadaného argumentu s použitím stanovených pravidel (rules neboli <tt>regulí</tt>). Tento nástroj se používá pro kontrolu, ověřování, vyjímání a upravování zadaných dat nebo dokonce pro využití vnořených a externích DSL.</p>
-<!-- <p>Rozbor stěpí sekvenci znaků nebo hodnot na menší části.  Kromě toho, že poskytuje účinný, přehledný a editovatelný přístup k vyhledávání shody se vzorem (pattern matching), umožňuje také vytváření vlastních jazyků pro specifické účely.</p> -->
-<p>Funkce <b><tt>parse</tt></b> má tuto obecnou skladbu:</p>
+<p><b><tt>Parse</tt></b> je vnořený <b>dialekt</b> (DSL - Domain Specific Language) pro rozbor zadaného argumentu s použitím zadaných pravidel (rules neboli <tt>regulí</tt>). Tento nástroj se používá pro kontrolu, ověřování, vyjímání a upravování zadaných řad (series) nebo dokonce pro využití vnořených a externích DSL. <br>Je více než rovnocennou náhradou za regulární výrazy (regexpr).</p>
+<p>Funkce <b><tt>parse</tt></b> je typu <b>native!</b> a <!-- <p>Rozbor stěpí sekvenci znaků nebo hodnot na menší části.  Kromě toho, že poskytuje účinný, přehledný a editovatelný přístup k vyhledávání shody se vzorem (pattern matching), umožňuje také vytváření vlastních jazyků pro specifické účely.</p> -->
+ má tuto obecnou skladbu:</p>
 <pre>
-parse &lt;input&gt; [rules]
+parse series [rules]
 </pre>
-<p>Argument <tt>input</tt> je posuzovaný vstup a může být libovolným typem supertypu <tt>series!</tt> (string!, block! binary!, issue!). </p>
-<p>Argument <tt>rules</tt> (regule) určuje způsob, jakým je argument <tt>series</tt> analyzován. Jeho hodota je typu  <tt>block!</tt>, jenž se může skládat z porovnávaných hodnot, klíčových slov, proměnných, výrazů (v závorkách) i z dalších bloků, obsahujících další (vnořené) regule.</p>
+<p>Argument <tt>series</tt> je posuzovaný vstup a může být typu <tt>string!</tt> nebo <tt>block!</tt>. Je-li typu string!, je rozebíraný po znacích, je-li typu block!, je rozebíraný po hodnotách. </p>
+<p>Argument <tt>rules</tt> (regule, pravidla) určuje způsob, jakým je argument <tt>series</tt> analyzován. Jeho hodota je typu  <tt>block!</tt>, jenž se může skládat z porovnávaných hodnot, klíčových slov, proměnných, výrazů (v závorkách) i z dalších bloků, obsahujících další (vnořená) pravidla.</p>
 <p>Výstupem funkce je hodnota typu <tt>logic!</tt> nebo <tt>block!</tt></p>
 
 <p>Funkce <tt>parse</tt> také přijímá upřesnění  <tt>/case</tt>, <tt>/part</tt> a <tt>/trace</tt>. Upřesnění  <tt>/case</tt> rozebírá řetězec s ohledem na velikost písmen. Upřesnění <tt>/part</tt> ... . Upřesnění <tt>/trace</tt> ... .  &nbsp; <ii> nutno doplnit </ii>.</p>
@@ -107,15 +107,15 @@ value </td><td valign="top" bgcolor="white"> pro porovnání se vstupní hodnoto
 </td>
 <tr>
 <td valign="top" bgcolor="white" >
-"|" </td><td valign="top" bgcolor="white"> vycouvat (backtrack) a porovnat s alternativní regulí (OR)
+"|" </td><td valign="top" bgcolor="white"> vrátit se (backtrack) a porovnat s alternativní regulí (OR)
 </td>
 <tr>
 <td valign="top" bgcolor="white" >
-[block] </td><td valign="top" bgcolor="white"> blok se sub-regulí
+[rules] </td><td valign="top" bgcolor="white"> blok se sub-pravidly
 </td>
 <tr>
 <td valign="top" bgcolor="white" >
-(paren) </td><td valign="top" bgcolor="white"> výraz v závorce implikuje jeho vyhodnocení
+(expression) </td><td valign="top" bgcolor="white"> výraz v závorce implikuje jeho vyhodnocení mimo dialekt Parse
 </td></tr></table>
 
 </blockquote>
