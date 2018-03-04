@@ -120,6 +120,7 @@
 <blockquote>
 
 <p>Koncept řad (series) je používaný téměř ve všech útvarech Redu. Abychom pochopili Red, je nutné pochopit vytváření řad a manipulaci s nimi.</p>
+<p><b>Řada</b> (series) je uspořádaná množina <b>hodnot</b>.</p>
 
 <p>Slovo <tt>series!</tt> je označení supertypu, zahrnujícího tyto základní datové typy: <tt> binary! block! file! hash! image! <!--issue!--> paren! path! string! url! vector! tag!</tt> (plus <tt>get-path! lit-path! set-path!</tt>).</p>
 <p>Všechny tyto datové typy lze rozdělit do několika mezilehlých nadřazených 'pseudotypů': any-blok (zahrnuje any-path) a any-string.</p>
@@ -161,7 +162,7 @@
 </tr><tr><td valign="top" bgcolor="white">
 <p><b>Block!</b></p>
 </td><td valign="top" bgcolor="white">
-<p>Bloky hodnot</p>
+<p>Bloky hodnot v hranatých závorkách</p>
 </td>
 </tr><tr><td valign="top" bgcolor="white">
 <p><b>Paren!</b></p>
@@ -237,12 +238,13 @@
 <p>Sekvenční kódy <ii>dosud nezařazeno</ii></p>
 </td></tr>-->
 </table>
+<br>
 </blockquote>
 
 <h2 id="section-2">2. Organizace řady</h2>
 <blockquote>
-<p>Řada je indexovaná množina hodnot. Číslování položek začíná číslicí 1 na první pozici, označované jako <b>head</b> (čelo).<br>Poslední (nečíslovanou) pozicí je prázdné pole, zvané <b>tail</b> (chvost). Číslování končí před chvostem.</p>
-<p>Kromě tohoto statického uspořádání existuje v mechanizmu řady interní útvar (někdy zvaný <tt>iterátor</tt>), jehož součástí je takzvané <tt>ukazovátko</tt> neboli <b>index</b>, které se může libovolně posouvat pomocí navigačních funkcí (viz) od čela až po chvost včetně. Implicitní postavení ukazovátka je v 1. pozici v čele.
+<p>Řada je uspořádaná množina položek. Jednotlivým položkám je interně přiřazeno pořadové číslo neboli <b>index</b>. Číslování položek začíná číslicí 1 na první pozici, označované jako <b>head</b> (čelo).<br>Poslední pozicí je prázdné pole, zvané <b>tail</b> (chvost).</p>
+<p>Toto uspořádání je součástí automaticky vytvořeného interního útvaru zvaného <tt>iterátor</tt>, jehož součástí je takzvané <tt>ukazovátko</tt> (pointer), které se může libovolně posouvat pomocí navigačních funkcí (viz dále) od čela až po chvost včetně. Implicitní výchozí postavení ukazovátka je v 1. pozici v čele.
 </p>
 </blockquote>
 <h3 id="section-2.1">2.1 Délka</h3>
@@ -257,31 +259,33 @@ length? colors
 </pre>
 
 <p align="center"><img src="images/rebolcore-36.gif"></p>
-<p>Je-li pozice <tt>indexu</tt> nastavena (redefinicí) na další hodnotu:</p>
+<p>Je-li pozice <tt>ukazovátka</tt> přesunuta (redefinicí) na další hodnotu:</p>
 <pre>
 colors: next colors            <ii>redefinice - nová deklarace stávající proměnné</ii>
-length? colors
+colors
+<span class="put">== [red green]</span>
+index? colors                  <ii>dotaz na aktuální pozici ukazovátka</ii>
+<span class="put">== 2</span>
+length? colors                 <ii>délka zbývající řady</ii>
 <span class="put">== 2</span>
 </pre>
-<p>změní se délka na dvě: </p>
+<p>změní se délka upravené řady na dvě: </p>
 <p align="center"><img src="images/rebolcore-37.gif"></p>
-<p>ale zůstává povědomí o původním čele:</p>
+<p>ale zůstává povědomí o původním čele, jehož postavení se nemění:</p>
 <pre>
 head? colors
-<span class="put">== false</span>
-</pre>
-</p><br>
-<b>Důležitá poznámka:</b><br>
-<p><tt>Ukazovátko lze přemístit pouze u pojmenované řady a to redeklarací jejího názvu, přičemž lze ponechat původní název nebo zvolit nový.<br>
-Obě takto vytvořené proměnné jsou schopny reflektovat úplnou hodnotu původní proměnné.</tt></p>
-<p>Ukážeme si to na příkladě:</p>
-<pre>
+<span class="put">== false</span>                  <ii>ukazovátko není v čelní pozici (s indexem 1) </ii>
 head colors
-<span class="put">== [blue red green]</span>       <ii>původní hodnotu máme v záloze</ii>
+<span class="put">== [blue red green]</span>       <ii>k původní hodnotě máme přístup</ii>
 colors
-<span class="put">== [red green]</span>            <ii>ale index máme na dvojce</ii>
+<span class="put">== [red green]</span>
+</pre>
+</p>
+
+<p>Ukazovátko vrátíme do čela řady opětovnou redefinicí:</p>
+<pre>
 colors: head colors
-<span class="put">== [blue red green]</span>       <ii>čelo nám vrátí nová deklarace</ii>     
+<span class="put">== [blue red green]</span>     
 </pre>
 
 <!--
@@ -322,30 +326,31 @@ head? data
 <p>Chvost (tail) řady je pozice prázdného pole bezprostředně za poslední hodnotou řady. Je-li ukazovátko nastaveno na chvost, vrátí funkce <tt>tail?</tt> hodnotu "true":</p>
 <pre>
 data: [1 2 3 4 5]       <ii>deklarace pojmenované řady</ii>
-tail? data
-<span class="put">== false</span>                <ii>index je implicitně na počátku</ii>
-pata: tail data         <ii>nová deklarace řady</ii>
+
+tail? data              <ii>dotaz na pozici ukazovátka</ii>
+<span class="put">== false</span>                
+data: tail data         <ii>přesun ukazovátka do chvostu</ii>
 <span class="put">== []</span>
-head pata
-<span class="put">== [1 2 3 4 5]</span>          <ii>pata zná všechna svá data</ii>         
-pata                     
-<span class="put">== []</span>                   <ii>ale má index ve chvostu</ii>
+head data
+<span class="put">== [1 2 3 4 5]</span>          <ii>k původní deklaraci máme přístup</ii>         
+data                     
+<span class="put">== []</span>                   <ii>aktuální verze má ale ukazovátko ve chvostu</ii>
 </pre>
 <p>Funkce <tt>empty?</tt> je ekvivalentní funkci
 <tt>tail?</tt>.</p>
 <pre>
 empty? data
-<span class="put">true</span>
+<span class="put">== true</span>
 </pre>
 <p>Vrací-li funkce <tt>empty?</tt> hodnotu <tt>true</tt>, znamená to, že mezi aktuální pozicí ukazovátka a chvostem nejsou žádné hodnoty, což ovšem neznamená, že nejsou žádné hodoty před ukazovátkem. Potřebujem-li zjistit, zda je řada prázdná od čela ke chvostu, použijeme:</p>
 <pre>
 empty? head data
-<span class="put">false</span>                   <ii>což znamená, že prázdná není</ii>
+<span class="put">== false</span>                   <ii>což znamená, že prázdná není</ii>
 </pre>
 </blockquote>
 <h3 id="section-2.4">2.4 Index</h3>
 <blockquote>
-<p>Index je pozice položky od čela řady. Chceme-li určit aktuální polohu ukazovátka, použijeme funkci <tt>index?</tt>:</p>
+<p>Index je pořadí položky od čela řady. Chceme-li určit aktuální polohu ukazovátka, použijeme funkci <tt>index?</tt>:</p>
 <pre>
 data: [1 2 3 4 5]
 index? data
@@ -357,7 +362,6 @@ data: tail data         <ii>ukazovátko posunuto na chvost</ii>
 index? data
 <span class="put">6</span>
 </pre>
-<p>Všimáme si, že trvalou změnu indexu zařídíme redefinicí proměnné, která na předmětnou řadu  ukazuje.</p>
 </blockquote>
 <h3 id="section-2.5">2.5 Odsazení</h3>
 <blockquote>
@@ -460,7 +464,7 @@ index? colors
 first colors
 <span class="put">green</span>               
 </pre>
-<p>Upravená řada nemá čelo (head? colors --&gt; == false) ale to stále exisuje pro původní definici</p>
+<p>Upravená řada nemá čelo (head? colors == false) ale to stále exisuje pro původní definici</p>
 <pre>
 head colors
 <span class="put">== [red green blue]</span>
@@ -507,7 +511,7 @@ tail? colors
 <span class="put">true</span>
 index? colors
 <span class="put">4</span>
-length? Colors
+length? colors
 <span class="put">0</span>
 first colors
 <span class="put">== none</span>

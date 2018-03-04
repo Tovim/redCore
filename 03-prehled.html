@@ -37,10 +37,8 @@
 
 
 <h2>Obsah:</h2>
-<a class="toc1" href="#section-0">Úvodní poznámka</a><br>
-<a class="toc1" href="#section-1">1. Hodnoty</a><br>
-<a class="toc2" href="#section-1.1">1.1 Typy hodot</a><br>
-<a class="toc1" href="#section-2">2. Přehled některých hodnot</a><br>
+<a class="toc1" href="#section-1">1. Úvodní poznámka</a><br>
+<a class="toc1" href="#section-2">2. Hodnoty</a><br>
 <a class="toc2" href="#section-2.1">2.1 Čísla</a><br>
 <a class="toc2" href="#section-2.2">2.2 Čas</a><br>
 <a class="toc2" href="#section-2.3">2.3 Datum</a><br>
@@ -75,40 +73,35 @@
 <a class="toc2" href="#section-12.9">12.9 DNS</a><br>
 <a class="toc2" href="#section-12.10">12.10 TCP</a><br>
 <br>
-<h2 id="section-0">Úvodní poznámka</h2>
+<h2 id="section-1">1. Úvodní poznámka</h2>
 <blockquote>
-<p>Tato kapitola poskytuje rychlý přehled jazyka Red. S použitím příkladů jsou prezentovány základní koncepty a struktury jazyka.</p>
+<p>Tato kapitola poskytuje rychlý přehled jazyka Red. S použitím příkladů jsou zde prezentovány základní koncepty a struktury jazyka.</p>
 <p>Podrobnější výklad pojmů lze nalézt v příloze <a href="16-hodnoty.html">Datové typy</a>, kde jsou navíc vysvětleny pojmy <tt>char, hash, image, logic, none, paren</tt> a <tt>tag</tt>.</p>
 <p>V této 3. kapitole jsou oproti Příloze navíc uvedeny pojmy <tt>proměnné, vyhodnocení, funkce, objekty</tt> a <tt>skripty</tt>.</p>
 <ii>Red dosud nepoužívá datový typ pro vyjádření peněz.</ii> 
 </blockquote>
 
-<h2 id="section-1">1. Hodnoty</h2>
+<h2 id="section-2">2. Hodnoty</h2>
 <blockquote>
 <p></p>
+<!--
 <p>Výrazy Redu jsou kombinací 
-<tt>hodnot</tt>  a <tt>slov</tt>  v <tt>blocích</tt> .</p>
-
-<h3 id="section-1.1">1.1 Přímé a nepřímé hodnoty</h3>
-<p>Hodnoty mohou být vyjádřeny <tt>přímo</tt>  nebo <tt>nepřímo</tt>.</p>
-<p><tt>Přímo</tt> vyjádřená hodnota je daná pouhým aktem lexikálního neboli doslovného (literal) zápisu. Na příklad, číslo 10 nebo čas 10:30 jsou přímo vyjádřené hodnoty.</p>
-<p><tt>Nepřímo</tt> vyjádřená hodnota není známá, dokud není určená vyhodnocením zápisu. Hodnoty <tt>none</tt>, <tt>true</tt>  a <tt>false</tt> jsou všechny nepřímo vyjádřené slovním označením, jehož skutečný význam zjistí interpret při  vyhodnocení. To platí i pro jiné hodnoty, jako jsou seznamy (lists, hashes), funkce, objekty, atd.</p>
-
-<h3 id="section-1.2">1.2 Typy hodnot</h3>
+<tt>hodnot</tt>  a <tt>slov</tt>  v <tt>blocích</tt>.</p>
 
 <p>Každá hodnota Redu má svůj specifický 
-<tt>datový typ</tt> . Datový typ hodnoty určuje:</p>
-<ol>
-<li>Rozsah přípustných hodnot - například datový typ <tt>logic</tt>  může mít hodnotu <tt>true</tt> nebo <tt>false</tt>.</li>
-<li>Přípustné operace.  Lze například sečíst dvě celá čísla ale nelze sečíst dvě logické hodnoty.</li>
-<li>Způsob  uložení hodnot v paměti. Některé datové typy mohou být uloženy přímo (například čísla), jiné nepřímo (například řetězce).</li>
-</ol>
-<p>Slova, označující datový typ jsou pro zdůraznění doplněna vykřičníkem (!). Například:</p>
+<tt>datový typ</tt>. Slova, označující datový typ jsou pro zdůraznění doplněna vykřičníkem (!). Například:</p>
 <pre>integer! char! word! string!
 </pre>
-<p>Přehled datových typů viz příloha <a href="16-hodnoty.html">Datové typy</a>.</p>
-</blockquote>
+<p>Přehled datových typů je uveden v příloze <a href="16-hodnoty.html">Datové typy</a>.</p>-->
 
+<p>Hodnoty mohou být vyjádřeny <tt>přímo</tt>  nebo <tt>nepřímo</tt>.</p>
+<p><tt>Nepřímo</tt> vyjádřená hodnota je známá až po  vyhodnocení zápisu. <!--Hodnoty <tt>none</tt>, <tt>true</tt>  a <tt>false</tt> jsou všechny nepřímo vyjádřené slovním označením, jehož skutečný význam zjistí interpret při  vyhodnocení.--> Do této skupiny patří bloky, seznamy (lists, hashes), funkce, objekty, atd.</p>
+<p><tt>Přímo</tt> vyjádřená hodnota je daná pouhým aktem lexikálního neboli doslovného (literal) zápisu. Na příklad, číslo 10 nebo čas 10:30 jsou přímo vyjádřené hodnoty.</p>
+<p>Následující odstavce prezentují výpis přímo vyjádřených hodnot.</p>
+
+
+
+</blockquote>
 
 </blockquote>
 <h3 id="section-2.1">2.1 Čísla</h3>
@@ -172,8 +165,8 @@ currency symbol followed by a numeric amount. For example:</p>
 {Here is a multiline string that
 contains a "quoted" string.}
 </pre>
-<p>Speciální znaky (escape characters) uvnitř řetězců se označují znakem (^). Tabulku escape sekvencí naleznete v odstavci 2.11 String přílohy<a href="16-hodnoty.html">
-<!--<a href="http://www.rebol.com/docs/core23/rebolcore-16.html">--> Values.</a></p>
+<p>Speciální znaky (escape characters) uvnitř řetězců se označují znakem (^). Tabulku escape sekvencí naleznete v odstavci 2.11 String přílohy <a href="16-hodnoty.html#section-2.11"> Datové typy.</a> </p>
+<!--<a href="http://www.rebol.com/docs/core23/rebolcore-16.html">-->
 </blockquote>
 <h3 id="section-2.7">2.7 Tagy</h3>
 <blockquote>
@@ -277,64 +270,78 @@ on off true false one none
 <p>Uvnitř slov nejsou povolené tyto znaky:</p>
 <pre>@ # $ % ^ ,
 </pre>
-<p>Red má jako každý jiný programovací jazyk obsáhlý soubor <tt>předdefinovaných</tt> slov, která jsou názvy vestavěných funkcí či objektů. Na rozdíl od jiných jazyků však tato slova nejsou <tt>klíčovými slovy</tt> a lze je použít i v jiném kontextu než pro který byla vytvořena. <br>
-Lze například deklarovat název funkce <tt>print</tt> jako název proměnné:</p>
+<p>Red má jako každý jiný programovací jazyk obsáhlý soubor <tt>předdefinovaných</tt> slov, která jsou názvy vestavěných funkcí či objektů. Na rozdíl od jiných jazyků však tato slova nejsou exkluzivními <tt>klíčovými slovy</tt> a lze je použít i v jiném kontextu než pro který byla vytvořena. <br>
+Lze například deklarovat název funkce <tt>print</tt> jako název proměnné - vřele se doporučuje tuto možnost raději nepoužívat:</p>
 <pre>
-print: "obilí"          <b><tt>Vřele se dopuručuje tuto možnost raději nepoužívat!</tt></b>
+print: "obilí"          <b><ii>slovo 'print' odkazuje na funkci a na zadanou hodnotu</ii></b>
 <span class="put">== "obilí"</span>
-print
+print                   <b><ii>případně :print</ii></b>
 <span class="put">== "obilí"</span>
-'obilí "žito"
-<span class="put">== "žito"</span>
+
+<b><ii>Doplníme-li slovo parametrem, voláme funkci:</ii></b>
+print "ahoj"           <b><ii>případně :print "ahoj"</ii></b>
+<span class="put">== "ahoj"</span>
 </pre>  
-<p>V závislosti na požadované operaci se používají čtyři různé formáty slov.</p>
+<p>V závislosti na požadované operaci se používají čtyři různé formy slov.</p>
 <table border="0" cellspacing="1" cellpadding="4" bgcolor="#505050">
-        <tr bgcolor="silver"><th align="left">
-<p>Formát</p>
-</th><th align="left">
-<p>Typ slova</p>
-</th><th align="left">
-<p>Test typu</p>
-</th><th align="left">
-<p>Konverze</p>
-</td>
-</tr><tr><td valign="top" bgcolor="white">
-<p><b><tt>word:</tt></b></p>
-</td><td valign="top" bgcolor="white">
-<p><b><tt>set-word!</tt></b></p>
-</td><td valign="top" bgcolor="white">
-<p><b><tt>set-word?</tt></b></p>
-</td><td valign="top" bgcolor="white">
-<p><b><tt>to-set-word</tt></b></p>
-</td>
-</tr><tr><td valign="top" bgcolor="white">
-<p><b><tt>:word</tt></b></p>
-</td><td valign="top" bgcolor="white">
-<p><b><tt>get-word!</tt></b></p>
-</td><td valign="top" bgcolor="white">
-<p><b><tt>get-word?</tt></b></p>
-</td><td valign="top" bgcolor="white">
-<p><b><tt>to-get-word</tt></b></p>
-</td>
-</tr><tr><td valign="top" bgcolor="white">
-<p><b><tt>word</tt></b></p>
-</td><td valign="top" bgcolor="white">
-<p><b><tt>word!</tt></b></p>
-</td><td valign="top" bgcolor="white">
-<p><b><tt>word?</tt></b></p>
-</td><td valign="top" bgcolor="white">
-<p><b><tt>to-word</tt></b></p>
-</td>
-</tr><tr><td valign="top" bgcolor="white">
-<p><b><tt>'word</tt></b></p>
-</td><td valign="top" bgcolor="white">
-<p><b><tt>lit-word!</tt></b></p>
-</td><td valign="top" bgcolor="white">
-<p><b><tt>lit-word?</tt></b></p>
-</td><td valign="top" bgcolor="white">
-<p><b><tt>to-lit-word</tt></b></p>
-</td></tr></table>
+<tr bgcolor="silver">
+<th align="left"><p>Forma</p></th>
+<th align="left"><p>Typ slova</p></th>
+<th align="left"><p>Test typu</p></th>
+<th align="left"><p>Konverze</p></td>
+<th align="left"><p>Použití</p></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="white">
+<p><b><tt>word:</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p><b><tt>set-word!</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p><b><tt>set-word?</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p><b><tt>to-set-word</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p>zadání hodnoty slova</p></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="white">
+<p><b><tt>:word</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p><b><tt>get-word!</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p><b><tt>get-word?</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p><b><tt>to-get-word</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p>odkaz na samotnou hodnotu slova</p></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="white">
+<p><b><tt>word</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p><b><tt>word!</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p><b><tt>word?</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p><b><tt>to-word</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p>odkaz na slovo, případně na jeho hodnotu</p></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="white">
+<p><b><tt>'word</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p><b><tt>lit-word!</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p><b><tt>lit-word?</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p><b><tt>to-lit-word</tt></b></p></td>
+<td valign="top" bgcolor="white">
+<p>odkaz na samotné slovo</p></td>
+</tr>
+</table>
 </blockquote>
+
 <h2 id="section-4">4. Bloky</h2>
 <blockquote>
 <p>Program Redu se skládá z hodnot a slov, seskupených do <tt>bloků</tt>. Blokem je rovněž samotný soubor, obsahující program Redu (neboli skript).</p>
@@ -385,7 +392,7 @@ yellow
 </blockquote>
 <h2 id="section-5">5. Proměnné</h2>
 <blockquote>
-<p>Slova mohou být použita jako názvy proměnných. Chceme-li definovat slovo jako název proměnné, napíšeme za něj dvojtečku, mezeru a hodntu, na níž proměnná odkazuje:</p>
+<p>Slova mohou být použita jako názvy proměnných. Chceme-li definovat slovo jako název proměnné, napíšeme za něj dvojtečku, mezeru a hodnotu, na níž proměnná odkazuje:</p>
 <pre>age: 22
 snack-time: 12:32     
 birthday: 20-Mar-1997   
@@ -403,22 +410,23 @@ objektů (viz <a href="#section-9">Objekty</a>).</p>
 <tt>friends</tt> :</p>
 <pre>print age
 <span class="put">22</span>
-print third friends  <ii>; vytiskne třetí položku seznamu</ii>
+print third friends  <ii> vytiskne třetí položku seznamu</ii>
 <span class="put">Georgia</span>
 </pre>
 <p>Blok může být vyhodnocován opakovaně s použitím smyčky:</p>
-<pre>loop 5 [prin "*"]  <ii>  ; "prin" není překlep - viz později</ii>
+<pre>loop 5 [prin "*"]  <ii>   "prin" není překlep - viz později</ii>
 <span class="put">**********</span>
+
 loop 20 [         
     wait 8:00
     send friend@rebol.com read http://www.cnn.com
 ]
 
-repeat count 3 [print ["count:" count]]
+repeat count 3 [print ["count:" count]]      
 <span class="put">count: 1
 count: 2
-count: 3</span>
-<ii>; místo 'count' lze použít cokoli, třeba 'něco'</ii>
+count: 3</span>             <ii> místo 'count' lze použít cokoli, třeba 'něco'</ii>
+
 </pre>
 <p>Vyhodnocení bloku vrací hodnotu.
 V následující ukázce jsou hodnoty <tt>5</tt> a <tt>PM</tt> výsledky vyhodnocených bloků:</p>
@@ -437,7 +445,7 @@ print either now/time &lt; 12:00 ["AM"]["PM"]
 (length? "boat") + 2
 <span class="put">6</span>
 </pre>
-<p>V této ukázce vidíme řádkový blok s vnořeným seznamem (blokem), obsahujícím tři výrazy (položky). Jde zároveň o ukázku funkce <tt>reduce</tt>:</p>
+<p>V této ukázce vidíme blok, obsahující seznam tří výrazů. Po jejich vyhodnocení získáme seznam tří hodnot. Vyhodnocení položek spouští funkce <tt>reduce</tt>:</p>
 <pre>reduce [1 + 2  3 + 4  5 + 6]
 <span class="put">3 7 11</span>
 </pre>
@@ -448,8 +456,7 @@ print either now/time &lt; 12:00 ["AM"]["PM"]
 <p>V následující ukázce odkazuje slovo <tt>sum</tt> na funkci, která přijímá dva argumenty:</p>
 <pre>sum: func [a b] [a + b]
 </pre>
-<p>Definice funkce se principiálně skládá ze dvou částí: ze záhlaví funkce - v našem případě to je zápis <tt>sum: func [a b]</tt> a z těla funkce - v našem případě prezentovaném blokem <tt>[a + b]</tt>.<br>
-Záhlaví funkce se skládá z názvu funkce, vyhrazeného slova <tt>func</tt> a z bloku, tvořeného seznamem parametrů.<br>
+<p>Definice funkce se skládá ze tří částí: z uvedení druhu funkce - v našem případě <tt>func</tt>, ze seznamu parametrů - v našem případě <tt>[a b]</tt> a z těla funkce - v našem případě prezentovaném blokem <tt>[a + b]</tt>.<br>
 Tělo funkce v samostatném bloku popisuje aktivity, které má funkce provést.</p>
 <p>Následně vidíme přiklad volání této funkce. Použití vestavěné funkce <tt>print</tt> není v interaktivním režimu konzoly  potřebné:</p>
 <pre>print sum 2 3
@@ -459,7 +466,7 @@ Tělo funkce v samostatném bloku popisuje aktivity, které má funkce provést.
 <pre>average: function [series] [
     total: 0
     foreach value series [total: total + value]
-    total / (length? series)
+    total / (length? series)     <ii>případně total * 1.0 / (length? series)</ii>
 ]
 
 print average [37 1 42 108]
@@ -467,7 +474,7 @@ print average [37 1 42 108]
 
 forse: [12 5 3 45]
 print average forse
-<span class="put">16</span>
+<span class="put">16</span>                             <ii>správný výstup ale nesprávný výsledek</ii>
 
 forse: [12 5.0 3 45]
 print average forse
@@ -480,7 +487,7 @@ print average forse
    series "Čísla, jež mají být zprůměrována"][
    total: 0
    foreach value series [total: total + value]
-   total / (length? series)
+   total <ii>* 1.0</ii> / (length? series)
 ]
 </pre>
 <p>Tyto popisné řetězce jsou přiřazeny k funkci a lze je vyvolat dotazem na funkci:</p>
@@ -495,12 +502,20 @@ ARGUMENTS:
 </pre>
 <b>Poznámka</b>:
 <p>Funkce <tt>func</tt> se od <tt>function</tt> liší v tom, že případné proměnné jsou v prvním případě globální (přístupné i mimo funkce), v druhém případě lokální (přístupné jen uvnitř funkce).<br>
-Použití tvaru <tt>func</tt> v první ukázce bylo vhodné, protože funkce neměla žádné proměnné. </p>
+Tvar <tt>function</tt> je však při kompilaci převeden na tvar <tt>func</tt> s upřesněním pro lokální proměnnou:</p>
+<pre>
+suma: function [a b] [
+    number: a + b
+	print number  ]
+	
+<span class="put">== func [a b /local number] [number:  a + b] print number ] 	
+</pre>
+<p>Kromě tvarů <tt>func</tt> a <tt>function</tt> používá Red také tvary <tt>do</tt> a <tt>has</tt> - viz <a class="toc1" href="09-funkce.html#section-3">9/3 Definování funkcí</a>
+</p>
 </blockquote>
 <h2 id="section-8">8. Cesty</h2>
 <blockquote>
 <p>Cesta (path) poskytuje sadu hodnot, které se použijí pro navigaci z jednoho místa do druhého. Čímž může být míněna cesta k souboru nebo k položce objektu.</p>
-<p>Formát cesty má i konstrukce, zvaná <tt>upřesnění</tt> (refinement), které se používá k evokaci definovaných parametrů funkce.</p>
 <p>Pro oddělení jednotlivých slov a hodnot v cestě se používá lomítko (/):</p>
 <pre>%source/images/globe.jpg
 
@@ -515,6 +530,7 @@ account/balance        (položka objektu - viz odst. 9)
 match/any              (upřesnění parametru funkce)
 
 </pre>
+<p>Formát cesty má i konstrukce, zvaná <tt>upřesnění</tt> (refinement), které se používá k evokaci definovaných parametrů funkce.</p>
 
 <p>Funkce <tt>print</tt> v následující ukázce demonstruje jednoduchost použití cesty pro přístup k mini databázi, vytvořené z několika bloků:</p>
 <pre>towns: [
@@ -540,7 +556,7 @@ print towns/ukiah/web
 Následující ukázka ilustruje sestavení bankovního účtu s jeho atributy a funkcemi:</p>
 <pre>account: make object! [
   name: "James"
-  balance: $100
+  balance: $100                   <ii>zatím nechodí</ii>
   ss-number: #1234-XX-4321
   deposit:  func [amount] [balance: balance + amount]
   withdraw: func [amount] [balance: balance - amount]
@@ -650,8 +666,8 @@ write/binary %new.jpg data
 <p>Zjistit cestu k aktuální složce:</p>
 <pre>print what-dir
 </pre>
-<p><ii>Nechodí:</ii> Smazat soubor:</p>   
-<pre>delete %oldfile.txt        <ii>dosud nezavedeno</ii>
+<p>Smazat soubor:</p>   
+<pre>delete %oldfile.txt        
 </pre>
 <p><ii>Nechodí:</ii> Přejmenovat soubor :</p>  
 <pre>rename %old.txt %new.txt   <ii>dosud nezavedeno</ii>

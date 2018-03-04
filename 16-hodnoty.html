@@ -576,17 +576,19 @@ file? %rebol.red
 <p>Hešové bloky se vytvářejí s použitím funkce <tt>make</tt>.  Nemají lexikální formát.</p>
 <h4 id="section-2.5.3">2.5.3 Vytvoření</h4>
 <p>K deklaraci hešového bloku použijeme funkci <tt>make</tt>:</p>
-<pre>hsh: make hash 10  <ii> ; prázdný blok s alokovaným místem pro 10 prvků</ii>
+<pre>hsh: make hash! 10  <ii> ; prázdný blok s alokovaným místem pro 10 prvků</ii>
 
-bosh: make hash [1 "one" 2 "two" 3 "three"]
+bosh: make hash! [1 "one" 2 "two" 3 "three"]
 </pre>
 <p>Funkce <tt>to-hash</tt> konvertuje data na datový typ <tt>hash!</tt>:</p>
 <pre>blk: [1 "one" 2 "two" 3 "three" 4 "four"]
 bash: to-hash blk
 <span class="put">make hash! [1 "one" 2 "two" 3 "three" 4 "four"]</span>
 
-print select bash 2
-<span class="put">two</span>
+select bash 2         <ii> ; výběr hodnoty pro zadaný klíč</ii>
+<span class="put">"two"</span>
+bash/2                <ii> ; výběr prvku z bloku</ii>
+<span class="put">"one"</span>
 </pre>
 <p>Funkcí <tt>to-hash</tt> lze na typ <tt> hash!</tt>  konvertovat různé hodnoty:</p>
 <pre>to-hash luke@rebol.com
@@ -615,6 +617,7 @@ hash? hsh
 <span class="put">{make hash! [1 "one" 2 "two" 3 "three" 4 "four"]}</span>
 </pre>
 </blockquote>
+
 <h3 id="section-2.6">2.6 Image</h3>
 <blockquote>
 <h4 id="section-2.6.1">2.6.1 Koncept</h4>

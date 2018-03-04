@@ -106,11 +106,11 @@ exists?: routine [path [file!] return: [logic!]] [
 </blockquote>
 <h2 id="section-2">2. Vyhodnocení funkcí</h2>
 <blockquote>
-<p>V kapitole <A href="04-vyrazy.html">Výrazy</A> jsou popsány povšechné principy vyhodnocování. Způsob, jakým jsou funkce vyhodnocovány je obecně dán pořadím slov a hodnot. Tato kapitola podrobněji popisuje vyhodnocování funkcí.</p>
+<p>Způsob, jakým jsou vyhodnocovány funkce, je obecně dán pořadím slov a hodnot. Vyhodnocování výrazů je obšírně popsáno v kapitole <A href="04-vyrazy.html">Výrazy</A>.</p>
 </blockquote>
 <h3 id="section-2.1">2.1 Argumenty</h3>
 <blockquote>
-<p>Funkce přijímají argumenty a vracejí výsledky. Většina funkcí vyžaduje jeden či více argumentů. Některé funkce, jako například <tt>now</tt> (aktuální datum a čas), nevyžadují žádný argument.</p>
+<p>Funkce přijímají předepsané argumenty a vracejí výsledky. Většina funkcí vyžaduje jeden či více argumentů. Některé funkce, jako například <tt>now</tt> (aktuální datum a čas), nevyžadují žádný argument.</p>
 <p>Argumenty, které jsou poskytovány funkci, jsou nejprve zpracovány překladačem a poté předány funkci. Funkce <tt>send</tt> například, přijímá dva argumenty:</p>
 <ii>Funkce send nechodí</ii>
 <pre>
@@ -205,7 +205,7 @@ find/case/tail (vrátit konec řady se shodnou velikostí písma)
 
 insert/only/dup (vložit celý blok vícekrát)
 </pre>
-<p>Viděli jsme použití funkce <tt>copy</tt> k vytvoření kopie řetězce. Implicitně vrací funkce <tt>copy</tt> kopii svého argumentu:</p>
+<p>Viděli jsme použití funkce <tt>copy</tt> k vytvoření kopie řetězce. Implicitně vrací funkce <tt>copy</tt> kopii celého argumentu:</p>
 <pre>
 string: "no time like the present"
 print copy string
@@ -253,11 +253,11 @@ print str
 <blockquote>
 <p>Předchozí příklady ukazují, jak funkce vracejí hodnoty při jejich vyhodnocení (volání). Někdy je však zapotřebí získat funkci samotnou, nikoliv její vratnou hodnotu. To se zajistí předsazením dvojtečky před názvem funkce nebo použitím funkce <tt>get</tt>. Na příklad, pro přiřazení funkce <tt>print</tt> ke slovu <tt>pr</tt> nutno zapsat:</p>
 <pre>
-pr: :print
+pr: :print                     <ii>argument va tvaru 'get-word'</ii>
 </pre>
 <p>nebo:</p>
 <pre>
-pr: get 'print
+pr: get 'print                 <ii>argument va tvaru 'lit-word'</ii>
 </pre>
 <p>Nyní je <tt>pr</tt> ekvivalentní funkci <tt>print</tt>:</p>
 <pre>
@@ -282,26 +282,45 @@ sing: does [print "do re mi fa so la si do"]
 sing
 <span class="put">do re mi fa so la si do</span>
 </pre></p>
-<b>func</b> uvádí funkci s parametry bez lokálních proměnných.  
+<b>func</b> uvádí funkci s parametry bez interních proměnných:  
 <pre>
 plus: func [x y] [x + y]
 <span class="put">== func [x y][x + y]</span>
 plus 5 8
 <span class="put">13</span>
 </pre>
-<b>has</b> uvádí funkci bez parametrů ale s lokálními proměnnými.  
+<p>případně s interní proměnnou, která je však globální:
+</p>
 <pre>
-max-rand: has [x y] [x: random 10 y: random 10 max x y]
-<span class="put">== func [/local x y][x: random 10 y: random 10 max x y]</span>
-max-rand 5 8
-<span class="put">8</span> <ii>        ;; nevrací nic jiného!!</ii> 
-</pre>
-<b>function</b> uvádí funkci s parametry i s lokálními proměnnými.
-<pre>
-plus: function [x y] [sum: x + y sum]
-<span class="put">== func [x y /local sum] [sum: s + y sum]</span>
+sum: 100
+plus: func [x y] [sum: x + y sum]
+<span class="put">== func [x y][sum: x + y sum]</span>
 plus 5 8
 <span class="put">13</span>
+sum
+<span class="put">13</span>                     <ii>hodnota 100 je přepsána</ii>
+</pre>
+
+<b>has</b> uvádí funkci bez parametrů ale s lokálními proměnnými.  
+<pre>
+max-rand: has [x y] [x: random 10 y: random 10 max x y]   
+<ii>nebo</ii>
+max-rand: has [a b] [x: random 10 y: random 10 max x y]  
+<span class="put">== func [/local a b][x: random 10 y: random 10 max x y]</span>
+<ii>a, b jsou v tomto specifickém případě pouze povinné formální parametry</ii>
+
+max-rand 
+<span class="put">== 8</span>                 <ii> vrací větší náhodné číslo</ii> 
+</pre>
+<b>function</b> uvádí funkci s parametry i s interními proměnnými, které jsou však pouze lokální
+<pre>
+sum: 100
+plus: function [x y] [sum: x + y sum]
+<span class="put">== func [x y /local sum] [sum: x + y sum]</span>
+plus 5 8
+<span class="put">13</span>
+sum
+<span class="put">100</span>                   <ii>interní hodnota sum je lokální</ii>
 </pre>
 
 <p>Jak vidíme, jsou všechny čtyři typy převedeny v překladači na typ <b><tt>func</tt></b> s použitím různých akomodací: 
@@ -313,7 +332,7 @@ Funkci <b>has</b> lze nahradit funkcí <b><tt>func</tt></b> s použitím upřesn
 <li>
 Funkci <b>function</b> lze nahradit funkcí <b><tt>func</tt></b> s použitím upřesnění <tt>/local sum</tt> v bloku specifikací <tt></tt> pro lokální proměnnou <tt>sum</tt>.</li>
 </ol>
-<p>Funkcki <b><tt>func</tt></b> samotnou lze definovat jako objekt, jehož prototypem je datový typ <tt>function!</tt>:</p>
+<p>Funkci <b><tt>func</tt></b> samotnou lze definovat jako objekt, jehož prototypem je datový typ <tt>function!</tt>:</p>
 <pre>
 func: make function! [[specs] [body]]
 </pre>
@@ -363,7 +382,7 @@ x                  <span class="put">;; == 7</span>
 </blockquote> -->
 <h3 id="section-3.1">3.1 Specifikace rozhraní</h3>
 <blockquote>
-<p>První blok v definici funkce je rozhraním funkce. Obsahuje popis funkce, její argumenty, přípustné typy argumentů, popis těchto argumentů a jiné položky.</p>
+<p>První blok v definici funkce je rozhraním funkce. Obsahuje popis účelu funkce, její argumenty, přípustné typy argumentů, popis těchto argumentů a jiné položky.</p>
 <p>Specifikace rozhraní je dialektem Redu, neboť má jiná vyhodnocovací pravidla než normální kód. Specifikační blok má tento formát:</p>
 <pre>
 [
@@ -494,7 +513,7 @@ help print
 zap: func ['var] [set var 0]    
 test: 10
 zap test
-<span class="put">==00</span>                       
+<span class="put">== 0</span>                       
 print test
 <span class="put">== 0</span>
 </pre>
@@ -502,7 +521,7 @@ print test
 <pre>
 say: func ['var] [probe var]       
 say test
-<span class="put">test</span>
+<span class="put">== test</span>
 </pre>
 <p>Kdybychom pro proměnnou <tt>var</tt> nepoužili literálovou formu, dostali bychom v předchozím příkladě chybové hlášení:<br><ii>Ó nikoliv! </ii> 
 </p>
@@ -597,45 +616,10 @@ print sum/krát 123 321 10
 <span class="put">4440</span>
 print sum 123 321 10
 <span class="put">444</span>
-</pre> <!--
-<p>
-Do not forget to check the refinement word before using the additional
-arguments. If a refinement argument is used without the refinement being
-specified, it will have a <tt>none</tt> value.</p>-->
+</pre> 
 
-<!--
-<h3 id="section-3.5">3.5 Lokální proměnné</h3>
-<blockquote>
-<p>Lokální proměnná je slovo, jehož hodnota je definována uvnitř funkce. Změny lokální proměnné ovlivňují pouze tu funkci, kde je proměnná definovaná; mimo prostor funkce se neprojeví, byť i zde by existovala proměnná stejného jména.</p>
-<p>Proměnné argumentů (parametry) a slova upřesnění jsou lokální proměnné. Jejich hodnoty jsou deklarovány uvnitř těla funkce. Dodatečné lokální proměnné lze definovat pomocí upřesnění <tt>/local</tt>.<br>
-Upřesnění <tt>/local</tt> je následováno seznamem slov, která jsou použita jako lokální proměnné uvnitř funkce.</p>
-<pre>
-average: func [
-    block "Block of numbers"
-    /local total length
-][
-    total: 0
-    length: length? block
-    foreach num block [total: total + num]
-    either length &gt; 0 [total / length][0]
-]
-</pre>
-<p>Slova <tt>total</tt> a <tt>length</tt> jsou názvy lokálních proměnných funkce.</p>
-<p>Jiný způsob vytvoření lokálních slov je s použitím funkce  <tt>function</tt>, jejíž tělo je identické s funkcí <tt>func</tt>, ale nepoužívá upřesnění <tt>/local</tt> a jména lokálních funkcí jsou uzavřena v samostatném bloku:</p>
-<pre>
-average: function [
-    block "Block of numbers"
-][
-    total length
-][
-    total: 0
-    length: length? block
-    foreach num block [total: total + num]
-    either length &gt; 0 [total / length][0]
-]
-</pre>
 <p>Implicitní hodnota lokálních proměnných v argumentačním bloku je <tt>none</tt>.</p>
--->
+
 </blockquote>
 <h3 id="section-3.5">3.5 Lokální proměnné</h3>
 <blockquote>
@@ -654,7 +638,7 @@ average: func [
 ]
 </pre>
 <p>Slova <tt>total</tt> a <tt>length</tt> jsou názvy lokálních proměnných funkce.</p>
-<p>Jiný způsob vytvoření lokálních slov je s použitím funkce  <tt>function</tt>, jejíž tělo je identické s funkcí <tt>func</tt>, ale nepoužívá upřesnění <tt>/local</tt> a jména lokálních funkcí jsou uzavřena v samostatném bloku:</p>
+<p>Jiný způsob vytvoření lokálních slov je s použitím funkce  <tt>function</tt>, jejíž tělo je identické s funkcí <tt>func</tt>, ale nepoužívá upřesnění <tt>/local</tt> a jména lokálních slov jsou uzavřena v samostatném bloku:</p>
 <pre>
 average: function [
     block "Block of numbers"
@@ -697,7 +681,7 @@ print star-name "this"
 </blockquote>
 <h3 id="section-3.7">3.7 Návratová hodnota</h3>
 <blockquote>
-<p>Jak víme z kapitoly <A href="rebolcore-4.html#_Toc487519750">Expressions</A>, vyhodnocený blok vrací svoji poslední hodnotu:</p>
+<p>Jak víme z kapitoly <A href="04-vyrazy.html">Výrazy</A>, vyhodnocený blok vrací svoji poslední hodnotu:</p>
 <pre>
 do [1 + 3  5 + 7]
 <span class="put">12</span>
@@ -892,7 +876,7 @@ root -4
 ** Where: square-root num</span>
 </pre>
 <p>Uživatel nemusí znát nic o složení funkce <tt>root</tt>. Chybové hlášení by bylo matoucí. Uživatel zná pouze funkci <tt>root</tt>, ale chyba se vyskytla v <tt>square-root</tt>.</p>
-<p>Nezaměňujet atribute <tt>catch</tt> s funkcí <tt>catch</tt>. 
+<p>Nezaměňujte atribute <tt>catch</tt> s funkcí <tt>catch</tt>. 
 I když jsou podobné, funkci <tt>catch</tt> lze použít pro libovolný vyhodnocovaný blok.</p>
 <p>Atribut <tt>throw</tt> umožňuje psaní vlastních řídících funkcí (<tt>for</tt>, <tt>foreach</tt>, <tt>if</tt>, <tt>loop</tt> a <tt>forever</tt>), připouštějících zadání operací <tt>return</tt> a <tt>exit</tt>. Například tato smyčková funkce:</p>
 <pre>

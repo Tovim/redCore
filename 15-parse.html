@@ -69,17 +69,27 @@
 <br><br>
 <h2 id="section-1">1. Úvod</h2>
 <blockquote>
-<p><b><tt>Parse</tt></b> je vnořený <b>dialekt</b> (DSL - Domain Specific Language) pro rozbor zadaného argumentu s použitím zadaných pravidel (rules neboli <tt>regulí</tt>). Tento nástroj se používá pro kontrolu, ověřování, vyjímání a upravování zadaných řad (series) nebo dokonce pro využití vnořených a externích DSL. <br>Je více než rovnocennou náhradou za regulární výrazy (regexpr).</p>
-<p>Funkce <b><tt>parse</tt></b> je typu <b>native!</b> a <!-- <p>Rozbor stěpí sekvenci znaků nebo hodnot na menší části.  Kromě toho, že poskytuje účinný, přehledný a editovatelný přístup k vyhledávání shody se vzorem (pattern matching), umožňuje také vytváření vlastních jazyků pro specifické účely.</p> -->
+<p>Procedura <b><tt>parse</tt></b> je nástroj <!--vnořený <b>dialekt</b> (DSL - Domain Specific Language)--> pro rozbor zadaného argumentu s použitím vložených pravidel (rules neboli <tt>regulí</tt>). Formulace těchto pravidel vyhovuje charakteristice DSL (Domain Specific Language). Tento nástroj se používá pro ověřování a upravování zadaných řad (series). Je více než rovnocennou a přitom jednodušší náhradou za regulární výrazy (regexpr).</p>
+<p>Funkce <b><tt>parse</tt></b> je typu <b>native!</b> a 
  má tuto obecnou skladbu:</p>
 <pre>
-parse series [rules]
+parse input [rules]
 </pre>
-<p>Argument <tt>series</tt> je posuzovaný vstup a může být typu <tt>string!</tt> nebo <tt>block!</tt>. Je-li typu string!, je rozebíraný po znacích, je-li typu block!, je rozebíraný po hodnotách. </p>
+<p>Argument <tt>input</tt> je posuzovaný vstup typu <tt>series!</tt> (<code>any-string</code>: string!, binary!, email!, file!, tag!, url! a <code>any-block</code>: block!, hash!, paren! path!). Je-li typu string, je rozebíraný po znacích (a mezerách), je-li typu block, je rozebíraný po hodnotách. </p>
 <p>Argument <tt>rules</tt> (regule, pravidla) určuje způsob, jakým je argument <tt>series</tt> analyzován. Jeho hodota je typu  <tt>block!</tt>, jenž se může skládat z porovnávaných hodnot, klíčových slov, proměnných, výrazů (v závorkách) i z dalších bloků, obsahujících další (vnořená) pravidla.</p>
-<p>Výstupem funkce je hodnota typu <tt>logic!</tt> nebo <tt>block!</tt></p>
+<p>Výstupem funkce je hodnota typu <tt>logic!</tt> (true, false) nebo <tt>block!</tt></p>
+<p>Instrukce neboli pravidla vytvářejí šablonu, s níž je (postupně) porovnáván vstup. Pokud je šablona "konformní" se zadaným vstupem, vrací <tt>parse</tt> hodnotu <code>true</code>. Pokud není beze zbytku konformní, vrací hodnotu <code>false</code>.</p>
 
-<p>Funkce <tt>parse</tt> také přijímá upřesnění  <tt>/case</tt>, <tt>/part</tt> a <tt>/trace</tt>. Upřesnění  <tt>/case</tt> rozebírá řetězec s ohledem na velikost písmen. Upřesnění <tt>/part</tt> ... . Upřesnění <tt>/trace</tt> ... .  &nbsp; <ii> nutno doplnit </ii>.</p>
+<p>Nejjednodušší úlohou z hlediska zadání je určení, zda jsou dva řetězce stejné:</p>
+<pre>
+string-a: "krásný vzhled je na ten"
+string-b: "krásný vzhled je na ten"
+parse string-a [string-b]
+== true
+</pre>
+<p>Interní součástí funkce <tt>parse</tt> je <tt>iterátor</tt>, který traverzuje oběma porovnávánými částmi. Pro pozitivní odezvu je nezbytné aby iterátor prošel oběmi částmi od začátku do konce. Práce iterátoru je podrobně popsána v kapitole 6/2.</p>
+
+<p>Funkce <tt>parse</tt> také přijímá upřesnění  <tt>/case</tt>, <tt>/part</tt> a <tt>/trace</tt>. Upřesnění  <tt>/case</tt> rozebírá řetězec s ohledem na velikost písmen. Upřesnění <tt>/part</tt> ... . Upřesnění <tt>/trace</tt> doplní výstup zadaným komentářem.</p>
 
 <h2 id="section-2">Obecné složení regulí</h2>
 <p>Regule se skládají z těchto hlavních prvků:</p>
@@ -95,7 +105,7 @@ keyword </td><td valign="top" bgcolor="white"> specielní slovo dialektu, uveden
 </td>
 <tr>
 <td valign="top" bgcolor="white" >
-word </td><td valign="top" bgcolor="white"> pro zadání nebo získání hodnoty proměnné (viz dále) - nemůže být klíčovým slovem
+word </td><td valign="top" bgcolor="white"> pro zadání nebo získání hodnoty proměnné (viz dále)
 </td>
 <tr>
 <td valign="top" bgcolor="white" >
@@ -103,11 +113,11 @@ path </td><td valign="top" bgcolor="white"> pro zadání nebo získání hodnoty
 </td>
 <tr>
 <td valign="top" bgcolor="white" >
-value </td><td valign="top" bgcolor="white"> pro porovnání se vstupní hodnotou (akceptované datové typy závisí na datovém typu vstupu)
+value </td><td valign="top" bgcolor="white"> pro porovnání vstupu s hodnotou (akceptované datové typy hodnoty závisí na datovém typu vstupu)
 </td>
 <tr>
 <td valign="top" bgcolor="white" >
-"|" </td><td valign="top" bgcolor="white"> vrátit se (backtrack) a porovnat s alternativní regulí (OR)
+"|" </td><td valign="top" bgcolor="white"> při neshodě se vrátit a porovnat s další alternativní regulí 
 </td>
 <tr>
 <td valign="top" bgcolor="white" >
@@ -118,32 +128,41 @@ value </td><td valign="top" bgcolor="white"> pro porovnání se vstupní hodnoto
 (expression) </td><td valign="top" bgcolor="white"> výraz v závorce implikuje jeho vyhodnocení mimo dialekt Parse
 </td></tr></table>
 
+<p>Hlavní principy dialektu <tt>parse</tt> jsou tyto:
+<ul>
+<li>Postupné porovnávání elementů vstupu s gramatickými pravidly až do jejich vyčerpání (vrací 'true') nebo nalezení neshody (vrací 'false')</li>
+<li>(Neomezená) skladebnost pravidel</li>
+<li>Pravidlo uspořádaných výběrů (např. ["a"|"ab"]) <ii>... the second one will never succeed.</ii></li>
+<li><ii>Limited backtracking: only input and rules positions are backtracked, other changes remain.</ii></li>
+<li>Dva režimy: string-parsing (např: external DSL) nebo block-parsing (např: embedded DSL).</li>
+</ul></p>
+
 </blockquote>
 <br>
 <h2 id="section-2">2. Klíčová slova</h2>
 <blockquote>
-<p>Na rozdíl od Redu, o němž se tvrdí že nemá klíčová slova, DSL Parse klíčová slova používá v nemalém počtu.
+<p>Na rozdíl od Redu, o němž se tvrdí že nemá klíčová slova, DSL Parse klíčová slova používá v nemalém počtu v různých souvislostech:
 </p>
 </blockquote>
 <h3 id="section-2.1">2.1 Porovnávání</h3>
 <blockquote>
 <dl>
-<dt><b>ahead</b>  <i>rule</i></dt><dd>: porovnat s regulí ale nepostoupit ve vstupu (look-ahead rule)</dd>
-<dt><b>end</b></i></dt><dd>: vrátit <tt>true</tt>, je-li aktuální pozice na konci vstupní řady</dd>
-<dt><b>none</b> </dt><dd>: vždy vrátit <tt>true</tt></dd>
+<dt><b>ahead</b>  <i>rule</i></dt><dd>: porovnat s regulí ale neposunout pozici iterátoru (look-ahead rule)</dd>
+<dt><b>end</b></i></dt><dd>: vrátit <tt>true</tt>, je-li aktuální pozice na chvostu (tail) vstupní řady</dd>
+<dt><b>none</b> </dt><dd>: vždy vrátit <tt>true</tt> (univerzální pravidlo)</dd>
 <dt><b>not</b>  <i>rule</i></dt><dd>: invertovat výsledek sub-regule</dd>
-<dt><b>opt</b>  <i>rule</i></dt><dd>: možnost porovnat s regulí (for dialect escaping needs)</dd>
-<dt><b>quote</b>  <i>value</i></dt><dd>: porovnat literál další hodnoty (look-ahead rule)</dd>
-<dt><b>skip</b> </dt><dd>: posunout pozici vstupu o jeden element</dd>
-<dt><b>thru</b>  <i>rule</i></dt><dd>: posunout pozici ve vstupu hned za udaný element (look-ahead rule)</dd>
-<dt><b>to</b>  <i>rule</i></dt><dd>: posunout pozici ve vstupu na udaný element</dd>
+<dt><b>opt</b>  <i>rule</i></dt><dd>: možnost porovnat s regulí jednou nebo vůbec</dd>
+<dt><b>quote</b>  <i>value</i></dt><dd>: přijmout další argument přesně jak je, s výjimkou 'paren' (look-ahead rule)</dd>
+<dt><b>skip</b> </dt><dd>: posunout pozici iterátoru o jeden element</dd>
+<dt><b>thru</b>  <i>rule</i></dt><dd>: posunout pozici iterátoru hned za udaný element (look-ahead rule)</dd>
+<dt><b>to</b>  <i>rule</i></dt><dd>: posunout pozici iterátoru na udaný element</dd>
 </dl>
 </blockquote>
 <h3 id="section-2.2">2.2 Průběh</h3>
 <blockquote>
 <dl>
-<dt><b>break</b> </dt><dd>: vyskočit z porovnávací smyčky (any, some, while) a vrátit <tt>true</tt></dd>
-<dt><b>if</b>  <i>(expr)</i></dt><dd>: vyhodnotit výraz Redu; je-li hodnocením <tt>false</tt> nebo <tt>none</tt>, vycouvat (backtrack) a vrátit <tt>false</tt>.</dd>
+<dt><b>break</b> </dt><dd>: vyskočit z porovnávací smyčky (any, some, while) a vždy vrátit <tt>true</tt></dd>
+<dt><b>if</b>  <i>(expr)</i></dt><dd>: vyhodnotit výraz v závorce (paren) a je-li hodnocením <tt>false</tt> nebo <tt>none</tt>, vycouvat (backtrack) a vrátit <tt>false</tt>.</dd>
 <dt><b>into</b>  <i>rule</i></dt><dd>: přesunout vstup na porovnávanou řadu (string nebo blok) a parsovat ji zadanou regulí</dd>
 <dt><b>fail</b></dt><dd>: způsobit selhání aktuální regule a vycouvat</dd>
 <dt><b>then</b></dt><dd>: přeskočit následující alternativní reguli </dd>
@@ -230,7 +249,7 @@ parse/all nulled-string "^(null)"
 <blockquote>
 <!--Funkce <tt>parse</tt> přijímá gramatická pravidla, psaná <tt>dialektem</tt> Redu, zvaným <tt>Parse</tt>. V tomto dialektu se používají tytéž lexikální formy všech datových typů jako v Redu ale s odlišným uspořádáním hodot uvnitř bloku. Gramatika a slovník tohoto dialektu mají podobnou strukturu jako forma BNF (Backu-Naur Form).
 <p><tt>Pravidla</tt> (rules) tvoří blok, který určuje pořadí elementů vstupu. Například pro řetězec <b>"the phone"</b> vytvoří kladnou odezvu pravidlo:</p>-->
-<p>Při provádění operace <tt>parse</tt> je blok regulí (regule) postupně uplatňován na jedotlivé části vstupu.<br><b>Regule</b> může být prostým výčtem hodnot, jenž má být kompatibilní s elementy vstupu nebo může tvořit strukturovaný blok, obsahující výčty, podmínky, proměnné, výrazy i další vnořené bloky.</p>
+<p>Při provádění operace <tt>parse</tt> je blok regulí (rules) postupně uplatňován na jedotlivé části vstupu.<br><b>Regule</b> může být prostým výčtem hodnot, jenž má být kompatibilní s elementy vstupu nebo může tvořit strukturovaný blok, obsahující výčty, podmínky, proměnné, výrazy i další vnořené bloky.</p>
 <p>Nejjednodušším případem regule je blok, s jehož prvky jsou porovnávány elementy vstupu:</p> 
 <pre>
 parse "the phone" ["the" space "phone"]      <ii>mezeru nutno uvést</ii>
@@ -292,18 +311,18 @@ parse ("aaab" "ab") [1 3 "a" "b"]
 </pre>
 <p>čemuž odpovídá libovolná kombinace těchto řetězců:</p>
 <pre>
-<span class="put">"b" "ab" "aab" "aaab"</span>
+<span class="put">("b" "ab" "aab" "aaab")</span> &nbsp; <ii>žádný znak však nesmí ve vstupu chybět</ii>
 </pre>
-<p>Klíčové slovo <tt>some</tt>* určuje, že lze kombinovat jeden až mnoho řetězců 'a' s jedním řetězcem 'b' (* platí pro následující element regule):
+<p>Klíčové slovo <tt>some</tt>* určuje, že lze kombinovat jeden až mnoho znaků 'a' s jedním znakem 'b' (* platí pro následující element regule):
 </p>
 <pre>
 parse ("aaaaaaaaaaaaaaab" "ab") [some "a" "b"]
 <span class="put">== true</span>
 </pre>
 </pre>
-<p>Klíčové slovo <tt>any</tt>* určuje, že lze kombinovat žádný až mnoho řetězců 'a' s jedním řetězcem 'b' (* platí pro následující element regule):</p>
+<p>Klíčové slovo <tt>any</tt>* určuje, že lze kombinovat žádný až mnoho znaků 'a' s alespoň jedním znakem 'b' (* platí pro následující element regule):</p>
 <pre>
-parse ("aaaab" "b" "ab") [any "a" "b"]
+parse ("aaaab" "ab" "bb" "b") [any "a" "b"]
 <span class="put">== true</span>
 </pre>
 
