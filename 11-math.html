@@ -87,8 +87,7 @@
 
 <h2 id="section-1">1. Přehled</h2>
 <blockquote>
-<p>Red poskytuje všeobecný výběr matematických a trigonometrických operací. Mnohé operátory pracují s vícerými datovými typy, včetně typů integer, float, money, tuple, time a date. Some of these datatypes may even
-be mixed, or coerced.
+<p>Red poskytuje všeobecný výběr matematických a trigonometrických operací. Mnohé operátory pracují s vícerými datovými typy, včetně typů integer, float, money, tuple, time a date. Některé z těchto datových typů mohou být smíšené nebo vynucené (coerced).
 </p>
 </blockquote>
 <h2 id="section-2">2. Skalární datové typy</h2>
@@ -136,7 +135,7 @@ be mixed, or coerced.
 <p>verze, barvy, webové adresy</p>
 </td></tr></table>
 <p>Následuje několik příkladů, které ukazují řadu matematických operací se skalárními datovými typy. Pro každý datový typ produkují operátory užitečné výsledky.</p>
-<p>Datové type <b><tt>integer</tt></b> a <b><tt>float</tt></b> data types:</p>
+<p>Datové typy <b><tt>integer</tt></b> a <b><tt>float</tt></b>:</p>
 <pre>
 print 2 + 1
 <span class="put">3</span>
@@ -322,7 +321,7 @@ print absolute -10 + 5
 print 10 + sine 30 + 60
 <span class="put">11.0</span>
 </pre>
-<p>je výraz vyhodnocen v tomto pořadí <ii>jakoby probíhal zprava do leva</ii>:</p>
+<p>je výraz vyhodnocen v pořadí <ii>jakoby probíhal zprava do leva</ii>:</p>
 <pre>
 <span class="put">30 + 60 =&gt; 90       
 sine 90 =&gt; 1
@@ -349,8 +348,6 @@ print 10 + 60 + sine 30
 <p>Výrazy vrací absolutní hodnotu zadané číselné hodnoty.</p>
 <pre>
 absolute value
-
-abs value
 </pre>
 <p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>, <b><tt>money</tt></b>, <b><tt>time</tt></b>, <b><tt>pair</tt></b>
 data types.</p>
@@ -404,14 +401,10 @@ print add 1 2
 <pre>
 complement value
 </pre>
-<p>Pracuje s typy <b><tt>integer</tt></b>, (float a tuple nikoliv) .</p>
+<p>Pracuje s typy <b><tt>integer</tt></b>, (nikoliv float a tuple!) .</p>
 <pre>
 print complement 10
 <span class="put">-11</span>
-print complement 10.5              <ii>; nechodí</ii>
-<span class="put">-11</span>
-print complement 100.100.100       <ii>; nechodí</ii>
-<span class="put">155.155.155</span>
 </pre>
 </blockquote>
 <h3 id="section-4.4">4.4 divide</h3>
@@ -423,7 +416,7 @@ value1 / value2
 divide value1 value2
 </pre>
 <p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>, (<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>tuple</tt></b>,
-<b><tt>pair</tt></b>, <b><tt>char</tt></b> data types.</p>
+<b><tt>pair</tt></b>, <b><tt>char</tt></b>.</p>
 <pre>
 print 10 / 2
 <span class="put">5</span>
@@ -450,9 +443,9 @@ value1 * value2
 multiply value1 value2
 </pre>
 
-<p>Works with <b><tt>integer</tt></b>, <b><tt>float</tt></b>,
+<p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>,
 (<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>tuple</tt></b>,
-<b><tt>pair</tt></b>, <b><tt>char</tt></b> data types.</p>
+<b><tt>pair</tt></b>, <b><tt>char</tt></b>.</p>
 <pre>
 print 10 * 2
 <span class="put">20</span>
@@ -515,7 +508,7 @@ random/seed now/time
 &gt;&gt;                     <ii>; nic se neděje</ii>
 </pre>
 <p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>, (<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>tuple</tt></b>,
-<b><tt>pair</tt></b>, (<b><tt>date</tt></b>), <b><tt>char</tt></b>, <b><tt>string</tt></b>, <b><tt>block</tt></b>.</p>
+<b><tt>pair</tt></b>, <b><tt>date</tt></b>, <b><tt>char</tt></b>, <b><tt>string</tt></b>, <b><tt>block</tt></b>.</p>
 <pre>
 print random 10
 <span class="put">5</span>
@@ -575,7 +568,7 @@ subtract value1 value2
 </pre>
 <p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>,
 (<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>tuple</tt></b>,
-<b><tt>pair</tt></b>, (<b><tt>date</tt></b>), <b><tt>char</tt></b>.</p>
+<b><tt>pair</tt></b>, <b><tt>date</tt></b>, <b><tt>char</tt></b>.</p>
 <pre>
 print 2 - 1
 <span class="put">1</span>
@@ -589,6 +582,8 @@ print 3:40 - 1:20
 <span class="put">2:20:00</span>
 print 30x40 - 10x20
 <span class="put">20x20</span>
+print 13-Aug-2018 - 10-May-2018
+95                                      <ii>; dny</ii>
 print #"Z" - 1
 <span class="put">Y</span>
 print subtract 2 1
@@ -611,7 +606,7 @@ value1 = value2
 
 equal? value1 value2
 </pre>
-<p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>, (<b><tt>money</tt></b>), <b><tt>time</tt></b>, (<b><tt>date</tt></b>),
+<p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>, (<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>date</tt></b>,
 <b><tt>tuple</tt></b>, <b><tt>char</tt></b> a <b><tt>series</tt></b>.</p>
 <pre>
 print now/time = 15:30
@@ -633,7 +628,7 @@ value1 &gt; value2
 greater? value1 value2
 </pre>
 <p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>,
-(<b><tt>money</tt></b>), <b><tt>time</tt></b>, (<b><tt>date</tt></b>),
+(<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>date</tt></b>,
 <b><tt>tuple</tt></b>, <b><tt>char</tt></b> a <b><tt>series</tt></b>.</p>
 <pre>
 print now/time &gt; 15:30
@@ -655,8 +650,8 @@ value1 &gt;= value2
 greater-or-equal? value1 value2
 </pre>
 <p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>decimal</tt></b>,
-(<b><tt>money</tt></b>), <b><tt>time</tt></b>, (<b><tt>date</tt></b>),
-<b><tt>tuple</tt></b>, <b><tt>char</tt></b> and <b><tt>series</tt></b>.</p>
+(<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>date</tt></b>,
+<b><tt>tuple</tt></b>, <b><tt>char</tt></b> a <b><tt>series</tt></b>.</p>
 <pre>
 print now/time &gt;= 12:00
 <span class="put">true</span>
@@ -677,7 +672,7 @@ value1 &lt; value2
 lesser? value1 value2
 </pre>
 <p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>,
-(<b><tt>money</tt></b>), <b><tt>time</tt></b>, (<b><tt>date</tt></b>),
+(<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>date</tt></b>,
 <b><tt>tuple</tt></b>, <b><tt>char</tt></b> a <b><tt>series</tt></b>:</p>
 <pre>
 print 25 &lt; 50
@@ -699,7 +694,7 @@ value1 &lt;= value2
 lesser-or-equal? value1 value2
 </pre>
 <p>Pracuje s typy  <b><tt>integer</tt></b>, <b><tt>float</tt></b>,
-(<b><tt>money</tt></b>), <b><tt>time</tt></b>, (<b><tt>date</tt></b>),
+(<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>date</tt></b>,
 <b><tt>tuple</tt></b>, <b><tt>char</tt></b> a <b><tt>series</tt></b>.</p>
 <pre>
 print 25 &lt;= 25
@@ -721,7 +716,7 @@ value1 &lt;&gt; value2
 not-equal? value1 value2
 </pre>
 <p>Pracuje s typy <b><tt>integer</tt></b>, <b><tt>float</tt></b>,
-(<b><tt>money</tt></b>), <b><tt>time</tt></b>, (<b><tt>date</tt></b>),
+(<b><tt>money</tt></b>), <b><tt>time</tt></b>, <b><tt>date</tt></b>,
 <b><tt>tuple</tt></b>, <b><tt>char</tt></b> a <b><tt>series</tt></b>.</p>
 <pre>
 print 26 &lt;&gt; 25

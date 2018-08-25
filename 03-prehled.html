@@ -38,7 +38,7 @@
 
 <h2>Obsah:</h2>
 <a class="toc1" href="#section-1">1. Úvodní poznámka</a><br>
-<a class="toc1" href="#section-2">2. Hodnoty</a><br>
+<a class="toc1" href="#section-2">2. Vyjádření hodnot</a><br>
 <a class="toc2" href="#section-2.1">2.1 Čísla</a><br>
 <a class="toc2" href="#section-2.2">2.2 Čas</a><br>
 <a class="toc2" href="#section-2.3">2.3 Datum</a><br>
@@ -53,9 +53,9 @@
 <a class="toc2" href="#section-2.12">2.12 Emise</a><br>
 <a class="toc2" href="#section-2.13">2.13 Bináry</a><br>
 <a class="toc1" href="#section-3">3. Slova</a><br>
-<a class="toc1" href="#section-4">4. Bloky</a><br>
-<a class="toc1" href="#section-5">5. Proměnné</a><br>
-<a class="toc1" href="#section-6">6. Vyhodnocení</a><br>
+<a class="toc1" href="#section-4">4. Proměnné</a><br>
+<a class="toc1" href="#section-5">5. Bloky</a><br>
+<a class="toc1" href="#section-6">6. Vyhodnocení bloků</a><br>
 <a class="toc1" href="#section-7">7. Funkce</a><br>
 <a class="toc1" href="#section-8">8. Cesty</a><br>
 <a class="toc1" href="#section-9">9. Objekty</a><br>
@@ -81,7 +81,7 @@
 <ii>Red dosud nepoužívá datový typ pro vyjádření peněz.</ii> 
 </blockquote>
 
-<h2 id="section-2">2. Hodnoty</h2>
+<h2 id="section-2">2. Vyjádření hodnot</h2>
 <blockquote>
 <p></p>
 <!--
@@ -95,7 +95,8 @@
 <p>Přehled datových typů je uveden v příloze <a href="16-hodnoty.html">Datové typy</a>.</p>-->
 
 <p>Hodnoty mohou být vyjádřeny <tt>přímo</tt>  nebo <tt>nepřímo</tt>.</p>
-<p><tt>Nepřímo</tt> vyjádřená hodnota je známá až po  vyhodnocení zápisu. <!--Hodnoty <tt>none</tt>, <tt>true</tt>  a <tt>false</tt> jsou všechny nepřímo vyjádřené slovním označením, jehož skutečný význam zjistí interpret při  vyhodnocení.--> Do této skupiny patří bloky, seznamy (lists, hashes), funkce, objekty, atd.</p>
+<p><tt>Nepřímo</tt> vyjádřená hodnota je známá až po  vyhodnocení zápisu. Do této skupiny patří bloky, mapy (maps), heše (hashes), funkce, objekty, atd.<br>
+Nepřímo vyjádřené hodnoty jsou kupodivu také slova <tt>none</tt>, <tt>true</tt>  a <tt>false</tt>, jejichž skutečný význam zjistí interpret až při vyhodnocení.</p>
 <p><tt>Přímo</tt> vyjádřená hodnota je daná pouhým aktem lexikálního neboli doslovného (literal) zápisu. Na příklad, číslo 10 nebo čas 10:30 jsou přímo vyjádřené hodnoty.</p>
 <p>Následující odstavce prezentují výpis přímo vyjádřených hodnot.</p>
 
@@ -150,6 +151,7 @@ currency symbol followed by a numeric amount. For example:</p>
 <blockquote>
 <p>Entice se používají pro čísla verzí, barevných hodnot RGB a adresy v síti. Píší se jako celá čísla v rozsahu od 0 do 255, oddělená tečkami:</p>
 <pre>2.3.0.3.1  255.255.0  199.4.80.7
+2.3.0.3.1.5.1.8.6.6.4.7    <ii>max. počet čísel oddělených tečkou: 12</ii>
 </pre>
 <p>Aby byl výraz interpretován jako entice a nikoli jako desetinné číslo, musí obsahovat alespoň dvě tečky:</p>
 <pre>2.3.0  ; tuple
@@ -165,7 +167,7 @@ currency symbol followed by a numeric amount. For example:</p>
 {Here is a multiline string that
 contains a "quoted" string.}
 </pre>
-<p>Speciální znaky (escape characters) uvnitř řetězců se označují znakem (^). Tabulku escape sekvencí naleznete v odstavci 2.11 String přílohy <a href="16-hodnoty.html#section-2.11"> Datové typy.</a> </p>
+<p>Únikové znaky (escape characters) uvnitř řetězců se označují znakem (^). Tabulku escape sekvencí naleznete v odstavci 2.11 String přílohy <a href="16-hodnoty.html#section-2.11"> Datové typy.</a> </p>
 <!--<a href="http://www.rebol.com/docs/core23/rebolcore-16.html">-->
 </blockquote>
 <h3 id="section-2.7">2.7 Tagy</h3>
@@ -342,7 +344,22 @@ print "ahoj"           <b><ii>případně :print "ahoj"</ii></b>
 </table>
 </blockquote>
 
-<h2 id="section-4">4. Bloky</h2>
+<h2 id="section-4">4. Proměnné</h2>
+<blockquote>
+<p>Slova mohou být použita jako názvy proměnných. Chceme-li definovat slovo jako název proměnné, napíšeme za něj dvojtečku, mezeru a hodnotu, na níž proměnná odkazuje:</p>
+<pre>age: 22
+snack-time: 12:32     
+birthday: 20-Mar-1997   
+friends: ["John" "Paula" "Georgia"]
+</pre>
+<p>Proměnná může odkazovat na libovolný typ hodnoty,  včetně funkcí
+(viz <a href="#section-7">Funkce</a>) a
+objektů (viz <a href="#section-9">Objekty</a>).</p>
+
+<p>Proměnná odkazuje na specifickou hodnotu pouze uvnitř definovaného kontextu, jako je blok, funkce nebo celý program. Mimo tohoto kontextu může proměnná odkazovat na jinou hodnotu nebo nemusí odkazovat na žádnou hodnotu. Platnost proměnné může být v rozsahu celého programu nebo může být omezena na určitý blok, funkci nebo objekt. Tento rozsah se nazývá <tt>scope</tt> proměnné.</p>
+</blockquote>
+
+<h2 id="section-5">5. Bloky</h2>
 <blockquote>
 <p>Program Redu se skládá z hodnot a slov, seskupených do <tt>bloků</tt>. Blokem je rovněž samotný soubor, obsahující program Redu (neboli skript).</p>
 <p>Nejjednodušším příkladem bloku je výčet položek (seznam).</p>
@@ -390,20 +407,7 @@ yellow
 <pre>[red green blue yellow]
 </pre>
 </blockquote>
-<h2 id="section-5">5. Proměnné</h2>
-<blockquote>
-<p>Slova mohou být použita jako názvy proměnných. Chceme-li definovat slovo jako název proměnné, napíšeme za něj dvojtečku, mezeru a hodnotu, na níž proměnná odkazuje:</p>
-<pre>age: 22
-snack-time: 12:32     
-birthday: 20-Mar-1997   
-friends: ["John" "Paula" "Georgia"]
-</pre>
-<p>Proměnná může odkazovat na libovolný typ hodnoty,  včetně funkcí
-(viz <a href="#section-7">Funkce</a>) a
-objektů (viz <a href="#section-9">Objekty</a>).</p>
 
-<p>Proměnná odkazuje na specifickou hodnotu pouze uvnitř definovaného kontextu, jako je blok, funkce nebo celý program. Mimo tohoto kontextu může proměnná odkazovat na jinou hodnotu nebo nemusí odkazovat na žádnou hodnotu. Platnost proměnné může být v rozsahu celého programu nebo může být omezena na určitý blok, funkci nebo objekt. Tento rozsah se nazývá <tt>scope</tt> proměnné.</p>
-</blockquote>
 <h2 id="section-6">6. Vyhodnocení bloku</h2>
 <blockquote>
 <p>Při vyhodnocování bloku jsou za jména proměnných dosazovány jejich hodnoty. V následné ukázce jsou použity v předchozí ukázce deklarované proměnné <tt>age</tt> a 
@@ -672,25 +676,28 @@ write/binary %new.jpg data
 <p><ii>Nechodí:</ii> Přejmenovat soubor :</p>  
 <pre>rename %old.txt %new.txt   <ii>dosud nezavedeno</ii>
 </pre>
-<p><ii>Nechodí:</ii> Získat informaci o souboru:
-<pre>print size? %file.txt          <ii>dosud nezavedeno</ii>
+<p>Získat informaci o souboru:
+<pre>size? %filek.txt         
+== 147
 
-print modified? %file.txt      <ii>dosud nezavedeno</ii>
+modified? %file.txt             <ii>dosud nezavedeno</ii>
 
-print dir? %image
+dir? %image
 </pre>
 </blockquote>
+
 <h2 id="section-12">12. Práce v síti</h2> 
 <blockquote>
 <p>Red má vestavěnou celou řadu internetových protokolů. Práce s nimi je snadná a jednoduchá.</p>
 <ii>N e p r o v ě ř e n o</ii>
 </blockquote>
+
 <h3 id="section-12.1">12.1 HTTP</h3>
 <blockquote>
-<p>Nechodí: Použití protokolu HTTP ke čtení webové stránky:</p>
+<p><ii>Nechodí:</ii> Použití protokolu HTTP ke čtení webové stránky:</p>
 <pre>page: read http://www.rebol.com
 </pre>
-<p>Nechodí: Stáhnout obrázek z webové stránky a uložit ho do lokálního souboru:</p>
+<p><ii>Nechodí:</ii> Stáhnout obrázek z webové stránky a uložit ho do lokálního souboru:</p>
 <pre>image: read/binary http://www.page.dom/image.jpg
 
 write/binary %image.jpg image
