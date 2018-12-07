@@ -69,13 +69,13 @@
 <br><br>
 <h2 id="section-1">1. Úvod</h2>
 <blockquote>
-<p>Procedura <b><tt>parse</tt></b> je nástroj <!--vnořený <b>dialekt</b> (DSL - Domain Specific Language)--> pro rozbor zadaného argumentu s použitím vložených pravidel (rules neboli <tt>regulí</tt>). Formulace těchto pravidel vyhovuje charakteristice DSL (Domain Specific Language). Tento nástroj se používá pro ověřování a upravování zadaných řad (series). Je více než rovnocennou a přitom jednodušší náhradou za regulární výrazy (regexpr).</p>
+<p>Procedura <b><tt>parse</tt></b> je vnořený <b>dialekt</b> (DSL - Domain Specific Language) pro rozbor zadaného argumentu s použitím vložených pravidel (rules neboli <tt>regulí</tt>). Tento nástroj se používá pro ověřování a upravování zadaných řad (series). Je více než rovnocennou a přitom jednodušší náhradou za regulární výrazy (regexpr).</p>
 <p>Funkce <b><tt>parse</tt></b> je typu <b>native!</b> a 
  má tuto obecnou skladbu:</p>
 <pre>
 parse input [rules]
 </pre>
-<p>Argument <tt>input</tt> je posuzovaný vstup typu <tt>series!</tt> (<code>any-string</code>: string!, binary!, email!, file!, tag!, url! a <code>any-block</code>: block!, hash!, paren! path!). Je-li typu string, je rozebíraný po znacích (a mezerách), je-li typu block, je rozebíraný po hodnotách. </p>
+<p>Argument <tt>input</tt> je jakákoli hodnota typu <tt>series!</tt> - (any-string, any-block!, binary!), kromě typu image! a vector!. Je-li typu string, je rozebíraný po znacích (a mezerách), je-li typu block, je rozebíraný po hodnotách. </p>
 <p>Argument <tt>rules</tt> (regule, pravidla) určuje způsob, jakým je argument <tt>series</tt> analyzován. Jeho hodota je typu  <tt>block!</tt>, jenž se může skládat z porovnávaných hodnot, klíčových slov, proměnných, výrazů (v závorkách) i z dalších bloků, obsahujících další (vnořená) pravidla.</p>
 <p>Výstupem funkce je hodnota typu <tt>logic!</tt> (true, false) nebo <tt>block!</tt></p>
 <p>Instrukce neboli pravidla vytvářejí šablonu, s níž je (postupně) porovnáván vstup. Pokud je šablona "konformní" se zadaným vstupem, vrací <tt>parse</tt> hodnotu <code>true</code>. Pokud není beze zbytku konformní, vrací hodnotu <code>false</code>.</p>
@@ -423,7 +423,8 @@ Slovo <b>to</b> končí výběr před udaným elementem.
 href="#section-7">Vyhodnocení</a>.</p>
 <p>Datový typ <b><tt>bitset</tt></b> zasluhuje více pozornosti. Bitsety se používají pro označení kolekcí znaků. Funkce <tt>charset</tt> umožňuje určit jednotlivé znaky nebo rozsahy znaků. Například řádek:</p>
 <pre>
-digit: charset "0123456789"
+digit: charset "0123456789"            <span class="put">; = charset [#"0" - #"9"]</span>
+<span class="put">== make bitset! #{000000000000FFC0}</span>
 </pre>
 <p>definuje sadu znaků, která obsahuje číslice. To umožňuje sestavení například této regule:</p>
 <pre>
@@ -502,17 +503,13 @@ parse "a b c" ["a" space "b" space "c"]      <ii>mezery nutno označit</ii>
 parse "a b" ["a" space "c"]
 <span class="put">false</span>
 </pre>
-<p>Funkce <b><tt>parse</tt></b> vrací <tt>true</tt> pouze tehdy, když dojde na konec vstupního stringu. Zjištěná neshoda zastaví parsování řady.
-<ii>brekeke</ii> 
- If <b><tt>parse</tt></b> runs out of values to search for before
-reaching the end of the series, it does not traverse the series and returns
-<tt>false</tt> <b><tt>:</tt></b></p>
+<p>Funkce <b><tt>parse</tt></b> vrací <tt>true</tt> pouze tehdy, když pozitivně vyhodnotí všechny elementy vstupu. Nedospěje-li na konec vstupní řady, vrací <tt>false</tt> <b><tt>:</tt></b></p>
 <pre>
 parse "abcd" ["a" "b" "c"]
 <span class="put">false</span>
+parse "abcd" [to "b" to "d"]
+<span class="put">false</span>
 parse "abcd" [to "b" thru "d"]
-<span class="put">true</span>
-parse "abcd" [to "b" to end]
 <span class="put">true</span>
 </pre>
 </blockquote>

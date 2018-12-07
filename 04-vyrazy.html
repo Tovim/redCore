@@ -151,16 +151,16 @@ sites: [
 <!--
 <p>Red poskytuje vestavěnou množinu hodnot, které lze vyjádřit ve všech (operačních) systémech. Hodnoty jsou primárními prvky pro sestavování všech výrazů v Redu.</p>
 -->
-<!--
+
 <p>Výrazy Redu jsou kombinací 
 <tt>hodnot</tt>  a <tt>slov</tt>  v <tt>blocích</tt> .</p>
 
 <h3 id="section-2.1">2.1 Přímé a nepřímé hodnoty</h3>
 <p>Hodnoty mohou být vyjádřeny <tt>přímo</tt>  nebo <tt>nepřímo</tt>.</p>
 <p><tt>Přímo</tt> vyjádřená hodnota je daná pouhým aktem lexikálního neboli doslovného (literal) zápisu. Na příklad, číslo 10 nebo čas 10:30 jsou přímo vyjádřené hodnoty.</p>
-<p><tt>Nepřímo</tt> vyjádřená hodnota není známá, dokud není určená vyhodnocením zápisu. Hodnoty <tt>none</tt>, <tt>true</tt>  a <tt>false</tt> jsou všechny nepřímo vyjádřené slovním označením, jehož skutečný význam zjistí interpret při  vyhodnocení. To platí i pro jiné hodnoty, jako jsou seznamy (lists, hashes), funkce, objekty, atd.</p>
+<p><tt>Nepřímo</tt> vyjádřená hodnota není známá, dokud není určená vyhodnocením zápisu. Hodnoty <tt>none</tt>, <tt>true</tt>  a <tt>false</tt> jsou všechny nepřímo vyjádřené slovním označením, jehož skutečný význam zjistí interpret při  vyhodnocení. To platí i pro jiné hodnoty, jako jsou bloky, seznamy (maps, hashes), funkce, objekty, atd.</p>
 
-<h3 id="section-2.2">2.2 Typy hodnot</h3>-->
+<h3 id="section-2.2">2.2 Typy hodnot</h3>
 
 <p>Každá hodnota Redu má svůj specifický 
 <tt>datový typ</tt> . Datový typ hodnoty určuje:</p>
@@ -189,9 +189,9 @@ string!
 <pre>red                         <ii>podobnost s názvem jazyka je náhodná</ii>
 <span class="put">== 255.0.0</span>
 </pre>
-<p>vrací se literálová hodnota názvu barvy. Tato hodnota je slovu <tt>red</tt>  implicitně přiřazena.</p>
+<p>vrací se literálová hodnota názvu barvy. Tato hodnota je slovu <tt>red</tt>  implicitně a trvale přiřazena, je tedy <tt>red</tt> názvem konstanty.</p>
 <p>V předcházejících příkladech byla použita řada slov - <tt>do</tt>, <tt>reduce</tt>, <tt>try</tt>  a <tt>print</tt>.</p>
-<p>Takováto slova se vyhodnocují poněkud odlišně od přímo vyjádřených hodnot. Jsou-li hledána, zjistí se, že to jsou funkce, které jsou nejprve vyhodnoceny a poté se vrací jejich hodoty.</p>
+<p>Takováto slova se vyhodnocují poněkud odlišně od přímo vyjádřených hodnot. Jsou-li hledána, zjistí se, že to jsou funkce  či konstanty, které jsou nejprve vyhodnoceny a poté se vrací jejich hodoty.</p>
 </blockquote>
 <h3 id="section-3.1">3.1 Složení slov</h3>
 <blockquote>

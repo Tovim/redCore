@@ -53,9 +53,9 @@
 <a class="toc2" href="#section-2.12">2.12 Emise</a><br>
 <a class="toc2" href="#section-2.13">2.13 Bináry</a><br>
 <a class="toc1" href="#section-3">3. Slova</a><br>
-<a class="toc1" href="#section-4">4. Proměnné</a><br>
-<a class="toc1" href="#section-5">5. Bloky</a><br>
-<a class="toc1" href="#section-6">6. Vyhodnocení bloků</a><br>
+<a class="toc1" href="#section-4">4. Konstanty</a><br>
+<a class="toc1" href="#section-5">5. Proměnné</a><br>
+<a class="toc1" href="#section-6">6. Bloky</a><br>
 <a class="toc1" href="#section-7">7. Funkce</a><br>
 <a class="toc1" href="#section-8">8. Cesty</a><br>
 <a class="toc1" href="#section-9">9. Objekty</a><br>
@@ -344,7 +344,15 @@ print "ahoj"           <b><ii>případně :print "ahoj"</ii></b>
 </table>
 </blockquote>
 
-<h2 id="section-4">4. Proměnné</h2>
+<h2 id="section-4">4. Konstanty</h2>
+<blockquote>
+<p>Konstanty jsou předdefinovaná slova, odkazující na fixní logickou či číselnou hodnotu. Mezi tyto konstanty patří slovo <tt>pi</tt>, odkazující na Ludolfovo číslo (3.141592653589793), názvy barev - například <tt>red</tt>, odkazující na číselnou hodnotu 255.0.0 (typu tuple neboli entice), názvy některých znaků - např. <tt>dot</tt> (#".") a logické hodnoty <tt>true, false, none</tt>. <br>
+Předdefinovanými slovy jsou rovněž názvy vestavěných funkcí a datových typů.
+</p>
+<p>Všechno to jsou hodnoty nepřímé, které se při použití nejprve interně vyhodnocují.</p>
+</blockquote>
+
+<h2 id="section-5">5. Proměnné</h2>
 <blockquote>
 <p>Slova mohou být použita jako názvy proměnných. Chceme-li definovat slovo jako název proměnné, napíšeme za něj dvojtečku, mezeru a hodnotu, na níž proměnná odkazuje:</p>
 <pre>age: 22
@@ -359,7 +367,7 @@ objektů (viz <a href="#section-9">Objekty</a>).</p>
 <p>Proměnná odkazuje na specifickou hodnotu pouze uvnitř definovaného kontextu, jako je blok, funkce nebo celý program. Mimo tohoto kontextu může proměnná odkazovat na jinou hodnotu nebo nemusí odkazovat na žádnou hodnotu. Platnost proměnné může být v rozsahu celého programu nebo může být omezena na určitý blok, funkci nebo objekt. Tento rozsah se nazývá <tt>scope</tt> proměnné.</p>
 </blockquote>
 
-<h2 id="section-5">5. Bloky</h2>
+<h2 id="section-6">6. Bloky</h2>
 <blockquote>
 <p>Program Redu se skládá z hodnot a slov, seskupených do <tt>bloků</tt>. Blokem je rovněž samotný soubor, obsahující program Redu (neboli skript).</p>
 <p>Nejjednodušším příkladem bloku je výčet položek (seznam).</p>
@@ -408,7 +416,7 @@ yellow
 </pre>
 </blockquote>
 
-<h2 id="section-6">6. Vyhodnocení bloku</h2>
+
 <blockquote>
 <p>Při vyhodnocování bloku jsou za jména proměnných dosazovány jejich hodnoty. V následné ukázce jsou použity v předchozí ukázce deklarované proměnné <tt>age</tt> a 
 <tt>friends</tt> :</p>

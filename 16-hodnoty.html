@@ -313,7 +313,6 @@ Formát zdroje binárních dat může být číslo se základem <tt>2 - binár</
 }
 <span class="put">#{3A189256}</span>
 </pre>
-<p>Řetězce s nedostatečným počtem znaků pro vytvoření správného binárního výsledku jsou doplněny (padded) zprava.</p>
 
 <h4 id="section-2.1.3">Vytvoření</h4>
 <p>Funkce <tt>to-binary</tt> konvertuje data na datový typ <tt>binary!</tt> v základním kódování:</p>
@@ -2337,6 +2336,10 @@ probe to-tuple [12 34 56]
 <p>Funkce <tt>print</tt> vytiskne entici v konzole:</p>
 <pre>print 1.2.3.4
 <span class="put">1.2.3.4</span>
+</pre><br>
+<p>Přípustná délka entice je 12 prvků:</p>
+<pre>print 1.2.3.4.5.6.7.8.9.2.3.4.5
+<span class="put">Syntax Error: invalid tuple!</span>
 </pre><br>
 </blockquote>
 <h3 id="section-3.10">3.10 Slova - words</h3>
